@@ -1,15 +1,19 @@
 import { test, expect } from 'vitest'
-import { parseGwei, serializeTransaction, parseEther, keccak256, toRlp, toBytes, concat, getAddress, toHex, trim } from 'viem'
+import { parseGwei, serializeTransaction, parseEther, keccak256, toRlp, toBytes, concat, getAddress, toHex, trim, http, decodeEventLog, Log } from 'viem'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { RLP, stripZeros } from 'ethers/lib/utils'
 import { BigNumber, BigNumberish } from 'ethers'
 import { RecursiveArray } from 'viem/dist/types/utils/encoding/toRlp'
+import { createPublicClient } from 'viem'
+import { base } from 'viem/chains'
+import { mainnet } from 'wagmi'
+import {optimismPortalABI} from '../src/generated/contracts'
 
 test('simple test', () => {
   expect(1 + 1).toBe(2)
 })
 
-test('other', () => {
+test('other', async () => {
   const serialized = serializeTransaction({
     from: '0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4',
     gasLimit: 21100n,
@@ -158,17 +162,17 @@ test('other', () => {
     // source hash
     '0xd0868c8764d81f1749edb7dec4a550966963540d9fe50aefce8cdb38ea7b2213',
     // from
-    getAddress('0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4'),
+    '0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4',
     // to
-    getAddress('0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4'),
+    '0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4',
     // mint
-    toBytes('0xde0b6b3a7640000'),
+    '0xde0b6b3a7640000',
     // value
-    toBytes('0x1'),
+    '0x1',
     // gas
-    toBytes('0x526c'),
+    '0x526c',
     // is system
-    toBytes(''),
+    '',
     // data
     '0x00',
   ];
@@ -180,14 +184,32 @@ test('other', () => {
   console.log('yo', keccak256(concat(['0x7E', z])))
   console.log('yo', keccak256(concat(['0x7E', q2])))
 
-  console.log(formatNumberEthers('0xde0b6b3a7640000', 'mint'))
-  console.log(toBytes('0xde0b6b3a7640000'))
-  console.log(formatNumberEthers('0x1', 'mint'))
-  console.log(toBytes('0x1'))
-  console.log(formatNumberEthers('0x526c', 'mint'))
-  console.log(toBytes('0x526c'))
-  console.log(formatNumberEthers('0x0', 'mint'))
-  console.log(toBytes(false))
+  const client = createPublicClient({ 
+    chain: mainnet,
+    transport: http()
+  })
+
+  const r = await client.getTransactionReceipt({hash: '0xe94031c3174788c3fee7216465c50bb2b72e7a1963f5af807b3768da10827f5c'})
+  // console.log(r)
+  for (const l of r.logs) {
+    console.log(decodeEventLog({
+      abi: optimismPortalABI,
+      data: l.data,
+      topics: l.topics,
+    }))
+    console.log(l.logIndex)
+  }
+  
+
+
+  // console.log(formatNumberEthers('0xde0b6b3a7640000', 'mint'))
+  // console.log(toBytes('0xde0b6b3a7640000'))
+  // console.log(formatNumberEthers('0x1', 'mint'))
+  // console.log(toBytes('0x1'))
+  // console.log(formatNumberEthers('0x526c', 'mint'))
+  // console.log(toBytes('0x526c'))
+  // console.log(formatNumberEthers('0x0', 'mint'))
+  // console.log(toBytes(false))
 })
 
 const formatNumber = (value: bigint, name: string): `0x${string}` => {

@@ -1,5 +1,5 @@
 import { Address } from 'viem'
-import { useOptimismPortalDepositTransaction as useDepositTransaction } from '../generated/optimismPortal'
+import { useOptimismPortalDepositTransaction as useDepositTransaction } from '../generated/contracts'
 import { Chain, mainnet, useAccount, usePublicClient } from 'wagmi'
 import { MustSupplyAddressOrL2ChainIdError } from '../errors'
 import { getL1PortalForChain } from '../utils/getL1PortalForChain'

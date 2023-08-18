@@ -2,7 +2,7 @@ import { defineConfig } from '@wagmi/cli'
 import { react } from '@wagmi/cli/plugins'
 
 export default defineConfig({
-  out: 'src/generated/optimismPortal.ts',
+  out: 'src/generated/contracts.ts',
   contracts: [
     {
       name: 'OptimismPortal',
