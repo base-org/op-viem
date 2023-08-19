@@ -1,9 +1,8 @@
+import { Hex, concat, keccak256, pad, toHex } from 'viem'
+import { SourceHashDomain } from '../types/depositTx'
+
 /// from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L117
 /// with adaptions for viem
-
-import { Hex, concat, keccak256, pad, toHex } from 'viem'
-import { SourceHashDomain } from '../types'
-
 /// NOTE currently only supports user deposit txs, not L1InfoDeposit
 export function getSourceHash(
   domain: SourceHashDomain,

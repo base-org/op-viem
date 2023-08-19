@@ -1,32 +1,37 @@
 import {
-  Hex,
-  decodeEventLog,
   slice,
   type PublicClient,
-  toHex,
   keccak256,
   concat,
-  pad,
   toRlp,
-  toBytes,
   trim,
+  Chain,
+  Transport,
+  Hash,
 } from 'viem'
-import { getDepositEventInfoFromTxReceipt } from './getDepositEventLogIndexFromTxReceipt'
-import { SourceHashDomain } from '../types'
-import { getSourceHash } from './getSourceHash'
+import { getDepositEventInfoFromTxReceipt } from '../utils/getDepositEventLogIndexFromTxReceipt'
+import { DEPOSIT_TX_PREFIX, SourceHashDomain } from '../types/depositTx'
+import { getSourceHash } from '../utils/getSourceHash'
+import { DepositTxNotFoundError } from '../errors/depositTx'
 
-const DEPOSIT_TX_PREFIX = '0x7E'
+export type GetL2HashForDepositTxParamters = {
+  l1TxHash: Hash
+  index?: number
+}
 
-export async function getL2HashForDepositTx({
-  l1TxHash,
-  client,
-  index,
-}: { l1TxHash: Hex; client: PublicClient; index?: number }) {
+export type GetL2HashForDepositTxReturnType = Hash
+
+export async function getL2HashForDepositTx<TChain extends Chain | undefined>(
+  client: PublicClient<Transport, TChain>,
+  { l1TxHash, index }: GetL2HashForDepositTxParamters,
+): Promise<GetL2HashForDepositTxReturnType> {
   const receipt = await client.getTransactionReceipt({ hash: l1TxHash })
   var eventInfo = getDepositEventInfoFromTxReceipt(receipt, index)
 
   /// TODO consider throwing error
-  if (!eventInfo) return
+  if (!eventInfo) {
+    throw new DepositTxNotFoundError({ l1TxHash, index })
+  }
 
   const { event, logIndex } = eventInfo
 

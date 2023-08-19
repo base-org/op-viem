@@ -5,7 +5,7 @@ import { MustSupplyAddressOrL2ChainIdError } from '../errors'
 import { getL1PortalForChain } from '../utils/getL1PortalForChain'
 import { goerli } from 'viem/dist/types/chains'
 import { useEffect, useState } from 'react'
-import { OPStackMainnetChains, OPStackTestnetChains } from '../lib/chains'
+import { OPStackMainnetChains, OPStackTestnetChains } from '../types/chains'
 
 type DepositTransactionArgs = {
   to: Address
