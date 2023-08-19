@@ -1,5 +1,4 @@
 import {
-  type PublicClient,
   Chain,
   Transport,
   encodeFunctionData,
@@ -7,6 +6,7 @@ import {
   Account,
   Abi,
   EncodeFunctionDataParameters,
+  WalletClient,
 } from 'viem'
 import { writeContract } from 'viem/actions'
 import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
@@ -20,7 +20,7 @@ export async function bridgeWriteContract<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
-  client: PublicClient<Transport, TChainL1>,
+  client: WalletClient<Transport, TChainL1>,
   // TODO make this take an l2Chain that is decorated with l2 info such as the l1 contract addreses
   { toChain, args, abi, address, functionName, ...restArgs }: { toChain: TChainL2 } & WriteContractParameters<TAbi, TFunctionName, TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
