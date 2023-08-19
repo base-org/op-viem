@@ -20,7 +20,7 @@ test('computes L2 hash correctly', async () => {
     client: client,
   })
 
-  expect(hash).toBe(
+  expect(hash).toEqual(
     '0xe67200042bf79eef76850dd3986bdd544e7aceeb7bbf8449158088bdc582168a',
   )
 })

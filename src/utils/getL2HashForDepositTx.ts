@@ -44,7 +44,6 @@ export async function getL2HashForDepositTx({
   offset += 1
   const to = isCreation === true ? '0x' : event.args.to
   const length = opaqueData.length - offset
-  const isSystemTransaction = false
   const data = slice(opaqueData, offset, offset + length)
   const domain = SourceHashDomain.UserDeposit
   const l1BlockHash = receipt.blockHash
@@ -58,7 +57,7 @@ export async function getL2HashForDepositTx({
     trim(mint),
     trim(value),
     trim(gas),
-    toHex(isSystemTransaction ? isSystemTransaction : ''),
+    '0x', // for isSystemTransaction
     data,
   ])
 

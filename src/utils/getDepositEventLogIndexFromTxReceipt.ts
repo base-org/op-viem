@@ -11,6 +11,15 @@ type TransactionDepositedEvent = {
   }
 }
 
+/**
+ * @description Returns the TransactionDeposited event and log index, if found,
+ * from the transaction receipt
+ *
+ * @param receipt the receipt of the transaction supposedly containing the TransactionDeposited event
+ * @param index an optional param, the index of the TransactionDeposited event among all TransactionDeposited
+ * events in this transaction. Useful, e.g., for a multicall.
+ * @returns A Private Key Account.
+ */
 export function getDepositEventInfoFromTxReceipt(
   receipt: TransactionReceipt,
   index = 0,
