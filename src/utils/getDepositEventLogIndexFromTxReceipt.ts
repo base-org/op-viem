@@ -7,8 +7,6 @@ import { TransactionDepositedEvent } from '../types/depositTx'
  * from the transaction receipt
  *
  * @param receipt the receipt of the transaction supposedly containing the TransactionDeposited event
- * @param index an optional param, the index of the TransactionDeposited event among all TransactionDeposited
- * events in this transaction. Useful, e.g., for a multicall.
  * @returns An array of L2 transaction hashes, corresponding to all TransactionDeposited events found in the transaction
  */
 export function getDepositEventInfoFromTxReceipt(
