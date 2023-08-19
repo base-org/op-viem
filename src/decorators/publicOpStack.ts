@@ -1,18 +1,18 @@
 import { Account, Chain, Client, type PublicClient, Transport } from 'viem'
 import {
-  GetL2HashForDepositTxParamters,
-  GetL2HashForDepositTxReturnType,
-  getL2HashForDepositTx,
-} from '../actions/getL2HashForDepositTx'
+  GetL2HashesForDepositTxParamters,
+  GetL2HashesForDepositTxReturnType,
+  getL2HashesForDepositTx,
+} from '../actions/getL2HashesForDepositTx'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 export type PublicOpStackActions<
   TTransport extends Transport = Transport,
   TChain extends Chain | undefined = Chain | undefined,
 > = {
-  getL2HashForDepositTx: (
-    args: GetL2HashForDepositTxParamters,
-  ) => Promise<GetL2HashForDepositTxReturnType>
+  getL2HashesForDepositTx: (
+    args: GetL2HashesForDepositTxParamters,
+  ) => Promise<GetL2HashesForDepositTxReturnType>
 }
 
 export function publicOpStackActions<
@@ -22,6 +22,6 @@ export function publicOpStackActions<
   client: PublicClient<TTransport, TChain>,
 ): PublicOpStackActions<TTransport, TChain> {
   return {
-    getL2HashForDepositTx: (args) => getL2HashForDepositTx(client, args),
+    getL2HashesForDepositTx: (args) => getL2HashesForDepositTx(client, args),
   }
 }

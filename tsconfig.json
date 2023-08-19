@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "src/types/chains.ts", "src/types/depositTx.ts", "src/actions/getL2HashForDepositTx.ts"  ]
+, "src/types/chains.ts", "src/types/depositTx.ts", "src/actions/getL2HashesForDepositTx.ts"  ]
 }
