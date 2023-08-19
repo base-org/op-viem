@@ -13,7 +13,7 @@ import { TransactionDepositedEvent } from '../types/depositTx'
  */
 export function getDepositEventInfoFromTxReceipt(
   receipt: TransactionReceipt,
-): { event: TransactionDepositedEvent; logIndex: number }[] | undefined {
+): { event: TransactionDepositedEvent; logIndex: number }[] {
   let depositEvents = []
   for (const l of receipt.logs) {
     const event = decodeEventLog({

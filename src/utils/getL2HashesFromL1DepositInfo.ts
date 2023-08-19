@@ -6,7 +6,7 @@ import {
 } from '../types/depositTx'
 import { getSourceHash } from './getSourceHash'
 
-export function getL2HashFromL1DepositInfo(
+export function getL2HashesFromL1DepositInfo(
   event: TransactionDepositedEvent,
   logIndex: number,
   blockHash: Hash,
@@ -29,7 +29,7 @@ export function getL2HashFromL1DepositInfo(
   const domain = SourceHashDomain.UserDeposit
   const l1BlockHash = blockHash
 
-  const sourceHash = getSourceHash(domain, logIndex, l1BlockHash)
+  const sourceHash = getSourceHash({ domain, logIndex, l1BlockHash })
 
   const rlp = toRlp([
     sourceHash,
