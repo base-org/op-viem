@@ -1,18 +1,17 @@
 import { test, expect } from 'vitest'
-import { http } from 'viem'
-import { createPublicOpStackClient } from '../src/clients/publicOpStackClient'
+import { createPublicClient, http } from 'viem'
 import { mainnet } from 'wagmi'
-import { getL2HashForDepositTx } from '../src/actions/getL2HashForDepositTx'
+import { publicOpStackActions } from '../src/decorators/publicOpStack'
 
 test('simple test', () => {
   expect(1 + 1).toBe(2)
 })
 
 test('computes L2 hash correctly', async () => {
-  const client = createPublicOpStackClient({
+  const client = createPublicClient({
     chain: mainnet,
     transport: http(),
-  })
+  }).extend(publicOpStackActions)
 
   const hash = await client.getL2HashForDepositTx({
     l1TxHash:

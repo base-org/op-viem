@@ -3,7 +3,7 @@ import {
   GetL2HashForDepositTxParamters,
   GetL2HashForDepositTxReturnType,
   getL2HashForDepositTx,
-} from '../../actions/getL2HashForDepositTx'
+} from '../actions/getL2HashForDepositTx'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 export type PublicOpStackActions<
