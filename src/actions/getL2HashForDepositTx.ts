@@ -52,7 +52,7 @@ export async function getL2HashForDepositTx<TChain extends Chain | undefined>(
   const domain = SourceHashDomain.UserDeposit
   const l1BlockHash = receipt.blockHash
 
-  const sourceHash = getSourceHash(domain, logIndex, l1BlockHash)
+  const sourceHash = getSourceHash({ domain, logIndex, l1BlockHash })
 
   const rlp = toRlp([
     sourceHash,
