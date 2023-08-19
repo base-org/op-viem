@@ -28,7 +28,6 @@ export async function getL2HashForDepositTx<TChain extends Chain | undefined>(
   const receipt = await client.getTransactionReceipt({ hash: l1TxHash })
   var eventInfo = getDepositEventInfoFromTxReceipt(receipt, index)
 
-  /// TODO consider throwing error
   if (!eventInfo) {
     throw new DepositTxNotFoundError({ l1TxHash, index })
   }

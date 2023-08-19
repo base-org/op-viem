@@ -5,7 +5,8 @@ import {
   ClientConfig,
   createPublicClient,
   PublicRpcSchema,
-  Client,
+  type Client,
+  PublicClientConfig,
 } from 'viem'
 import { Prettify } from 'viem/dist/types/types/utils'
 import {
@@ -17,16 +18,7 @@ export type PublicOpStackClientConfig<
   transport extends Transport = Transport,
   chain extends Chain | undefined = Chain | undefined,
 > = Prettify<
-  Pick<
-    ClientConfig<transport, chain>,
-    | 'batch'
-    | 'cacheTime'
-    | 'chain'
-    | 'key'
-    | 'name'
-    | 'pollingInterval'
-    | 'transport'
-  >
+    PublicClientConfig<transport, chain>
 >
 
 export type PublicOpStackClient<
