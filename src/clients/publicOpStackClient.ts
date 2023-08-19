@@ -52,7 +52,7 @@ export function createPublicOpStackClient<
 export function createPublicOpStackClient(
   parameters: PublicOpStackClientConfig,
 ): PublicOpStackClient {
-  const { key = 'public', name = 'Public Client' } = parameters
+  const { key = 'publicOpStack', name = 'Public OP Stack Client' } = parameters
   const client = createPublicClient({
     ...parameters,
     key,
