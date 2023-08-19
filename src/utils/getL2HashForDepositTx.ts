@@ -42,7 +42,7 @@ export async function getL2HashForDepositTx({
   offset += 8
   const isCreation = BigInt(opaqueData[offset]) == 1n
   offset += 1
-  const to = isCreation === true ? null : event.args.to
+  const to = isCreation === true ? '0x' : event.args.to
   const length = opaqueData.length - offset
   const isSystemTransaction = false
   const data = slice(opaqueData, offset, offset + length)
@@ -54,7 +54,7 @@ export async function getL2HashForDepositTx({
   const rlp = toRlp([
     sourceHash,
     event.args.from,
-    to || '0x0',
+    to,
     trim(mint),
     trim(value),
     trim(gas),
