@@ -3,10 +3,6 @@ import { createPublicClient, http } from 'viem'
 import { mainnet } from 'wagmi'
 import { publicOpStackActions } from '../src/decorators/publicOpStack'
 
-test('simple test', () => {
-  expect(1 + 1).toBe(2)
-})
-
 test('computes L2 hash correctly', async () => {
   const client = createPublicClient({
     chain: mainnet,
