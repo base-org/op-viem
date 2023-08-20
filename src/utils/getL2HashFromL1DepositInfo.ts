@@ -1,4 +1,4 @@
-import { Hash, concat, keccak256, slice, toRlp, trim } from 'viem'
+import { Hash, concat, decodeAbiParameters, keccak256, parseAbiParameters, slice, toHex, toRlp, trim } from 'viem'
 import {
   DEPOSIT_TX_PREFIX,
   SourceHashDomain,
@@ -20,11 +20,12 @@ export function getL2HashFromL1DepositInfo({
   /// code from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L198
   /// with adaptions for viem
   const opaqueData = event.args.opaqueData
-  let offset = 0
-  const mint = slice(opaqueData, offset, offset + 32)
-  offset += 32
-  const value = slice(opaqueData, offset, offset + 32)
-  offset += 32
+  
+  const [mint, value] = decodeAbiParameters(
+    parseAbiParameters('uint, uint'),
+    slice(opaqueData, 0, 64)
+  )
+  let offset = 64
   const gas = slice(opaqueData, offset, offset + 8)
   offset += 8
   const isCreation = BigInt(opaqueData[offset]) == 1n
@@ -41,8 +42,8 @@ export function getL2HashFromL1DepositInfo({
     sourceHash,
     event.args.from,
     to,
-    trim(mint),
-    trim(value),
+    trim(toHex(mint)),
+    trim(toHex(value)),
     trim(gas),
     '0x', // for isSystemTransaction
     data,
