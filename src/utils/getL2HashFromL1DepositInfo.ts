@@ -6,11 +6,17 @@ import {
 } from '../types/depositTx'
 import { getSourceHash } from './getSourceHash'
 
-export function getL2HashesFromL1DepositInfo(
-  event: TransactionDepositedEvent,
-  logIndex: number,
-  blockHash: Hash,
-) {
+type GetL2HashFromDepositInfo = {
+  event: TransactionDepositedEvent
+  logIndex: number
+  blockHash: Hash
+}
+
+export function getL2HashFromL1DepositInfo({
+  event,
+  logIndex,
+  blockHash,
+}: GetL2HashFromDepositInfo) {
   /// code from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L198
   /// with adaptions for viem
   const opaqueData = event.args.opaqueData
