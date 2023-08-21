@@ -1,6 +1,7 @@
 import { Account, Chain, Transport } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/bridgeWriteContract'
+import { bridgeSendTransaction } from '../actions/bridgeSendTransaction'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -8,6 +9,10 @@ export type WalletOpStackActions = {
   bridgeWriteContract: (
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
+  ) => Promise<string>
+  bridgeSendTransaction: (
+    // TODO name these params
+    args: Parameters<typeof bridgeSendTransaction>[1],
   ) => Promise<string>
 }
 
@@ -21,5 +26,7 @@ export function publicOpStackActions<
   return {
     // TODO do better than as any
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
+    // TODO do better than as any
+    bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args)
   }
 }
