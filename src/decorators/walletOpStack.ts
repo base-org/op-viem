@@ -6,6 +6,7 @@ import {
   writeUnsafeDepositTransaction,
 } from '../actions/wallet/writeUnsafeDepositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -30,6 +31,10 @@ export type WalletOpStackActions<
       TChainOverride
     >,
   ) => Promise<WriteContractReturnType>
+  bridgeSendTransaction: (
+    // TODO name these params
+    args: Parameters<typeof bridgeSendTransaction>[1],
+  ) => Promise<string>
 }
 
 export function walletOpStackActions<
@@ -40,9 +45,9 @@ export function walletOpStackActions<
   client: WalletClient<TTransport, TChain, TAccount>,
 ): WalletOpStackActions<TChain, TAccount> {
   return {
-    // TODO do better than as any
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
     writeUnsafeDepositTransaction: (args) =>
       writeUnsafeDepositTransaction(client, args),
+    bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args)
   }
 }

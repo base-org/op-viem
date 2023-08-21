@@ -8,9 +8,8 @@ import {
   EncodeFunctionDataParameters,
   WalletClient,
 } from 'viem'
-import { writeContract } from 'viem/actions'
-import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2, OpChainL1 } from '@roninjin10/rollup-chains'
+import { bridgeSendTransaction } from './bridgeSendTransaction'
 
 export async function bridgeWriteContract<
   TAbi extends Abi | readonly unknown[] = Abi,
@@ -21,38 +20,21 @@ export async function bridgeWriteContract<
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
   client: WalletClient<Transport, TChainL1>,
-  // TODO make this take an l2Chain that is decorated with l2 info such as the l1 contract addreses
-  {
-    toChain,
-    args,
-    abi,
-    address,
-    functionName,
-    ...restArgs
-  }: { toChain: TChainL2 } & WriteContractParameters<
-    TAbi,
-    TFunctionName,
-    TChainL1,
-    TAccount,
-    TChainOverride
-  >,
+  // TODO Document wtf l2Gas is and maybe give it a better name
+  { toChain, args, abi, address, functionName, l2Gas = BigInt(200_000), ...restArgs }: { toChain: TChainL2, l2Gas?: BigInt } & WriteContractParameters<TAbi, TFunctionName, TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
-  const minGasLimit = 200_000
   const message = encodeFunctionData({
     abi,
     functionName,
     args,
   } as unknown as EncodeFunctionDataParameters<TAbi, TFunctionName>)
-  const l1TxHash = writeContract(client, {
-    abi: l1CrossDomainMessengerABI,
-    // TODO currently hardcoded for OP should get this from the l2 chain object
-    address: toChain?.opContracts.L1CrossDomainMessengerProxy,
-    functionName: 'sendMessage' as any,
-    args: [address, message, minGasLimit],
+  // TODO better typescriptin
+  return bridgeSendTransaction(client as any, {
     ...restArgs,
-    // TODO better types
+    toChain,
+    to: address,
+    data: message,
+    l2Gas,
+    // TODO better typescriptin
   } as any)
-  // compose with getL2Hash method to get l2 hash I think is what we want here
-  // We could consider baking that into this method
-  return l1TxHash
 }
