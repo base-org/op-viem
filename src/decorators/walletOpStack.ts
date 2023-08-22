@@ -1,6 +1,6 @@
 import { Account, Chain, Transport } from 'viem'
 import { WalletClient } from 'wagmi'
-import { bridgeWriteContract } from '../actions/bridgeWriteContract'
+import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import { bridgeSendTransaction } from '../actions/bridgeSendTransaction'
 import { bridgeETH } from '../actions/bridgeETH'
 
@@ -24,10 +24,8 @@ export type WalletOpStackActions = {
 export function publicOpStackActions<
   TTransport extends Transport = Transport,
   TChain extends Chain = Chain,
-  TAccount extends Account = Account
->(
-  client: WalletClient<TTransport, TChain, TAccount>,
-): WalletOpStackActions {
+  TAccount extends Account = Account,
+>(client: WalletClient<TTransport, TChain, TAccount>): WalletOpStackActions {
   // TODO none of these decorators are generic
   // Need to infer args on all of these
   return {
@@ -36,6 +34,6 @@ export function publicOpStackActions<
     // TODO do better than as any
     bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args),
     // TODO do better than as any
-    bridgeETH: (args) => bridgeETH(client as any, args)
+    bridgeETH: (args) => bridgeETH(client as any, args),
   }
 }

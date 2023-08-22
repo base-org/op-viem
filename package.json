@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@eth-optimism/contracts-ts": "^0.15.0",
-    "@eth-optimism/core-utils": "^0.12.2",
     "@roninjin10/rollup-chains": "^0.0.3",
+    "@wagmi/chains": "^1.7.0",
     "viem": "^1.4.2",
     "wagmi": "^1.3.9"
   }

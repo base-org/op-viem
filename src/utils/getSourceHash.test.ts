@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
-import { getSourceHash } from '../../src/utils/getSourceHash'
-import { SourceHashDomain } from '../../src/types/depositTx'
+import { getSourceHash } from './getSourceHash'
+import { SourceHashDomain } from '../types/depositTx'
 
 /* 
     Check values
