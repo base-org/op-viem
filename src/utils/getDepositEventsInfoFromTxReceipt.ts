@@ -19,7 +19,8 @@ export function getDepositEventsInfoFromTxReceipt({
   event: TransactionDepositedEvent
   logIndex: number
 }[] {
-  let depositEvents = []
+  let depositEvents: { event: TransactionDepositedEvent; logIndex: number }[] =
+    []
   for (const l of receipt.logs) {
     const event = decodeEventLog({
       abi: optimismPortalABI,

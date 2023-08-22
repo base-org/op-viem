@@ -1,45 +1,48 @@
-import { Account, Chain, Transport } from 'viem'
+import { Abi, Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
-import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
-import { writeDepositETH } from '../actions/wallet/writeDepositETH'
-import { writeDepositERC20 } from '../actions/wallet/writeDepositERC20'
+import {
+  WriteUnsafeDepositTransactionParameters,
+  writeUnsafeDepositTransaction,
+} from '../actions/wallet/writeUnsafeDepositTransaction'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
-export type WalletOpStackActions = {
+export type WalletOpStackActions<
+  TChain extends Chain | undefined = Chain | undefined,
+  TAccount extends Account | undefined = Account | undefined,
+> = {
   bridgeWriteContract: (
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
-  bridgeSendTransaction: (
-    // TODO name these params
-    args: Parameters<typeof bridgeSendTransaction>[1],
-  ) => Promise<string>
-  writeDepositETH: (
-    // TODO name these params
-    args: Parameters<typeof writeDepositETH>[1],
-  ) => Promise<string>
-  writeDepositERC20: (
-    // TODO name these params
-    args: Parameters<typeof writeDepositERC20>[1],
-  ) => Promise<string>
+  writeUnsafeDepositTransaction: <
+    TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
+    TFunctionName extends string = 'depositTransaction',
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteUnsafeDepositTransactionParameters<
+      TAbi,
+      TFunctionName,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ) => Promise<WriteContractReturnType>
 }
 
-export function publicOpStackActions<
+export function walletOpStackActions<
   TTransport extends Transport = Transport,
   TChain extends Chain = Chain,
   TAccount extends Account = Account,
->(client: WalletClient<TTransport, TChain, TAccount>): WalletOpStackActions {
-  // TODO none of these decorators are generic
-  // Need to infer args on all of these
+>(
+  client: WalletClient<TTransport, TChain, TAccount>,
+): WalletOpStackActions<TChain, TAccount> {
   return {
     // TODO do better than as any
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
-    // TODO do better than as any
-    bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args),
-    // TODO do better than as any
-    writeDepositETH: (args) => writeDepositETH(client as any, args),
-    writeDepositERC20: (args) => writeDepositERC20(client as any, args),
+    writeUnsafeDepositTransaction: (args) =>
+      writeUnsafeDepositTransaction(client, args),
   }
 }

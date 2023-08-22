@@ -1,4 +1,4 @@
-import { Hash, concat, keccak256, slice, toRlp, trim } from 'viem'
+import { Hash, concat, keccak256, size, slice, toRlp, trim } from 'viem'
 import {
   DEPOSIT_TX_PREFIX,
   SourceHashDomain,
@@ -30,8 +30,10 @@ export function getL2HashFromL1DepositInfo({
   const isCreation = BigInt(opaqueData[offset]) == 1n
   offset += 1
   const to = isCreation === true ? '0x' : event.args.to
-  const length = opaqueData.length - offset
-  const data = slice(opaqueData, offset, offset + length)
+  const data =
+    offset > size(opaqueData) - 1
+      ? '0x'
+      : slice(opaqueData, offset, opaqueData.length)
   const domain = SourceHashDomain.UserDeposit
   const l1BlockHash = blockHash
 

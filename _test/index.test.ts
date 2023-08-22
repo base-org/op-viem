@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
-import { mainnet } from 'wagmi'
+import { mainnet } from '@wagmi/chains'
 import { publicOpStackActions } from '../src/decorators/publicOpStack'
 
 test('correctly retrieves L2 hash', async () => {
