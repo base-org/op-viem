@@ -37,7 +37,7 @@ export async function writeDepositETH<
     {
       address: toChain?.opContracts.L1StandardBridgeProxy,
       abi: l1StandardBridgeABI,
-      function: 'depositERC20To',
+      function: 'depositETHTo',
       args: [toAddress, value],
       ...restArgs,
     } as any,
