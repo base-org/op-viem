@@ -7,6 +7,7 @@ import {
 } from '../actions/wallet/writeUnsafeDepositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
+import { bridgeETH } from '../actions/wallet/bridgeETH'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -35,6 +36,10 @@ export type WalletOpStackActions<
     // TODO name these params
     args: Parameters<typeof bridgeSendTransaction>[1],
   ) => Promise<string>
+  bridgeETH: (
+    // TODO name these params
+    args: Parameters<typeof bridgeETH>[1],
+  ) => Promise<string>
 }
 
 export function walletOpStackActions<
@@ -48,6 +53,8 @@ export function walletOpStackActions<
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
     writeUnsafeDepositTransaction: (args) =>
       writeUnsafeDepositTransaction(client, args),
-    bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args)
+    bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args),
+    // TODO do better than as any
+    bridgeETH: (args) => bridgeETH(client as any, args)
   }
 }
