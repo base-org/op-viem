@@ -1,4 +1,4 @@
-name: Run yarn test
+name: yarn test
 
 on:
   push:
