@@ -23,7 +23,7 @@ type DepositERC20Parameters = {
 
 type WriteDepositERC20<
   TAbi extends Abi | readonly unknown[] = typeof l1StandardBridgeABI,
-  TFunctionName extends string = 'depositTransaction',
+  TFunctionName extends string = 'depositERC20',
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
