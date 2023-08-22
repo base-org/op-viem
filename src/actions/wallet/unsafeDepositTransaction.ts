@@ -7,6 +7,7 @@ import {
   WriteContractReturnType,
   Address,
   Hex,
+  Abi,
 } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
@@ -21,12 +22,20 @@ type DepositTransactionParameters = {
 }
 
 type WriteUnsafeDepositTransactionParameters<
-  TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
-  TChainOverride extends Chain | undefined,
+  TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
+  TFunctionName extends string = 'depositTransaction',
+  TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
+  TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters,
-  'abi' | 'functionName' | 'args' | 'accessList' | 'address'
+  WriteContractParameters<
+    TAbi,
+    TFunctionName,
+    TChain,
+    TAccount,
+    TChainOverride
+  >,
+  'abi' | 'functionName' | 'args' | 'address'
 > & {
   toChain: OpChainL2
   args: DepositTransactionParameters
@@ -35,6 +44,8 @@ type WriteUnsafeDepositTransactionParameters<
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
+  const TAbi extends Abi | readonly unknown[],
+  TFunctionName extends string,
   TChainOverride extends Chain | undefined,
 >(
   client: WalletClient<Transport, TChain>,
@@ -42,7 +53,13 @@ export async function writeUnsafeDepositTransaction<
     args: { to, value, gasLimit, isCreation, data },
     toChain,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
+  }: WriteUnsafeDepositTransactionParameters<
+    TAbi,
+    TFunctionName,
+    TChain,
+    TAccount,
+    TChainOverride
+  >,
 ): Promise<WriteContractReturnType> {
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
@@ -50,5 +67,5 @@ export async function writeUnsafeDepositTransaction<
     functionName: 'depositTransaction',
     args: [to, value, gasLimit, isCreation, data],
     ...rest,
-  })
+  } as unknown as WriteContractParameters<TChain, TAccount, TChainOverride>)
 }
