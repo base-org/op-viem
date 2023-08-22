@@ -67,5 +67,5 @@ export async function writeUnsafeDepositTransaction<
     functionName: 'depositTransaction',
     args: [to, value, gasLimit, isCreation, data],
     ...rest,
-  } as unknown as WriteContractParameters<typeof optimismPortalABI, 'depositTransaction', TChain, Account | undefined, TChainOverride>)
+  } as any)
 }
