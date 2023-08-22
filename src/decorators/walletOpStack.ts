@@ -3,6 +3,7 @@ import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
 import { bridgeETH } from '../actions/wallet/bridgeETH'
+import { bridgeERC20 } from '../actions/wallet/bridgeERC20'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -18,6 +19,10 @@ export type WalletOpStackActions = {
   bridgeETH: (
     // TODO name these params
     args: Parameters<typeof bridgeETH>[1],
+  ) => Promise<string>
+  bridgeERC20: (
+    // TODO name these params
+    args: Parameters<typeof bridgeERC20>[1],
   ) => Promise<string>
 }
 
@@ -35,5 +40,6 @@ export function publicOpStackActions<
     bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args),
     // TODO do better than as any
     bridgeETH: (args) => bridgeETH(client as any, args),
+    bridgeERC20: (args) => bridgeERC20(client as any, args),
   }
 }
