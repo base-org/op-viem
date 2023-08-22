@@ -15,8 +15,8 @@ import { OpChainL2, OpChainL1 } from '@roninjin10/rollup-chains'
 export async function bridgeWriteContract<
   TAbi extends Abi | readonly unknown[] = Abi,
   TFunctionName extends string = string,
-  TChainL1 extends OpChainL1 | undefined = OpChainL1,
-  TChainL2 extends OpChainL2 | undefined = OpChainL2,
+  TChainL2 extends OpChainL2 = OpChainL2,
+  TChainL1 extends Chain & { id: TChainL2['l1']['id'] } = OpChainL1,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
