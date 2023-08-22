@@ -16,20 +16,25 @@ export async function bridgeSendTransaction<
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
   client: WalletClient<Transport, OpChainL1>,
-  { toChain, to, data, value, l2Gas = BigInt(200_000), ...restArgs }: { toChain: TChainL2, l2Gas?: BigInt } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
-
+  {
+    toChain,
+    to,
+    data,
+    value,
+    l2Gas = BigInt(200_000),
+    ...restArgs
+  }: { toChain: TChainL2; l2Gas?: BigInt } & SendTransactionParameters<
+    TChainL1,
+    TAccount,
+    TChainOverride
+  >,
 ) {
   return writeContract(client, {
     abi: l1CrossDomainMessengerABI,
     address: toChain?.opContracts.L1CrossDomainMessengerProxy,
     functionName: 'sendMessage' as any,
-    args: [
-      to,
-      data,
-      l2Gas,
-    ],
-    ...restArgs
+    args: [to, data, l2Gas],
+    ...restArgs,
     // TODO better typescriptin
   } as any)
 }
-

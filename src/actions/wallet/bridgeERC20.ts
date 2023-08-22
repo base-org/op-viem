@@ -6,8 +6,9 @@ import {
   WalletClient,
   SendTransactionParameters,
 } from 'viem'
+
+import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
-import { bridgeSendTransaction } from './bridgeSendTransaction'
 import { bridgeWriteContract } from './bridgeWriteContract'
 
 // Currently hardcoded to existing sdk value
@@ -22,11 +23,13 @@ export async function bridgeERC20<
 >(
   client: WalletClient<Transport, TChainL1>,
   {
-    data,
+    l1Token,
+    l2Token,
+    toAccount,
     value,
     toChain,
     account,
-    toAccount,
+    l2Gas = ETH_TRANSFER_L2_GAS,
     ...restArgs
   }: {
     l1Token: Address
@@ -34,23 +37,21 @@ export async function bridgeERC20<
     toChain: TChainL2
     toAccount: Address | Account
     value: bigint
+    l2Gas?: bigint
   } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
   const to = toAccount ?? account ?? client.account?.address
-  // TODO better typescriptin
+  const toAddress = typeof to === 'string' ? to : to.address
 
-  return bridgeWriteContract(client as any, {
-    ...restArgs,
-  })
-  // return bridgeSendTransaction(
-  //   client as any,
-  //   {
-  //     ...restArgs,
-  //     value,
-  //     toChain,
-  //     to: typeof to === 'string' ? to : to.address,
-  //     data: data ?? '0x0',
-  //     l2Gas: ETH_TRANSFER_L2_GAS,
-  //   } as any,
-  // )
+  return bridgeWriteContract(
+    client as any,
+    {
+      abi: l1StandardBridgeABI,
+      toChain,
+      functionName: 'depositTo',
+      args: [l1Token, l2Token, toAddress, value],
+      l2Gas,
+      ...restArgs,
+    } as any,
+  )
 }

@@ -20,17 +20,30 @@ export async function bridgeETH<
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
   client: WalletClient<Transport, TChainL1>,
-  { data, value, toChain, account, toAccount, ...restArgs }: { toChain: TChainL2, toAccount: Address | Account, value: bigint } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
+  {
+    data,
+    value,
+    toChain,
+    account,
+    toAccount,
+    ...restArgs
+  }: {
+    toChain: TChainL2
+    toAccount: Address | Account
+    value: bigint
+  } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
   const to = toAccount ?? account ?? client.account?.address
   // TODO better typescriptin
-  return bridgeSendTransaction(client as any, {
-    ...restArgs,
-    value,
-    toChain,
-    to: typeof to === 'string' ? to : to.address,
-    data: data ?? '0x0',
-    l2Gas: ETH_TRANSFER_L2_GAS,
-  } as any)
+  return bridgeSendTransaction(
+    client as any,
+    {
+      ...restArgs,
+      value,
+      toChain,
+      to: typeof to === 'string' ? to : to.address,
+      data: data ?? '0x0',
+      l2Gas: ETH_TRANSFER_L2_GAS,
+    } as any,
+  )
 }
-

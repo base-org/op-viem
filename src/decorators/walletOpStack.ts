@@ -1,8 +1,8 @@
 import { Account, Chain, Transport } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
-import { bridgeSendTransaction } from '../actions/bridgeSendTransaction'
-import { bridgeETH } from '../actions/bridgeETH'
+import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
+import { bridgeETH } from '../actions/wallet/bridgeETH'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
