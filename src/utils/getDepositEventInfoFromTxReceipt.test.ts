@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { getDepositEventsInfoFromTxReceipt } from '../../src/utils/getDepositEventsInfoFromTxReceipt'
+import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { TransactionReceipt } from 'viem'
 
 const receipt: TransactionReceipt = {
