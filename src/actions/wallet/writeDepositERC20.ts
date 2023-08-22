@@ -9,13 +9,9 @@ import {
 
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
-import { bridgeWriteContract } from './bridgeWriteContract'
+import { writeContract } from 'viem/actions'
 
-// Currently hardcoded to existing sdk value
-// consider optimizing in future
-const ETH_TRANSFER_L2_GAS = BigInt(200_000)
-
-export async function bridgeERC20<
+export async function writeDepositERC20<
   TChainL1 extends Chain | undefined = Chain,
   TChainL2 extends OpChainL2 | undefined = OpChainL2,
   TAccount extends Account | undefined = Account | undefined,
@@ -29,7 +25,6 @@ export async function bridgeERC20<
     amount,
     toChain,
     account,
-    l2Gas = ETH_TRANSFER_L2_GAS,
     ...restArgs
   }: {
     l1Token: Address
@@ -37,20 +32,18 @@ export async function bridgeERC20<
     toChain: TChainL2
     toAccount: Address | Account
     amount: bigint
-    l2Gas?: bigint
   } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
   const to = toAccount ?? account ?? client.account?.address
   const toAddress = typeof to === 'string' ? to : to.address
 
-  return bridgeWriteContract(
+  return writeContract(
     client as any,
     {
+      address: toChain?.opContracts.L1StandardBridgeProxy,
       abi: l1StandardBridgeABI,
-      toChain,
-      functionName: 'depositERC20To',
+      function: 'depositERC20To',
       args: [l1Token, l2Token, toAddress, amount],
-      l2Gas,
       ...restArgs,
     } as any,
   )
