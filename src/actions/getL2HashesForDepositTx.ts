@@ -13,7 +13,7 @@ export async function getL2HashesForDepositTx<TChain extends Chain | undefined>(
   { l1TxHash }: GetL2HashesForDepositTxParamters,
 ): Promise<GetL2HashesForDepositTxReturnType> {
   const receipt = await client.getTransactionReceipt({ hash: l1TxHash })
-  var depositEvents = getDepositEventsInfoFromTxReceipt({ receipt })
+  const depositEvents = getDepositEventsInfoFromTxReceipt({ receipt })
 
   return depositEvents.map(({ event, logIndex }) =>
     getL2HashFromL1DepositInfo({
