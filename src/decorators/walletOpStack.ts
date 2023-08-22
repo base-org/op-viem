@@ -2,8 +2,8 @@ import { Account, Chain, Transport } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import { bridgeSendTransaction } from '../actions/wallet/bridgeSendTransaction'
-import { bridgeETH } from '../actions/wallet/bridgeETH'
-import { bridgeERC20 } from '../actions/wallet/bridgeERC20'
+import { writeDepositETH } from '../actions/wallet/writeDepositETH'
+import { writeDepositERC20 } from '../actions/wallet/writeDepositERC20'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -16,13 +16,13 @@ export type WalletOpStackActions = {
     // TODO name these params
     args: Parameters<typeof bridgeSendTransaction>[1],
   ) => Promise<string>
-  bridgeETH: (
+  writeDepositETH: (
     // TODO name these params
-    args: Parameters<typeof bridgeETH>[1],
+    args: Parameters<typeof writeDepositETH>[1],
   ) => Promise<string>
-  bridgeERC20: (
+  writeDepositERC20: (
     // TODO name these params
-    args: Parameters<typeof bridgeERC20>[1],
+    args: Parameters<typeof writeDepositERC20>[1],
   ) => Promise<string>
 }
 
@@ -39,7 +39,7 @@ export function publicOpStackActions<
     // TODO do better than as any
     bridgeSendTransaction: (args) => bridgeSendTransaction(client as any, args),
     // TODO do better than as any
-    bridgeETH: (args) => bridgeETH(client as any, args),
-    bridgeERC20: (args) => bridgeERC20(client as any, args),
+    writeDepositETH: (args) => writeDepositETH(client as any, args),
+    writeDepositERC20: (args) => writeDepositERC20(client as any, args),
   }
 }
