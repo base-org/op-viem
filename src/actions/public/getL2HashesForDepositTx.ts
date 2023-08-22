@@ -1,6 +1,6 @@
 import { type PublicClient, Chain, Transport, Hash } from 'viem'
-import { getDepositEventsInfoFromTxReceipt } from '../utils/getDepositEventsInfoFromTxReceipt'
-import { getL2HashFromL1DepositInfo } from '../utils/getL2HashFromL1DepositInfo'
+import { getDepositEventsInfoFromTxReceipt } from '../../utils/getDepositEventsInfoFromTxReceipt'
+import { getL2HashFromL1DepositInfo } from '../../utils/getL2HashFromL1DepositInfo'
 
 export type GetL2HashesForDepositTxParamters = {
   l1TxHash: Hash

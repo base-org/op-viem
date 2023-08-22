@@ -22,7 +22,20 @@ export async function bridgeWriteContract<
 >(
   client: WalletClient<Transport, TChainL1>,
   // TODO make this take an l2Chain that is decorated with l2 info such as the l1 contract addreses
-  { toChain, args, abi, address, functionName, ...restArgs }: { toChain: TChainL2 } & WriteContractParameters<TAbi, TFunctionName, TChainL1, TAccount, TChainOverride>,
+  {
+    toChain,
+    args,
+    abi,
+    address,
+    functionName,
+    ...restArgs
+  }: { toChain: TChainL2 } & WriteContractParameters<
+    TAbi,
+    TFunctionName,
+    TChainL1,
+    TAccount,
+    TChainOverride
+  >,
 ): Promise<string> {
   const minGasLimit = 200_000
   const message = encodeFunctionData({
@@ -35,16 +48,11 @@ export async function bridgeWriteContract<
     // TODO currently hardcoded for OP should get this from the l2 chain object
     address: toChain?.opContracts.L1CrossDomainMessengerProxy,
     functionName: 'sendMessage' as any,
-    args: [
-      address,
-      message,
-      minGasLimit,
-    ],
-    ...restArgs
+    args: [address, message, minGasLimit],
+    ...restArgs,
     // TODO better types
   } as any)
   // compose with getL2Hash method to get l2 hash I think is what we want here
   // We could consider baking that into this method
   return l1TxHash
 }
-
