@@ -21,7 +21,7 @@ type DepositTransactionParameters = {
   data: Hex
 }
 
-type WriteUnsafeDepositTransactionParameters<
+export type WriteUnsafeDepositTransactionParameters<
   TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
   TFunctionName extends string = 'depositTransaction',
   TChain extends Chain | undefined = Chain,
@@ -48,7 +48,7 @@ export async function writeUnsafeDepositTransaction<
   TFunctionName extends string,
   TChainOverride extends Chain | undefined,
 >(
-  client: WalletClient<Transport, TChain>,
+  client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
     toChain,
