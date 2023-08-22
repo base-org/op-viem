@@ -1,50 +1,65 @@
 import {
-  Address,
-  Chain,
   Transport,
-  Account,
   WalletClient,
-  SendTransactionParameters,
+  Chain,
+  Account,
+  WriteContractParameters,
+  WriteContractReturnType,
+  Address,
+  Hex,
+  Abi,
 } from 'viem'
-
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { writeContract } from 'viem/actions'
 
-export async function writeDepositERC20<
-  TChainL1 extends Chain | undefined = Chain,
-  TChainL2 extends OpChainL2 | undefined = OpChainL2,
+type DepositERC20Parameters = {
+  l1Token: Address
+  l2Token: Address
+  amount: bigint
+  l2gas: bigint
+  data: Hex
+}
+
+type WriteDepositERC20<
+  TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
+  TFunctionName extends string = 'depositTransaction',
+  TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
->(
-  client: WalletClient<Transport, TChainL1>,
-  {
-    l1Token,
-    l2Token,
-    toAccount,
-    amount,
-    toChain,
-    account,
-    ...restArgs
-  }: {
-    l1Token: Address
-    l2Token: Address
-    toChain: TChainL2
-    toAccount: Address | Account
-    amount: bigint
-  } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
-): Promise<string> {
-  const to = toAccount ?? account ?? client.account?.address
-  const toAddress = typeof to === 'string' ? to : to.address
+> = Omit<
+  WriteContractParameters<
+    TAbi,
+    TFunctionName,
+    TChain,
+    TAccount,
+    TChainOverride
+  >,
+  'abi' | 'functionName' | 'args' | 'address'
+> & {
+  toChain: OpChainL2
+  args: DepositERC20Parameters
+}
 
-  return writeContract(
-    client as any,
-    {
-      address: toChain?.opContracts.L1StandardBridgeProxy,
-      abi: l1StandardBridgeABI,
-      function: 'depositERC20To',
-      args: [l1Token, l2Token, toAddress, amount],
-      ...restArgs,
-    } as any,
-  )
+export async function writeDepositERC20<
+  TChain extends Chain | undefined,
+  TAccount extends Account | undefined,
+  const TAbi extends Abi | readonly unknown[],
+  TFunctionName extends string,
+  TChainOverride extends Chain | undefined,
+>(
+  client: WalletClient<Transport, TChain>,
+  {
+    args: { l1Token, l2Token, amount, l2gas, data },
+    toChain,
+    ...rest
+  }: WriteDepositERC20<TAbi, TFunctionName, TChain, TAccount, TChainOverride>,
+): Promise<WriteContractReturnType> {
+  return writeContract(client, {
+    address: toChain.opContracts.OptimismPortalProxy,
+    abi: optimismPortalABI,
+    functionName: 'depositERC20',
+    args: [l1Token, l2Token, amount, l2gas, data],
+    ...rest,
+  } as any)
 }
