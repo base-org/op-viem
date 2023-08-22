@@ -8,18 +8,18 @@ import {
   EncodeFunctionDataParameters,
   WalletClient,
 } from 'viem'
-import { OpChainL2, OpChainL1 } from '@roninjin10/rollup-chains'
+import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { bridgeSendTransaction } from './bridgeSendTransaction'
 
 export async function bridgeWriteContract<
   TAbi extends Abi | readonly unknown[] = Abi,
   TFunctionName extends string = string,
   TChainL2 extends OpChainL2 = OpChainL2,
-  TChainL1 extends Chain & { id: TChainL2['l1']['id'] } = OpChainL1,
+  TChainL1 extends Chain & { id: TChainL2['l1']['id'] } = TChainL2["l1"],
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 >(
-  client: WalletClient<Transport, TChainL1>,
+  client: WalletClient<Transport, TChainL2["l1"]>,
   // TODO Document wtf l2Gas is and maybe give it a better name
   { toChain, args, abi, address, functionName, l2Gas = BigInt(200_000), ...restArgs }: { toChain: TChainL2, l2Gas?: BigInt } & WriteContractParameters<TAbi, TFunctionName, TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
