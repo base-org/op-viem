@@ -26,7 +26,7 @@ export async function bridgeERC20<
     l1Token,
     l2Token,
     toAccount,
-    value,
+    amount,
     toChain,
     account,
     l2Gas = ETH_TRANSFER_L2_GAS,
@@ -36,7 +36,7 @@ export async function bridgeERC20<
     l2Token: Address
     toChain: TChainL2
     toAccount: Address | Account
-    value: bigint
+    amount: bigint
     l2Gas?: bigint
   } & SendTransactionParameters<TChainL1, TAccount, TChainOverride>,
 ): Promise<string> {
@@ -49,7 +49,7 @@ export async function bridgeERC20<
       abi: l1StandardBridgeABI,
       toChain,
       functionName: 'depositTo',
-      args: [l1Token, l2Token, toAddress, value],
+      args: [l1Token, l2Token, toAddress, amount],
       l2Gas,
       ...restArgs,
     } as any,
