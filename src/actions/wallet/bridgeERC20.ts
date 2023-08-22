@@ -48,7 +48,7 @@ export async function bridgeERC20<
     {
       abi: l1StandardBridgeABI,
       toChain,
-      functionName: 'depositTo',
+      functionName: 'depositERC20To',
       args: [l1Token, l2Token, toAddress, amount],
       l2Gas,
       ...restArgs,
