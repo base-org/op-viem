@@ -23,6 +23,8 @@ export function publicOpStackActions<
 >(
   client: WalletClient<TTransport, TChain, TAccount>,
 ): WalletOpStackActions {
+  // TODO none of these decorators are generic
+  // Need to infer args on all of these
   return {
     // TODO do better than as any
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
