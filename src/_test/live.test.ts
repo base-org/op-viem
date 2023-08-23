@@ -2,9 +2,9 @@ import { test, expect } from 'vitest'
 import { Hex, createPublicClient, createWalletClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { goerli, mainnet } from '@wagmi/chains'
-import { walletOpStackActions } from '../src/decorators/walletOpStack'
+import { walletOpStackActions } from '../decorators/walletOpStack'
 import { baseGoerli } from '@roninjin10/rollup-chains'
-import { publicOpStackActions } from '../src/decorators/publicOpStack'
+import { publicOpStackActions } from '../decorators/publicOpStack'
 
 test('correctly retrieves L2 hash', async () => {
   return

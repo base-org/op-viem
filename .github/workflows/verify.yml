@@ -1,0 +1,42 @@
+name: Verify
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    environment: verify
+
+    steps:
+      - name: Set up foundry
+        uses: foundry-rs/foundry-toolchain@v1
+          
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          cache: pnpm
+          node-version: 18
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm test:ci
+        env:
+          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+          VITE_ANVIL_BLOCK_NUMBER: 17977054
+          

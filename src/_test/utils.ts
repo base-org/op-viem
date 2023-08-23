@@ -26,7 +26,7 @@ export class ProviderRpcError extends Error {
 
 export const anvilChain = {
   ...localhost,
-  id: 31337,
+  id: 1,
   contracts: mainnet.contracts,
   rpcUrls: {
     default: {
