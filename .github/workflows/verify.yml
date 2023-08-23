@@ -11,6 +11,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    environment: verify
 
     steps:
       - name: Checkout code
@@ -34,3 +35,4 @@ jobs:
         run: pnpm test
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+          
