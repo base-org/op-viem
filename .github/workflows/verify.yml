@@ -14,17 +14,6 @@ jobs:
     environment: verify
 
     steps:
-      - name: Check if VITE_ANVIL_FORK_URL is set
-        run: |
-          if [ -z "${VITE_ANVIL_FORK_URL}" ]; then
-            echo "VITE_ANVIL_FORK_URL is NOT set."
-          else
-            echo "VITE_ANVIL_FORK_URL is set."
-            echo "First 5 characters: ${VITE_ANVIL_FORK_URL:0:15}"
-          fi
-        env:
-          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
-
       - name: Set up foundry
         uses: foundry-rs/foundry-toolchain@v1
           
@@ -46,7 +35,7 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        run: pnpm test
+        run: pnpm test:ci
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
           VITE_ANVIL_BLOCK_NUMBER: 17977054
