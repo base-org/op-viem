@@ -20,7 +20,7 @@ jobs:
             echo "VITE_ANVIL_FORK_URL is NOT set."
           else
             echo "VITE_ANVIL_FORK_URL is set."
-            echo "First 5 characters: ${VITE_ANVIL_FORK_URL:0:5}"
+            echo "First 5 characters: ${VITE_ANVIL_FORK_URL:0:15}"
           fi
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
