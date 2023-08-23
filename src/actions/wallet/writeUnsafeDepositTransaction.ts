@@ -24,7 +24,8 @@ type DepositTransactionParameters = {
 export type WriteUnsafeDepositTransactionParameters<
   TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
   TFunctionName extends string = 'depositTransaction',
-  TChain extends Chain | undefined = Chain,
+  TToChain extends OpChainL2 = OpChainL2,
+  TChain extends Chain & { id: TToChain['l1']['id'] } = TToChain["l1"],
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
@@ -37,12 +38,13 @@ export type WriteUnsafeDepositTransactionParameters<
   >,
   'abi' | 'functionName' | 'args' | 'address'
 > & {
-  toChain: OpChainL2
+  toChain: TToChain
   args: DepositTransactionParameters
 }
 
 export async function writeUnsafeDepositTransaction<
-  TChain extends Chain | undefined,
+  TToChain extends OpChainL2,
+  TChain extends Chain & { id: TToChain['l1']['id'] },
   TAccount extends Account | undefined,
   const TAbi extends Abi | readonly unknown[],
   TFunctionName extends string,
@@ -56,6 +58,7 @@ export async function writeUnsafeDepositTransaction<
   }: WriteUnsafeDepositTransactionParameters<
     TAbi,
     TFunctionName,
+    TToChain,
     TChain,
     TAccount,
     TChainOverride
