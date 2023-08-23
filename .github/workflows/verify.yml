@@ -32,7 +32,5 @@ jobs:
 
       - name: Run tests
         run: pnpm test
-        with: 
-          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
