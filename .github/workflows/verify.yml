@@ -24,6 +24,9 @@ jobs:
           fi
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+
+      - name: Set up foundry
+        uses: foundry-rs/foundry-toolchain@v1
           
       - name: Checkout code
         uses: actions/checkout@v3
