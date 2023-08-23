@@ -14,6 +14,17 @@ jobs:
     environment: verify
 
     steps:
+      - name: Check if VITE_ANVIL_FORK_URL is set
+        run: |
+          if [ -z "${VITE_ANVIL_FORK_URL}" ]; then
+            echo "VITE_ANVIL_FORK_URL is NOT set."
+          else
+            echo "VITE_ANVIL_FORK_URL is set."
+            echo "First 5 characters: ${VITE_ANVIL_FORK_URL:0:5}"
+          fi
+        env:
+          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+          
       - name: Checkout code
         uses: actions/checkout@v3
 
