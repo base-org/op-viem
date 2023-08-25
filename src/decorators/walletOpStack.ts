@@ -1,11 +1,12 @@
-import { Abi, Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import {
-  WriteUnsafeDepositTransactionParameters,
   writeUnsafeDepositTransaction,
+  WriteUnsafeDepositTransaction,
 } from '../actions/wallet/writeUnsafeDepositTransaction'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+
+type ShiftTuple<T extends any[]> = T extends [T[0], ...infer R] ? R : never
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -17,18 +18,8 @@ export type WalletOpStackActions<
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
-  writeUnsafeDepositTransaction: <
-    TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
-    TFunctionName extends string = 'depositTransaction',
-    TChainOverride extends Chain | undefined = Chain | undefined,
-  >(
-    args: WriteUnsafeDepositTransactionParameters<
-      TAbi,
-      TFunctionName,
-      TChain,
-      TAccount,
-      TChainOverride
-    >,
+  writeUnsafeDepositTransaction: (
+    args: ShiftTuple<Parameters<WriteUnsafeDepositTransaction>>[0],
   ) => Promise<WriteContractReturnType>
 }
 

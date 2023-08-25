@@ -17,7 +17,7 @@ type DepositETHParameters = {
   data: Hex
 }
 
-type WriteDepositETH<
+type WriteDepositETHParameters<
   TAbi extends Abi | readonly unknown[] = typeof l1StandardBridgeABI,
   TFunctionName extends string = 'writeDepositETH',
   TChain extends Chain | undefined = Chain,
@@ -38,21 +38,34 @@ type WriteDepositETH<
   value: bigint
 }
 
-export async function writeDepositETH<
-  TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
-  TChainOverride extends Chain | undefined,
->(
-  client: WalletClient<Transport, TChain>,
-  {
-    args: { gasLimit, data },
-    value,
-    toChain,
-    ...rest
-  }: WriteDepositETH<TAbi, TFunctionName, TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> {
+export interface WriteDepositETH {
+  <
+    TChain extends Chain | undefined,
+    TAccount extends Account | undefined,
+    TAbi extends Abi | readonly unknown[],
+    TFunctionName extends string,
+    TChainOverride extends Chain | undefined,
+  >(
+    client: WalletClient<Transport, TChain>,
+    {
+      args: { gasLimit, data },
+      value,
+      toChain,
+      ...rest
+    }: WriteDepositETHParameters<
+      TAbi,
+      TFunctionName,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ): Promise<WriteContractReturnType>
+}
+
+export const writeDepositETH: WriteDepositETH = async (
+  client,
+  { args: { gasLimit, data }, value, toChain, ...rest },
+) => {
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
     abi: l1StandardBridgeABI,
