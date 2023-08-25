@@ -1,12 +1,19 @@
-import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import { Account, Chain, Transport } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import {
   writeUnsafeDepositTransaction,
   WriteUnsafeDepositTransaction,
 } from '../actions/wallet/writeUnsafeDepositTransaction'
-
-type ShiftTuple<T extends any[]> = T extends [T[0], ...infer R] ? R : never
+import {
+  writeDepositETH,
+  WriteDepositETH,
+} from '../actions/wallet/writeDepositETH'
+import {
+  writeDepositERC20,
+  WriteDepositERC20,
+} from '../actions/wallet/writeDepositERC20'
+import { DecoratedAction } from '../types/decoratedAction'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -18,9 +25,9 @@ export type WalletOpStackActions<
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
-  writeUnsafeDepositTransaction: (
-    args: ShiftTuple<Parameters<WriteUnsafeDepositTransaction>>[0],
-  ) => Promise<WriteContractReturnType>
+  writeUnsafeDepositTransaction: DecoratedAction<WriteUnsafeDepositTransaction>
+  writeDepositETH: DecoratedAction<WriteDepositETH>
+  writeDepositERC20: DecoratedAction<WriteDepositERC20>
 }
 
 export function walletOpStackActions<
@@ -35,5 +42,7 @@ export function walletOpStackActions<
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
     writeUnsafeDepositTransaction: (args) =>
       writeUnsafeDepositTransaction(client, args),
+    writeDepositETH: (args) => writeDepositETH(client, args),
+    writeDepositERC20: (args) => writeDepositERC20(client, args),
   }
 }

@@ -46,7 +46,7 @@ export interface WriteDepositETH {
     TFunctionName extends string,
     TChainOverride extends Chain | undefined,
   >(
-    client: WalletClient<Transport, TChain>,
+    client: WalletClient<Transport, TChain, TAccount>,
     {
       args: { gasLimit, data },
       value,
