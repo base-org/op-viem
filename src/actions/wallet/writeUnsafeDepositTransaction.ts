@@ -13,12 +13,12 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { writeContract } from 'viem/actions'
 
-type DepositTransactionParameters = {
+export type DepositTransactionParameters = {
   to: Address
-  value: bigint
   gasLimit: bigint
-  isCreation: boolean
-  data: Hex
+  value?: bigint
+  isCreation?: boolean
+  data?: Hex
 }
 
 export type WriteUnsafeDepositTransactionParameters<
@@ -65,7 +65,7 @@ export async function writeUnsafeDepositTransaction<
     address: toChain.opContracts.OptimismPortalProxy,
     abi: optimismPortalABI,
     functionName: 'depositTransaction',
-    args: [to, value, gasLimit, isCreation, data],
+    args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
     ...rest,
   } as any)
 }
