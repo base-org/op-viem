@@ -11,7 +11,7 @@ import { Hex, encodeAbiParameters, keccak256, parseAbiParameters } from 'viem'
  * @param messageHash Message hash to hash.
  * @returns Hash of the given message hash.
  */
-export const hashMessageHash = (messageHash: Hex): string => {
+export const hashMessageHash = (messageHash: Hex): Hex => {
   const data = encodeAbiParameters(parseAbiParameters(['bytes32, uint256']), [
     messageHash,
     0n,
