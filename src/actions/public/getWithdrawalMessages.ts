@@ -23,7 +23,10 @@ export type GetWithdrawalMessagesParameters = {
   hash: Hash
 }
 
-export type GetWithdrawalMessagesReturnType = MessagePassedEvent[]
+export type GetWithdrawalMessagesReturnType = {
+  events: MessagePassedEvent[]
+  blockNumber: bigint
+}
 
 /**
  * Retrieves all MessagePassed events from a withdrawal transaction
@@ -53,5 +56,5 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
       }
     } catch {}
   }
-  return events
+  return { events, blockNumber: receipt.blockNumber }
 }
