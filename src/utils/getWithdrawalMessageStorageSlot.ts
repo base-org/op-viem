@@ -5,13 +5,13 @@ import { Hex, encodeAbiParameters, keccak256, parseAbiParameters } from 'viem'
 
 /**
  * Utility for hashing a message hash. This computes the storage slot
- * where the message hash will be stored in state. HashZero is used
+ * where the message hash will be stored in state. 0 is used
  * because the first mapping in the contract is used.
  *
- * @param messageHash Message hash to hash.
- * @returns Hash of the given message hash.
+ * @param messageHash sent message hash, i.e. keccak256(abi.encode({...WithdrawalTransaction})).
+ * @returns The storage slot in L2ToL1MessagePasser of the sent message
  */
-export const hashMessageHash = (messageHash: Hex): Hex => {
+export const getWithdrawalMessageStorageSlot = (messageHash: Hex): Hex => {
   const data = encodeAbiParameters(parseAbiParameters(['bytes32, uint256']), [
     messageHash,
     0n,

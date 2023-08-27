@@ -24,8 +24,8 @@ export type GetWithdrawalMessagesParameters = {
 }
 
 export type GetWithdrawalMessagesReturnType = {
-  events: MessagePassedEvent[]
-  blockNumber: bigint
+  messages: MessagePassedEvent[]
+  blockHash: Hash
 }
 
 /**
@@ -40,7 +40,7 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
   { hash }: GetWithdrawalMessagesParameters,
 ): Promise<GetWithdrawalMessagesReturnType> {
   const receipt = await client.getTransactionReceipt({ hash })
-  const events: MessagePassedEvent[] = []
+  const messages: MessagePassedEvent[] = []
   for (const log of receipt.logs) {
     /// These transactions will contain events from several contracts
     /// this decode will revert for events not from l2ToL1MessagePasserABI
@@ -52,9 +52,9 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
         topics: log.topics,
       })
       if (event.eventName === 'MessagePassed') {
-        events.push(event.args)
+        messages.push(event.args)
       }
     } catch {}
   }
-  return { events, blockNumber: receipt.blockNumber }
+  return { messages, blockHash: receipt.blockHash }
 }
