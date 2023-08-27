@@ -10,8 +10,7 @@ test('correctly retrieves L2 hash', async () => {
   }).extend(publicOpStackActions)
 
   const messages = await client.getWithdrawalMessages({
-    hash:
-      '0x999bab960dbdf600c51371ae819957063337a50cec2eb8032412739defadabe7',
+    hash: '0x999bab960dbdf600c51371ae819957063337a50cec2eb8032412739defadabe7',
   })
   expect(messages.length).toEqual(1)
   expect(messages[0].nonce).toBeDefined()

@@ -1,13 +1,21 @@
-import { type PublicClient, Chain, Transport, Hash, Address, Hex, decodeEventLog } from 'viem'
+import {
+  type PublicClient,
+  Chain,
+  Transport,
+  Hash,
+  Address,
+  Hex,
+  decodeEventLog,
+} from 'viem'
 import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
 
 export type MessagePassedEvent = {
-  nonce: bigint, 
-  sender: Address,
-  target: Address,
-  value: bigint,
-  gasLimit: bigint,
-  data: Hex,
+  nonce: bigint
+  sender: Address
+  target: Address
+  value: bigint
+  gasLimit: bigint
+  data: Hex
   withdrawalHash: Hex
 }
 
@@ -45,5 +53,5 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
       }
     } catch {}
   }
-  return events;
+  return events
 }
