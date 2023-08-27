@@ -4,7 +4,11 @@ import {
   GetL2HashesForDepositTxReturnType,
   getL2HashesForDepositTx,
 } from '../actions/public/getL2HashesForDepositTx'
-import { GetWithdrawalMessagesParameters, GetWithdrawalMessagesReturnType, getWithdrawalMessages } from '../actions/public/getWithdrawalMessages'
+import {
+  GetWithdrawalMessagesParameters,
+  GetWithdrawalMessagesReturnType,
+  getWithdrawalMessages,
+} from '../actions/public/getWithdrawalMessages'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 export type PublicOpStackActions<
