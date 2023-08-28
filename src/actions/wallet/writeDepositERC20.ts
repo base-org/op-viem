@@ -39,21 +39,6 @@ export type WriteDepositERC20Parameters<
   args: DepositERC20Parameters
 }
 
-export interface WriteDepositERC20 {
-  <
-    TChain extends Chain | undefined,
-    TAccount extends Account | undefined,
-    TChainOverride extends Chain | undefined,
-  >(
-    client: WalletClient<Transport, TChain, TAccount>,
-    {
-      args: { l1Token, l2Token, amount, gasLimit, data },
-      toChain,
-      ...rest
-    }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
-  ): Promise<WriteContractReturnType>
-}
-
 export async function writeDepositERC20<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
