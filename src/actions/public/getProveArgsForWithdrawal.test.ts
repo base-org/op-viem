@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'wagmi'
-import { getProveWithdrawalTransactionsArgs } from './getProveWithdrawalTransactionArgs'
-import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
 import { base } from '@roninjin10/rollup-chains'
+import { getOutputForL2Block } from './getOutputForL2Block'
+import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
 
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
@@ -27,14 +27,9 @@ const expectedResult = {
   l2OutputIndex: 1748n,
 }
 
-test('correctly retrieves proof', async () => {
+test('correctly generates args', async () => {
   const client = createPublicClient({
     chain: base,
-    transport: http(),
-  })
-
-  const l1Client = createPublicClient({
-    chain: mainnet,
     transport: http(),
   })
 
@@ -42,26 +37,25 @@ test('correctly retrieves proof', async () => {
     hash: '0xd0eb2a59f3cc4c61b01c350e71e1804ad6bd776dc9abc1bdb5e2e40695ab2628',
   })
 
-  const outputIndex = await l1Client.readContract({
-    address: base.opContracts.L2OutputOracleProxy,
-    abi: l2OutputOracleABI,
-    functionName: 'getL2OutputIndexAfter',
-    args: [withdrawalMessages.blockNumber],
+  const l1Client = createPublicClient({
+    chain: mainnet,
+    transport: http(),
   })
 
-  const proposal = await l1Client.readContract({
-    address: base.opContracts.L2OutputOracleProxy,
-    abi: l2OutputOracleABI,
-    functionName: 'getL2Output',
-    args: [outputIndex],
+  const output = await getOutputForL2Block(l1Client, {
+    blockNumber: withdrawalMessages.blockNumber,
+    rollup: base,
   })
 
-  const proveArgsArr = await getProveWithdrawalTransactionsArgs(client, {
-    withdrawalMessages: withdrawalMessages.messages,
-    blockNumber: proposal.l2BlockNumber,
+  const args = await getProveArgsForWithdrawal(client, {
+    message: withdrawalMessages.messages[0],
+    output: output,
   })
 
-  const result = { ...proveArgsArr[0], l2OutputIndex: outputIndex }
-
-  expect(result).toEqual(expectedResult)
+  expect(args.L2OutputIndex).toEqual(expectedResult.l2OutputIndex)
+  expect(args.outputRootProof).toEqual(expectedResult.outputRootProof)
+  expect(args.withdrawalProof).toEqual(expectedResult.withdrawalProof)
+  const { withdrawalHash, ...withdrawalTransaction } =
+    withdrawalMessages.messages[0]
+  expect(args.withdrawalTransaction).toEqual(withdrawalTransaction)
 })
