@@ -25,7 +25,7 @@ export type GetWithdrawalMessagesParameters = {
 
 export type GetWithdrawalMessagesReturnType = {
   messages: MessagePassedEvent[]
-  blockHash: Hash
+  blockNumber: bigint
 }
 
 /**
@@ -56,5 +56,5 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
       }
     } catch {}
   }
-  return { messages, blockHash: receipt.blockHash }
+  return { messages, blockNumber: receipt.blockNumber }
 }

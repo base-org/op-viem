@@ -18,7 +18,7 @@ export type OutputRootProof = {
 
 export type GetProofsForWithdrawalReturnType = {
   outputRootProof: OutputRootProof
-  withdrawalProof: StorageProof[]
+  withdrawalProof: Hex[]
 }
 
 const L2_TO_L1_MESSAGE_PASSER = '0x4200000000000000000000000000000000000016'
@@ -41,6 +41,6 @@ export async function getProofsForWithdrawal<TChain extends Chain | undefined>(
       messagePasserStorageRoot: proof.storageHash,
       latestBlockhash: blockHash,
     },
-    withdrawalProof: proof.storageProof,
+    withdrawalProof: proof.storageProof[0].proof,
   }
 }

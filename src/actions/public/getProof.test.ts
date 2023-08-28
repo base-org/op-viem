@@ -3,7 +3,7 @@ import { createPublicClient, http, toHex } from 'viem'
 import { base } from '@wagmi/chains'
 import { getProof } from './getProof'
 
-test('correctly retrieves L2 hash', async () => {
+test('correctly retrieves proof', async () => {
   const client = createPublicClient({
     chain: base,
     transport: http(),

@@ -1,22 +1,37 @@
-import { Chain, Hex, PublicClient, Transport } from 'viem'
-import { getWithdrawalMessages } from './getWithdrawalMessages'
-import { getBlock } from 'viem/actions'
-import { getProofsForWithdrawal } from './getProofsForWithdrawal'
+import { Block, Chain, Hex, PublicClient, Transport } from 'viem'
+import {
+  MessagePassedEvent,
+  getWithdrawalMessages,
+} from './getWithdrawalMessages'
+import { getBlock, readContract } from 'viem/actions'
+import {
+  GetProofsForWithdrawalReturnType,
+  getProofsForWithdrawal,
+} from './getProofsForWithdrawal'
+import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 
 export async function getProveWithdrawalTransactionsArgs<
   TChain extends Chain | undefined,
->(client: PublicClient<Transport, TChain>, { hash }: { hash: Hex }) {
-  const withdrawalMessages = await getWithdrawalMessages(client, { hash })
+>(
+  client: PublicClient<Transport, TChain>,
+  {
+    withdrawalMessages,
+    blockNumber,
+  }: { withdrawalMessages: MessagePassedEvent[]; blockNumber: bigint },
+): Promise<GetProofsForWithdrawalReturnType[]> {
   const block = await getBlock(client, {
-    blockHash: withdrawalMessages.blockHash,
+    blockNumber,
   })
+  if (!block.hash) {
+    return []
+  }
   const results = []
-  for (const message of withdrawalMessages.messages) {
+  for (const message of withdrawalMessages) {
     results.push(
       await getProofsForWithdrawal(client, {
         message,
         blockStateRoot: block.stateRoot,
-        blockHash: withdrawalMessages.blockHash,
+        blockHash: block.hash,
       }),
     )
   }
