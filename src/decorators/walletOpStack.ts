@@ -1,9 +1,9 @@
-import { Account, Chain, Transport } from 'viem'
+import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import {
   writeUnsafeDepositTransaction,
-  WriteUnsafeDepositTransaction,
+  WriteUnsafeDepositTransactionParameters,
 } from '../actions/wallet/writeUnsafeDepositTransaction'
 import {
   writeDepositETH,
@@ -25,9 +25,17 @@ export type WalletOpStackActions<
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
-  writeUnsafeDepositTransaction: DecoratedAction<WriteUnsafeDepositTransaction>
   writeDepositETH: DecoratedAction<WriteDepositETH>
   writeDepositERC20: DecoratedAction<WriteDepositERC20>
+  writeUnsafeDepositTransaction: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteUnsafeDepositTransactionParameters<
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ) => Promise<WriteContractReturnType>
 }
 
 export function walletOpStackActions<
