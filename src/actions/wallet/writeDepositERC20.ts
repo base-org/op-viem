@@ -54,16 +54,29 @@ export interface WriteDepositERC20 {
   ): Promise<WriteContractReturnType>
 }
 
-export const writeDepositERC20: WriteDepositERC20 = async (
-  client,
-  { args: { l1Token, l2Token, amount, gasLimit, data }, toChain, ...rest },
-) => {
+export async function writeDepositERC20<
+  TChain extends Chain | undefined,
+  TAccount extends Account | undefined,
+  TChainOverride extends Chain | undefined,
+>(
+  client: WalletClient<Transport, TChain, TAccount>,
+  {
+    args: { l1Token, l2Token, amount, gasLimit, data },
+    toChain,
+    ...rest
+  }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
+): Promise<WriteContractReturnType> {
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
     abi: l1StandardBridgeABI,
-    functionName: 'depositERC20',
+    functionName: 'depositETH',
     args: [l1Token, l2Token, amount, gasLimit, data],
     ...rest,
-  } as any)
-  k
+  } as unknown as WriteContractParameters<
+    typeof l1StandardBridgeABI,
+    'depositERC20',
+    TChain,
+    TAccount,
+    TChainOverride
+  >)
 }
