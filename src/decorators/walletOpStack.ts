@@ -1,11 +1,10 @@
-import { Abi, Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import { WalletClient } from 'wagmi'
 import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import {
   WriteUnsafeDepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from '../actions/wallet/writeUnsafeDepositTransaction'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -18,13 +17,9 @@ export type WalletOpStackActions<
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
   writeUnsafeDepositTransaction: <
-    TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
-    TFunctionName extends string = 'depositTransaction',
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteUnsafeDepositTransactionParameters<
-      TAbi,
-      TFunctionName,
       TChain,
       TAccount,
       TChainOverride
