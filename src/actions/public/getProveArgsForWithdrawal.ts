@@ -27,6 +27,14 @@ export type GetProofsForWithdrawalReturnType = {
   L2OutputIndex: bigint
 }
 
+/**
+ * For a given L2 message and output proposal, generates the args needed to call proveWithdrawalTransaction
+ * on the OptimismPortal contract
+ *
+ * @param message the MessagePassed event emitted from the withdrawal transaction
+ * @param output the output proposal and index for the L2 block that contained the withdrawal transaction
+ * @returns The arguments required by proveWithdrawalTransaction
+ */
 export async function getProveArgsForWithdrawal<
   TChain extends Chain | undefined,
 >(
@@ -39,7 +47,7 @@ export async function getProveArgsForWithdrawal<
   })
   if (!block.hash) {
     throw new Error(
-      `L2 block not found for proposa.l2BlockNumber ${output.proposal.l2BlockNumber}`,
+      `Block not found for block number ${output.proposal.l2BlockNumber}`,
     )
   }
   const proof = await getProof(client, {
