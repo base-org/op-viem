@@ -69,7 +69,7 @@ export async function writeDepositERC20<
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
     abi: l1StandardBridgeABI,
-    functionName: 'depositETH',
+    functionName: 'depositERC20',
     args: [l1Token, l2Token, amount, gasLimit, data],
     ...rest,
   } as unknown as WriteContractParameters<
