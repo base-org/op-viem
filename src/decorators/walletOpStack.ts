@@ -7,13 +7,12 @@ import {
 } from '../actions/wallet/writeUnsafeDepositTransaction'
 import {
   writeDepositETH,
-  WriteDepositETH,
+  WriteDepositETHParameters,
 } from '../actions/wallet/writeDepositETH'
 import {
   writeDepositERC20,
-  WriteDepositERC20,
+  WriteDepositERC20Parameters,
 } from '../actions/wallet/writeDepositERC20'
-import { DecoratedAction } from '../types/decoratedAction'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics
@@ -25,8 +24,16 @@ export type WalletOpStackActions<
     // TODO name these params
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
-  writeDepositETH: DecoratedAction<WriteDepositETH>
-  writeDepositERC20: DecoratedAction<WriteDepositERC20>
+  writeDepositETH: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
+  ) => Promise<WriteContractReturnType>
+  writeDepositERC20: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
+  ) => Promise<WriteContractReturnType>
   writeUnsafeDepositTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(

@@ -21,16 +21,14 @@ type DepositERC20Parameters = {
   data: Hex
 }
 
-type WriteDepositERC20Parameters<
-  TAbi extends Abi | readonly unknown[] = typeof l1StandardBridgeABI,
-  TFunctionName extends string = 'depositERC20',
+export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
   WriteContractParameters<
-    TAbi,
-    TFunctionName,
+    typeof l1StandardBridgeABI,
+    'depositERC20',
     TChain,
     TAccount,
     TChainOverride
@@ -45,8 +43,6 @@ export interface WriteDepositERC20 {
   <
     TChain extends Chain | undefined,
     TAccount extends Account | undefined,
-    TAbi extends Abi | readonly unknown[],
-    TFunctionName extends string,
     TChainOverride extends Chain | undefined,
   >(
     client: WalletClient<Transport, TChain, TAccount>,
@@ -54,13 +50,7 @@ export interface WriteDepositERC20 {
       args: { l1Token, l2Token, amount, gasLimit, data },
       toChain,
       ...rest
-    }: WriteDepositERC20Parameters<
-      TAbi,
-      TFunctionName,
-      TChain,
-      TAccount,
-      TChainOverride
-    >,
+    }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
   ): Promise<WriteContractReturnType>
 }
 
@@ -75,4 +65,5 @@ export const writeDepositERC20: WriteDepositERC20 = async (
     args: [l1Token, l2Token, amount, gasLimit, data],
     ...rest,
   } as any)
+  k
 }
