@@ -7,7 +7,6 @@ import {
   WriteContractReturnType,
   Address,
   Hex,
-  Abi,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
