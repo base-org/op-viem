@@ -22,15 +22,13 @@ export type DepositTransactionParameters = {
 }
 
 export type WriteUnsafeDepositTransactionParameters<
-  TAbi extends Abi | readonly unknown[] = typeof optimismPortalABI,
-  TFunctionName extends string = 'depositTransaction',
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
   WriteContractParameters<
-    TAbi,
-    TFunctionName,
+    typeof optimismPortalABI,
+    'depositTransaction',
     TChain,
     TAccount,
     TChainOverride
@@ -44,8 +42,6 @@ export type WriteUnsafeDepositTransactionParameters<
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
   TChainOverride extends Chain | undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
@@ -53,19 +49,19 @@ export async function writeUnsafeDepositTransaction<
     args: { to, value, gasLimit, isCreation, data },
     toChain,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<
-    TAbi,
-    TFunctionName,
-    TChain,
-    TAccount,
-    TChainOverride
-  >,
+  }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
     abi: optimismPortalABI,
-    functionName: 'depositTransaction',
+    functionName: 'depositTransaction' as any,
     args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
     ...rest,
-  } as any)
+  } as unknown as WriteContractParameters<
+    typeof optimismPortalABI,
+    'depositTransaction',
+    TChain,
+    TAccount,
+    TChainOverride
+  >)
 }
