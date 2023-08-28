@@ -27,7 +27,10 @@ export function getDepositEventsInfoFromTxReceipt({
       data: l.data,
       topics: l.topics,
     })
-    if (l.logIndex && event.eventName === 'TransactionDeposited') {
+    if (event.eventName === 'TransactionDeposited') {
+      if (!l.logIndex) {
+        throw new Error('Found TransactionDeposited by logIndex undefined')
+      }
       depositEvents.push({ event, logIndex: l.logIndex })
     }
   }
