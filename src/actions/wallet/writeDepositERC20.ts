@@ -51,7 +51,7 @@ export async function writeDepositERC20<
   }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
   return writeContract(client, {
-    address: toChain.opContracts.OptimismPortalProxy,
+    address: toChain.opContracts.L1StandardBridgeProxy,
     abi: l1StandardBridgeABI,
     functionName: 'depositERC20',
     args: [l1Token, l2Token, amount, gasLimit, data],

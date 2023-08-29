@@ -50,7 +50,7 @@ export async function simulateDepositETH<
   >
 > {
   return simulateContract(client, {
-    address: toChain.opContracts.OptimismPortalProxy,
+    address: toChain.opContracts.L1StandardBridgeProxy,
     abi: l1StandardBridgeABI,
     functionName: 'depositETH',
     args: [gasLimit, data],
