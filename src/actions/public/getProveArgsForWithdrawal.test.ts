@@ -4,7 +4,7 @@ import { getWithdrawalMessages } from './getWithdrawalMessages'
 import { base } from '@roninjin10/rollup-chains'
 import { getOutputForL2Block } from './getOutputForL2Block'
 import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
-import { publicClient } from '../../_test/utils'
+import { mainnet } from '@wagmi/chains'
 
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
@@ -38,7 +38,13 @@ test('correctly generates args', async () => {
     hash: '0xd0eb2a59f3cc4c61b01c350e71e1804ad6bd776dc9abc1bdb5e2e40695ab2628',
   })
 
-  const output = await getOutputForL2Block(publicClient, {
+  // TODO: using publicClient was giving issues in CI, need to solve
+  const l1Client = createPublicClient({
+    chain: mainnet,
+    transport: http(),
+  })
+
+  const output = await getOutputForL2Block(l1Client, {
     blockNumber: withdrawalMessages.blockNumber,
     rollup: base,
   })
