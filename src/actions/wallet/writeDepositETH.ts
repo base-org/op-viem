@@ -5,16 +5,11 @@ import {
   Account,
   WriteContractParameters,
   WriteContractReturnType,
-  Hex,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { writeContract } from 'viem/actions'
-
-type DepositETHParameters = {
-  gasLimit: bigint
-  data: Hex
-}
+import { DepositETHParameters } from '../../types/depositETHParameters'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
