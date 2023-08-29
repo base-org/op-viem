@@ -1,6 +1,8 @@
 export const poolId = Number(process.env.VITEST_POOL_ID ?? 1)
 export const localHttpUrl = `http://127.0.0.1:8545/${poolId}`
 export const localWsUrl = `ws://127.0.0.1:8545/${poolId}`
+export const localRollupHttpUrl = `http://127.0.0.1:8555/${poolId}`
+export const localRollupWsUrl = `ws://127.0.0.1:8555/${poolId}`
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({

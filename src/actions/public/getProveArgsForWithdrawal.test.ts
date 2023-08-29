@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
-import { mainnet } from 'wagmi'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
 import { base } from '@roninjin10/rollup-chains'
 import { getOutputForL2Block } from './getOutputForL2Block'
 import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
+import { mainnet } from '@wagmi/chains'
 
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
@@ -28,6 +28,7 @@ const expectedResult = {
 }
 
 test('correctly generates args', async () => {
+  // cannot currently use anvil rollupPublicClient for this as eth_getProof isn't working
   const client = createPublicClient({
     chain: base,
     transport: http(),
@@ -37,6 +38,7 @@ test('correctly generates args', async () => {
     hash: '0xd0eb2a59f3cc4c61b01c350e71e1804ad6bd776dc9abc1bdb5e2e40695ab2628',
   })
 
+  // TODO: using publicClient was giving issues in CI, need to solve
   const l1Client = createPublicClient({
     chain: mainnet,
     transport: http(),

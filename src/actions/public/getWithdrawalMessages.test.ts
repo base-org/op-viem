@@ -1,15 +1,9 @@
 import { test, expect } from 'vitest'
-import { createPublicClient, http } from 'viem'
-import { base } from '@wagmi/chains'
-import { publicOpStackActions } from '../../decorators/publicOpStack'
+import { rollupPublicClient } from '../../_test/utils'
+import { getWithdrawalMessages } from './getWithdrawalMessages'
 
 test('correctly retrieves L2 hash', async () => {
-  const client = createPublicClient({
-    chain: base,
-    transport: http(),
-  }).extend(publicOpStackActions)
-
-  const messages = await client.getWithdrawalMessages({
+  const messages = await getWithdrawalMessages(rollupPublicClient, {
     hash: '0x999bab960dbdf600c51371ae819957063337a50cec2eb8032412739defadabe7',
   })
   expect(messages.blockNumber).toEqual(2725977n)

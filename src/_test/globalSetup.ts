@@ -1,7 +1,14 @@
 // from https://github.com/wagmi-dev/viem/blob/main/src/_test/globalSetup.ts
 import { startProxy } from '@viem/anvil'
 
-import { blockTime, forkBlockNumber, forkUrl } from './constants.js'
+import {
+  blockTime,
+  forkBlockNumber,
+  forkUrl,
+  rollupForkUrl,
+  rollupBlockTime,
+  rollupForkBlockNumber,
+} from './constants.js'
 
 export default async function () {
   if (process.env.SKIP_GLOBAL_SETUP) {
@@ -26,6 +33,14 @@ export default async function () {
   // We still need to remember to reset the anvil instance between test files. This is generally
   // handled in `setup.ts` but may require additional resetting (e.g. via `afterAll`), in case of
   // any custom per-test adjustments that persist beyond `anvil_reset`.
+  await startProxy({
+    port: 8555,
+    options: {
+      forkUrl: rollupForkUrl,
+      forkBlockNumber: rollupForkBlockNumber,
+      blockTime: rollupBlockTime,
+    },
+  })
   return await startProxy({
     options: {
       forkUrl,

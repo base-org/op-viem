@@ -46,6 +46,8 @@ export const accounts = [
 export const poolId = Number(process.env.VITEST_POOL_ID ?? 1)
 export const localHttpUrl = `http://127.0.0.1:8545/${poolId}`
 export const localWsUrl = `ws://127.0.0.1:8545/${poolId}`
+export const localRollupHttpUrl = `http://127.0.0.1:8555/${poolId}`
+export const locaRolluplWsUrl = `ws://127.0.0.1:8555/${poolId}`
 
 const messages = new Map()
 function warn(message: string) {
@@ -59,7 +61,7 @@ export let forkBlockNumber: bigint
 if (process.env.VITE_ANVIL_BLOCK_NUMBER) {
   forkBlockNumber = BigInt(Number(process.env.VITE_ANVIL_BLOCK_NUMBER))
 } else {
-  forkBlockNumber = 17987353n
+  forkBlockNumber = 18021539n
   warn(
     `\`VITE_ANVIL_BLOCK_NUMBER\` not found. Falling back to \`${forkBlockNumber}\`.`,
   )
@@ -79,4 +81,36 @@ if (process.env.VITE_ANVIL_BLOCK_TIME) {
 } else {
   blockTime = 1
   warn(`\`VITE_ANVIL_BLOCK_TIME\` not found. Falling back to \`${blockTime}\`.`)
+}
+
+export let rollupForkBlockNumber: bigint
+if (process.env.VITE_ANVIL_ROLLUP_BLOCK_NUMBER) {
+  rollupForkBlockNumber = BigInt(
+    Number(process.env.VITE_ANVIL_ROLLUP_BLOCK_NUMBER),
+  )
+} else {
+  rollupForkBlockNumber = 3267972n
+  warn(
+    `\`VITE_ANVIL_ROLLUP_BLOCK_NUMBER\` not found. Falling back to \`${rollupForkBlockNumber}\`.`,
+  )
+}
+
+export let rollupForkUrl: string
+if (process.env.VITE_ANVIL_ROLLUP_FORK_URL) {
+  rollupForkUrl = process.env.VITE_ANVIL_ROLLUP_FORK_URL
+} else {
+  rollupForkUrl = 'https://mainnet.base.org'
+  warn(
+    `\`VITE_ANVIL_ROLLUP_FORK_URL\` not found. Falling back to \`${rollupForkUrl}\`.`,
+  )
+}
+
+export let rollupBlockTime: number
+if (process.env.VITE_ANVIL_ROLLUP_BLOCK_TIME) {
+  rollupBlockTime = Number(process.env.VITE_ANVIL_ROLLUP_BLOCK_TIME)
+} else {
+  rollupBlockTime = 1
+  warn(
+    `\`VITE_ANVIL_ROLLUP_BLOCK_TIME\` not found. Falling back to \`${rollupBlockTime}\`.`,
+  )
 }

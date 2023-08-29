@@ -4,6 +4,7 @@ import { base } from '@wagmi/chains'
 import { getProof } from './getProof'
 
 test('correctly retrieves proof', async () => {
+  // cannot currently use anvil rollupPublicClient for this as eth_getProof isn't working
   const client = createPublicClient({
     chain: base,
     transport: http(),
