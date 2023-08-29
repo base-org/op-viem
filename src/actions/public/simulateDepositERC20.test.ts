@@ -3,7 +3,7 @@ import { publicClient, walletClient, testClient } from '../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
 import { accounts } from '../../_test/constants'
 import { simulateDepositERC20 } from './simulateDepositERC20'
-import { writeContract } from 'viem/actions'
+import { writeContract, getBalance, simulateContract } from 'viem/actions'
 
 const CBETHL1 = '0xbe9895146f7af43049ca1c1ae358b0541ea49704'
 const CBETHl2 = '0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22'
@@ -35,27 +35,34 @@ const approveABI = [
 ]
 
 test('default', async () => {
+  console.log(
+    await getBalance(testClient, {
+      address: '0xFd4F24676eD4588928213F37B126B53c07186F45',
+    }),
+  )
   await testClient.impersonateAccount({
     address: '0xFd4F24676eD4588928213F37B126B53c07186F45',
   })
-  await testClient.setBalance({
-    address: '0xFd4F24676eD4588928213F37B126B53c07186F45',
-    value: 1000000000000000000n,
-  })
-  await writeContract(testClient, {
+  // await testClient.setBalance({
+  //   address: '0xFd4F24676eD4588928213F37B126B53c07186F45',
+  //   value: 1000000000000000000n,
+  // })
+  const { request } = await simulateContract(testClient, {
     address: USDCL1,
     abi: approveABI,
     functionName: 'approve',
     args: [base.opContracts.L1StandardBridgeProxy, 100000n],
     account: '0xFd4F24676eD4588928213F37B126B53c07186F45',
   })
+  await writeContract(testClient, request)
+  await testClient.mine({ blocks: 1 })
   expect(
     await simulateDepositERC20(publicClient, {
       args: {
         l1Token: USDCL1,
         l2Token: CBETHl2,
         amount: 1n,
-        gasLimit: 1n,
+        gasLimit: 100000000000000n,
         data: '0x',
       },
       toChain: base,
