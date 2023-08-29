@@ -38,6 +38,9 @@ describe('Computes L1 prove args from L2 tx hash', () => {
         output: output,
       })
     },
+    // these test take a while to run and I worry we'll get throttled by RPC since
+    // we're using live for now
+    { iterations: 2 },
   )
 
   bench(
