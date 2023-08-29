@@ -7,7 +7,6 @@ import {
   WriteContractReturnType,
   Address,
   Hex,
-  Abi,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
@@ -21,16 +20,14 @@ type DepositERC20Parameters = {
   data: Hex
 }
 
-type WriteDepositERC20<
-  TAbi extends Abi | readonly unknown[] = typeof l1StandardBridgeABI,
-  TFunctionName extends string = 'depositERC20',
+export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
   WriteContractParameters<
-    TAbi,
-    TFunctionName,
+    typeof l1StandardBridgeABI,
+    'depositERC20',
     TChain,
     TAccount,
     TChainOverride
@@ -44,16 +41,14 @@ type WriteDepositERC20<
 export async function writeDepositERC20<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
   TChainOverride extends Chain | undefined,
 >(
-  client: WalletClient<Transport, TChain>,
+  client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { l1Token, l2Token, amount, gasLimit, data },
     toChain,
     ...rest
-  }: WriteDepositERC20<TAbi, TFunctionName, TChain, TAccount, TChainOverride>,
+  }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
   return writeContract(client, {
     address: toChain.opContracts.OptimismPortalProxy,
@@ -61,5 +56,11 @@ export async function writeDepositERC20<
     functionName: 'depositERC20',
     args: [l1Token, l2Token, amount, gasLimit, data],
     ...rest,
-  } as any)
+  } as unknown as WriteContractParameters<
+    typeof l1StandardBridgeABI,
+    'depositERC20',
+    TChain,
+    TAccount,
+    TChainOverride
+  >)
 }
