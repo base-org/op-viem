@@ -1,4 +1,10 @@
-import { accounts, localHttpUrl, localWsUrl } from './constants.js'
+import {
+  accounts,
+  localHttpUrl,
+  localWsUrl,
+  localRollupHttpUrl,
+  locaRolluplWsUrl,
+} from './constants.js'
 import {
   Chain,
   EIP1193Provider,
@@ -36,6 +42,28 @@ export const anvilChain = {
     public: {
       http: [localHttpUrl],
       webSocket: [localWsUrl],
+    },
+  },
+} as const satisfies Chain
+
+export const rollupAnvilChain = {
+  id: 2,
+  name: 'Rollup Localhost',
+  network: 'localhost',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ether',
+    symbol: 'ETH',
+  },
+  contracts: mainnet.contracts,
+  rpcUrls: {
+    default: {
+      http: [localRollupHttpUrl],
+      webSocket: [locaRolluplWsUrl],
+    },
+    public: {
+      http: [localRollupHttpUrl],
+      webSocket: [locaRolluplWsUrl],
     },
   },
 } as const satisfies Chain
@@ -100,6 +128,104 @@ const provider: EIP1193Provider = {
     return result
   },
 }
+
+const rollupProvider: EIP1193Provider = {
+  on: (message, listener) => {
+    if (message === 'accountsChanged') {
+      listener([accounts[0].address] as any)
+    }
+  },
+  removeListener: () => null,
+  request: async ({ method, params }: any) => {
+    if (method === 'eth_requestAccounts') {
+      return [accounts[0].address]
+    }
+    if (method === 'personal_sign') {
+      method = 'eth_sign'
+      params = [params[1], params[0]]
+    }
+    if (method === 'wallet_watchAsset') {
+      if (params.type === 'ERC721') {
+        throw new ProviderRpcError(-32602, 'Token type ERC721 not supported.')
+      }
+      return true
+    }
+    if (method === 'wallet_addEthereumChain') return null
+    if (method === 'wallet_switchEthereumChain') {
+      if (params[0].chainId === '0xfa') {
+        throw new ProviderRpcError(-4902, 'Unrecognized chain.')
+      }
+      return null
+    }
+    if (
+      method === 'wallet_getPermissions' ||
+      method === 'wallet_requestPermissions'
+    )
+      return [
+        {
+          invoker: 'https://example.com',
+          parentCapability: 'eth_accounts',
+          caveats: [
+            {
+              type: 'filterResponse',
+              value: ['0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb'],
+            },
+          ],
+        },
+      ]
+
+    const { error, result } = await rpc.http(localRollupHttpUrl, {
+      body: {
+        method,
+        params,
+      },
+    })
+    if (error)
+      throw new RpcRequestError({
+        body: { method, params },
+        error,
+        url: localRollupHttpUrl,
+      })
+    return result
+  },
+}
+
+export const rollUpHttpClient = createPublicClient({
+  batch: {
+    multicall: process.env.VITE_BATCH_MULTICALL === 'true',
+  },
+  chain: rollupAnvilChain,
+  pollingInterval: 1_000,
+  transport: http(localRollupHttpUrl, {
+    batch: process.env.VITE_BATCH_JSON_RPC === 'true',
+  }),
+})
+
+export const rollupWebSocketClient = createPublicClient({
+  batch: {
+    multicall: process.env.VITE_BATCH_MULTICALL === 'true',
+  },
+  chain: rollupAnvilChain,
+  pollingInterval: 1_000,
+  transport: webSocket(locaRolluplWsUrl),
+})
+
+export const rollupPublicClient = (
+  process.env.VITE_NETWORK_TRANSPORT_MODE === 'webSocket'
+    ? rollupWebSocketClient
+    : rollUpHttpClient
+) as typeof rollUpHttpClient
+
+export const rollupWalletClient = createWalletClient({
+  chain: rollupAnvilChain,
+  transport: custom(rollupProvider),
+})
+
+export const rollupTestClient = createTestClient({
+  chain: rollupAnvilChain,
+  mode: 'anvil',
+  transport: http(localHttpUrl),
+})
 
 export const httpClient = createPublicClient({
   batch: {
