@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@eth-optimism/core-utils": "^0.12.3",
     "@eth-optimism/sdk": "^3.1.2",
+    "ethers": "^5.7.0",
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/react": "^18.0.9",
@@ -27,7 +29,9 @@
     "test:ci": "CI=true vitest --coverage",
     "test:typecheck": "SKIP_GLOBAL_SETUP=true vitest typecheck",
     "test:ui": "vitest dev --ui",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "bench": "vitest bench",
+    "bench:ci": "CI=true vitest bench"
   },
   "dependencies": {
     "@eth-optimism/contracts-ts": "^0.15.0",

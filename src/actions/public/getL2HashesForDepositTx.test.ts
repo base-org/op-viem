@@ -1,18 +1,9 @@
 import { test, expect } from 'vitest'
-import { createPublicClient, http } from 'viem'
-import { mainnet } from '@wagmi/chains'
-import { publicOpStackActions } from '../../decorators/publicOpStack'
-import { optimismPortalABI } from '../../generated/contracts'
-import { base } from '@roninjin10/rollup-chains'
 import { publicClient } from '../../_test/utils'
+import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
 
 test('correctly retrieves L2 hash', async () => {
-  const client = createPublicClient({
-    chain: mainnet,
-    transport: http(),
-  }).extend(publicOpStackActions)
-
-  const hashes = await client.getL2HashesForDepositTx({
+  const hashes = await getL2HashesForDepositTx(publicClient, {
     l1TxHash:
       '0xe94031c3174788c3fee7216465c50bb2b72e7a1963f5af807b3768da10827f5c',
   })
