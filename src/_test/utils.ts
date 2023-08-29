@@ -17,7 +17,7 @@ import {
   webSocket,
 } from 'viem'
 import { rpc } from 'viem/utils'
-import { mainnet, localhost } from '@wagmi/chains'
+import { mainnet, localhost, base } from '@wagmi/chains'
 
 export class ProviderRpcError extends Error {
   code: number
@@ -55,7 +55,7 @@ export const rollupAnvilChain = {
     name: 'Ether',
     symbol: 'ETH',
   },
-  contracts: mainnet.contracts,
+  contracts: base.contracts,
   rpcUrls: {
     default: {
       http: [localRollupHttpUrl],
