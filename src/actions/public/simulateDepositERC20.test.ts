@@ -62,11 +62,6 @@ const balanceOfABI = [
 ]
 
 test('default', async () => {
-  console.log(
-    await getBalance(testClient, {
-      address: zenaddress,
-    }),
-  )
   await testClient.impersonateAccount({
     address: zenaddress,
   })
@@ -74,49 +69,28 @@ test('default', async () => {
     address: zenaddress,
     value: 1000000000000000000n,
   })
-  const { request } = await simulateContract(testClient, {
+  const { request: approvalRequest } = await simulateContract(testClient, {
     address: USDCL1,
     abi: approveABI,
     functionName: 'approve',
-    args: [base.opContracts.L1StandardBridgeProxy, 100000n],
+    args: [base.opContracts.L1StandardBridgeProxy, 10000n],
     account: zenaddress,
   })
-  console.log(
-    await getBalance(testClient, {
-      address: zenaddress,
-    }),
-  )
-  await writeContract(testClient, request)
+  await writeContract(testClient, approvalRequest)
 
-  console.log(
-    'balanceOf',
-    await readContract(testClient, {
-      address: USDCL1,
-      abi: balanceOfABI,
-      functionName: 'balanceOf',
-      args: [zenaddress],
-    }),
-  )
-  // const { request } = await simulateContract(publicClient, {
-  //   address: USDCL1,
-  //   abi: approveABI,
-  //   functionName: 'approve',
-  //   args: [base.opContracts.L1StandardBridgeProxy, 100000n],
-  //   account: accounts[0].address,
-  // })
-  // await writeContract(publicClient, request)
-  // await testClient.mine({ blocks: 1 })
-  expect(
-    await simulateDepositERC20(publicClient, {
-      args: {
-        l1Token: USDCL1,
-        l2Token: USDCL2,
-        amount: 100n,
-        gasLimit: 100000000000000000000n,
-        data: '0x',
-      },
-      toChain: base,
-      account: zenaddress,
-    }),
-  ).toBeDefined()
+  await testClient.mine({ blocks: 1 })
+  const { request } = await simulateDepositERC20(publicClient, {
+    args: {
+      l1Token: USDCL1,
+      l2Token: USDCL2,
+      amount: 1n,
+      gasLimit: 100000n,
+      data: '0x',
+    },
+    toChain: base,
+    account: zenaddress,
+  })
+
+  expect(request).toBeDefined()
+  expect(writeContract(testClient, request)).toBeDefined()
 })
