@@ -32,7 +32,8 @@
     "test:ui": "vitest dev --ui",
     "typecheck": "tsc --noEmit",
     "bench": "vitest bench",
-    "bench:ci": "CI=true vitest bench"
+    "bench:ci": "CI=true vitest bench",
+    "dev:docs": "pnpm -r --filter site dev"
   },
   "dependencies": {
     "@eth-optimism/contracts-ts": "^0.15.0",
