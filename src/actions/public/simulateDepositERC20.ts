@@ -1,35 +1,23 @@
 import {
   Transport,
-  WalletClient,
+  PublicClient,
   Chain,
-  Account,
-  WriteContractParameters,
-  WriteContractReturnType,
-  Address,
-  Hex,
+  SimulateContractParameters,
+  SimulateContractReturnType,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
-import { writeContract } from 'viem/actions'
+import { simulateContract } from 'viem/actions'
+import { DepositERC20Parameters } from '../../types/depositERC20Parameters'
 
-type DepositERC20Parameters = {
-  l1Token: Address
-  l2Token: Address
-  amount: bigint
-  gasLimit: bigint
-  data: Hex
-}
-
-export type WriteDepositERC20Parameters<
+export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<
+  SimulateContractParameters<
     typeof l1StandardBridgeABI,
     'depositERC20',
     TChain,
-    TAccount,
     TChainOverride
   >,
   'abi' | 'functionName' | 'args' | 'address'
@@ -38,29 +26,37 @@ export type WriteDepositERC20Parameters<
   args: DepositERC20Parameters
 }
 
-export async function writeDepositERC20<
+export type SimulateDepositERC20ReturnType<
+  TChain extends Chain | undefined = Chain,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+> = SimulateContractReturnType<
+  typeof l1StandardBridgeABI,
+  'depositERC20',
+  TChain,
+  TChainOverride
+>
+
+export async function simulateDepositERC20<
   TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: WalletClient<Transport, TChain, TAccount>,
+  client: PublicClient<Transport, TChain>,
   {
     args: { l1Token, l2Token, amount, gasLimit, data },
     toChain,
     ...rest
-  }: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> {
-  return writeContract(client, {
+  }: SimulateDepositERC20Parameters<TChain, TChainOverride>,
+): Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>> {
+  return simulateContract(client, {
     address: toChain.opContracts.L1StandardBridgeProxy,
     abi: l1StandardBridgeABI,
     functionName: 'depositERC20',
     args: [l1Token, l2Token, amount, gasLimit, data],
     ...rest,
-  } as unknown as WriteContractParameters<
+  } as unknown as SimulateContractParameters<
     typeof l1StandardBridgeABI,
     'depositERC20',
     TChain,
-    TAccount,
     TChainOverride
   >)
 }

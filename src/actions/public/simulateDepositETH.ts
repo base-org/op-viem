@@ -1,58 +1,62 @@
 import {
   Transport,
-  WalletClient,
+  PublicClient,
   Chain,
-  Account,
-  WriteContractParameters,
-  WriteContractReturnType,
+  SimulateContractParameters,
+  SimulateContractReturnType,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
-import { writeContract } from 'viem/actions'
+import { simulateContract } from 'viem/actions'
 import { DepositETHParameters } from '../../types/depositETHParameters'
 
-export type WriteDepositETHParameters<
+export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<
+  SimulateContractParameters<
     typeof l1StandardBridgeABI,
     'depositETH',
     TChain,
-    TAccount,
     TChainOverride
   >,
-  'abi' | 'functionName' | 'args' | 'address' | 'value'
+  'abi' | 'functionName' | 'args' | 'address'
 > & {
   toChain: OpChainL2
   args: DepositETHParameters
-  value: bigint
 }
 
-export async function writeDepositETH<
+export type SimulateDepositETHReturnType<
+  TChain extends Chain | undefined = Chain,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+> = SimulateContractReturnType<
+  typeof l1StandardBridgeABI,
+  'depositETH',
+  TChain,
+  TChainOverride
+>
+
+export async function simulateDepositETH<
   TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: WalletClient<Transport, TChain, TAccount>,
+  client: PublicClient<Transport, TChain>,
   {
     args: { gasLimit, data },
     toChain,
     ...rest
-  }: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> {
-  return writeContract(client, {
+  }: SimulateDepositETHParameters<TChain, TChainOverride>,
+): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
+  return simulateContract(client, {
     address: toChain.opContracts.L1StandardBridgeProxy,
     abi: l1StandardBridgeABI,
     functionName: 'depositETH',
     args: [gasLimit, data],
     ...rest,
-  } as unknown as WriteContractParameters<
+  } as unknown as SimulateContractParameters<
     typeof l1StandardBridgeABI,
     'depositETH',
     TChain,
-    TAccount,
     TChainOverride
   >)
 }

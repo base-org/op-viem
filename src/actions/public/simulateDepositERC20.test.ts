@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
-import { publicClient, testClient, walletClient } from '../../_test/utils'
+import { publicClient, testClient } from '../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
-import { writeDepositERC20 } from './writeDepositERC20'
-import { mine, writeContract } from 'viem/actions'
+import { simulateDepositERC20 } from './simulateDepositERC20'
+import { writeContract, readContract } from 'viem/actions'
 import { erc20ABI } from 'wagmi'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -24,20 +24,35 @@ test('default', async () => {
     args: [base.opContracts.L1StandardBridgeProxy, 10000n],
     account: zenaddress,
   })
-  await mine(testClient, { blocks: 1 })
-  const hash = await writeDepositERC20(walletClient, {
+  const balanceBefore = await readContract(testClient, {
+    address: USDCL1,
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: [zenaddress],
+  })
+  await testClient.mine({ blocks: 1 })
+  const { request } = await simulateDepositERC20(publicClient, {
     args: {
       l1Token: USDCL1,
       l2Token: USDCL2,
       amount: 1n,
-      gasLimit: 1n,
+      gasLimit: 100000n,
       data: '0x',
     },
     toChain: base,
     account: zenaddress,
   })
-  await mine(testClient, { blocks: 1 })
-  expect((await publicClient.getTransactionReceipt({ hash })).status).toEqual(
-    'success',
-  )
+
+  expect(request.args[0]).toEqual(USDCL1)
+  expect(await writeContract(testClient, request)).toBeDefined()
+
+  await testClient.mine({ blocks: 1 })
+  const balanceAfter = await readContract(testClient, {
+    address: USDCL1,
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: [zenaddress],
+  })
+
+  expect(balanceAfter).toEqual(balanceBefore - 1n)
 })
