@@ -9,6 +9,16 @@ import {
   GetWithdrawalMessagesReturnType,
   getWithdrawalMessages,
 } from '../actions/public/getWithdrawalMessages'
+import {
+  simulateDepositETH,
+  SimulateDepositETHParameters,
+  SimulateDepositETHReturnType,
+} from '../actions/public/simulateDepositETH'
+import {
+  simulateDepositERC20,
+  SimulateDepositERC20Parameters,
+  SimulateDepositERC20ReturnType,
+} from '../actions/public/simulateDepositERC20'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 export type PublicOpStackActions<
@@ -21,6 +31,16 @@ export type PublicOpStackActions<
   getWithdrawalMessages: (
     args: GetWithdrawalMessagesParameters,
   ) => Promise<GetWithdrawalMessagesReturnType>
+  simulateDepositETH: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: SimulateDepositETHParameters<TChain, TChainOverride>,
+  ) => Promise<SimulateDepositETHReturnType<TChain, TChainOverride>>
+  simulateDepositERC20: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: SimulateDepositERC20Parameters<TChain, TChainOverride>,
+  ) => Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>>
 }
 
 export function publicOpStackActions<
@@ -32,5 +52,7 @@ export function publicOpStackActions<
   return {
     getL2HashesForDepositTx: (args) => getL2HashesForDepositTx(client, args),
     getWithdrawalMessages: (args) => getWithdrawalMessages(client, args),
+    simulateDepositETH: (args) => simulateDepositETH(client, args),
+    simulateDepositERC20: (args) => simulateDepositERC20(client, args),
   }
 }

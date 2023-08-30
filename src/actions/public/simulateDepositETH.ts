@@ -26,6 +26,16 @@ export type SimulateDepositETHParameters<
   args: DepositETHParameters
 }
 
+export type SimulateDepositETHReturnType<
+  TChain extends Chain | undefined = Chain,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+> = SimulateContractReturnType<
+  typeof l1StandardBridgeABI,
+  'depositETH',
+  TChain,
+  TChainOverride
+>
+
 export async function simulateDepositETH<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
@@ -36,14 +46,7 @@ export async function simulateDepositETH<
     toChain,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
-): Promise<
-  SimulateContractReturnType<
-    typeof l1StandardBridgeABI,
-    'depositETH',
-    TChain,
-    TChainOverride
-  >
-> {
+): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
   return simulateContract(client, {
     address: toChain.opContracts.L1StandardBridgeProxy,
     abi: l1StandardBridgeABI,
