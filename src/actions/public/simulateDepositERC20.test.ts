@@ -1,65 +1,13 @@
 import { expect, test } from 'vitest'
-import { publicClient, walletClient, testClient } from '../../_test/utils'
+import { publicClient, testClient } from '../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
-import { accounts } from '../../_test/constants'
 import { simulateDepositERC20 } from './simulateDepositERC20'
-import {
-  writeContract,
-  getBalance,
-  simulateContract,
-  readContract,
-} from 'viem/actions'
-
-const CBETHL1 = '0xbe9895146f7af43049ca1c1ae358b0541ea49704'
-const CBETHl2 = '0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22'
+import { writeContract, readContract } from 'viem/actions'
+import { erc20ABI } from 'wagmi'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const USDCL2 = '0x2e668bb88287675e34c8df82686dfd0b7f0c0383'
 const zenaddress = '0xFd4F24676eD4588928213F37B126B53c07186F45'
-
-const approveABI = [
-  {
-    constant: false,
-    inputs: [
-      {
-        name: '_spender',
-        type: 'address',
-      },
-      {
-        name: '_value',
-        type: 'uint256',
-      },
-    ],
-    name: 'approve',
-    outputs: [
-      {
-        name: 'success',
-        type: 'bool',
-      },
-    ],
-    type: 'function',
-  },
-]
-
-const balanceOfABI = [
-  {
-    constant: true,
-    inputs: [
-      {
-        name: '_owner',
-        type: 'address',
-      },
-    ],
-    name: 'balanceOf',
-    outputs: [
-      {
-        name: 'balance',
-        type: 'uint256',
-      },
-    ],
-    type: 'function',
-  },
-]
 
 test('default', async () => {
   await testClient.impersonateAccount({
@@ -69,15 +17,19 @@ test('default', async () => {
     address: zenaddress,
     value: 1000000000000000000n,
   })
-  const { request: approvalRequest } = await simulateContract(testClient, {
+  await writeContract(testClient, {
     address: USDCL1,
-    abi: approveABI,
+    abi: erc20ABI,
     functionName: 'approve',
     args: [base.opContracts.L1StandardBridgeProxy, 10000n],
     account: zenaddress,
   })
-  await writeContract(testClient, approvalRequest)
-
+  const balanceBefore = await readContract(testClient, {
+    address: USDCL1,
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: [zenaddress],
+  })
   await testClient.mine({ blocks: 1 })
   const { request } = await simulateDepositERC20(publicClient, {
     args: {
@@ -91,6 +43,16 @@ test('default', async () => {
     account: zenaddress,
   })
 
-  expect(request).toBeDefined()
-  expect(writeContract(testClient, request)).toBeDefined()
+  expect(request.args[0]).toEqual(USDCL1)
+  expect(await writeContract(testClient, request)).toBeDefined()
+
+  await testClient.mine({ blocks: 1 })
+  const balanceAfter = await readContract(testClient, {
+    address: USDCL1,
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: [zenaddress],
+  })
+
+  expect(balanceAfter).toEqual(balanceBefore - 1n)
 })
