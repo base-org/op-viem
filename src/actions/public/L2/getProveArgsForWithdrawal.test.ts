@@ -2,7 +2,7 @@ import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
 import { base } from '@roninjin10/rollup-chains'
-import { getOutputForL2Block } from './getOutputForL2Block'
+import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
 import { mainnet } from '@wagmi/chains'
 

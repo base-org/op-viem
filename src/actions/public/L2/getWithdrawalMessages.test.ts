@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { rollupPublicClient } from '../../_test/utils'
+import { rollupPublicClient } from '../../../_test/utils'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
 
 test('correctly retrieves L2 hash', async () => {

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { walletClient } from '../../_test/utils'
+import { walletClient } from '../../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
-import { accounts } from '../../_test/constants'
+import { accounts } from '../../../_test/constants'
 import { writeDepositERC20 } from './writeDepositERC20'
 
 const CBETHL1 = '0xbe9895146f7af43049ca1c1ae358b0541ea49704'

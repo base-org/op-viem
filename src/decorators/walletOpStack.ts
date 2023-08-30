@@ -4,15 +4,15 @@ import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
 import {
   writeUnsafeDepositTransaction,
   WriteUnsafeDepositTransactionParameters,
-} from '../actions/wallet/writeUnsafeDepositTransaction'
+} from '../actions/wallet/L1/writeUnsafeDepositTransaction'
 import {
   writeDepositETH,
   WriteDepositETHParameters,
-} from '../actions/wallet/writeDepositETH'
+} from '../actions/wallet/L1/writeDepositETH'
 import {
   writeDepositERC20,
   WriteDepositERC20Parameters,
-} from '../actions/wallet/writeDepositERC20'
+} from '../actions/wallet/L1/writeDepositERC20'
 
 /// NOTE We don't currently need account for exisiting actions but keeping in case
 // TODO need to add generics

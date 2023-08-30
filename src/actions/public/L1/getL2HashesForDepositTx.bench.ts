@@ -1,6 +1,6 @@
 import { bench, describe } from 'vitest'
-import { ethersProvider } from '../../_test/bench'
-import { publicClient } from '../../_test/utils'
+import { ethersProvider } from '../../../_test/bench'
+import { publicClient } from '../../../_test/utils'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
