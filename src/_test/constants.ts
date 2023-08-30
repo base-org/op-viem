@@ -69,7 +69,7 @@ export let forkUrl: string
 if (process.env.VITE_ANVIL_FORK_URL) {
   forkUrl = process.env.VITE_ANVIL_FORK_URL
 } else {
-  forkUrl = 'https://cloudflare-eth.com'
+  forkUrl = 'http://69.67.151.138:8545/'
   warn(`\`VITE_ANVIL_FORK_URL\` not found. Falling back to \`${forkUrl}\`.`)
 }
 
