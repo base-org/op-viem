@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { publicClient, testClient, walletClient } from '../../_test/utils'
+import { walletClient, testClient, publicClient } from '../../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
 import { writeDepositERC20 } from './writeDepositERC20'
 import { mine, writeContract } from 'viem/actions'
@@ -15,7 +15,7 @@ test('default', async () => {
   })
   await testClient.setBalance({
     address: zenaddress,
-    value: 1000000000000000000n,
+    value: 10n ** 22n,
   })
   await writeContract(testClient, {
     address: USDCL1,

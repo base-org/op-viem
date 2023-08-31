@@ -1,16 +1,15 @@
 import { expect, test } from 'vitest'
-import { publicClient, walletClient, testClient } from '../../_test/utils'
+import { publicClient, walletClient, testClient } from '../../../_test/utils'
 import {
   DepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
 import { base } from '@roninjin10/rollup-chains'
-import { accounts } from '../../_test/constants'
+import { accounts } from '../../../_test/constants'
 import { mine } from 'viem/actions'
 import { decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { getDepositEventsInfoFromTxReceipt } from '../../utils/getDepositEventsInfoFromTxReceipt'
-import { TransactionDepositedEvent } from '../../types/depositTx'
+import { TransactionDepositedEvent } from '../../../types/depositTx'
 
 test('default', async () => {
   expect(

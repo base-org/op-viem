@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
-import { publicClient, testClient } from '../../_test/utils'
+import { publicClient, testClient } from '../../../_test/utils'
 import { base } from '@roninjin10/rollup-chains'
 import { simulateDepositERC20 } from './simulateDepositERC20'
-import { writeContract, readContract } from 'viem/actions'
+import { writeContract, readContract, simulateContract } from 'viem/actions'
 import { erc20ABI } from 'wagmi'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -15,8 +15,10 @@ test('default', async () => {
   })
   await testClient.setBalance({
     address: zenaddress,
-    value: 1000000000000000000n,
+    value: 10n ** 22n,
   })
+
+
   await writeContract(testClient, {
     address: USDCL1,
     abi: erc20ABI,
