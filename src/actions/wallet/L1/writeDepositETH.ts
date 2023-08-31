@@ -35,6 +35,12 @@ export type WriteDepositETHParameters<
   _resolvedChain
 >
 
+/**
+ * Deposits ETH to L2
+ * @param {bigint} gasLimit the gas limit for the transaction
+ * @param {Hex} [data] the data to send with the transaction
+ * @returns {WriteContractReturnType} the transaction hash
+ */
 export async function writeDepositETH<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,

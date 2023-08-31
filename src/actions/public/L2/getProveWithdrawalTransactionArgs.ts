@@ -31,9 +31,9 @@ export type getProveWithdrawalTransactionArgsReturnType = {
  * For a given L2 message and output proposal, generates the args needed to call proveWithdrawalTransaction
  * on the OptimismPortal contract
  *
- * @param message the MessagePassed event emitted from the withdrawal transaction
- * @param output the output proposal and index for the L2 block that contained the withdrawal transaction
- * @returns The arguments required by proveWithdrawalTransaction
+ * @param {MessagePassedEvent} message the MessagePassed event emitted from the withdrawal transaction
+ * @param {GetOutputForL2BlockReturnType} output the output proposal and index for the L2 block that contained the withdrawal transaction
+ * @returns {getProveWithdrawalTransactionArgsReturnType} The arguments required by proveWithdrawalTransaction
  */
 export async function getProveWithdrawalTransactionArgs<
   TChain extends Chain | undefined,

@@ -32,8 +32,8 @@ export type GetWithdrawalMessagesReturnType = {
  * Retrieves all MessagePassed events from a withdrawal transaction
  *
  * @param client - Public client to use
- * @param parameters - {@link GetWithdrawalMessagesParameters}
- * @returns An array of all MessagePassed events emitted in this transaction. {@link GetWithdrawalMessagesReturnType}
+ * @param {GetWithdrawalMessagesParameters} parameters - {@link GetWithdrawalMessagesParameters}
+ * @returns {GetWithdrawalMessagesReturnType} An array of all MessagePassed events emitted in this transaction. {@link GetWithdrawalMessagesReturnType}
  */
 export async function getWithdrawalMessages<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,

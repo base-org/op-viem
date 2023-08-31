@@ -53,6 +53,16 @@ export type WriteUnsafeDepositTransactionParameters<
   _resolvedChain
 >
 
+/**
+ * Write directly to the Portal proxy to deposit ETH to L2
+ *
+ * @param {Address} to the address to send the transaction to
+ * @param {bigint} [value] the amount of ETH to send
+ * @param {bigint} gasLimit the gas limit for the transaction
+ * @param {boolean} [isCreation] whether or not the transaction is a contract creation
+ * @param {Hex} [data] the data to send with the transaction
+ * @returns {WriteContractReturnType} the transaction hash
+ */
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
