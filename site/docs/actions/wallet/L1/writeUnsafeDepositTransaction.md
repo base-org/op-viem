@@ -11,14 +11,14 @@ Interacting directly the portal offers no replay protection: if you are sending 
 ::: code-group
 
 ```ts [example.ts]
-import { walletClient } from "viem";
-import { writeUnsafeDepositTransaction } from "op-viem";
+import { createWalletClient } from "viem";
+import { walletL1Actions } from "op-viem";
 
 const walletClient = createWalletClient({
   account,
   chain: mainnet,
   transport: http(),
-}).extend(walletOpStackActions);
+}).extend(walletL1Actions);
 
 const depositHash = await walletClient.writeUnsafeDepositTransaction({
   toChain: base,
