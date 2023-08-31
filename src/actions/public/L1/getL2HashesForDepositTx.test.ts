@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { publicClient } from '../../_test/utils'
+import { publicClient } from '../../../_test/utils'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
 
 test('correctly retrieves L2 hash', async () => {

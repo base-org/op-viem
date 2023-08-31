@@ -1,22 +1,20 @@
 import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import { WalletClient } from 'wagmi'
-import { bridgeWriteContract } from '../actions/wallet/bridgeWriteContract'
+import { bridgeWriteContract } from '../actions/wallet/L1/bridgeWriteContract'
 import {
   writeUnsafeDepositTransaction,
   WriteUnsafeDepositTransactionParameters,
-} from '../actions/wallet/writeUnsafeDepositTransaction'
+} from '../actions/wallet/L1/writeUnsafeDepositTransaction'
 import {
   writeDepositETH,
   WriteDepositETHParameters,
-} from '../actions/wallet/writeDepositETH'
+} from '../actions/wallet/L1/writeDepositETH'
 import {
   writeDepositERC20,
   WriteDepositERC20Parameters,
-} from '../actions/wallet/writeDepositERC20'
+} from '../actions/wallet/L1/writeDepositERC20'
 
-/// NOTE We don't currently need account for exisiting actions but keeping in case
-// TODO need to add generics
-export type WalletOpStackActions<
+export type WalletL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
   TAccount extends Account | undefined = Account | undefined,
 > = {
@@ -45,13 +43,13 @@ export type WalletOpStackActions<
   ) => Promise<WriteContractReturnType>
 }
 
-export function walletOpStackActions<
+export function walletL1OpStackActions<
   TTransport extends Transport = Transport,
   TChain extends Chain = Chain,
   TAccount extends Account = Account,
 >(
   client: WalletClient<TTransport, TChain, TAccount>,
-): WalletOpStackActions<TChain, TAccount> {
+): WalletL1OpStackActions<TChain, TAccount> {
   return {
     // TODO do better than as any
     bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),

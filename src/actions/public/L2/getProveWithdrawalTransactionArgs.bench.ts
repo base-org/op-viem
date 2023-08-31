@@ -1,8 +1,8 @@
 import { bench, describe } from 'vitest'
 import { createPublicClient, http } from 'viem'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
-import { getOutputForL2Block } from './getOutputForL2Block'
-import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
+import { getOutputForL2Block } from '../L1/getOutputForL2Block'
+import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { base } from '@roninjin10/rollup-chains'
 import { mainnet } from '@wagmi/chains'
 import { providers } from 'ethers'
@@ -33,7 +33,7 @@ describe('Computes L1 prove args from L2 tx hash', () => {
         rollup: base,
       })
 
-      await getProveArgsForWithdrawal(client, {
+      await getProveWithdrawalTransactionArgs(client, {
         message: withdrawalMessages.messages[0],
         output: output,
       })

@@ -2,8 +2,8 @@ import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
 import { base } from '@roninjin10/rollup-chains'
-import { getOutputForL2Block } from './getOutputForL2Block'
-import { getProveArgsForWithdrawal } from './getProveArgsForWithdrawal'
+import { getOutputForL2Block } from '../L1/getOutputForL2Block'
+import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { mainnet } from '@wagmi/chains'
 
 // from OP SDK getMessageBedrockOutput
@@ -49,7 +49,8 @@ test('correctly generates args', async () => {
     rollup: base,
   })
 
-  const args = await getProveArgsForWithdrawal(client, {
+  // TODO(wilson): We should simplify these test to not require so much setup ^
+  const args = await getProveWithdrawalTransactionArgs(client, {
     message: withdrawalMessages.messages[0],
     output: output,
   })
