@@ -21,11 +21,50 @@ export default defineConfig({
         items: [{ text: 'Quickstart', link: '/docs/introduction/quickstart' }],
       },
       {
+        text: 'Public Actions',
+        items: [
+          {
+            text: 'L1',
+            items: [
+              {
+                text: 'getL2HashesForDepositTx',
+                link: '/docs/actions/public/L1/getL2HashesForDepositTx',
+              },
+              {
+                text: 'getOutputForL2Block',
+                link: '/docs/actions/public/L1/getOutputForL2Block',
+              },
+              {
+                text: 'simulateDepositERC20',
+                link: '/docs/actions/public/L1/simulateDepositERC20',
+              },
+              {
+                text: 'simulateDepositETH',
+                link: '/docs/actions/public/L1/simulateDepositETH',
+              },
+            ],
+          },
+        ],
+      },
+      {
         text: 'Wallet Actions',
         items: [
           {
-            text: 'writeUnsafeDepositTransaction',
-            link: '/docs/actions/wallet/writeUnsafeDepositTransaction',
+            text: 'L1',
+            items: [
+              {
+                text: 'writeDepositERC20',
+                link: '/docs/actions/wallet/L1/writeDepositERC20',
+              },
+              {
+                text: 'writeDepositETH',
+                link: '/docs/actions/wallet/L1/writeDepositETH',
+              },
+              {
+                text: 'writeUnsafeDepositTransaction',
+                link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
+              },
+            ],
           },
         ],
       },
