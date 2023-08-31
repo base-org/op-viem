@@ -4,12 +4,22 @@ import {
   DepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
-import { base } from '@roninjin10/rollup-chains'
+// import { base } from '@roninjin10/rollup-chains'
 import { accounts } from '../../../_test/constants'
 import { mine } from 'viem/actions'
 import { decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { base } from '@wagmi/chains'
+import {OpStackL2Chain, opStackL2Predeploys} from '../../../types/opStackChain';
+
+const BaseOp = {
+  ...base,
+  contracts: {
+    ...base.contracts,
+    ...opStackL2Predeploys
+  }
+} satisfies OpStackL2Chain
 
 test('default', async () => {
   expect(
@@ -22,7 +32,7 @@ test('default', async () => {
         isCreation: false,
       },
       value: 0n,
-      toChain: base,
+      toChainId: base.id,
       account: accounts[0].address,
     }),
   ).toBeDefined()
