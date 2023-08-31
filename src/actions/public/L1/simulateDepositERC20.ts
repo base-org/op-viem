@@ -40,6 +40,14 @@ export type SimulateDepositERC20ReturnType<
   TChainOverride
 >
 
+/**
+ * Simulates a deposit of ERC20 tokens to L2
+ * @param {Address} l1Token the L1 address of the ERC20 token to deposit
+ * @param {Address} l2Token the L2 address of the ERC20 token to deposit
+ * @param {bigint} amount the amount of tokens to deposit
+ * @param {bigint} gasLimit the gas limit for the transaction
+ * @param {Hex} [data] the data to send with the transaction
+ */
 export async function simulateDepositERC20<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
