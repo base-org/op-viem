@@ -46,10 +46,11 @@ export type WalletL1OpStackActions<
 
 export function walletL1OpStackActions<
   TTransport extends Transport = Transport,
+  TChain extends OpStackL1Chain = OpStackL1Chain,
   TAccount extends Account = Account,
 >(
-  client: WalletClient<TTransport, OpStackL1Chain, TAccount>,
-): WalletL1OpStackActions<OpStackL1Chain, TAccount> {
+  client: WalletClient<TTransport, TChain, TAccount>,
+): WalletL1OpStackActions<TChain, TAccount> {
   return {
     // TODO do better than as any
     // bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),

@@ -12,6 +12,7 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { writeContract } from 'viem/actions'
 import { OpStackL1Chain, OpStackL2Chain } from '../../../types/opStackChain'
+import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -38,23 +39,24 @@ export type WriteUnsafeDepositTransactionParameters<
   'abi' | 'functionName' | 'args' | 'address'
 > & ({
   toChainId: ExtractValidChainIdFromContract<_resolvedChain, _contractName>
-  optimismPortal: never,
+  optimismPortal?: never,
   args: DepositTransactionParameters
 } | {
   toChainId: never,
   optimismPortal: Address
   args: DepositTransactionParameters
-})
+}) 
 
 type ExtractValidChainIdFromContract<TChain extends OpStackL1Chain | undefined, contractName extends keyof OpStackL1Chain['contracts']> = TChain extends OpStackL1Chain ? keyof TChain['contracts'][contractName] : undefined
 type ResolveChain<TChain extends Chain | undefined, TChainOverride extends Chain | undefined = undefined> = TChainOverride extends Chain ? TChainOverride : TChain
+// type GetChain<TChain extends Chain | undefined, TChainOverride extends Chain | undefined = undefined> = IsUndefined<TChain> extends true ? { chain: TChain | null} : {chain?: TChainOverride | null}
 
 export async function writeUnsafeDepositTransaction<
   TChain extends OpStackL1Chain | undefined,
   TAccount extends Account | undefined,
   TChainOverride extends OpStackL1Chain | undefined,
 >(
-  client: WalletClient<Transport, OpStackL1Chain, TAccount>,
+  client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
     toChainId,
@@ -62,10 +64,8 @@ export async function writeUnsafeDepositTransaction<
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  // if(!client.chain && !optimismPortal) {
-  //   throw new Error('hi')
-  // }
-  const protal = optimismPortal || client.chain['contracts']['optimismPortal'][toChainId]
+  // L68 not working
+  const protal = optimismPortal || client.chain!['contracts']['optimismPortal'][toChainId!]
   return writeContract(client, {
     address: protal,
     abi: optimismPortalABI,
@@ -75,7 +75,7 @@ export async function writeUnsafeDepositTransaction<
   } as unknown as WriteContractParameters<
     typeof optimismPortalABI,
     'depositTransaction',
-    OpStackL1Chain,
+    TChain,
     TAccount,
     TChainOverride
   >)
