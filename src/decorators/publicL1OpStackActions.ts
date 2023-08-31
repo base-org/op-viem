@@ -8,12 +8,12 @@ import {
   simulateDepositETH,
   SimulateDepositETHParameters,
   SimulateDepositETHReturnType,
-} from '../actions/public/simulateDepositETH'
+} from '../actions/public/L1/simulateDepositETH'
 import {
   simulateDepositERC20,
   SimulateDepositERC20Parameters,
   SimulateDepositERC20ReturnType,
-} from '../actions/public/simulateDepositERC20'
+} from '../actions/public/L1/simulateDepositERC20'
 import {
   GetOutputForL2BlockParameters,
   GetOutputForL2BlockReturnType,

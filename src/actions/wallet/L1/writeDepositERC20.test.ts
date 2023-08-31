@@ -15,7 +15,7 @@ test('default', async () => {
   })
   await testClient.setBalance({
     address: zenaddress,
-    value: 1000000000000000000n,
+    value: 10n ** 22n,
   })
   await writeContract(testClient, {
     address: USDCL1,
