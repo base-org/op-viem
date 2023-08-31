@@ -1,7 +1,7 @@
 import { publicClient, testClient } from '../../../_test/utils'
 import { mainnet } from '../../../chains/mainnet'
 import { simulateDepositERC20 } from './simulateDepositERC20'
-import { readContract, simulateContract, writeContract } from 'viem/actions'
+import { readContract, writeContract } from 'viem/actions'
 import { base } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
