@@ -43,8 +43,9 @@ export type SimulateDepositETHReturnType<
 
 /**
  * Simulates a deposit of ETH to L2
- * @param {bigint} gasLimit the gas limit for the transaction
- * @param {Hex} [data] the data to send with the transaction
+ * @param {SimulateDepositETHParameters} args {@link SimulateDepositETHParameters}
+ * @param {OpChainL2} toChain the L2 chain to deposit to
+ * @returns {SimulateDepositETHReturnType} the simulated transaction
  */
 export async function simulateDepositETH<
   TChain extends Chain | undefined,
