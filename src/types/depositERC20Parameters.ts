@@ -5,5 +5,5 @@ export type DepositERC20Parameters = {
   l2Token: Address
   amount: bigint
   gasLimit: bigint
-  data: Hex
+  data?: Hex
 }

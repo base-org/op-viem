@@ -73,7 +73,7 @@ export async function simulateDepositERC20<
     address: bridge,
     abi: l1StandardBridgeABI,
     functionName: 'depositERC20',
-    args: [l1Token, l2Token, amount, gasLimit, data],
+    args: [l1Token, l2Token, amount, gasLimit, data || '0x'],
     ...rest,
   } as unknown as SimulateContractParameters<
     typeof l1StandardBridgeABI,
