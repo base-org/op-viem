@@ -64,10 +64,16 @@ export async function writeUnsafeDepositTransaction<
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  // L68 not working
-  const protal = optimismPortal || client.chain!['contracts']['optimismPortal'][toChainId!]
+  const chain = rest.chain || client.chain
+  if (!chain) {
+    throw new Error('chain must be defined')
+  }
+  const portal = optimismPortal || (toChainId ? chain['contracts']['optimismPortal'][toChainId] : undefined)
+  if (!portal) {
+    throw new Error('Portal not defined')
+  }
   return writeContract(client, {
-    address: protal,
+    address: portal,
     abi: optimismPortalABI,
     functionName: 'depositTransaction' as any,
     args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
