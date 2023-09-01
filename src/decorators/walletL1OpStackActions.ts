@@ -19,22 +19,26 @@ export type WalletL1OpStackActions<
   TChain extends OpStackL1Chain | undefined = OpStackL1Chain | undefined,
   TAccount extends Account | undefined = Account | undefined,
 > = {
-  // bridgeWriteContract: (
-  //   // TODO name these params
-  //   args: Parameters<typeof bridgeWriteContract>[1],
-  // ) => Promise<string>
-  // writeDepositETH: <
-  //   TChainOverride extends OpStackL1Chain | undefined = OpStackL1Chain | undefined,
-  // >(
-  //   args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
-  // ) => Promise<WriteContractReturnType>
-  // writeDepositERC20: <
-  //   TChainOverride extends Chain | undefined = Chain | undefined,
-  // >(
-  //   args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
-  // ) => Promise<WriteContractReturnType>
+  bridgeWriteContract: (
+    // TODO name these params
+    args: Parameters<typeof bridgeWriteContract>[1],
+  ) => Promise<string>
+  writeDepositETH: <
+    TChainOverride extends OpStackL1Chain | undefined =
+      | OpStackL1Chain
+      | undefined,
+  >(
+    args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
+  ) => Promise<WriteContractReturnType>
+  writeDepositERC20: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
+  ) => Promise<WriteContractReturnType>
   writeUnsafeDepositTransaction: <
-    TChainOverride extends OpStackL1Chain | undefined = OpStackL1Chain | undefined,
+    TChainOverride extends OpStackL1Chain | undefined =
+      | OpStackL1Chain
+      | undefined,
   >(
     args: WriteUnsafeDepositTransactionParameters<
       TChain,
@@ -53,10 +57,10 @@ export function walletL1OpStackActions<
 ): WalletL1OpStackActions<TChain, TAccount> {
   return {
     // TODO do better than as any
-    // bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
+    bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
     writeUnsafeDepositTransaction: (args) =>
       writeUnsafeDepositTransaction(client, args),
-    // writeDepositETH: (args) => writeDepositETH(client, args),
-    // writeDepositERC20: (args) => writeDepositERC20(client, args),
+    writeDepositETH: (args) => writeDepositETH(client, args),
+    writeDepositERC20: (args) => writeDepositERC20(client, args),
   }
 }

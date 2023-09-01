@@ -9,10 +9,7 @@ import {
   Hex,
 } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { writeContract } from 'viem/actions'
-import { OpStackL1Chain, OpStackL2Chain } from '../../../types/opStackChain'
-import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -22,12 +19,19 @@ export type DepositTransactionParameters = {
   data?: Hex
 }
 
+enum OpStackL1Contracts {
+  optimismPortal = 'optimismPortal',
+}
+
 export type WriteUnsafeDepositTransactionParameters<
-  TChain extends OpStackL1Chain | undefined = OpStackL1Chain,
+  TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
-  TChainOverride extends OpStackL1Chain | undefined = OpStackL1Chain | undefined,
-  _contractName extends keyof OpStackL1Chain['contracts'] = 'optimismPortal',
-  _resolvedChain extends OpStackL1Chain | undefined  = ResolveChain<TChain, TChainOverride>
+  TChainOverride extends Chain | undefined = Chain | undefined,
+  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismPortal,
+  _resolvedChain extends Chain | undefined = ResolveChain<
+    TChain,
+    TChainOverride
+  >,
 > = Omit<
   WriteContractParameters<
     typeof optimismPortalABI,
@@ -36,39 +40,66 @@ export type WriteUnsafeDepositTransactionParameters<
     TAccount,
     TChainOverride
   >,
-  'abi' | 'functionName' | 'args' | 'address'
-> & ({
-  toChainId: ExtractValidChainIdFromContract<_resolvedChain, _contractName>
-  optimismPortal?: never,
-  args: DepositTransactionParameters
-} | {
-  toChainId: never,
-  optimismPortal: Address
-  args: DepositTransactionParameters
-}) 
+  'abi' | 'functionName' | 'args' | 'address' | 'chain'
+> &
+  (
+    | {
+        chain?: TChain
+        toChainId: ExtractValidChainIdFromContract<
+          _resolvedChain,
+          _contractName
+        >
+        optimismPortal?: never
+        args: DepositTransactionParameters
+      }
+    | {
+        chain?: TChain
+        toChainId?: never
+        optimismPortal?: Address
+        args: DepositTransactionParameters
+      }
+  )
 
-type ExtractValidChainIdFromContract<TChain extends OpStackL1Chain | undefined, contractName extends keyof OpStackL1Chain['contracts']> = TChain extends OpStackL1Chain ? keyof TChain['contracts'][contractName] : undefined
-type ResolveChain<TChain extends Chain | undefined, TChainOverride extends Chain | undefined = undefined> = TChainOverride extends Chain ? TChainOverride : TChain
+type ExtractValidChainIdFromContract<
+  TChain extends Chain | undefined,
+  contractName extends OpStackL1Contracts,
+> = TChain extends Chain
+  ? TChain['contracts'] extends { [key: string]: unknown }
+    ? TChain['contracts'][contractName] extends { [chainId: number]: Address }
+      ? keyof TChain['contracts'][contractName]
+      : undefined
+    : undefined
+  : undefined
+type ResolveChain<
+  TChain extends Chain | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = TChainOverride extends Chain ? TChainOverride : TChain
 // type GetChain<TChain extends Chain | undefined, TChainOverride extends Chain | undefined = undefined> = IsUndefined<TChain> extends true ? { chain: TChain | null} : {chain?: TChainOverride | null}
 
 export async function writeUnsafeDepositTransaction<
-  TChain extends OpStackL1Chain | undefined,
+  TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  TChainOverride extends OpStackL1Chain | undefined,
+  TChainOverride extends Chain | undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
     toChainId,
     optimismPortal,
+    chain = client.chain,
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  const chain = rest.chain || client.chain
   if (!chain) {
     throw new Error('chain must be defined')
   }
-  const portal = optimismPortal || (toChainId ? chain['contracts']['optimismPortal'][toChainId] : undefined)
+  const portal =
+    optimismPortal ||
+    (toChainId &&
+    chain['contracts'] &&
+    chain['contracts'][OpStackL1Contracts.optimismPortal]
+      ? chain['contracts'][OpStackL1Contracts.optimismPortal][toChainId]
+      : undefined)
   if (!portal) {
     throw new Error('Portal not defined')
   }
