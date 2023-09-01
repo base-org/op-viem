@@ -13,8 +13,11 @@ import { writeContract } from 'viem/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import {
   ExtractValidChainIdFromContract,
+  GetContractAddress,
+  GetTo,
   ResolveChain,
 } from '../../../types/actions'
+import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -47,24 +50,11 @@ export type WriteUnsafeDepositTransactionParameters<
     TChainOverride
   >,
   'abi' | 'functionName' | 'args' | 'address' | 'chain'
-> &
-  (
-    | {
-        chain?: TChain
-        toChainId: ExtractValidChainIdFromContract<
-          _resolvedChain,
-          _contractName
-        >
-        optimismPortal?: never
-        args: DepositTransactionParameters
-      }
-    | {
-        chain?: TChain
-        toChainId?: never
-        optimismPortal?: Address
-        args: DepositTransactionParameters
-      }
-  )
+> & {
+  chain?: TChain | TChainOverride
+  args: DepositTransactionParameters
+} & GetTo<_resolvedChain, _contractName> &
+  GetContractAddress<_resolvedChain, _contractName>
 
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
@@ -75,7 +65,7 @@ export async function writeUnsafeDepositTransaction<
   {
     args: { to, value, gasLimit, isCreation, data },
     toChainId,
-    optimismPortal,
+    optimismPortalAddress,
     chain = client.chain,
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
@@ -87,8 +77,10 @@ export async function writeUnsafeDepositTransaction<
     | ContractToChainAddressMapping
     | undefined
   const portal =
-    optimismPortal ||
-    (contracts && contracts[OpStackL1Contracts.optimismPortal] && toChainId
+    optimismPortalAddress ||
+    (contracts &&
+    contracts[OpStackL1Contracts.optimismPortal] &&
+    typeof toChainId == 'number'
       ? contracts[OpStackL1Contracts.optimismPortal][toChainId]
       : undefined)
   if (!portal) {
