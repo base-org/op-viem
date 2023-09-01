@@ -8,7 +8,7 @@ import {
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { simulateContract } from 'viem/actions'
-import { DepositETHParameters } from '../../types/depositETHParameters'
+import { DepositETHParameters } from '../../../types/depositETHParameters'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,

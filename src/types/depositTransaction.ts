@@ -1,3 +1,5 @@
+import { Address, Hex } from 'viem'
+
 export const DEPOSIT_TX_PREFIX = '0x7E'
 
 export enum SourceHashDomain {
@@ -13,4 +15,15 @@ export type TransactionDepositedEvent = {
     version: bigint
     opaqueData: `0x${string}`
   }
+}
+
+export type DepositTransaction = {
+  sourceHash: Hex
+  from: Address
+  to: Address
+  mint: Hex
+  value: Hex
+  gas: Hex
+  isSystemTransaction: boolean
+  data: Hex
 }

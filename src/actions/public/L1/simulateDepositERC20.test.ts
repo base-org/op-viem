@@ -18,7 +18,6 @@ test('default', async () => {
     value: 10n ** 22n,
   })
 
-
   await writeContract(testClient, {
     address: USDCL1,
     abi: erc20ABI,
