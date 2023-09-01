@@ -95,14 +95,12 @@ export async function writeUnsafeDepositTransaction<
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
   if (!chain) {
-    throw new Error('chain must be defined')
+    throw new Error('Chain not defined')
   }
-  const contracts = chain['contracts'] as { [key: string]: unknown }
-  const portalContracts = contracts[OpStackL1Contracts.optimismPortal] as {
-    [chainId: number]: Address
-  }
+  const contracts = chain['contracts'] as { [key: string]: unknown } | undefined
+  const portalContracts = contracts ? (contracts[OpStackL1Contracts.optimismPortal] as {[chainId: number]: Address} | undefined) : undefined
   const portal =
-    optimismPortal || (toChainId ? portalContracts[toChainId] : undefined)
+    optimismPortal || (toChainId && portalContracts ? portalContracts[toChainId] : undefined)
   if (!portal) {
     throw new Error('Portal not defined')
   }
