@@ -31,6 +31,7 @@ export async function getOutputForL2Block<TChain extends Chain | undefined>(
   { blockNumber, rollup }: GetOutputForL2BlockParameters,
 ): Promise<GetOutputForL2BlockReturnType> {
   const outputIndex = await readContract(client, {
+    // TODO fix types here
     address: rollup.opContracts.L2OutputOracleProxy,
     abi: l2OutputOracleABI,
     functionName: 'getL2OutputIndexAfter',

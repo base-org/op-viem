@@ -1,5 +1,5 @@
 import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
-import { WalletClient } from 'wagmi'
+import { WalletClient } from 'viem'
 import { bridgeWriteContract } from '../actions/wallet/L1/bridgeWriteContract'
 import {
   writeUnsafeDepositTransaction,
@@ -52,7 +52,8 @@ export function walletL1OpStackActions<
 ): WalletL1OpStackActions<TChain, TAccount> {
   return {
     // TODO do better than as any
-    bridgeWriteContract: (args) => bridgeWriteContract(client as any, args),
+    bridgeWriteContract: (args) =>
+      bridgeWriteContract(client as any, args as any),
     writeUnsafeDepositTransaction: (args) =>
       writeUnsafeDepositTransaction(client, args),
     writeDepositETH: (args) => writeDepositETH(client, args),

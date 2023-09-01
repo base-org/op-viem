@@ -9,8 +9,8 @@ import { mine } from 'viem/actions'
 import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
-import { base } from '@wagmi/chains'
-import { mainnet } from 'wagmi'
+import { base } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 
 test('default', async () => {
   expect(

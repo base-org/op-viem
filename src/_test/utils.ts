@@ -18,7 +18,7 @@ import {
   Address,
 } from 'viem'
 import { rpc } from 'viem/utils'
-import { mainnet, localhost, base } from '@wagmi/chains'
+import { mainnet, localhost, base } from 'viem/chains'
 
 export class ProviderRpcError extends Error {
   code: number
@@ -32,7 +32,7 @@ export class ProviderRpcError extends Error {
 }
 
 // TODO(wilson): remove after viem updates types
-type ContractRichChain = Chain & {
+export type ContractRichChain = Chain & {
   contracts: {
     [key: string]: { [chainId: number]: Address }
   }

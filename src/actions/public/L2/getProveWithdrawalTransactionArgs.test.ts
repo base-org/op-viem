@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest'
 import { createPublicClient, http } from 'viem'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
-import { base } from '@roninjin10/rollup-chains'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
-import { mainnet } from '@wagmi/chains'
+import { mainnet } from 'viem/chains'
+import { base } from '../../../chains/base'
 
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
