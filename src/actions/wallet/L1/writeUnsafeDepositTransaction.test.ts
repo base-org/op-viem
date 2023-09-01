@@ -4,62 +4,13 @@ import {
   DepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
-// import { base } from '@roninjin10/rollup-chains'
 import { accounts } from '../../../_test/constants'
 import { mine } from 'viem/actions'
-import {
-  Address,
-  Chain,
-  decodeEventLog,
-  encodeFunctionData,
-  encodePacked,
-} from 'viem'
+import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
-import { base, localhost } from '@wagmi/chains'
+import { base } from '@wagmi/chains'
 import { mainnet } from 'wagmi'
-
-type ContractRichChain = Chain & {
-  contracts: {
-    [key: string]: { [chainId: number]: Address }
-  }
-}
-
-export const anvilChain = {
-  ...localhost,
-  id: 1,
-  contracts: {
-    ...mainnet.contracts,
-    optimismL1CrossDomainMessenger: {
-      8453: '0x866E82a600A1414e583f7F13623F1aC5d58b0Afa',
-    },
-    optimismL1Erc721Bridge: {
-      8453: '0x608d94945A64503E642E6370Ec598e519a2C1E53',
-    },
-    optimismL1StandardBridge: {
-      8453: '0x3154Cf16ccdb4C6d922629664174b904d80F2C35',
-    },
-    optimismL2OutputOracle: {
-      8453: '0x56315b90c40730925ec5485cf004d835058518A0',
-    },
-    optimismSystemConfig: {
-      8453: '0x73a79Fab69143498Ed3712e519A88a918e1f4072',
-    },
-    optimismSystemDictator: {
-      8453: '0x1fE3fdd1F0193Dd657C0a9AAC37314D6B479E557',
-    },
-  },
-  rpcUrls: {
-    default: {
-      http: [],
-      webSocket: [],
-    },
-    public: {
-      http: [],
-      webSocket: [],
-    },
-  },
-} as const satisfies ContractRichChain
 
 test('default', async () => {
   expect(
