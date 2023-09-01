@@ -9,7 +9,7 @@ import { accounts } from '../../../_test/constants'
 import { mine } from 'viem/actions'
 import { decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { TransactionDepositedEvent } from '../../../types/depositTx'
+import { TransactionDepositedEvent } from '../../../types/depositTransaction'
 
 test('default', async () => {
   expect(

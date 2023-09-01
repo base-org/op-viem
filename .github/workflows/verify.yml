@@ -38,5 +38,4 @@ jobs:
         run: pnpm test:ci
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
-          VITE_ANVIL_BLOCK_NUMBER: 17977054
           

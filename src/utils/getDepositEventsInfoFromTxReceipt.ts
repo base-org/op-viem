@@ -1,6 +1,6 @@
 import { TransactionReceipt, decodeEventLog } from 'viem'
 import { optimismPortalABI } from '../generated/contracts'
-import { TransactionDepositedEvent } from '../types/depositTx'
+import { TransactionDepositedEvent } from '../types/depositTransaction'
 
 type GetDepositEventInfoFromTxReceiptParams = {
   receipt: TransactionReceipt
@@ -22,17 +22,21 @@ export function getDepositEventsInfoFromTxReceipt({
   let depositEvents: { event: TransactionDepositedEvent; logIndex: number }[] =
     []
   for (const l of receipt.logs) {
-    const event = decodeEventLog({
-      abi: optimismPortalABI,
-      data: l.data,
-      topics: l.topics,
-    })
-    if (event.eventName === 'TransactionDeposited') {
-      if (!l.logIndex) {
-        throw new Error('Found TransactionDeposited by logIndex undefined')
+    try {
+      const event = decodeEventLog({
+        abi: optimismPortalABI,
+        data: l.data,
+        topics: l.topics,
+      })
+      if (event.eventName === 'TransactionDeposited') {
+        if (!l.logIndex) {
+          throw new Error('Found TransactionDeposited by logIndex undefined')
+        }
+        depositEvents.push({ event, logIndex: l.logIndex })
       }
-      depositEvents.push({ event, logIndex: l.logIndex })
-    }
+      // The transaction may have events from many contracts
+      // we can ignore errors decoding transactions we do not care about.
+    } catch {}
   }
   return depositEvents
 }
