@@ -23,6 +23,10 @@ enum OpStackL1Contracts {
   optimismPortal = 'optimismPortal',
 }
 
+type OpStackContracts = {
+  [key: string]: { [chainId: number]: Address }
+}
+
 export type WriteUnsafeDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
@@ -93,13 +97,12 @@ export async function writeUnsafeDepositTransaction<
   if (!chain) {
     throw new Error('chain must be defined')
   }
+  const contracts = chain['contracts'] as { [key: string]: unknown }
+  const portalContracts = contracts[OpStackL1Contracts.optimismPortal] as {
+    [chainId: number]: Address
+  }
   const portal =
-    optimismPortal ||
-    (toChainId &&
-    chain['contracts'] &&
-    chain['contracts'][OpStackL1Contracts.optimismPortal]
-      ? chain['contracts'][OpStackL1Contracts.optimismPortal][toChainId]
-      : undefined)
+    optimismPortal || (toChainId ? portalContracts[toChainId] : undefined)
   if (!portal) {
     throw new Error('Portal not defined')
   }
