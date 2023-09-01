@@ -15,10 +15,10 @@ import {
   custom,
   http,
   webSocket,
+  Address,
 } from 'viem'
 import { rpc } from 'viem/utils'
 import { mainnet, localhost, base } from '@wagmi/chains'
-import { OpStackL1Chain } from '../types/opStackChain.js'
 
 export class ProviderRpcError extends Error {
   code: number
@@ -28,6 +28,13 @@ export class ProviderRpcError extends Error {
     super(message)
     this.code = code
     this.details = message
+  }
+}
+
+// TODO(wilson): remove after viem updates types
+type ContractRichChain = Chain & {
+  contracts: {
+    [key: string]: { [chainId: number]: Address }
   }
 }
 
@@ -68,7 +75,7 @@ export const anvilChain = {
       webSocket: [localWsUrl],
     },
   },
-} as const satisfies OpStackL1Chain
+} as const satisfies ContractRichChain
 
 export const rollupAnvilChain = {
   id: 2,

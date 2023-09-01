@@ -13,10 +13,9 @@ import {
   writeDepositERC20,
   WriteDepositERC20Parameters,
 } from '../actions/wallet/L1/writeDepositERC20'
-import { OpStackL1Chain } from '../types/opStackChain'
 
 export type WalletL1OpStackActions<
-  TChain extends OpStackL1Chain | undefined = OpStackL1Chain | undefined,
+  TChain extends Chain | undefined = Chain | undefined,
   TAccount extends Account | undefined = Account | undefined,
 > = {
   bridgeWriteContract: (
@@ -24,9 +23,7 @@ export type WalletL1OpStackActions<
     args: Parameters<typeof bridgeWriteContract>[1],
   ) => Promise<string>
   writeDepositETH: <
-    TChainOverride extends OpStackL1Chain | undefined =
-      | OpStackL1Chain
-      | undefined,
+    TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
@@ -36,9 +33,7 @@ export type WalletL1OpStackActions<
     args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
   writeUnsafeDepositTransaction: <
-    TChainOverride extends OpStackL1Chain | undefined =
-      | OpStackL1Chain
-      | undefined,
+    TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteUnsafeDepositTransactionParameters<
       TChain,
@@ -50,7 +45,7 @@ export type WalletL1OpStackActions<
 
 export function walletL1OpStackActions<
   TTransport extends Transport = Transport,
-  TChain extends OpStackL1Chain = OpStackL1Chain,
+  TChain extends Chain = Chain,
   TAccount extends Account = Account,
 >(
   client: WalletClient<TTransport, TChain, TAccount>,

@@ -10,6 +10,11 @@ import {
 } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { writeContract } from 'viem/actions'
+import { OpStackL1Contracts } from '../../../types/opStackContracts'
+import {
+  ExtractValidChainIdFromContract,
+  ResolveChain,
+} from '../../../types/actions'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -19,10 +24,7 @@ export type DepositTransactionParameters = {
   data?: Hex
 }
 
-enum OpStackL1Contracts {
-  optimismPortal = 'optimismPortal',
-}
-
+// TODO(wilson): remove after viem updates types
 type ContractToChainAddressMapping = {
   [key: string]: { [chainId: number]: Address }
 }
@@ -64,21 +66,6 @@ export type WriteUnsafeDepositTransactionParameters<
       }
   )
 
-type ExtractValidChainIdFromContract<
-  TChain extends Chain | undefined,
-  contractName extends OpStackL1Contracts,
-> = TChain extends Chain
-  ? TChain['contracts'] extends { [key: string]: unknown }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address }
-      ? keyof TChain['contracts'][contractName]
-      : undefined
-    : undefined
-  : undefined
-type ResolveChain<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
-> = TChainOverride extends Chain ? TChainOverride : TChain
-
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
@@ -101,7 +88,7 @@ export async function writeUnsafeDepositTransaction<
     | undefined
   const portal =
     optimismPortal ||
-    (contracts && toChainId && contracts[OpStackL1Contracts.optimismPortal]
+    (contracts && contracts[OpStackL1Contracts.optimismPortal] && toChainId
       ? contracts[OpStackL1Contracts.optimismPortal][toChainId]
       : undefined)
   if (!portal) {
