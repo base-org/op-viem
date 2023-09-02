@@ -54,11 +54,11 @@ export type ActionBaseType<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _contractName extends string = string,
-  _functionName extends string = string,
   _resolvedChain extends Chain | undefined = ResolveChain<
     TChain,
     TChainOverride
   >,
+  // TODO consider moving GetL2ChainId to make this even more generic
 > = { chain?: TChain | TChainOverride } & GetL2ChainId<
   _resolvedChain,
   _contractName
@@ -76,7 +76,7 @@ export type WriteActionBaseType<
     TChain,
     TChainOverride
   >,
-> = ActionBaseType<TChain, TChainOverride, _contractName, _functionName, _resolvedChain> &
+> = ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain> &
   Omit<
     WriteContractParameters<
       TAbi,
@@ -98,7 +98,7 @@ export type SimulateActionBaseType<
     TChain,
     TChainOverride
   >,
-> = ActionBaseType<TChain, TChainOverride, _contractName, _functionName, _resolvedChain> &
+> = ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain> &
   Omit<
     SimulateContractParameters<
       TAbi,

@@ -2,7 +2,6 @@ import { Chain, Hex, PublicClient, Transport } from 'viem'
 import { readContract } from 'viem/actions'
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import {
-  ExtractValidChainIdFromContract,
   GetContractAddress,
   GetL2ChainId,
 } from '../../../types/actions'
