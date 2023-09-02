@@ -1,4 +1,11 @@
-import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import {
+  Abi,
+  Account,
+  Address,
+  Chain,
+  SimulateContractParameters,
+  WriteContractParameters,
+} from 'viem'
 import { OpStackL1Contracts } from './opStackContracts'
 
 export type ExtractValidChainIdFromContract<
@@ -100,11 +107,6 @@ export type SimulateActionBaseType<
   >,
 > = ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain> &
   Omit<
-    SimulateContractParameters<
-      TAbi,
-      _functionName,
-      TChain,
-      TChainOverride
-    >,
+    SimulateContractParameters<TAbi, _functionName, TChain, TChainOverride>,
     'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >

@@ -20,8 +20,8 @@ export type SimulateDepositETHParameters<
   _resolvedChain extends Chain | undefined = ResolveChain<
     TChain,
     TChainOverride
-  >
-> = & {
+  >,
+> = {
   args: DepositETHParameters
 } & SimulateActionBaseType<
   TChain,

@@ -3,11 +3,12 @@ import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
-import { base } from '@roninjin10/rollup-chains'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { getTransactionReceipt } from 'viem/actions'
 import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
+import { base } from 'viem/chains'
+import { mainnet } from '../chains/mainnet'
 
 describe('Obtain L2 hash from already fetched event', async () => {
   const receipt = await getTransactionReceipt(publicClient, {
@@ -23,7 +24,7 @@ describe('Obtain L2 hash from already fetched event', async () => {
   })
 
   const contract = new ethers.Contract(
-    base.opContracts.OptimismPortalProxy,
+    mainnet.contracts.optimismPortal[base.id],
     optimismPortalABI,
     ethersProvider,
   )

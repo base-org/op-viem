@@ -26,7 +26,7 @@ export const mainnet = {
     optimismPortal: {
       8453: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
       7777777: '0x1a0ad011913A150f69f6A19DF447A0CfD9551054',
-      10: '0xDb9F51790365e7dc196e7D072728df39Be958ACe',
+      10: '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed',
     },
     optimismSystemConfig: {
       8453: '0x73a79Fab69143498Ed3712e519A88a918e1f4072',

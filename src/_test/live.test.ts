@@ -21,7 +21,7 @@ test('correctly retrieves L2 hash', async () => {
   }).extend(walletL1OpStackActions)
 
   const depositHash = await walletClient.writeUnsafeDepositTransaction({
-    toChainId: baseGoerli.id,
+    l2ChainId: baseGoerli.id,
     args: {
       to: account.address,
       value: 1n,
