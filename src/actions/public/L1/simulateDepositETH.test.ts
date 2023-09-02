@@ -12,7 +12,7 @@ test('default', async () => {
       data: '0x',
     },
     value: 1n,
-    toChain: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
   expect(request).toBeDefined()

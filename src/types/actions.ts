@@ -1,4 +1,4 @@
-import { Abi, Account, Address, Chain, WriteContractParameters } from 'viem'
+import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
 import { OpStackL1Contracts } from './opStackContracts'
 
 export type ExtractValidChainIdFromContract<
@@ -50,10 +50,8 @@ export type GetContractAddress<
     : never
   : never
 
-export type WriteActionBaseType<
+export type ActionBaseType<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
-  TAbi extends Abi | readonly unknown[] = Abi,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _contractName extends string = string,
   _functionName extends string = string,
@@ -65,13 +63,47 @@ export type WriteActionBaseType<
   _resolvedChain,
   _contractName
 > &
-  GetContractAddress<_resolvedChain, _contractName> &
+  GetContractAddress<_resolvedChain, _contractName>
+
+export type WriteActionBaseType<
+  TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+  _contractName extends string = string,
+  _functionName extends string = string,
+  _resolvedChain extends Chain | undefined = ResolveChain<
+    TChain,
+    TChainOverride
+  >,
+> = ActionBaseType<TChain, TChainOverride, _contractName, _functionName, _resolvedChain> &
   Omit<
     WriteContractParameters<
       TAbi,
       _functionName,
       TChain,
       TAccount,
+      TChainOverride
+    >,
+    'abi' | 'functionName' | 'args' | 'address' | 'chain'
+  >
+
+export type SimulateActionBaseType<
+  TChain extends Chain | undefined = Chain,
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+  _contractName extends string = string,
+  _functionName extends string = string,
+  _resolvedChain extends Chain | undefined = ResolveChain<
+    TChain,
+    TChainOverride
+  >,
+> = ActionBaseType<TChain, TChainOverride, _contractName, _functionName, _resolvedChain> &
+  Omit<
+    SimulateContractParameters<
+      TAbi,
+      _functionName,
+      TChain,
       TChainOverride
     >,
     'abi' | 'functionName' | 'args' | 'address' | 'chain'

@@ -6,26 +6,31 @@ import {
   SimulateContractReturnType,
 } from 'viem'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import { OpChainL2 } from '@roninjin10/rollup-chains'
 import { simulateContract } from 'viem/actions'
 import { DepositETHParameters } from '../../../types/depositETHParameters'
+import { ResolveChain, SimulateActionBaseType } from '../../../types/actions'
+import { OpStackL1Contracts } from '../../../types/opStackContracts'
+import { ContractToChainAddressMapping } from '../../wallet/L1/writeUnsafeDepositTransaction'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
-> = Omit<
-  SimulateContractParameters<
-    typeof l1StandardBridgeABI,
-    'depositETH',
+  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismL1StandardBridge,
+  _functionName extends string = 'depositETH',
+  _resolvedChain extends Chain | undefined = ResolveChain<
     TChain,
     TChainOverride
-  >,
-  'abi' | 'functionName' | 'args' | 'address'
-> & {
-  toChain: OpChainL2
+  >
+> = & {
   args: DepositETHParameters
-}
-
+} & SimulateActionBaseType<
+  TChain,
+  typeof l1StandardBridgeABI,
+  TChainOverride,
+  _contractName,
+  _functionName,
+  _resolvedChain
+>
 export type SimulateDepositETHReturnType<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
@@ -43,12 +48,22 @@ export async function simulateDepositETH<
   client: PublicClient<Transport, TChain>,
   {
     args: { gasLimit, data },
-    toChain,
+    l2ChainId,
+    optimismL1StandardBridgeAddress,
+    chain = client.chain,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
 ): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
+  const contracts = chain?.contracts as
+    | ContractToChainAddressMapping
+    | undefined
+  const bridge =
+    optimismL1StandardBridgeAddress ||
+    (contracts && typeof l2ChainId == 'number'
+      ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
+      : undefined)
   return simulateContract(client, {
-    address: toChain.opContracts.L1StandardBridgeProxy,
+    address: bridge,
     abi: l1StandardBridgeABI,
     functionName: 'depositETH',
     args: [gasLimit, data],
