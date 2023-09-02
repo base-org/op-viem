@@ -1,4 +1,5 @@
-import { Address, Chain } from 'viem'
+import { Abi, Account, Address, Chain, WriteContractParameters } from 'viem'
+import { OpStackL1Contracts } from './opStackContracts'
 
 export type ExtractValidChainIdFromContract<
   TChain extends Chain | undefined,
@@ -16,19 +17,19 @@ export type ResolveChain<
   TChainOverride extends Chain | undefined = undefined,
 > = TChainOverride extends Chain ? TChainOverride : TChain
 
-export type GetTo<
+export type GetL2ChainId<
   TChain extends Chain | undefined,
   contractName extends string,
 > = ExtractValidChainIdFromContract<TChain, contractName> extends undefined
   ? {
-      toChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
+      l2ChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
     }
   : // NOTE(Wilson): users will see this as a required arg in the case they are passing optimismPortalAddress
     // explicitly and the chain has entries at contracts[contractName], e.g. I am using a chain with some
     // known optimismPortal address but I am sending to a different one. toChainId does not actually get
     // get used in the code on this path, but I am leaving this as making it optional means NOT passing optimismPortalAddress
     // and also not passing toChainId is allowed.
-    { toChainId: ExtractValidChainIdFromContract<TChain, contractName> }
+    { l2ChainId: ExtractValidChainIdFromContract<TChain, contractName> }
 
 // actually isn't quite what we want? do we want to let them override
 // contract name might be specified but this specific chain might not be
@@ -48,3 +49,30 @@ export type GetContractAddress<
         }
     : never
   : never
+
+export type WriteActionBaseType<
+  TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TChainOverride extends Chain | undefined = Chain | undefined,
+  _contractName extends string = string,
+  _functionName extends string = string,
+  _resolvedChain extends Chain | undefined = ResolveChain<
+    TChain,
+    TChainOverride
+  >,
+> = { chain?: TChain | TChainOverride } & GetL2ChainId<
+  _resolvedChain,
+  _contractName
+> &
+  GetContractAddress<_resolvedChain, _contractName> &
+  Omit<
+    WriteContractParameters<
+      TAbi,
+      _functionName,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'abi' | 'functionName' | 'args' | 'address' | 'chain'
+  >

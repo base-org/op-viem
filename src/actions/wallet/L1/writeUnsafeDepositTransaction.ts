@@ -12,12 +12,11 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { writeContract } from 'viem/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import {
-  ExtractValidChainIdFromContract,
   GetContractAddress,
-  GetTo,
+  GetL2ChainId,
   ResolveChain,
+  WriteActionBaseType,
 } from '../../../types/actions'
-import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -28,7 +27,7 @@ export type DepositTransactionParameters = {
 }
 
 // TODO(wilson): remove after viem updates types
-type ContractToChainAddressMapping = {
+export type ContractToChainAddressMapping = {
   [key: string]: { [chainId: number]: Address }
 }
 
@@ -37,24 +36,22 @@ export type WriteUnsafeDepositTransactionParameters<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismPortal,
+  _functionName extends string = 'depositTransaction',
   _resolvedChain extends Chain | undefined = ResolveChain<
     TChain,
     TChainOverride
   >,
-> = Omit<
-  WriteContractParameters<
-    typeof optimismPortalABI,
-    'depositTransaction',
-    TChain,
-    TAccount,
-    TChainOverride
-  >,
-  'abi' | 'functionName' | 'args' | 'address' | 'chain'
-> & {
-  chain?: TChain | TChainOverride
+> = {
   args: DepositTransactionParameters
-} & GetTo<_resolvedChain, _contractName> &
-  GetContractAddress<_resolvedChain, _contractName>
+} & WriteActionBaseType<
+  TChain,
+  TAccount,
+  typeof optimismPortalABI,
+  TChainOverride,
+  _contractName,
+  _functionName,
+  _resolvedChain
+>
 
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
@@ -64,7 +61,7 @@ export async function writeUnsafeDepositTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
-    toChainId,
+    l2ChainId,
     optimismPortalAddress,
     chain = client.chain,
     ...rest
@@ -80,8 +77,8 @@ export async function writeUnsafeDepositTransaction<
     optimismPortalAddress ||
     (contracts &&
     contracts[OpStackL1Contracts.optimismPortal] &&
-    typeof toChainId == 'number'
-      ? contracts[OpStackL1Contracts.optimismPortal][toChainId]
+    typeof l2ChainId == 'number'
+      ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
       : undefined)
   if (!portal) {
     throw new Error('Portal not defined')

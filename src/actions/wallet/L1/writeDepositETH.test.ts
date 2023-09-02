@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest'
 import { walletClient } from '../../../_test/utils'
-import { base } from '@roninjin10/rollup-chains'
 import { accounts } from '../../../_test/constants'
 import { writeDepositETH } from './writeDepositETH'
+import { base } from 'viem/chains'
 
 test('default', async () => {
   expect(
@@ -12,7 +12,7 @@ test('default', async () => {
         data: '0x',
       },
       value: 1n,
-      toChain: base,
+      l2ChainId: base.id,
       account: accounts[0].address,
     }),
   ).toBeDefined()

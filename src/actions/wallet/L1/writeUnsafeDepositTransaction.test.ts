@@ -23,7 +23,7 @@ test('default', async () => {
         isCreation: false,
       },
       value: 0n,
-      toChainId: base.id,
+      l2ChainId: base.id,
       account: accounts[0].address,
     }),
   ).toBeDefined()
@@ -39,7 +39,7 @@ test('sends transaction to correct infered address', async () => {
       isCreation: false,
     },
     value: 1n,
-    toChainId: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
@@ -95,7 +95,7 @@ test('sends transaction to correct address with chain override', async () => {
     },
     value: 1n,
     chain: c,
-    toChainId: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
@@ -116,7 +116,7 @@ test('creates correct deposit transaction', async () => {
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: args.value!,
-    toChainId: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
@@ -151,7 +151,7 @@ test('correctly passes arugments', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    toChainId: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
   })
@@ -176,7 +176,7 @@ test('uses defaults for data, isCreation, and value', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    toChainId: base.id,
+    l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
   })
