@@ -4,7 +4,7 @@ import {
   TransactionDepositedEvent,
 } from '../types/depositTransaction'
 import { getSourceHash } from './getSourceHash'
-import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
+import { getDepositTransaction } from './getDepositTransaction'
 import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction'
 
 type GetL2HashFromDepositInfoParams = {
@@ -23,7 +23,7 @@ export function getL2HashFromL1DepositInfo({
     logIndex,
     l1BlockHash: blockHash,
   })
-  const depositTx = getDepositTransactionFromTransactionDepositedEvent({
+  const depositTx = getDepositTransaction({
     event,
     sourceHash,
   })

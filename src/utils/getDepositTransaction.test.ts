@@ -5,8 +5,8 @@ import { ethersProvider } from '../_test/bench'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { getTransactionReceipt } from 'viem/actions'
 import { publicClient } from '../_test/utils'
-import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
-import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
+import { getTransactionDepositedEvents } from './getTransactionDepositedEvents'
+import { getDepositTransaction } from './getDepositTransaction'
 import { getSourceHash } from './getSourceHash'
 import { SourceHashDomain } from '../types/depositTransaction'
 import { mainnet } from '../chains/mainnet'
@@ -31,8 +31,8 @@ test('derives same values as op-ethereum/core-utils', async () => {
   const receipt = await getTransactionReceipt(publicClient, {
     hash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
   })
-  const depositEvents = getDepositEventsInfoFromTxReceipt({ receipt })
-  const opViemTx = getDepositTransactionFromTransactionDepositedEvent({
+  const depositEvents = getTransactionDepositedEvents({ txReceipt: receipt })
+  const opViemTx = getDepositTransaction({
     event: depositEvents[0].event,
     sourceHash: getSourceHash({
       domain: SourceHashDomain.UserDeposit,

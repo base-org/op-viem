@@ -4,15 +4,15 @@ import {
   TransactionDepositedEvent,
 } from '../types/depositTransaction'
 
-export type GetDepositTransactionFromTransactionDepositedEventParams = {
+export type buildDepositTransactionParams = {
   event: TransactionDepositedEvent
   sourceHash: Hex
 }
 
-export function getDepositTransactionFromTransactionDepositedEvent({
+export function getDepositTransaction({
   event,
   sourceHash,
-}: GetDepositTransactionFromTransactionDepositedEventParams): DepositTransaction {
+}: buildDepositTransactionParams): DepositTransaction {
   /// code from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L198
   /// with adaptions for viem
   const opaqueData = event.args.opaqueData

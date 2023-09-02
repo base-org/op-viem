@@ -3,7 +3,12 @@ import { TransactionDepositedEvent } from '../types/depositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 
 type GetDepositEventInfoFromTxReceiptParams = {
-  receipt: TransactionReceipt
+  txReceipt: TransactionReceipt
+}
+
+type TransactionDepositedEventDetails = {
+  event: TransactionDepositedEvent
+  logIndex: number
 }
 
 /**
@@ -13,15 +18,12 @@ type GetDepositEventInfoFromTxReceiptParams = {
  * @param receipt the receipt of the transaction supposedly containing the TransactionDeposited event
  * @returns An array of L2 transaction hashes, corresponding to all TransactionDeposited events found in the transaction
  */
-export function getDepositEventsInfoFromTxReceipt({
-  receipt,
-}: GetDepositEventInfoFromTxReceiptParams): {
-  event: TransactionDepositedEvent
-  logIndex: number
-}[] {
+export function getTransactionDepositedEvents({
+  txReceipt,
+}: GetDepositEventInfoFromTxReceiptParams): TransactionDepositedEventDetails[] {
   let depositEvents: { event: TransactionDepositedEvent; logIndex: number }[] =
     []
-  for (const l of receipt.logs) {
+  for (const l of txReceipt.logs) {
     try {
       const event = decodeEventLog({
         abi: optimismPortalABI,

@@ -1,5 +1,5 @@
 import { type PublicClient, Chain, Transport, Hash } from 'viem'
-import { getDepositEventsInfoFromTxReceipt } from '../../../utils/getDepositEventsInfoFromTxReceipt'
+import { getTransactionDepositedEvents } from '../../../utils/getTransactionDepositedEvents'
 import { getL2HashFromL1DepositInfo } from '../../../utils/getL2HashFromL1DepositInfo'
 
 export type GetL2HashesForDepositTxParamters = {
@@ -12,14 +12,14 @@ export async function getL2HashesForDepositTx<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   { l1TxHash }: GetL2HashesForDepositTxParamters,
 ): Promise<GetL2HashesForDepositTxReturnType> {
-  const receipt = await client.getTransactionReceipt({ hash: l1TxHash })
-  const depositEvents = getDepositEventsInfoFromTxReceipt({ receipt })
+  const txReceipt = await client.getTransactionReceipt({ hash: l1TxHash })
+  const depositEvents = getTransactionDepositedEvents({ txReceipt })
 
   return depositEvents.map(({ event, logIndex }) =>
     getL2HashFromL1DepositInfo({
       event,
       logIndex,
-      blockHash: receipt.blockHash,
+      blockHash: txReceipt.blockHash,
     }),
   )
 }
