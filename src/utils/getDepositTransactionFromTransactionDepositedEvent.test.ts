@@ -1,5 +1,4 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { optimism } from '@roninjin10/rollup-chains'
 import { BigNumber, ethers } from 'ethers'
 import { expect, test } from 'vitest'
 import { ethersProvider } from '../_test/bench'
@@ -10,13 +9,15 @@ import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxR
 import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
 import { getSourceHash } from './getSourceHash'
 import { SourceHashDomain } from '../types/depositTransaction'
+import { mainnet } from '../chains/mainnet'
+import { optimism } from 'viem/chains'
 
 // Simply testing against another implementation is not the best practice
 // but I added these after debugging a difference. They will be useful to have
 // if debugging again in the future.
 test('derives same values as op-ethereum/core-utils', async () => {
   const contract = new ethers.Contract(
-    optimism.opContracts.OptimismPortalProxy,
+    mainnet.contracts.optimismPortal[optimism.id],
     optimismPortalABI,
     ethersProvider,
   )

@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
 import { createPublicClient, http, toHex } from 'viem'
-import { base } from '@wagmi/chains'
+import { base } from 'viem/chains'
 import { getProof } from './getProof'
 
 test('correctly retrieves proof', async () => {

@@ -2,10 +2,11 @@ import { test, expect } from 'vitest'
 import { publicClient } from '../../../_test/utils'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
 import { ethers } from 'ethers'
-import { optimism } from '@roninjin10/rollup-chains'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { ethersProvider } from '../../../_test/bench'
 import { DepositTx } from '@eth-optimism/core-utils'
+import { optimism } from 'viem/chains'
+import { mainnet } from '../../../chains/mainnet'
 
 test('correctly retrieves L2 hash', async () => {
   const hashes = await getL2HashesForDepositTx(publicClient, {
@@ -27,7 +28,7 @@ test('matches @eth-optimism/core-utils', async () => {
   })
 
   const contract = new ethers.Contract(
-    optimism.opContracts.OptimismPortalProxy,
+    mainnet.contracts.optimismPortal[optimism.id],
     optimismPortalABI,
     ethersProvider,
   )

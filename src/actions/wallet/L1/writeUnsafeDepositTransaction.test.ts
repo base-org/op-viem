@@ -4,12 +4,13 @@ import {
   DepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
-import { base } from '@roninjin10/rollup-chains'
 import { accounts } from '../../../_test/constants'
 import { mine } from 'viem/actions'
-import { decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
+import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { base } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 
 test('default', async () => {
   expect(
@@ -22,13 +23,13 @@ test('default', async () => {
         isCreation: false,
       },
       value: 0n,
-      toChain: base,
+      l2ChainId: base.id,
       account: accounts[0].address,
     }),
   ).toBeDefined()
 })
 
-test('sends transaction to correct address', async () => {
+test('sends transaction to correct infered address', async () => {
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args: {
       to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
@@ -38,14 +39,70 @@ test('sends transaction to correct address', async () => {
       isCreation: false,
     },
     value: 1n,
-    toChain: base,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
   await mine(testClient, { blocks: 1 })
 
   const r = await publicClient.getTransactionReceipt({ hash })
-  expect(r.to).toEqual(base.opContracts.OptimismPortalProxy.toLocaleLowerCase())
+  expect(r.to).toEqual(
+    publicClient.chain.contracts['optimismPortal'][base.id].toLowerCase(),
+  )
+})
+
+test('sends transaction to correct explicit address', async () => {
+  const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
+  const hash = await writeUnsafeDepositTransaction(walletClient, {
+    args: {
+      to: portal,
+      value: 1n,
+      gasLimit: 25000n,
+      data: '0x',
+      isCreation: false,
+    },
+    value: 1n,
+    chain: mainnet, // a chain with no optimismPortal
+    optimismPortalAddress: portal,
+    account: accounts[0].address,
+  })
+
+  await mine(testClient, { blocks: 1 })
+
+  const r = await publicClient.getTransactionReceipt({ hash })
+  expect(r.to).toEqual(portal.toLowerCase())
+})
+
+test('sends transaction to correct address with chain override', async () => {
+  const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
+  const c = {
+    ...walletClient.chain,
+    contracts: {
+      ...walletClient.chain.contracts,
+      optimismPortal: {
+        8453: portal,
+      },
+    },
+  }
+
+  const hash = await writeUnsafeDepositTransaction(walletClient, {
+    args: {
+      to: portal,
+      value: 1n,
+      gasLimit: 25000n,
+      data: '0x',
+      isCreation: false,
+    },
+    value: 1n,
+    chain: c,
+    l2ChainId: base.id,
+    account: accounts[0].address,
+  })
+
+  await mine(testClient, { blocks: 1 })
+
+  const r = await publicClient.getTransactionReceipt({ hash })
+  expect(r.to).toEqual(portal.toLowerCase())
 })
 
 test('creates correct deposit transaction', async () => {
@@ -59,7 +116,7 @@ test('creates correct deposit transaction', async () => {
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: args.value!,
-    toChain: base,
+    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
@@ -94,7 +151,7 @@ test('correctly passes arugments', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    toChain: base,
+    l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
   })
@@ -119,7 +176,7 @@ test('uses defaults for data, isCreation, and value', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    toChain: base,
+    l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
   })

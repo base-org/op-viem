@@ -1,9 +1,10 @@
 import { expect, test } from 'vitest'
 import { walletClient, testClient, publicClient } from '../../../_test/utils'
-import { base } from '@roninjin10/rollup-chains'
 import { writeDepositERC20 } from './writeDepositERC20'
 import { mine, writeContract } from 'viem/actions'
 import { erc20ABI } from 'wagmi'
+import { mainnet } from '../../../chains/mainnet'
+import { base } from 'viem/chains'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const USDCL2 = '0x2e668bb88287675e34c8df82686dfd0b7f0c0383'
@@ -21,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [base.opContracts.L1StandardBridgeProxy, 10000n],
+    args: [mainnet.contracts.optimismL1StandardBridge[base.id], 10000n],
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })
@@ -33,7 +34,7 @@ test('default', async () => {
       gasLimit: 1n,
       data: '0x',
     },
-    toChain: base,
+    l2ChainId: base.id,
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })

@@ -1,10 +1,10 @@
-import { test, expect } from 'vitest'
+import { test } from 'vitest'
 import { Hex, createPublicClient, createWalletClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { goerli, mainnet } from '@wagmi/chains'
-import { baseGoerli } from '@roninjin10/rollup-chains'
 import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
 import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
+import { baseGoerli } from '../chains/baseGoerli'
+import { goerli } from '../chains/goerli'
 
 test('correctly retrieves L2 hash', async () => {
   return
@@ -21,7 +21,7 @@ test('correctly retrieves L2 hash', async () => {
   }).extend(walletL1OpStackActions)
 
   const depositHash = await walletClient.writeUnsafeDepositTransaction({
-    toChain: baseGoerli,
+    l2ChainId: baseGoerli.id,
     args: {
       to: account.address,
       value: 1n,
