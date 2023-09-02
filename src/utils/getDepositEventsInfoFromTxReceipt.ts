@@ -1,6 +1,6 @@
-import { TransactionReceipt, decodeEventLog } from 'viem'
 import { TransactionDepositedEvent } from '../types/depositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { TransactionReceipt, decodeEventLog } from 'viem'
 
 type GetDepositEventInfoFromTxReceiptParams = {
   receipt: TransactionReceipt
@@ -19,8 +19,10 @@ export function getDepositEventsInfoFromTxReceipt({
   event: TransactionDepositedEvent
   logIndex: number
 }[] {
-  let depositEvents: { event: TransactionDepositedEvent; logIndex: number }[] =
-    []
+  const depositEvents: {
+    event: TransactionDepositedEvent
+    logIndex: number
+  }[] = []
   for (const l of receipt.logs) {
     try {
       const event = decodeEventLog({

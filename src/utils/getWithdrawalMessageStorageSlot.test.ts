@@ -1,5 +1,5 @@
 import { getWithdrawalMessageStorageSlot } from './getWithdrawalMessageStorageSlot'
-import { test, expect } from 'vitest'
+import { expect, test } from 'vitest'
 
 test('returns correct source hash', async () => {
   const hash =

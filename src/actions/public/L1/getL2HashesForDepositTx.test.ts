@@ -1,12 +1,12 @@
-import { test, expect } from 'vitest'
-import { publicClient } from '../../../_test/utils'
-import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
-import { ethers } from 'ethers'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { ethersProvider } from '../../../_test/bench'
-import { DepositTx } from '@eth-optimism/core-utils'
-import { optimism } from 'viem/chains'
+import { publicClient } from '../../../_test/utils'
 import { mainnet } from '../../../chains/mainnet'
+import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { DepositTx } from '@eth-optimism/core-utils'
+import { ethers } from 'ethers'
+import { optimism } from 'viem/chains'
+import { expect, test } from 'vitest'
 
 test('correctly retrieves L2 hash', async () => {
   const hashes = await getL2HashesForDepositTx(publicClient, {
@@ -32,7 +32,7 @@ test('matches @eth-optimism/core-utils', async () => {
     optimismPortalABI,
     ethersProvider,
   )
-  const filter = contract.filters['TransactionDeposited'](
+  const filter = contract.filters.TransactionDeposited(
     '0x36BDE71C97B33Cc4729cf772aE268934f7AB70B2',
     '0x4200000000000000000000000000000000000007',
   )

@@ -1,8 +1,8 @@
-import { toRlp, Hex, trim, concat, size } from 'viem'
 import {
   DEPOSIT_TX_PREFIX,
   DepositTransaction,
 } from '../types/depositTransaction'
+import { Hex, concat, size, toRlp, trim } from 'viem'
 
 export function rlpEncodeDepositTransaction(
   depositTx: DepositTransaction,
@@ -16,9 +16,9 @@ export function rlpEncodeDepositTransaction(
     depositTx.to,
     // NOTE(Wilson): I am not sure who is *correct* here but OP encodes
     // '0x00' as '0x' and viem trim does not have the same behavior
-    trimmedMint == '0x00' ? '0x' : trimmedMint,
-    trimmedValue == '0x00' ? '0x' : trimmedValue,
-    trimmedGas == '0x00' ? '0x' : trimmedGas,
+    trimmedMint === '0x00' ? '0x' : trimmedMint,
+    trimmedValue === '0x00' ? '0x' : trimmedValue,
+    trimmedGas === '0x00' ? '0x' : trimmedGas,
     depositTx.isSystemTransaction ? '0x1' : '0x',
     depositTx.data,
   ])

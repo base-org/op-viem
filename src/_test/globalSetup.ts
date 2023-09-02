@@ -5,9 +5,9 @@ import {
   blockTime,
   forkBlockNumber,
   forkUrl,
-  rollupForkUrl,
   rollupBlockTime,
   rollupForkBlockNumber,
+  rollupForkUrl,
 } from './constants.js'
 
 export default async function () {

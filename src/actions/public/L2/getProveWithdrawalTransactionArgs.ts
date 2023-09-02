@@ -1,9 +1,9 @@
+import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
+import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
+import { getProof } from '../getProof'
+import { MessagePassedEvent } from './getWithdrawalMessages'
 import { Chain, Hex, PublicClient, Transport, toHex } from 'viem'
 import { getBlock } from 'viem/actions'
-import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
-import { MessagePassedEvent } from './getWithdrawalMessages'
-import { getProof } from '../getProof'
-import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
 
 export type OutputRootProof = {
   version: Hex

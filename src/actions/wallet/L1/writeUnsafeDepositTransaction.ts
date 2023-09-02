@@ -1,22 +1,22 @@
 import {
-  Transport,
-  WalletClient,
-  Chain,
-  Account,
-  WriteContractParameters,
-  WriteContractReturnType,
-  Address,
-  Hex,
-} from 'viem'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { writeContract } from 'viem/actions'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
-import {
   GetContractAddress,
   GetL2ChainId,
   ResolveChain,
   WriteActionBaseType,
 } from '../../../types/actions'
+import { OpStackL1Contracts } from '../../../types/opStackContracts'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import {
+  Account,
+  Address,
+  Chain,
+  Hex,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
+import { writeContract } from 'viem/actions'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -70,14 +70,11 @@ export async function writeUnsafeDepositTransaction<
   if (!chain) {
     throw new Error('Chain not defined')
   }
-  const contracts = chain['contracts'] as
-    | ContractToChainAddressMapping
-    | undefined
+  const contracts = chain.contracts as ContractToChainAddressMapping | undefined
   const portal =
     optimismPortalAddress ||
-    (contracts &&
-    contracts[OpStackL1Contracts.optimismPortal] &&
-    typeof l2ChainId == 'number'
+    (contracts?.[OpStackL1Contracts.optimismPortal] &&
+    typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
       : undefined)
   if (!portal) {

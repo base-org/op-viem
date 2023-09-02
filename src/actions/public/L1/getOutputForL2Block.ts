@@ -1,9 +1,9 @@
-import { Chain, Hex, PublicClient, Transport } from 'viem'
-import { readContract } from 'viem/actions'
-import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import { ActionBaseType } from '../../../types/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from '../../wallet/L1/writeUnsafeDepositTransaction'
+import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
+import { Chain, Hex, PublicClient, Transport } from 'viem'
+import { readContract } from 'viem/actions'
 
 export type Proposal = {
   outputRoot: Hex
@@ -47,7 +47,7 @@ export async function getOutputForL2Block<TChain extends Chain | undefined>(
     | undefined
   const oracle =
     optimismL2OutputOracleAddress ||
-    (contracts && typeof l2ChainId == 'number'
+    (contracts && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismL2OutputOracle][l2ChainId]
       : undefined)
   if (!oracle) {

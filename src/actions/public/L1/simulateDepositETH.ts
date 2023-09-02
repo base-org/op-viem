@@ -1,16 +1,16 @@
-import {
-  Transport,
-  PublicClient,
-  Chain,
-  SimulateContractParameters,
-  SimulateContractReturnType,
-} from 'viem'
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import { simulateContract } from 'viem/actions'
-import { DepositETHParameters } from '../../../types/depositETHParameters'
 import { ResolveChain, SimulateActionBaseType } from '../../../types/actions'
+import { DepositETHParameters } from '../../../types/depositETHParameters'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from '../../wallet/L1/writeUnsafeDepositTransaction'
+import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import {
+  Chain,
+  PublicClient,
+  SimulateContractParameters,
+  SimulateContractReturnType,
+  Transport,
+} from 'viem'
+import { simulateContract } from 'viem/actions'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -59,7 +59,7 @@ export async function simulateDepositETH<
     | undefined
   const bridge =
     optimismL1StandardBridgeAddress ||
-    (contracts && typeof l2ChainId == 'number'
+    (contracts && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
       : undefined)
   return simulateContract(client, {

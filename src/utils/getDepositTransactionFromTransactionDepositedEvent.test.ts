@@ -1,16 +1,16 @@
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { BigNumber, ethers } from 'ethers'
-import { expect, test } from 'vitest'
 import { ethersProvider } from '../_test/bench'
-import { DepositTx } from '@eth-optimism/core-utils'
-import { getTransactionReceipt } from 'viem/actions'
 import { publicClient } from '../_test/utils'
+import { mainnet } from '../chains/mainnet'
+import { SourceHashDomain } from '../types/depositTransaction'
 import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
 import { getSourceHash } from './getSourceHash'
-import { SourceHashDomain } from '../types/depositTransaction'
-import { mainnet } from '../chains/mainnet'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { DepositTx } from '@eth-optimism/core-utils'
+import { BigNumber, ethers } from 'ethers'
+import { getTransactionReceipt } from 'viem/actions'
 import { optimism } from 'viem/chains'
+import { expect, test } from 'vitest'
 
 // Simply testing against another implementation is not the best practice
 // but I added these after debugging a difference. They will be useful to have
@@ -21,7 +21,7 @@ test('derives same values as op-ethereum/core-utils', async () => {
     optimismPortalABI,
     ethersProvider,
   )
-  const filter = contract.filters['TransactionDeposited'](
+  const filter = contract.filters.TransactionDeposited(
     '0x36BDE71C97B33Cc4729cf772aE268934f7AB70B2',
     '0x4200000000000000000000000000000000000007',
   )

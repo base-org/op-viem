@@ -1,7 +1,7 @@
-import { bench, describe } from 'vitest'
 import { getWithdrawalMessageStorageSlot } from './getWithdrawalMessageStorageSlot'
-import { Hex } from 'viem'
 import { hashMessageHash } from '@eth-optimism/sdk'
+import { Hex } from 'viem'
+import { bench, describe } from 'vitest'
 
 describe('Hashes message hash', () => {
   const hash: Hex =

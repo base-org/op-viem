@@ -23,7 +23,7 @@
   },
   "scripts": {
     "format": "rome format . --write",
-    "lint": "rome check .",
+    "lint": "rome check --apply-unsafe .",
     "lint:fix": "pnpm lint --apply",
     "test": "vitest dev",
     "test:cov": "vitest dev --coverage",

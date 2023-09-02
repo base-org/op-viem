@@ -1,18 +1,18 @@
-import {
-  Transport,
-  WalletClient,
-  Chain,
-  Account,
-  WriteContractParameters,
-  WriteContractReturnType,
-  Address,
-  Hex,
-} from 'viem'
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import { writeContract } from 'viem/actions'
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
+import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import {
+  Account,
+  Address,
+  Chain,
+  Hex,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
+import { writeContract } from 'viem/actions'
 
 type DepositERC20Parameters = {
   l1Token: Address
@@ -63,7 +63,7 @@ export async function writeDepositERC20<
     | undefined
   const bridge =
     optimismL1StandardBridgeAddress ||
-    (contracts && typeof l2ChainId == 'number'
+    (contracts && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
       : undefined)
   return writeContract(client, {

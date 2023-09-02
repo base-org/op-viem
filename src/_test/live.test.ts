@@ -1,10 +1,10 @@
-import { test } from 'vitest'
-import { Hex, createPublicClient, createWalletClient, http } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
-import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
-import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
 import { baseGoerli } from '../chains/baseGoerli'
 import { goerli } from '../chains/goerli'
+import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
+import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
+import { Hex, createPublicClient, createWalletClient, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { test } from 'vitest'
 
 test('correctly retrieves L2 hash', async () => {
   return

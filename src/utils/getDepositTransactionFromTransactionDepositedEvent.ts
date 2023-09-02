@@ -1,8 +1,8 @@
-import { slice, size, Hex } from 'viem'
 import {
   DepositTransaction,
   TransactionDepositedEvent,
 } from '../types/depositTransaction'
+import { Hex, size, slice } from 'viem'
 
 export type GetDepositTransactionFromTransactionDepositedEventParams = {
   event: TransactionDepositedEvent
@@ -23,7 +23,7 @@ export function getDepositTransactionFromTransactionDepositedEvent({
   offset += 32
   const gas = slice(opaqueData, offset, offset + 8)
   offset += 8
-  const isCreation = BigInt(opaqueData[offset]) == 1n
+  const isCreation = BigInt(opaqueData[offset]) === 1n
   offset += 1
   const to = isCreation === true ? '0x' : event.args.to
   const data =

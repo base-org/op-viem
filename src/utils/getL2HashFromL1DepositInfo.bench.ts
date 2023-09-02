@@ -1,14 +1,14 @@
-import { bench, describe } from 'vitest'
 import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
-import { DepositTx } from '@eth-optimism/core-utils'
-import { ethers } from 'ethers'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { getTransactionReceipt } from 'viem/actions'
+import { mainnet } from '../chains/mainnet'
 import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { DepositTx } from '@eth-optimism/core-utils'
+import { ethers } from 'ethers'
+import { getTransactionReceipt } from 'viem/actions'
 import { base } from 'viem/chains'
-import { mainnet } from '../chains/mainnet'
+import { bench, describe } from 'vitest'
 
 describe('Obtain L2 hash from already fetched event', async () => {
   const receipt = await getTransactionReceipt(publicClient, {
@@ -28,7 +28,7 @@ describe('Obtain L2 hash from already fetched event', async () => {
     optimismPortalABI,
     ethersProvider,
   )
-  const filter = contract.filters['TransactionDeposited'](
+  const filter = contract.filters.TransactionDeposited(
     '0xbc3ed6B537f2980e66f396Fe14210A56ba3f72C4',
     '0xbc3ed6B537f2980e66f396Fe14210A56ba3f72C4',
   )

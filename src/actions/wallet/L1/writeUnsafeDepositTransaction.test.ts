@@ -1,16 +1,16 @@
-import { expect, test } from 'vitest'
-import { publicClient, walletClient, testClient } from '../../../_test/utils'
+import { accounts } from '../../../_test/constants'
+import { publicClient, testClient, walletClient } from '../../../_test/utils'
+import { TransactionDepositedEvent } from '../../../types/depositTransaction'
 import {
   DepositTransactionParameters,
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
-import { accounts } from '../../../_test/constants'
-import { mine } from 'viem/actions'
-import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
+import { mine } from 'viem/actions'
 import { base } from 'viem/chains'
 import { mainnet } from 'viem/chains'
+import { expect, test } from 'vitest'
 
 test('default', async () => {
   expect(
@@ -47,7 +47,7 @@ test('sends transaction to correct infered address', async () => {
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.to).toEqual(
-    publicClient.chain.contracts['optimismPortal'][base.id].toLowerCase(),
+    publicClient.chain.contracts.optimismPortal[base.id].toLowerCase(),
   )
 })
 

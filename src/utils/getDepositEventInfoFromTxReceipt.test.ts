@@ -1,6 +1,6 @@
-import { test, expect } from 'vitest'
 import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { TransactionReceipt } from 'viem'
+import { expect, test } from 'vitest'
 
 const receipt: TransactionReceipt = {
   type: 'eip1559',

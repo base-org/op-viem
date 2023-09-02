@@ -1,11 +1,12 @@
 import {
   accounts,
-  localHttpUrl,
-  localWsUrl,
-  localRollupHttpUrl,
   locaRolluplWsUrl,
+  localHttpUrl,
+  localRollupHttpUrl,
+  localWsUrl,
 } from './constants.js'
 import {
+  Address,
   Chain,
   EIP1193Provider,
   RpcRequestError,
@@ -15,10 +16,9 @@ import {
   custom,
   http,
   webSocket,
-  Address,
 } from 'viem'
+import { base, localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
-import { mainnet, localhost, base } from 'viem/chains'
 
 export class ProviderRpcError extends Error {
   code: number

@@ -1,12 +1,12 @@
-import { bench, describe } from 'vitest'
 import { ethersProvider } from '../../../_test/bench'
 import { publicClient } from '../../../_test/utils'
+import { mainnet } from '../../../chains/mainnet'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { base } from 'viem/chains'
-import { mainnet } from '../../../chains/mainnet'
+import { bench, describe } from 'vitest'
 
 describe('Computes L2 hash for L1 event', () => {
   bench('op-viem: `getL2HashesForDepositTx`', async () => {
@@ -25,7 +25,7 @@ describe('Computes L2 hash for L1 event', () => {
       optimismPortalABI,
       ethersProvider,
     )
-    const filter = contract.filters['TransactionDeposited'](
+    const filter = contract.filters.TransactionDeposited(
       '0xbc3ed6B537f2980e66f396Fe14210A56ba3f72C4',
       '0xbc3ed6B537f2980e66f396Fe14210A56ba3f72C4',
     )

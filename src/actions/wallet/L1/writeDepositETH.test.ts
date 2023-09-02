@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
-import { walletClient } from '../../../_test/utils'
 import { accounts } from '../../../_test/constants'
+import { walletClient } from '../../../_test/utils'
 import { writeDepositETH } from './writeDepositETH'
 import { base } from 'viem/chains'
+import { expect, test } from 'vitest'
 
 test('default', async () => {
   expect(

@@ -1,14 +1,14 @@
-import { Chain, type PublicClient, Transport } from 'viem'
+import {
+  getProveWithdrawalTransactionArgs,
+  getProveWithdrawalTransactionArgsParams,
+  getProveWithdrawalTransactionArgsReturnType,
+} from '../actions/public/L2/getProveWithdrawalTransactionArgs'
 import {
   GetWithdrawalMessagesParameters,
   GetWithdrawalMessagesReturnType,
   getWithdrawalMessages,
 } from '../actions/public/L2/getWithdrawalMessages'
-import {
-  getProveWithdrawalTransactionArgsParams,
-  getProveWithdrawalTransactionArgsReturnType,
-  getProveWithdrawalTransactionArgs,
-} from '../actions/public/L2/getProveWithdrawalTransactionArgs'
+import { Chain, type PublicClient, Transport } from 'viem'
 
 export type PublicL2OpStackActions<
   TTransport extends Transport = Transport,

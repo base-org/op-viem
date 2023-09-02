@@ -1,7 +1,7 @@
-import { DepositTx } from '@eth-optimism/core-utils'
-import { test, expect } from 'vitest'
-import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction'
 import { DepositTransaction } from '../types/depositTransaction'
+import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction'
+import { DepositTx } from '@eth-optimism/core-utils'
+import { expect, test } from 'vitest'
 
 const ZERO =
   '0x0000000000000000000000000000000000000000000000000000000000000000'
