@@ -40,6 +40,12 @@ export type SimulateDepositERC20ReturnType<
   TChainOverride
 >
 
+/**
+ * Simulates a deposit of ERC20 tokens to L2
+ * @param {SimulateDepositERC20Parameters} args {@link SimulateDepositERC20Parameters}
+ * @param {OpChainL2} toChain the L2 chain to deposit to
+ * @returns {SimulateDepositERC20ReturnType} the simulated transaction
+ */
 export async function simulateDepositERC20<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
@@ -65,7 +71,7 @@ export async function simulateDepositERC20<
     address: bridge,
     abi: l1StandardBridgeABI,
     functionName: 'depositERC20',
-    args: [l1Token, l2Token, amount, gasLimit, data],
+    args: [l1Token, l2Token, amount, gasLimit, data || '0x'],
     ...rest,
   } as unknown as SimulateContractParameters<
     typeof l1StandardBridgeABI,

@@ -1,4 +1,5 @@
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
+import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
@@ -13,14 +14,6 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-
-type DepositERC20Parameters = {
-  l1Token: Address
-  l2Token: Address
-  amount: bigint
-  gasLimit: bigint
-  data: Hex
-}
 
 export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -44,6 +37,15 @@ export type WriteDepositERC20Parameters<
   _resolvedChain
 >
 
+/**
+ * Deposits ERC20 tokens to L2
+ * @param {Address} l1Token the L1 address of the ERC20 token to deposit
+ * @param {Address} l2Token the L2 address of the ERC20 token to deposit
+ * @param {bigint} amount the amount of tokens to deposit
+ * @param {bigint} gasLimit the gas limit for the transaction
+ * @param {Hex} [data] the data to send with the transaction
+ * @returns {WriteContractReturnType} the transaction hash
+ */
 export async function writeDepositERC20<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
@@ -70,7 +72,7 @@ export async function writeDepositERC20<
     address: bridge,
     abi: l1StandardBridgeABI,
     functionName: 'depositERC20',
-    args: [l1Token, l2Token, amount, gasLimit, data],
+    args: [l1Token, l2Token, amount, gasLimit, data || '0x'],
     ...rest,
   } as unknown as WriteContractParameters<
     typeof l1StandardBridgeABI,

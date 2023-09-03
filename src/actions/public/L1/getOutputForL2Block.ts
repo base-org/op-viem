@@ -29,9 +29,9 @@ export type GetOutputForL2BlockReturnType = {
 /**
  * Calls to the L2OutputOracle contract on L1 to get the output for a given L2 block
  *
- * @param blockNumber the L2 block number to get the output for
- * @param rollup the L2 chain
- * @returns Output proposal and index for the L2 block
+ * @param {bigint} blockNumber the L2 block number to get the output for
+ * @param {OpChainL2} rollup the L2 chain
+ * @returns {GetOutputForL2BlockReturnType} Output proposal and index for the L2 block
  */
 export async function getOutputForL2Block<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,

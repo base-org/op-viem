@@ -9,7 +9,6 @@ test('default', async () => {
   const { request } = await simulateDepositETH(publicClient, {
     args: {
       gasLimit: 100000n,
-      data: '0x',
     },
     value: 1n,
     l2ChainId: base.id,

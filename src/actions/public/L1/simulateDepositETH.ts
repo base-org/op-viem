@@ -41,6 +41,12 @@ export type SimulateDepositETHReturnType<
   TChainOverride
 >
 
+/**
+ * Simulates a deposit of ETH to L2
+ * @param {SimulateDepositETHParameters} args {@link SimulateDepositETHParameters}
+ * @param {OpChainL2} toChain the L2 chain to deposit to
+ * @returns {SimulateDepositETHReturnType} the simulated transaction
+ */
 export async function simulateDepositETH<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
@@ -66,7 +72,7 @@ export async function simulateDepositETH<
     address: bridge,
     abi: l1StandardBridgeABI,
     functionName: 'depositETH',
-    args: [gasLimit, data],
+    args: [gasLimit, data || '0x'],
     ...rest,
   } as unknown as SimulateContractParameters<
     typeof l1StandardBridgeABI,

@@ -10,8 +10,8 @@ type GetDepositEventInfoFromTxReceiptParams = {
  * @description Returns the TransactionDeposited event and log index, if found,
  * from the transaction receipt
  *
- * @param receipt the receipt of the transaction supposedly containing the TransactionDeposited event
- * @returns An array of L2 transaction hashes, corresponding to all TransactionDeposited events found in the transaction
+ * @param {TransactionReceipt} receipt the receipt of the transaction supposedly containing the TransactionDeposited event
+ * @returns {GetDepositEventInfoFromTxReceiptParams} An array of L2 transaction hashes, corresponding to all TransactionDeposited events found in the transaction
  */
 export function getDepositEventsInfoFromTxReceipt({
   receipt,

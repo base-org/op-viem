@@ -1,9 +1,4 @@
-import {
-  GetContractAddress,
-  GetL2ChainId,
-  ResolveChain,
-  WriteActionBaseType,
-} from '../../../types/actions'
+import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import {
@@ -53,6 +48,14 @@ export type WriteUnsafeDepositTransactionParameters<
   _resolvedChain
 >
 
+/**
+ * Calls depositTransaction directly on the OptimismPortal contract.
+ * Marked 'unsafe' becaused does not offer replayability incase the
+ * L2 tx fails.
+ *
+ * @param parameters - {@link WriteUnsafeDepositTransactionParameters}
+ * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
+ */
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,

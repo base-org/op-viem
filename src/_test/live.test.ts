@@ -1,9 +1,11 @@
+import { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction'
 import { baseGoerli } from '../chains/baseGoerli'
 import { goerli } from '../chains/goerli'
 import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
 import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
 import { Hex, createPublicClient, createWalletClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
+import { estimateGas } from 'viem/actions'
 import { test } from 'vitest'
 
 test('correctly retrieves L2 hash', async () => {
@@ -20,15 +22,31 @@ test('correctly retrieves L2 hash', async () => {
     transport: http(),
   }).extend(walletL1OpStackActions)
 
+  const baseGoerliPublicClient = createPublicClient({
+    chain: goerli,
+    transport: http(),
+  }).extend(publicL1OpStackActions)
+
+  const args: DepositTransactionParameters = {
+    to: account.address,
+    value: 1n,
+    data: '0x',
+    gasLimit: 0n,
+    isCreation: false,
+  }
+
+  const gas = await estimateGas(baseGoerliPublicClient, {
+    account: account.address,
+    to: args.to,
+    value: args.value,
+    data: args.data,
+  })
+
+  args.gasLimit = gas
+
   const depositHash = await walletClient.writeUnsafeDepositTransaction({
     l2ChainId: baseGoerli.id,
-    args: {
-      to: account.address,
-      value: 1n,
-      data: '0x',
-      gasLimit: 25000n,
-      isCreation: false,
-    },
+    args,
     value: 1n,
   })
 
