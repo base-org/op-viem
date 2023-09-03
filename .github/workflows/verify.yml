@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
 
       - name: Lint code
-        run: pnpm format && pnpm lint
+        run: pnpm format:check && pnpm lint
       
   test:
     name: Test

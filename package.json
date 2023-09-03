@@ -23,8 +23,8 @@
     "wagmi": "^1.3.11"
   },
   "scripts": {
-    "format": "dprint check",
-    "format:fix": "dprint fmt",
+    "format": "dprint fmt",
+    "format:check": "dprint check",
     "lint": "biome check .",
     "lint:fix": "pnpm lint --apply",
     "test": "vitest dev",
