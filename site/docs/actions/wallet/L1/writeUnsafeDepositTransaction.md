@@ -17,31 +17,31 @@ Interacting directly the portal offers no replay protection: if you are sending 
 ::: code-group
 
 ```ts [example.ts]
-import { DepositTransactionParameters } from "op-viem";
-import { account, l2PublicClient, opStackL1WalletClient } from "./config";
+import { DepositTransactionParameters } from 'op-viem'
+import { account, l2PublicClient, opStackL1WalletClient } from './config'
 
 const args: DepositTransactionParameters = {
   to: account,
   value: 1n,
-  data: "0x",
+  data: '0x',
   gasLimit: 0n,
   isCreation: false,
-};
+}
 
 const gas = await l2PublicClient.estimateGas({
   account,
   to: args.to,
   value: args.value,
   data: args.data,
-});
+})
 
-args.gasLimit = gas;
+args.gasLimit = gas
 
 const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
   args,
   l2ChainId: base.id,
   value: 1n,
-});
+})
 ```
 
 ```ts [config.ts]
@@ -108,12 +108,12 @@ await walletClient.writeUnsafeDepositTransaction({
   args: { // [!code focus:7]
     to: account.address,
     value: 1n,
-    data: "0x",
+    data: '0x',
     gasLimit: 21000n,
     isCreation: false,
   },
   l2ChainId: base.id,
-});
+})
 ```
 
 ### l2ChainId (optional)
@@ -126,7 +126,7 @@ The ID of the L2 chain the deposit transaction is intended for. This will be use
 await walletClient.writeUnsafeDepositTransaction({
   args,
   l2ChainId: base.id, // [!code focus:1]
-});
+})
 ```
 
 ### optimismPortalAddress (optional)
@@ -139,7 +139,7 @@ The `OptimismPortal` contract where the depositTransaction call should be made.
 await walletClient.writeUnsafeDepositTransaction({
   args,
   optimismPortalAddress: portal, // [!code focus:1]
-});
+})
 ```
 
 ### value (optional)
@@ -153,7 +153,7 @@ await walletClient.writeUnsafeDepositTransaction({
   args,
   optimismPortalAddress: portal,
   value: parseEther(1), // [!code focus:1]
-});
+})
 ```
 
 ::: tip
