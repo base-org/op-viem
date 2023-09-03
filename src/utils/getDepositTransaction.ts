@@ -1,15 +1,29 @@
 import { Hex, size, slice } from 'viem'
-import { DepositTransaction, TransactionDepositedEvent } from '../types/depositTransaction'
+import { DepositTransaction, SourceHashDomain, TransactionDepositedEvent } from '../types/depositTransaction'
+import { getSourceHash } from './getSourceHash'
 
-export type GetDepositTransactionFromTransactionDepositedEventParams = {
-  event: TransactionDepositedEvent
-  sourceHash: Hex
-}
+export type getDepositTransactionParams =
+  & { event: TransactionDepositedEvent }
+  & ({
+    sourceHash: Hex
+    logIndex?: never
+    l1BlockHash?: never
+    domain?: never
+  } | {
+    sourceHash?: never
+    logIndex: number
+    l1BlockHash: Hex
+    domain?: SourceHashDomain
+  })
 
-export function getDepositTransactionFromTransactionDepositedEvent({
+export function getDepositTransaction({
   event,
   sourceHash,
-}: GetDepositTransactionFromTransactionDepositedEventParams): DepositTransaction {
+  logIndex,
+  l1BlockHash,
+  domain = SourceHashDomain.UserDeposit,
+}: getDepositTransactionParams): DepositTransaction {
+  sourceHash = sourceHash ?? getSourceHash({ domain, logIndex, l1BlockHash })
   /// code from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L198
   /// with adaptions for viem
   const opaqueData = event.args.opaqueData
