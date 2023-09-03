@@ -1,8 +1,8 @@
 import { TransactionReceipt } from 'viem'
 import { expect, test } from 'vitest'
-import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
+import { getTransactionDepositedEvents } from './getTransactionDepositedEvents'
 
-const receipt: TransactionReceipt = {
+const txReceipt: TransactionReceipt = {
   type: 'eip1559',
   transactionHash: '0xe94031c3174788c3fee7216465c50bb2b72e7a1963f5af807b3768da10827f5c',
   transactionIndex: 78,
@@ -39,8 +39,8 @@ const receipt: TransactionReceipt = {
 }
 
 test('returns correct event info', () => {
-  const events = getDepositEventsInfoFromTxReceipt({
-    receipt,
+  const events = getTransactionDepositedEvents({
+    txReceipt,
   })
 
   expect(events.length).toEqual(1)

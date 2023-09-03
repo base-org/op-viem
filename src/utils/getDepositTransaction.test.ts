@@ -8,9 +8,9 @@ import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
 import { mainnet } from '../chains/mainnet'
 import { SourceHashDomain } from '../types/depositTransaction'
-import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
-import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
+import { getDepositTransaction } from './getDepositTransaction'
 import { getSourceHash } from './getSourceHash'
+import { getTransactionDepositedEvents } from './getTransactionDepositedEvents'
 
 // Simply testing against another implementation is not the best practice
 // but I added these after debugging a difference. They will be useful to have
@@ -28,16 +28,16 @@ test('derives same values as op-ethereum/core-utils', async () => {
   const events = await contract.queryFilter(filter, 18033412, 18033413)
   const depositTx = DepositTx.fromL1Event(events[0])
 
-  const receipt = await getTransactionReceipt(publicClient, {
+  const txReceipt = await getTransactionReceipt(publicClient, {
     hash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
   })
-  const depositEvents = getDepositEventsInfoFromTxReceipt({ receipt })
-  const opViemTx = getDepositTransactionFromTransactionDepositedEvent({
+  const depositEvents = getTransactionDepositedEvents({ txReceipt })
+  const opViemTx = getDepositTransaction({
     event: depositEvents[0].event,
     sourceHash: getSourceHash({
       domain: SourceHashDomain.UserDeposit,
       logIndex: depositEvents[0].logIndex,
-      l1BlockHash: receipt.blockHash,
+      l1BlockHash: txReceipt.blockHash,
     }),
   })
   expect(depositTx.sourceHash()).toEqual(opViemTx.sourceHash)
@@ -48,4 +48,29 @@ test('derives same values as op-ethereum/core-utils', async () => {
   expect(depositTx.value).toEqual(BigNumber.from(opViemTx.value))
   expect(depositTx.data).toEqual(opViemTx.data)
   expect(depositTx.isSystemTransaction).toEqual(opViemTx.isSystemTransaction)
+})
+
+test('works with or without sourceHash passed', async () => {
+  const txReceipt = await getTransactionReceipt(publicClient, {
+    hash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
+  })
+  const depositEvents = getTransactionDepositedEvents({ txReceipt })
+
+  const first = getDepositTransaction({
+    event: depositEvents[0].event,
+    domain: SourceHashDomain.UserDeposit,
+    logIndex: depositEvents[0].logIndex,
+    l1BlockHash: txReceipt.blockHash,
+  })
+
+  const second = getDepositTransaction({
+    event: depositEvents[0].event,
+    sourceHash: getSourceHash({
+      domain: SourceHashDomain.UserDeposit,
+      logIndex: depositEvents[0].logIndex,
+      l1BlockHash: txReceipt.blockHash,
+    }),
+  })
+
+  expect(first).toEqual(second)
 })
