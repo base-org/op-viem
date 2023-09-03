@@ -55,6 +55,7 @@ test('correctly generates args', async () => {
   expect(args.L2OutputIndex).toEqual(expectedResult.l2OutputIndex)
   expect(args.outputRootProof).toEqual(expectedResult.outputRootProof)
   expect(args.withdrawalProof).toEqual(expectedResult.withdrawalProof)
+  // rome-ignore lint: ok unused variable
   const { withdrawalHash, ...withdrawalTransaction } = withdrawalMessages.messages[0]
   expect(args.withdrawalTransaction).toEqual(withdrawalTransaction)
 })

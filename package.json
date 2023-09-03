@@ -1,8 +1,9 @@
 {
-  "name": "minimal-bridge",
+  "name": "op-viem",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@biomejs/biome": "1.0.0",
     "@eth-optimism/core-utils": "^0.12.3",
     "@eth-optimism/sdk": "^3.1.2",
     "@testing-library/react": "^13.3.0",
@@ -23,6 +24,7 @@
   },
   "scripts": {
     "format": "dprint fmt",
+    "lint": "biome check .",
     "lint:fix": "pnpm lint --apply",
     "test": "vitest dev",
     "test:cov": "vitest dev --coverage",

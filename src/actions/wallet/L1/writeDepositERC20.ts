@@ -1,14 +1,5 @@
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import {
-  Account,
-  Address,
-  Chain,
-  Hex,
-  Transport,
-  WalletClient,
-  WriteContractParameters,
-  WriteContractReturnType,
-} from 'viem'
+import { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'

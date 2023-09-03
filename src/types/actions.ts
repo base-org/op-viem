@@ -1,5 +1,4 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
-import { OpStackL1Contracts } from './opStackContracts'
 
 export type ExtractValidChainIdFromContract<
   TChain extends Chain | undefined,

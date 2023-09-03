@@ -1,5 +1,5 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { Address, decodeEventLog, encodeFunctionData, encodePacked, walletActions } from 'viem'
+import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { estimateGas, mine } from 'viem/actions'
 import { base } from 'viem/chains'
 import { mainnet } from 'viem/chains'

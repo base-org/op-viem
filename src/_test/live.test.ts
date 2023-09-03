@@ -10,6 +10,7 @@ import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
 
 test('correctly retrieves L2 hash', async () => {
   return
+  // rome-ignore lint: ok code is unreachable
   const pk = process.env.VITE_PRIVATE_KEY
   if (!pk) {
     console.log('no private key')

@@ -55,6 +55,7 @@ export async function getProveWithdrawalTransactionArgs<
     storageKeys: [slot],
     block: block.hash,
   })
+  // rome-ignore lint: ok unused variable
   const { withdrawalHash, ...withdrawalTransaction } = message
   return {
     withdrawalTransaction,
