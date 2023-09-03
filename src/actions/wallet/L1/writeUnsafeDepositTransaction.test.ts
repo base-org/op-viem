@@ -11,7 +11,13 @@ import {
   writeUnsafeDepositTransaction,
 } from './writeUnsafeDepositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
+import {
+  Address,
+  decodeEventLog,
+  encodeFunctionData,
+  encodePacked,
+  walletActions,
+} from 'viem'
 import { estimateGas, mine } from 'viem/actions'
 import { base } from 'viem/chains'
 import { mainnet } from 'viem/chains'
@@ -71,11 +77,9 @@ test('sends transaction to correct explicit address', async () => {
   const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args: {
-      to: portal,
+      to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
       value: 1n,
       gasLimit: 25000n,
-      data: '0x',
-      isCreation: false,
     },
     value: 1n,
     chain: mainnet, // a chain with no optimismPortal
