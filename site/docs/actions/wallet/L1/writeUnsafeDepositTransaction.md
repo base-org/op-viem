@@ -1,4 +1,4 @@
-# writeUnsafeWalletDeposit
+# writeUnsafeDepositTransaction
 
 Excutes a depositTransaction call to the `OptimismPortal` contract.
 
