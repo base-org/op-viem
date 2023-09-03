@@ -24,3 +24,4 @@ yarn-error.log*
 bench
 dist
 cache
+node_modules
