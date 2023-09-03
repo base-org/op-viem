@@ -1,0 +1,46 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.0.0/schema.json",
+  "organizeImports": {
+    "enabled": false
+  },
+  "files": {
+    "ignore": [
+      "**/node_modules",
+      "CHANGELOG.md",
+      "cache",
+      "coverage",
+      "dist",
+      "tsconfig.json",
+      "tsconfig.*.json",
+      "generated.ts",
+      "pnpm-lock.yaml"
+    ]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useButtonType": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "error"
+      },
+      "performance": {
+        "noDelete": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useShorthandArrayType": "error"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noAssignInExpressions": "off",
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": false
+  }
+}

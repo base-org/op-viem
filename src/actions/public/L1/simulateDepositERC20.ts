@@ -1,16 +1,10 @@
+import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { Chain, PublicClient, SimulateContractParameters, SimulateContractReturnType, Transport } from 'viem'
+import { simulateContract } from 'viem/actions'
 import { ResolveChain, SimulateActionBaseType } from '../../../types/actions'
 import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from '../../wallet/L1/writeUnsafeDepositTransaction'
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import {
-  Chain,
-  PublicClient,
-  SimulateContractParameters,
-  SimulateContractReturnType,
-  Transport,
-} from 'viem'
-import { simulateContract } from 'viem/actions'
 
 export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -21,14 +15,16 @@ export type SimulateDepositERC20Parameters<
     TChain,
     TChainOverride
   >,
-> = { args: DepositERC20Parameters } & SimulateActionBaseType<
-  TChain,
-  typeof l1StandardBridgeABI,
-  TChainOverride,
-  _contractName,
-  _functionName,
-  _resolvedChain
->
+> =
+  & { args: DepositERC20Parameters }
+  & SimulateActionBaseType<
+    TChain,
+    typeof l1StandardBridgeABI,
+    TChainOverride,
+    _contractName,
+    _functionName,
+    _resolvedChain
+  >
 
 export type SimulateDepositERC20ReturnType<
   TChain extends Chain | undefined = Chain,
@@ -62,9 +58,8 @@ export async function simulateDepositERC20<
   const contracts = chain?.contracts as
     | ContractToChainAddressMapping
     | undefined
-  const bridge =
-    optimismL1StandardBridgeAddress ||
-    (contracts && typeof l2ChainId === 'number'
+  const bridge = optimismL1StandardBridgeAddress
+    || (contracts && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
       : undefined)
   return simulateContract(client, {

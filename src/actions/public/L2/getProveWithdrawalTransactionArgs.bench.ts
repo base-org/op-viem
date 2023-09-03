@@ -1,16 +1,15 @@
+import { CrossChainMessenger } from '@eth-optimism/sdk'
+import { providers } from 'ethers'
+import { createPublicClient, http } from 'viem'
+import { bench, describe } from 'vitest'
 import { base } from '../../../chains/base'
 import { mainnet } from '../../../chains/mainnet'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
-import { CrossChainMessenger } from '@eth-optimism/sdk'
-import { providers } from 'ethers'
-import { createPublicClient, http } from 'viem'
-import { bench, describe } from 'vitest'
 
 describe('Computes L1 prove args from L2 tx hash', () => {
-  const hash =
-    '0xd0eb2a59f3cc4c61b01c350e71e1804ad6bd776dc9abc1bdb5e2e40695ab2628'
+  const hash = '0xd0eb2a59f3cc4c61b01c350e71e1804ad6bd776dc9abc1bdb5e2e40695ab2628'
   bench(
     'op-viem: `getWithdrawalMessages, getOutputForL2Block, getProveArgsForWithdrawal`',
     async () => {

@@ -1,5 +1,5 @@
-import { ContractRichChain } from '../_test/utils'
 import { goerli as viemGoerli } from 'viem/chains'
+import { ContractRichChain } from '../_test/utils'
 
 export const goerli = {
   ...viemGoerli,

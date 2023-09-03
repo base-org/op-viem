@@ -1,21 +1,18 @@
+import { createPublicClient, http } from 'viem'
+import { expect, test } from 'vitest'
 import { base } from '../../../chains/base'
 import { mainnet } from '../../../chains/mainnet'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
-import { createPublicClient, http } from 'viem'
-import { expect, test } from 'vitest'
 
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
   outputRootProof: {
     version: '0x0',
-    stateRoot:
-      '0xe909d5e15d0c6146b47ebd1607c3182af86e18485f7f305fa2021917497d5d98',
-    messagePasserStorageRoot:
-      '0x063558cfefd548f5e1e10bb279d77f844e0c1600b82e001b61dc39d8a110c99d',
-    latestBlockhash:
-      '0xbabd4c84a2ae4686fe3a2316e506fbdf7a29186ec0bdfb4b0c94dfed235f59ba',
+    stateRoot: '0xe909d5e15d0c6146b47ebd1607c3182af86e18485f7f305fa2021917497d5d98',
+    messagePasserStorageRoot: '0x063558cfefd548f5e1e10bb279d77f844e0c1600b82e001b61dc39d8a110c99d',
+    latestBlockhash: '0xbabd4c84a2ae4686fe3a2316e506fbdf7a29186ec0bdfb4b0c94dfed235f59ba',
   },
   withdrawalProof: [
     '0xf90211a0c442ec16927b8c3a1d21b1926328917a0192530092c0bc0485ab3d5ff58c9915a01b4b2c26f0a7cfec3eb54a054d0c9ba01e36ef95a0b788ca5f25068916097947a09eb06f396b1eb0085fc9285698a0c80ff641d906f236bb27ce54f2adf84249d4a0469745da855a3245c2d7229ccf83f873c380b855e37b3b979327acb8b8dd1c56a035b1a95302ea66542c5723c6cdb22f3de2f01df5b884c511efbfab43b14e6fdaa083c5c51af88e8683fc07cecae70dbf3f221596a4cfc6e98bec487313694fa4a5a04426a8fdd48061b3274d6bb69347c770eef779d133f74728ab8515a0eaf18cc2a081de94617abfccf4d2f3f4abd1e54b9e611719e3336369e157f03342ff50cd8fa00eb27d15da1575a7c7870631d4c664ce2a4843e4a1cabbcd9aca0849d48bf1dea08124114055387b96a2684b4836b5240221739f71967a7cdae17c8f8d4bcdf585a046e4ce5462d16834e9096e979bd55ed804e198a2ce80d724502ab8d7847c20c9a0111dbdc04debfd506c6e9e5907b979e4a90e1033723c94b488586680bde1e71fa095ef1e24dc9c70f82816f9a7c14c79d6fab6306b5e710ecf4f1c271b6a9c9938a08f5fd3bd1f5bcc1c5d1e74c5b0b775fddc7ff748f07d33493b7b29ca5890ae80a06514e76dc7564149abf673d7aafca95e8e3fabfd3e19fc652fc4571dd0ba9ce2a037095a85d48c6a099bb02f9ec6e7ab106a832e23ccf9b414e425c55792c8b0f480',
@@ -58,7 +55,7 @@ test('correctly generates args', async () => {
   expect(args.L2OutputIndex).toEqual(expectedResult.l2OutputIndex)
   expect(args.outputRootProof).toEqual(expectedResult.outputRootProof)
   expect(args.withdrawalProof).toEqual(expectedResult.withdrawalProof)
-  const { withdrawalHash, ...withdrawalTransaction } =
-    withdrawalMessages.messages[0]
+  // rome-ignore lint: ok unused variable
+  const { withdrawalHash, ...withdrawalTransaction } = withdrawalMessages.messages[0]
   expect(args.withdrawalTransaction).toEqual(withdrawalTransaction)
 })

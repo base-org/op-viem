@@ -1,14 +1,14 @@
-import { ethersProvider } from '../_test/bench'
-import { publicClient } from '../_test/utils'
-import { mainnet } from '../chains/mainnet'
-import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
-import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
 import { getTransactionReceipt } from 'viem/actions'
 import { base } from 'viem/chains'
 import { bench, describe } from 'vitest'
+import { ethersProvider } from '../_test/bench'
+import { publicClient } from '../_test/utils'
+import { mainnet } from '../chains/mainnet'
+import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
+import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
 
 describe('Obtain L2 hash from already fetched event', async () => {
   const receipt = await getTransactionReceipt(publicClient, {

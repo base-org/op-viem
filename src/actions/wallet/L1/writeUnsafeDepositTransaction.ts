@@ -1,5 +1,3 @@
-import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import {
   Account,
@@ -12,6 +10,8 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
+import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
+import { OpStackL1Contracts } from '../../../types/opStackContracts'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -36,17 +36,19 @@ export type WriteUnsafeDepositTransactionParameters<
     TChain,
     TChainOverride
   >,
-> = {
-  args: DepositTransactionParameters
-} & WriteActionBaseType<
-  TChain,
-  TAccount,
-  typeof optimismPortalABI,
-  TChainOverride,
-  _contractName,
-  _functionName,
-  _resolvedChain
->
+> =
+  & {
+    args: DepositTransactionParameters
+  }
+  & WriteActionBaseType<
+    TChain,
+    TAccount,
+    typeof optimismPortalABI,
+    TChainOverride,
+    _contractName,
+    _functionName,
+    _resolvedChain
+  >
 
 /**
  * Calls depositTransaction directly on the OptimismPortal contract.
@@ -74,10 +76,9 @@ export async function writeUnsafeDepositTransaction<
     throw new Error('Chain not defined')
   }
   const contracts = chain.contracts as ContractToChainAddressMapping | undefined
-  const portal =
-    optimismPortalAddress ||
-    (contracts?.[OpStackL1Contracts.optimismPortal] &&
-    typeof l2ChainId === 'number'
+  const portal = optimismPortalAddress
+    || (contracts?.[OpStackL1Contracts.optimismPortal]
+        && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
       : undefined)
   if (!portal) {

@@ -1,15 +1,16 @@
+import { createPublicClient, createWalletClient, Hex, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { estimateGas } from 'viem/actions'
+import { test } from 'vitest'
 import { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction'
 import { baseGoerli } from '../chains/baseGoerli'
 import { goerli } from '../chains/goerli'
 import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
 import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
-import { Hex, createPublicClient, createWalletClient, http } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
-import { estimateGas } from 'viem/actions'
-import { test } from 'vitest'
 
 test('correctly retrieves L2 hash', async () => {
   return
+  // rome-ignore lint: ok code is unreachable
   const pk = process.env.VITE_PRIVATE_KEY
   if (!pk) {
     console.log('no private key')

@@ -1,9 +1,9 @@
-import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
-import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
-import { getProof } from '../getProof'
-import { MessagePassedEvent } from './getWithdrawalMessages'
-import { Chain, Hex, PublicClient, Transport, toHex } from 'viem'
+import { Chain, Hex, PublicClient, toHex, Transport } from 'viem'
 import { getBlock } from 'viem/actions'
+import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
+import { getProof } from '../getProof'
+import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
+import { MessagePassedEvent } from './getWithdrawalMessages'
 
 export type OutputRootProof = {
   version: Hex
@@ -55,6 +55,7 @@ export async function getProveWithdrawalTransactionArgs<
     storageKeys: [slot],
     block: block.hash,
   })
+  // rome-ignore lint: ok unused variable
   const { withdrawalHash, ...withdrawalTransaction } = message
   return {
     withdrawalTransaction,

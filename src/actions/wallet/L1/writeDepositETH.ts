@@ -1,17 +1,10 @@
+import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import { writeContract } from 'viem/actions'
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { DepositETHParameters } from '../../../types/depositETHParameters'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import {
-  Account,
-  Chain,
-  Transport,
-  WalletClient,
-  WriteContractParameters,
-  WriteContractReturnType,
-} from 'viem'
-import { writeContract } from 'viem/actions'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -23,17 +16,19 @@ export type WriteDepositETHParameters<
     TChain,
     TChainOverride
   >,
-> = {
-  args: DepositETHParameters
-} & WriteActionBaseType<
-  TChain,
-  TAccount,
-  typeof l1StandardBridgeABI,
-  TChainOverride,
-  _contractName,
-  _functionName,
-  _resolvedChain
->
+> =
+  & {
+    args: DepositETHParameters
+  }
+  & WriteActionBaseType<
+    TChain,
+    TAccount,
+    typeof l1StandardBridgeABI,
+    TChainOverride,
+    _contractName,
+    _functionName,
+    _resolvedChain
+  >
 
 /**
  * Deposits ETH to L2
@@ -58,9 +53,8 @@ export async function writeDepositETH<
   const contracts = chain?.contracts as
     | ContractToChainAddressMapping
     | undefined
-  const bridge =
-    optimismL1StandardBridgeAddress ||
-    (contracts && typeof l2ChainId === 'number'
+  const bridge = optimismL1StandardBridgeAddress
+    || (contracts && typeof l2ChainId === 'number'
       ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
       : undefined)
   return writeContract(client, {

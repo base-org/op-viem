@@ -1,24 +1,18 @@
 import {
-  accounts,
-  locaRolluplWsUrl,
-  localHttpUrl,
-  localRollupHttpUrl,
-  localWsUrl,
-} from './constants.js'
-import {
   Address,
   Chain,
-  EIP1193Provider,
-  RpcRequestError,
   createPublicClient,
   createTestClient,
   createWalletClient,
   custom,
+  EIP1193Provider,
   http,
+  RpcRequestError,
   webSocket,
 } from 'viem'
 import { base, localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
+import { accounts, localHttpUrl, localRollupHttpUrl, localWsUrl, locaRolluplWsUrl } from './constants.js'
 
 export class ProviderRpcError extends Error {
   code: number
@@ -128,9 +122,9 @@ const provider: EIP1193Provider = {
       return null
     }
     if (
-      method === 'wallet_getPermissions' ||
-      method === 'wallet_requestPermissions'
-    )
+      method === 'wallet_getPermissions'
+      || method === 'wallet_requestPermissions'
+    ) {
       return [
         {
           invoker: 'https://example.com',
@@ -143,6 +137,7 @@ const provider: EIP1193Provider = {
           ],
         },
       ]
+    }
 
     const { error, result } = await rpc.http(localHttpUrl, {
       body: {
@@ -150,12 +145,13 @@ const provider: EIP1193Provider = {
         params,
       },
     })
-    if (error)
+    if (error) {
       throw new RpcRequestError({
         body: { method, params },
         error,
         url: localHttpUrl,
       })
+    }
     return result
   },
 }
@@ -189,9 +185,9 @@ const rollupProvider: EIP1193Provider = {
       return null
     }
     if (
-      method === 'wallet_getPermissions' ||
-      method === 'wallet_requestPermissions'
-    )
+      method === 'wallet_getPermissions'
+      || method === 'wallet_requestPermissions'
+    ) {
       return [
         {
           invoker: 'https://example.com',
@@ -204,6 +200,7 @@ const rollupProvider: EIP1193Provider = {
           ],
         },
       ]
+    }
 
     const { error, result } = await rpc.http(localRollupHttpUrl, {
       body: {
@@ -211,12 +208,13 @@ const rollupProvider: EIP1193Provider = {
         params,
       },
     })
-    if (error)
+    if (error) {
       throw new RpcRequestError({
         body: { method, params },
         error,
         url: localRollupHttpUrl,
       })
+    }
     return result
   },
 }

@@ -1,22 +1,13 @@
-import { OpStackL1Contracts } from './opStackContracts'
-import {
-  Abi,
-  Account,
-  Address,
-  Chain,
-  SimulateContractParameters,
-  WriteContractParameters,
-} from 'viem'
+import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
 
 export type ExtractValidChainIdFromContract<
   TChain extends Chain | undefined,
   contractName extends string,
 > = TChain extends Chain
   ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address }
-      ? keyof TChain['contracts'][contractName]
-      : undefined
+    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? keyof TChain['contracts'][contractName]
     : undefined
+  : undefined
   : undefined
 
 export type ResolveChain<
@@ -27,16 +18,15 @@ export type ResolveChain<
 export type GetL2ChainId<
   TChain extends Chain | undefined,
   contractName extends string,
-> = ExtractValidChainIdFromContract<TChain, contractName> extends undefined
-  ? {
-      l2ChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
-    }
-  : // NOTE(Wilson): users will see this as a required arg in the case they are passing optimismPortalAddress
-    // explicitly and the chain has entries at contracts[contractName], e.g. I am using a chain with some
-    // known optimismPortal address but I am sending to a different one. toChainId does not actually get
-    // get used in the code on this path, but I am leaving this as making it optional means NOT passing optimismPortalAddress
-    // and also not passing toChainId is allowed.
-    { l2ChainId: ExtractValidChainIdFromContract<TChain, contractName> }
+> = ExtractValidChainIdFromContract<TChain, contractName> extends undefined ? {
+    l2ChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
+  }
+  // NOTE(Wilson): users will see this as a required arg in the case they are passing optimismPortalAddress
+  // explicitly and the chain has entries at contracts[contractName], e.g. I am using a chain with some
+  // known optimismPortal address but I am sending to a different one. toChainId does not actually get
+  // get used in the code on this path, but I am leaving this as making it optional means NOT passing optimismPortalAddress
+  // and also not passing toChainId is allowed.
+  : { l2ChainId: ExtractValidChainIdFromContract<TChain, contractName> }
 
 // actually isn't quite what we want? do we want to let them override
 // contract name might be specified but this specific chain might not be
@@ -47,14 +37,13 @@ export type GetContractAddress<
   contractName extends string,
 > = TChain extends Chain
   ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address }
-      ? {
-          [k in `${contractName}Address`]?: Address
-        }
-      : {
-          [k in `${contractName}Address`]: Address
-        }
-    : never
+    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? {
+        [k in `${contractName}Address`]?: Address
+      }
+    : {
+      [k in `${contractName}Address`]: Address
+    }
+  : never
   : never
 
 export type ActionBaseType<
@@ -65,12 +54,14 @@ export type ActionBaseType<
     TChain,
     TChainOverride
   >,
-  // TODO consider moving GetL2ChainId to make this even more generic
-> = { chain?: TChain | TChainOverride } & GetL2ChainId<
-  _resolvedChain,
-  _contractName
-> &
-  GetContractAddress<_resolvedChain, _contractName>
+> // TODO consider moving GetL2ChainId to make this even more generic
+ =
+  & { chain?: TChain | TChainOverride }
+  & GetL2ChainId<
+    _resolvedChain,
+    _contractName
+  >
+  & GetContractAddress<_resolvedChain, _contractName>
 
 export type WriteActionBaseType<
   TChain extends Chain | undefined = Chain,
@@ -83,8 +74,9 @@ export type WriteActionBaseType<
     TChain,
     TChainOverride
   >,
-> = ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain> &
-  Omit<
+> =
+  & ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain>
+  & Omit<
     WriteContractParameters<
       TAbi,
       _functionName,
@@ -105,8 +97,9 @@ export type SimulateActionBaseType<
     TChain,
     TChainOverride
   >,
-> = ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain> &
-  Omit<
+> =
+  & ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain>
+  & Omit<
     SimulateContractParameters<TAbi, _functionName, TChain, TChainOverride>,
     'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >

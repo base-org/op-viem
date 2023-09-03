@@ -21,6 +21,9 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "src/types/chains.ts", "src/types/depositTransaction.ts", "src/actions/public/getL2HashesForDepositTx.ts"  ]
+    "src",
+    "src/types/chains.ts",
+    "src/types/depositTransaction.ts",
+    "src/actions/public/getL2HashesForDepositTx.ts"
+  ]
 }

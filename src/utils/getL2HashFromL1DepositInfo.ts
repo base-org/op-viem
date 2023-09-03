@@ -1,11 +1,8 @@
-import {
-  SourceHashDomain,
-  TransactionDepositedEvent,
-} from '../types/depositTransaction'
+import { Hash, keccak256 } from 'viem'
+import { SourceHashDomain, TransactionDepositedEvent } from '../types/depositTransaction'
 import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
 import { getSourceHash } from './getSourceHash'
 import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction'
-import { Hash, keccak256 } from 'viem'
 
 type GetL2HashFromDepositInfoParams = {
   event: TransactionDepositedEvent

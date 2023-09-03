@@ -1,27 +1,13 @@
-import { accounts } from '../../../_test/constants'
-import {
-  publicClient,
-  rollupPublicClient,
-  testClient,
-  walletClient,
-} from '../../../_test/utils'
-import { TransactionDepositedEvent } from '../../../types/depositTransaction'
-import {
-  DepositTransactionParameters,
-  writeUnsafeDepositTransaction,
-} from './writeUnsafeDepositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import {
-  Address,
-  decodeEventLog,
-  encodeFunctionData,
-  encodePacked,
-  walletActions,
-} from 'viem'
+import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { estimateGas, mine } from 'viem/actions'
 import { base } from 'viem/chains'
 import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
+import { accounts } from '../../../_test/constants'
+import { publicClient, rollupPublicClient, testClient, walletClient } from '../../../_test/utils'
+import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { DepositTransactionParameters, writeUnsafeDepositTransaction } from './writeUnsafeDepositTransaction'
 
 test('default', async () => {
   expect(

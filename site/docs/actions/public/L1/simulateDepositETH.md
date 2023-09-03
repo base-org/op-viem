@@ -5,14 +5,14 @@ Simulates a deposit of ETH to L2.
 ::: code-group
 
 ```ts [example.ts]
-import { createPublicClient } from "viem";
-import { publicL1Actions, base } from "op-viem";
+import { base, publicL1Actions } from 'op-viem'
+import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
   account,
   chain: mainnet,
   transport: http(),
-}).extend(publicL1Actions);
+}).extend(publicL1Actions)
 
 const { request } = await publicClient.simulateDepositETH({
   args: {
@@ -20,8 +20,8 @@ const { request } = await publicClient.simulateDepositETH({
   },
   value: 1n,
   toChain: base,
-  account: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-});
+  account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
+})
 ```
 
 :::

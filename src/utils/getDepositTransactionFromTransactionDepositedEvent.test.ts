@@ -1,3 +1,9 @@
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { DepositTx } from '@eth-optimism/core-utils'
+import { BigNumber, ethers } from 'ethers'
+import { getTransactionReceipt } from 'viem/actions'
+import { optimism } from 'viem/chains'
+import { expect, test } from 'vitest'
 import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
 import { mainnet } from '../chains/mainnet'
@@ -5,12 +11,6 @@ import { SourceHashDomain } from '../types/depositTransaction'
 import { getDepositEventsInfoFromTxReceipt } from './getDepositEventsInfoFromTxReceipt'
 import { getDepositTransactionFromTransactionDepositedEvent } from './getDepositTransactionFromTransactionDepositedEvent'
 import { getSourceHash } from './getSourceHash'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { DepositTx } from '@eth-optimism/core-utils'
-import { BigNumber, ethers } from 'ethers'
-import { getTransactionReceipt } from 'viem/actions'
-import { optimism } from 'viem/chains'
-import { expect, test } from 'vitest'
 
 // Simply testing against another implementation is not the best practice
 // but I added these after debugging a difference. They will be useful to have

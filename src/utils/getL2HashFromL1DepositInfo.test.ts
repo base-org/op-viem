@@ -1,6 +1,6 @@
+import { expect, test } from 'vitest'
 import { TransactionDepositedEvent } from '../types/depositTransaction'
 import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
-import { expect, test } from 'vitest'
 
 const event: TransactionDepositedEvent = {
   eventName: 'TransactionDeposited',
@@ -26,8 +26,7 @@ const eventWithZeroData: TransactionDepositedEvent = {
 
 test('returns correct hash', () => {
   const logIndex = 196
-  const blockHash =
-    '0x9ba3933dc6ce43c145349770a39c30f9b647f17668f004bd2e05c80a2e7262f7'
+  const blockHash = '0x9ba3933dc6ce43c145349770a39c30f9b647f17668f004bd2e05c80a2e7262f7'
   const hash = getL2HashFromL1DepositInfo({ event, logIndex, blockHash })
 
   expect(hash).toEqual(
@@ -38,8 +37,7 @@ test('returns correct hash', () => {
 test('returns correct hash with zero data', () => {
   const event = eventWithZeroData
   const logIndex = 36
-  const blockHash =
-    '0x9375ba075993fcc3cd3f66ef1fc45687aeccc04edfc06da2bc7cdb8984046ed7'
+  const blockHash = '0x9375ba075993fcc3cd3f66ef1fc45687aeccc04edfc06da2bc7cdb8984046ed7'
   const hash = getL2HashFromL1DepositInfo({ event, logIndex, blockHash })
 
   expect(hash).toEqual(

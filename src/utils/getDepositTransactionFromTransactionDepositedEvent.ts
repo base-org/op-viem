@@ -1,8 +1,5 @@
-import {
-  DepositTransaction,
-  TransactionDepositedEvent,
-} from '../types/depositTransaction'
 import { Hex, size, slice } from 'viem'
+import { DepositTransaction, TransactionDepositedEvent } from '../types/depositTransaction'
 
 export type GetDepositTransactionFromTransactionDepositedEventParams = {
   event: TransactionDepositedEvent

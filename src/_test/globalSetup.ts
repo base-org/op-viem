@@ -10,7 +10,7 @@ import {
   rollupForkUrl,
 } from './constants.js'
 
-export default async function () {
+export default async function() {
   if (process.env.SKIP_GLOBAL_SETUP) {
     return
   }

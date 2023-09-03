@@ -1,5 +1,5 @@
-import { ContractRichChain } from '../_test/utils'
 import { mainnet as viemMainnet } from 'viem/chains'
+import { ContractRichChain } from '../_test/utils'
 
 export const mainnet = {
   ...viemMainnet,

@@ -1,7 +1,7 @@
-import { publicClient } from '../../../_test/utils'
-import { getOutputForL2Block } from './getOutputForL2Block'
 import { base } from 'viem/chains'
 import { expect, test } from 'vitest'
+import { publicClient } from '../../../_test/utils'
+import { getOutputForL2Block } from './getOutputForL2Block'
 
 test('retrieves correctly', async () => {
   const result = await getOutputForL2Block(publicClient, {

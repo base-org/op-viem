@@ -1,13 +1,5 @@
 import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
-import {
-  Address,
-  Chain,
-  Hash,
-  Hex,
-  type PublicClient,
-  Transport,
-  decodeEventLog,
-} from 'viem'
+import { Address, Chain, decodeEventLog, Hash, Hex, type PublicClient, Transport } from 'viem'
 
 export type MessagePassedEvent = {
   nonce: bigint

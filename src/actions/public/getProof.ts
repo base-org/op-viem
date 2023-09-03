@@ -1,12 +1,4 @@
-import {
-  Address,
-  BlockTag,
-  Chain,
-  Hash,
-  Hex,
-  PublicClient,
-  Transport,
-} from 'viem'
+import { Address, BlockTag, Chain, Hash, Hex, PublicClient, Transport } from 'viem'
 import { Quantity, RpcBlockNumber } from 'viem/dist/types/types/rpc'
 
 export type GetProofParameters = {

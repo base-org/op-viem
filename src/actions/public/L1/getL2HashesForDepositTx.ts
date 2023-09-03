@@ -1,6 +1,6 @@
+import { Chain, Hash, type PublicClient, Transport } from 'viem'
 import { getDepositEventsInfoFromTxReceipt } from '../../../utils/getDepositEventsInfoFromTxReceipt'
 import { getL2HashFromL1DepositInfo } from '../../../utils/getL2HashFromL1DepositInfo'
-import { Chain, Hash, type PublicClient, Transport } from 'viem'
 
 export type GetL2HashesForDepositTxParamters = {
   l1TxHash: Hash
@@ -26,6 +26,6 @@ export async function getL2HashesForDepositTx<TChain extends Chain | undefined>(
       event,
       logIndex,
       blockHash: receipt.blockHash,
-    }),
+    })
   )
 }

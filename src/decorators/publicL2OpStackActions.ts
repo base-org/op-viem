@@ -1,14 +1,14 @@
+import { Chain, type PublicClient, Transport } from 'viem'
 import {
   getProveWithdrawalTransactionArgs,
   getProveWithdrawalTransactionArgsParams,
   getProveWithdrawalTransactionArgsReturnType,
 } from '../actions/public/L2/getProveWithdrawalTransactionArgs'
 import {
+  getWithdrawalMessages,
   GetWithdrawalMessagesParameters,
   GetWithdrawalMessagesReturnType,
-  getWithdrawalMessages,
 } from '../actions/public/L2/getWithdrawalMessages'
-import { Chain, type PublicClient, Transport } from 'viem'
 
 export type PublicL2OpStackActions<
   TTransport extends Transport = Transport,
@@ -30,7 +30,6 @@ export function publicL2OpStackActions<
 ): PublicL2OpStackActions<TTransport, TChain> {
   return {
     getWithdrawalMessages: (args) => getWithdrawalMessages(client, args),
-    getProveWithdrawalTransactionArgs: (args) =>
-      getProveWithdrawalTransactionArgs(client, args),
+    getProveWithdrawalTransactionArgs: (args) => getProveWithdrawalTransactionArgs(client, args),
   }
 }
