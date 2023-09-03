@@ -1,4 +1,5 @@
 The plan? We build all the actions users would want into a opStackClient which extends the viem client. Things like
+
 - getL2HashForDepositTx
 - sendMessage
 - bridgeERC20

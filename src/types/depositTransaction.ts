@@ -1,6 +1,6 @@
-import { Address, Hex } from 'viem'
+import { Address, Hex } from "viem";
 
-export const DEPOSIT_TX_PREFIX = '0x7E'
+export const DEPOSIT_TX_PREFIX = "0x7E";
 
 export enum SourceHashDomain {
   UserDeposit = 0,
@@ -8,22 +8,22 @@ export enum SourceHashDomain {
 }
 
 export type TransactionDepositedEvent = {
-  eventName: 'TransactionDeposited'
+  eventName: "TransactionDeposited";
   args: {
-    from: `0x${string}`
-    to: `0x${string}`
-    version: bigint
-    opaqueData: `0x${string}`
-  }
-}
+    from: `0x${string}`;
+    to: `0x${string}`;
+    version: bigint;
+    opaqueData: `0x${string}`;
+  };
+};
 
 export type DepositTransaction = {
-  sourceHash: Hex
-  from: Address
-  to: Address
-  mint: Hex
-  value: Hex
-  gas: Hex
-  isSystemTransaction: boolean
-  data: Hex
-}
+  sourceHash: Hex;
+  from: Address;
+  to: Address;
+  mint: Hex;
+  value: Hex;
+  gas: Hex;
+  isSystemTransaction: boolean;
+  data: Hex;
+};

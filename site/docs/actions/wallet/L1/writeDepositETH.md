@@ -5,8 +5,8 @@ Simulates a deposit of ETH to L2.
 ::: code-group
 
 ```ts [example.ts]
+import { base, walletL1Actions } from "op-viem";
 import { createPublicClient } from "viem";
-import { walletL1Actions, base } from "op-viem";
 
 const walletClient = createWalletClient({
   account,

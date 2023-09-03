@@ -17,25 +17,25 @@ Interacting directly the portal offers no replay protection: if you are sending 
 ::: code-group
 
 ```ts [example.ts]
-import { account, opStackL1WalletClient, l2PublicClient } from './config'
 import { DepositTransactionParameters } from "op-viem";
+import { account, l2PublicClient, opStackL1WalletClient } from "./config";
 
 const args: DepositTransactionParameters = {
   to: account,
   value: 1n,
-  data: '0x',
+  data: "0x",
   gasLimit: 0n,
   isCreation: false,
-}
+};
 
 const gas = await l2PublicClient.estimateGas({
   account,
   to: args.to,
   value: args.value,
-  data: args.data
-})
+  data: args.data,
+});
 
-args.gasLimit = gas
+args.gasLimit = gas;
 
 const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
   args,
@@ -43,6 +43,7 @@ const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
   value: 1n,
 });
 ```
+
 ```ts [config.ts]
 import { createWalletClient, custom } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -64,6 +65,7 @@ export const [account] = await walletClient.getAddresses()
 // Local Account
 export const account = privateKeyToAccount(...)
 ```
+
 :::
 
 ## Return Value
@@ -78,11 +80,11 @@ A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
 
 ### args
 
-- #### to 
+- #### to
   - **Type:** [`Address`](/docs/glossary/types#address)
   - The address the L2 transaction will be sent.
 
-- #### gasLimit 
+- #### gasLimit
   - **Type:** `bigint`
   - The gas limit of the L2 transaction
 
@@ -115,6 +117,7 @@ await walletClient.writeUnsafeDepositTransaction({
 ```
 
 ### l2ChainId (optional)
+
 - **Type:** `number`
 
 The ID of the L2 chain the deposit transaction is intended for. This will be used to check for a known `OptimismPortal` address in the contract definitions of the chain where the deposit tx is originating (`chain.contracts.optimismPortal[l2ChainId]`). If no such definition exists, [optimismPortalAddress](#optimismPortalAddress) must be passed explicitly.
@@ -127,15 +130,16 @@ await walletClient.writeUnsafeDepositTransaction({
 ```
 
 ### optimismPortalAddress (optional)
+
 - **Type:** [`Address`](/docs/glossary/types#address)
 
-The `OptimismPortal` contract where the depositTransaction call should be made. 
+The `OptimismPortal` contract where the depositTransaction call should be made.
 
 ```ts
 await walletClient.writeUnsafeDepositTransaction({
   args,
   optimismPortalAddress: portal, // [!code focus:1]
-})
+});
 ```
 
 ### value (optional)
@@ -147,12 +151,11 @@ Value in wei sent with this transaction. This value will be credited to the bala
 ```ts
 await walletClient.writeUnsafeDepositTransaction({
   args,
-  optimismPortalAddress: portal, 
-  value: parseEther(1) // [!code focus:1]
-})
+  optimismPortalAddress: portal,
+  value: parseEther(1), // [!code focus:1]
+});
 ```
 
-
 ::: tip
-`account`, `accessList`, `chain`, `dataSuffix`, `gasPrice`, `maxFeePerGas`, `maxPriorityFeePerGas`, and `nonce` can all also be passed and behave as with any viem writeContract call. See [their documentation](https://viem.sh/docs/contract/writeContract.html#writecontract) for more details. 
+`account`, `accessList`, `chain`, `dataSuffix`, `gasPrice`, `maxFeePerGas`, `maxPriorityFeePerGas`, and `nonce` can all also be passed and behave as with any viem writeContract call. See [their documentation](https://viem.sh/docs/contract/writeContract.html#writecontract) for more details.
 :::

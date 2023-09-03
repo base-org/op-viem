@@ -1,31 +1,31 @@
-import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
-import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
-import { getProof } from '../getProof'
-import { MessagePassedEvent } from './getWithdrawalMessages'
-import { Chain, Hex, PublicClient, Transport, toHex } from 'viem'
-import { getBlock } from 'viem/actions'
+import { Chain, Hex, PublicClient, toHex, Transport } from "viem";
+import { getBlock } from "viem/actions";
+import { getWithdrawalMessageStorageSlot } from "../../../utils/getWithdrawalMessageStorageSlot";
+import { getProof } from "../getProof";
+import { GetOutputForL2BlockReturnType } from "../L1/getOutputForL2Block";
+import { MessagePassedEvent } from "./getWithdrawalMessages";
 
 export type OutputRootProof = {
-  version: Hex
-  stateRoot: Hex
-  messagePasserStorageRoot: Hex
-  latestBlockhash: Hex
-}
+  version: Hex;
+  stateRoot: Hex;
+  messagePasserStorageRoot: Hex;
+  latestBlockhash: Hex;
+};
 
-const L2_TO_L1_MESSAGE_PASSER = '0x4200000000000000000000000000000000000016'
-const OUTPUT_ROOT_PROOF_VERSION = 0n
+const L2_TO_L1_MESSAGE_PASSER = "0x4200000000000000000000000000000000000016";
+const OUTPUT_ROOT_PROOF_VERSION = 0n;
 
 export type getProveWithdrawalTransactionArgsParams = {
-  message: MessagePassedEvent
-  output: GetOutputForL2BlockReturnType
-}
+  message: MessagePassedEvent;
+  output: GetOutputForL2BlockReturnType;
+};
 
 export type getProveWithdrawalTransactionArgsReturnType = {
-  withdrawalTransaction: Omit<MessagePassedEvent, 'withdrawalHash'>
-  outputRootProof: OutputRootProof
-  withdrawalProof: Hex[]
-  L2OutputIndex: bigint
-}
+  withdrawalTransaction: Omit<MessagePassedEvent, "withdrawalHash">;
+  outputRootProof: OutputRootProof;
+  withdrawalProof: Hex[];
+  L2OutputIndex: bigint;
+};
 
 /**
  * For a given L2 message and output proposal, generates the args needed to call proveWithdrawalTransaction
@@ -41,21 +41,21 @@ export async function getProveWithdrawalTransactionArgs<
   client: PublicClient<Transport, TChain>,
   { message, output }: getProveWithdrawalTransactionArgsParams,
 ): Promise<getProveWithdrawalTransactionArgsReturnType> {
-  const slot = getWithdrawalMessageStorageSlot(message.withdrawalHash)
+  const slot = getWithdrawalMessageStorageSlot(message.withdrawalHash);
   const block = await getBlock(client, {
     blockNumber: output.proposal.l2BlockNumber,
-  })
+  });
   if (!block.hash) {
     throw new Error(
       `Block not found for block number ${output.proposal.l2BlockNumber}`,
-    )
+    );
   }
   const proof = await getProof(client, {
     address: L2_TO_L1_MESSAGE_PASSER,
     storageKeys: [slot],
     block: block.hash,
-  })
-  const { withdrawalHash, ...withdrawalTransaction } = message
+  });
+  const { withdrawalHash, ...withdrawalTransaction } = message;
   return {
     withdrawalTransaction,
     outputRootProof: {
@@ -66,5 +66,5 @@ export async function getProveWithdrawalTransactionArgs<
     },
     withdrawalProof: proof.storageProof[0].proof,
     L2OutputIndex: output.outputIndex,
-  }
+  };
 }

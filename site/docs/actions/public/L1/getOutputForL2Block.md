@@ -5,8 +5,8 @@ Calls to the L2OutputOracle contract on L1 to get the output for a given L2 bloc
 ::: code-group
 
 ```ts [example.ts]
+import { base, publicL1Actions } from "op-viem";
 import { createPublicClient } from "viem";
-import { publicL1Actions, base } from "op-viem";
 
 const publicClient = createPublicClient({
   account,

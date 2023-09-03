@@ -1,67 +1,67 @@
-import { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction'
-import { baseGoerli } from '../chains/baseGoerli'
-import { goerli } from '../chains/goerli'
-import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
-import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
-import { Hex, createPublicClient, createWalletClient, http } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
-import { estimateGas } from 'viem/actions'
-import { test } from 'vitest'
+import { createPublicClient, createWalletClient, Hex, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { estimateGas } from "viem/actions";
+import { test } from "vitest";
+import { DepositTransactionParameters } from "../actions/wallet/L1/writeUnsafeDepositTransaction";
+import { baseGoerli } from "../chains/baseGoerli";
+import { goerli } from "../chains/goerli";
+import { publicL1OpStackActions } from "../decorators/publicL1OpStackActions";
+import { walletL1OpStackActions } from "../decorators/walletL1OpStackActions";
 
-test('correctly retrieves L2 hash', async () => {
-  return
-  const pk = process.env.VITE_PRIVATE_KEY
+test("correctly retrieves L2 hash", async () => {
+  return;
+  const pk = process.env.VITE_PRIVATE_KEY;
   if (!pk) {
-    console.log('no private key')
-    return
+    console.log("no private key");
+    return;
   }
-  const account = privateKeyToAccount(pk as Hex)
+  const account = privateKeyToAccount(pk as Hex);
   const walletClient = createWalletClient({
     account,
     chain: goerli,
     transport: http(),
-  }).extend(walletL1OpStackActions)
+  }).extend(walletL1OpStackActions);
 
   const baseGoerliPublicClient = createPublicClient({
     chain: goerli,
     transport: http(),
-  }).extend(publicL1OpStackActions)
+  }).extend(publicL1OpStackActions);
 
   const args: DepositTransactionParameters = {
     to: account.address,
     value: 1n,
-    data: '0x',
+    data: "0x",
     gasLimit: 0n,
     isCreation: false,
-  }
+  };
 
   const gas = await estimateGas(baseGoerliPublicClient, {
     account: account.address,
     to: args.to,
     value: args.value,
     data: args.data,
-  })
+  });
 
-  args.gasLimit = gas
+  args.gasLimit = gas;
 
   const depositHash = await walletClient.writeUnsafeDepositTransaction({
     l2ChainId: baseGoerli.id,
     args,
     value: 1n,
-  })
+  });
 
-  console.log('depositHash', depositHash)
+  console.log("depositHash", depositHash);
 
   const mainnetPublicClient = createPublicClient({
     chain: goerli,
     transport: http(),
-  }).extend(publicL1OpStackActions)
+  }).extend(publicL1OpStackActions);
 
-  await mainnetPublicClient.waitForTransactionReceipt({ hash: depositHash })
+  await mainnetPublicClient.waitForTransactionReceipt({ hash: depositHash });
 
   const l2Hash = await mainnetPublicClient.getL2HashesForDepositTx({
     l1TxHash: depositHash,
-  })
+  });
 
-  console.log('l2Hash', l2Hash)
-})
+  console.log("l2Hash", l2Hash);
+});

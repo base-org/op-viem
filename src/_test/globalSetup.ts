@@ -1,5 +1,5 @@
 // from https://github.com/wagmi-dev/viem/blob/main/src/_test/globalSetup.ts
-import { startProxy } from '@viem/anvil'
+import { startProxy } from "@viem/anvil";
 
 import {
   blockTime,
@@ -8,11 +8,11 @@ import {
   rollupBlockTime,
   rollupForkBlockNumber,
   rollupForkUrl,
-} from './constants.js'
+} from "./constants.js";
 
-export default async function () {
+export default async function() {
   if (process.env.SKIP_GLOBAL_SETUP) {
-    return
+    return;
   }
 
   // Using this proxy, we can parallelize our test suite by spawning multiple "on demand" anvil
@@ -40,12 +40,12 @@ export default async function () {
       forkBlockNumber: rollupForkBlockNumber,
       blockTime: rollupBlockTime,
     },
-  })
+  });
   return await startProxy({
     options: {
       forkUrl,
       forkBlockNumber,
       blockTime,
     },
-  })
+  });
 }

@@ -1,10 +1,10 @@
-import { TransactionDepositedEvent } from '../types/depositTransaction'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { TransactionReceipt, decodeEventLog } from 'viem'
+import { optimismPortalABI } from "@eth-optimism/contracts-ts";
+import { decodeEventLog, TransactionReceipt } from "viem";
+import { TransactionDepositedEvent } from "../types/depositTransaction";
 
 type GetDepositEventInfoFromTxReceiptParams = {
-  receipt: TransactionReceipt
-}
+  receipt: TransactionReceipt;
+};
 
 /**
  * @description Returns the TransactionDeposited event and log index, if found,
@@ -16,29 +16,29 @@ type GetDepositEventInfoFromTxReceiptParams = {
 export function getDepositEventsInfoFromTxReceipt({
   receipt,
 }: GetDepositEventInfoFromTxReceiptParams): {
-  event: TransactionDepositedEvent
-  logIndex: number
+  event: TransactionDepositedEvent;
+  logIndex: number;
 }[] {
   const depositEvents: {
-    event: TransactionDepositedEvent
-    logIndex: number
-  }[] = []
+    event: TransactionDepositedEvent;
+    logIndex: number;
+  }[] = [];
   for (const l of receipt.logs) {
     try {
       const event = decodeEventLog({
         abi: optimismPortalABI,
         data: l.data,
         topics: l.topics,
-      })
-      if (event.eventName === 'TransactionDeposited') {
+      });
+      if (event.eventName === "TransactionDeposited") {
         if (!l.logIndex) {
-          throw new Error('Found TransactionDeposited by logIndex undefined')
+          throw new Error("Found TransactionDeposited by logIndex undefined");
         }
-        depositEvents.push({ event, logIndex: l.logIndex })
+        depositEvents.push({ event, logIndex: l.logIndex });
       }
       // The transaction may have events from many contracts
       // we can ignore errors decoding transactions we do not care about.
     } catch {}
   }
-  return depositEvents
+  return depositEvents;
 }

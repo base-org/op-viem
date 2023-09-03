@@ -1,8 +1,4 @@
-import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
-import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
-import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { l1StandardBridgeABI } from "@eth-optimism/contracts-ts";
 import {
   Account,
   Address,
@@ -12,30 +8,36 @@ import {
   WalletClient,
   WriteContractParameters,
   WriteContractReturnType,
-} from 'viem'
-import { writeContract } from 'viem/actions'
+} from "viem";
+import { writeContract } from "viem/actions";
+import { ResolveChain, WriteActionBaseType } from "../../../types/actions";
+import { DepositERC20Parameters } from "../../../types/depositERC20Parameters";
+import { OpStackL1Contracts } from "../../../types/opStackContracts";
+import { ContractToChainAddressMapping } from "./writeUnsafeDepositTransaction";
 
 export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismL1StandardBridge,
-  _functionName extends string = 'depositERC20',
+  _functionName extends string = "depositERC20",
   _resolvedChain extends Chain | undefined = ResolveChain<
     TChain,
     TChainOverride
   >,
-> = {
-  args: DepositERC20Parameters
-} & WriteActionBaseType<
-  TChain,
-  TAccount,
-  typeof l1StandardBridgeABI,
-  TChainOverride,
-  _contractName,
-  _functionName,
-  _resolvedChain
->
+> =
+  & {
+    args: DepositERC20Parameters;
+  }
+  & WriteActionBaseType<
+    TChain,
+    TAccount,
+    typeof l1StandardBridgeABI,
+    TChainOverride,
+    _contractName,
+    _functionName,
+    _resolvedChain
+  >;
 
 /**
  * Deposits ERC20 tokens to L2
@@ -62,23 +64,22 @@ export async function writeDepositERC20<
 ): Promise<WriteContractReturnType> {
   const contracts = chain?.contracts as
     | ContractToChainAddressMapping
-    | undefined
-  const bridge =
-    optimismL1StandardBridgeAddress ||
-    (contracts && typeof l2ChainId === 'number'
+    | undefined;
+  const bridge = optimismL1StandardBridgeAddress
+    || (contracts && typeof l2ChainId === "number"
       ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
-      : undefined)
+      : undefined);
   return writeContract(client, {
     address: bridge,
     abi: l1StandardBridgeABI,
-    functionName: 'depositERC20',
-    args: [l1Token, l2Token, amount, gasLimit, data || '0x'],
+    functionName: "depositERC20",
+    args: [l1Token, l2Token, amount, gasLimit, data || "0x"],
     ...rest,
   } as unknown as WriteContractParameters<
     typeof l1StandardBridgeABI,
-    'depositERC20',
+    "depositERC20",
     TChain,
     TAccount,
     TChainOverride
-  >)
+  >);
 }

@@ -5,8 +5,8 @@ Get the L2 transaction hashes for a given L1 deposit transaction.
 ::: code-group
 
 ```ts [example.ts]
-import { createPublicClient } from "viem";
 import { publicL1Actions } from "op-viem";
+import { createPublicClient } from "viem";
 
 const publicClient = createPublicClient({
   account,

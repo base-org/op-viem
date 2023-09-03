@@ -1,17 +1,11 @@
+import { Account, Chain, Transport, WriteContractReturnType } from "viem";
+import { WalletClient } from "viem";
+import { writeDepositERC20, WriteDepositERC20Parameters } from "../actions/wallet/L1/writeDepositERC20";
+import { writeDepositETH, WriteDepositETHParameters } from "../actions/wallet/L1/writeDepositETH";
 import {
-  WriteDepositERC20Parameters,
-  writeDepositERC20,
-} from '../actions/wallet/L1/writeDepositERC20'
-import {
-  WriteDepositETHParameters,
-  writeDepositETH,
-} from '../actions/wallet/L1/writeDepositETH'
-import {
-  WriteUnsafeDepositTransactionParameters,
   writeUnsafeDepositTransaction,
-} from '../actions/wallet/L1/writeUnsafeDepositTransaction'
-import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
-import { WalletClient } from 'viem'
+  WriteUnsafeDepositTransactionParameters,
+} from "../actions/wallet/L1/writeUnsafeDepositTransaction";
 
 export type WalletL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
@@ -21,12 +15,12 @@ export type WalletL1OpStackActions<
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
-  ) => Promise<WriteContractReturnType>
+  ) => Promise<WriteContractReturnType>;
   writeDepositERC20: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
-  ) => Promise<WriteContractReturnType>
+  ) => Promise<WriteContractReturnType>;
   writeUnsafeDepositTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
@@ -35,8 +29,8 @@ export type WalletL1OpStackActions<
       TAccount,
       TChainOverride
     >,
-  ) => Promise<WriteContractReturnType>
-}
+  ) => Promise<WriteContractReturnType>;
+};
 
 export function walletL1OpStackActions<
   TTransport extends Transport = Transport,
@@ -46,9 +40,8 @@ export function walletL1OpStackActions<
   client: WalletClient<TTransport, TChain, TAccount>,
 ): WalletL1OpStackActions<TChain, TAccount> {
   return {
-    writeUnsafeDepositTransaction: (args) =>
-      writeUnsafeDepositTransaction(client, args),
+    writeUnsafeDepositTransaction: (args) => writeUnsafeDepositTransaction(client, args),
     writeDepositETH: (args) => writeDepositETH(client, args),
     writeDepositERC20: (args) => writeDepositERC20(client, args),
-  }
+  };
 }

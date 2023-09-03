@@ -1,83 +1,69 @@
-import { accounts } from '../../../_test/constants'
-import {
-  publicClient,
-  rollupPublicClient,
-  testClient,
-  walletClient,
-} from '../../../_test/utils'
-import { TransactionDepositedEvent } from '../../../types/depositTransaction'
-import {
-  DepositTransactionParameters,
-  writeUnsafeDepositTransaction,
-} from './writeUnsafeDepositTransaction'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import {
-  Address,
-  decodeEventLog,
-  encodeFunctionData,
-  encodePacked,
-  walletActions,
-} from 'viem'
-import { estimateGas, mine } from 'viem/actions'
-import { base } from 'viem/chains'
-import { mainnet } from 'viem/chains'
-import { expect, test } from 'vitest'
+import { optimismPortalABI } from "@eth-optimism/contracts-ts";
+import { Address, decodeEventLog, encodeFunctionData, encodePacked, walletActions } from "viem";
+import { estimateGas, mine } from "viem/actions";
+import { base } from "viem/chains";
+import { mainnet } from "viem/chains";
+import { expect, test } from "vitest";
+import { accounts } from "../../../_test/constants";
+import { publicClient, rollupPublicClient, testClient, walletClient } from "../../../_test/utils";
+import { TransactionDepositedEvent } from "../../../types/depositTransaction";
+import { DepositTransactionParameters, writeUnsafeDepositTransaction } from "./writeUnsafeDepositTransaction";
 
-test('default', async () => {
+test("default", async () => {
   expect(
     await writeUnsafeDepositTransaction(walletClient, {
       args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
         value: 1n,
         gasLimit: 25000n,
-        data: '0x',
+        data: "0x",
         isCreation: false,
       },
       value: 0n,
       l2ChainId: base.id,
       account: accounts[0].address,
     }),
-  ).toBeDefined()
-})
+  ).toBeDefined();
+});
 
-test('sends transaction to correct infered address', async () => {
+test("sends transaction to correct infered address", async () => {
   const args: DepositTransactionParameters = {
-    to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+    to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
     value: 1n,
     gasLimit: 0n,
-    data: '0x',
+    data: "0x",
     isCreation: false,
-  }
+  };
 
   const gas = await estimateGas(rollupPublicClient, {
     account: accounts[0].address,
     to: args.to,
     value: args.value,
     data: args.data,
-  })
+  });
 
-  args.gasLimit = gas
+  args.gasLimit = gas;
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: 1n,
     l2ChainId: base.id,
     account: accounts[0].address,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const r = await publicClient.getTransactionReceipt({ hash })
+  const r = await publicClient.getTransactionReceipt({ hash });
   expect(r.to).toEqual(
     publicClient.chain.contracts.optimismPortal[base.id].toLowerCase(),
-  )
-})
+  );
+});
 
-test('sends transaction to correct explicit address', async () => {
-  const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
+test("sends transaction to correct explicit address", async () => {
+  const portal: Address = "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed";
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args: {
-      to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+      to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
       value: 1n,
       gasLimit: 25000n,
     },
@@ -85,16 +71,16 @@ test('sends transaction to correct explicit address', async () => {
     chain: mainnet, // a chain with no optimismPortal
     optimismPortalAddress: portal,
     account: accounts[0].address,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const r = await publicClient.getTransactionReceipt({ hash })
-  expect(r.to).toEqual(portal.toLowerCase())
-})
+  const r = await publicClient.getTransactionReceipt({ hash });
+  expect(r.to).toEqual(portal.toLowerCase());
+});
 
-test('sends transaction to correct address with chain override', async () => {
-  const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
+test("sends transaction to correct address with chain override", async () => {
+  const portal: Address = "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed";
   const c = {
     ...walletClient.chain,
     contracts: {
@@ -103,112 +89,112 @@ test('sends transaction to correct address with chain override', async () => {
         8453: portal,
       },
     },
-  }
+  };
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args: {
       to: portal,
       value: 1n,
       gasLimit: 25000n,
-      data: '0x',
+      data: "0x",
       isCreation: false,
     },
     value: 1n,
     chain: c,
     l2ChainId: base.id,
     account: accounts[0].address,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const r = await publicClient.getTransactionReceipt({ hash })
-  expect(r.to).toEqual(portal.toLowerCase())
-})
+  const r = await publicClient.getTransactionReceipt({ hash });
+  expect(r.to).toEqual(portal.toLowerCase());
+});
 
-test('creates correct deposit transaction', async () => {
+test("creates correct deposit transaction", async () => {
   const args: DepositTransactionParameters = {
-    to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+    to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
     value: 1n,
     gasLimit: 25000n,
-    data: '0x',
+    data: "0x",
     isCreation: false,
-  }
+  };
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: args.value!,
     l2ChainId: base.id,
     account: accounts[0].address,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const r = await publicClient.getTransactionReceipt({ hash })
-  expect(r.logs.length).toEqual(1)
+  const r = await publicClient.getTransactionReceipt({ hash });
+  expect(r.logs.length).toEqual(1);
   const depositEvent = decodeEventLog({
     abi: optimismPortalABI,
     data: r.logs[0].data,
     topics: r.logs[0].topics,
-  })
-  expect(depositEvent.eventName).toEqual('TransactionDeposited')
-  const deposit = depositEvent as TransactionDepositedEvent
-  expect(deposit.args.from.toLowerCase()).toEqual(accounts[0].address)
-  expect(deposit.args.to.toLowerCase()).toEqual(args.to)
+  });
+  expect(depositEvent.eventName).toEqual("TransactionDeposited");
+  const deposit = depositEvent as TransactionDepositedEvent;
+  expect(deposit.args.from.toLowerCase()).toEqual(accounts[0].address);
+  expect(deposit.args.to.toLowerCase()).toEqual(args.to);
   const expectOpaqueData = encodePacked(
-    ['uint', 'uint', 'uint64', 'bool', 'bytes'],
+    ["uint", "uint", "uint64", "bool", "bytes"],
     [args.value!, args.value!, args.gasLimit, args.isCreation!, args.data!],
-  )
-  expect(deposit.args.opaqueData).toEqual(expectOpaqueData)
-})
+  );
+  expect(deposit.args.opaqueData).toEqual(expectOpaqueData);
+});
 
-test('correctly passes arugments', async () => {
+test("correctly passes arugments", async () => {
   const args: DepositTransactionParameters = {
-    to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+    to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
     value: 1n,
     gasLimit: 25000n,
-    data: '0x',
+    data: "0x",
     isCreation: false,
-  }
+  };
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const t = await publicClient.getTransaction({ hash })
+  const t = await publicClient.getTransaction({ hash });
   expect(t.input).toEqual(
     encodeFunctionData({
       abi: optimismPortalABI,
-      functionName: 'depositTransaction',
+      functionName: "depositTransaction",
       args: [args.to, args.value!, args.gasLimit, args.isCreation!, args.data!],
     }),
-  )
-})
+  );
+});
 
-test('uses defaults for data, isCreation, and value', async () => {
+test("uses defaults for data, isCreation, and value", async () => {
   const args: DepositTransactionParameters = {
-    to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+    to: "0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb",
     gasLimit: 25000n,
-  }
+  };
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     l2ChainId: base.id,
     account: accounts[0].address,
     value: 0n,
-  })
+  });
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 1 });
 
-  const t = await publicClient.getTransaction({ hash })
+  const t = await publicClient.getTransaction({ hash });
   expect(t.input).toEqual(
     encodeFunctionData({
       abi: optimismPortalABI,
-      functionName: 'depositTransaction',
-      args: [args.to, 0n, args.gasLimit, false, '0x'],
+      functionName: "depositTransaction",
+      args: [args.to, 0n, args.gasLimit, false, "0x"],
     }),
-  )
-})
+  );
+});

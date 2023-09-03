@@ -1,6 +1,6 @@
-import { opStackL2ContractAddresses } from '../types/opStackContracts'
-import { Chain } from 'viem'
-import { optimismGoerli as viemOptimismGoerli } from 'viem/chains'
+import { Chain } from "viem";
+import { optimismGoerli as viemOptimismGoerli } from "viem/chains";
+import { opStackL2ContractAddresses } from "../types/opStackContracts";
 
 export const optimismGoerli = {
   ...viemOptimismGoerli,
@@ -8,4 +8,4 @@ export const optimismGoerli = {
     ...viemOptimismGoerli.contracts,
     ...opStackL2ContractAddresses,
   },
-} satisfies Chain
+} satisfies Chain;
