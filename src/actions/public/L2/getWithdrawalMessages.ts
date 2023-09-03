@@ -11,7 +11,6 @@ export type MessagePassedEvent = {
   withdrawalHash: Hex
 }
 
-
 export type GetWithdrawalMessagesParameters = {
   hash: Hash
 }
