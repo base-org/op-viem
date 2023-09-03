@@ -1,4 +1,4 @@
-import { l2ToL1MessagePasserABI, optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
 import { Address, Chain, decodeEventLog, Hash, Hex, type PublicClient, Transport } from 'viem'
 
 export type MessagePassedEvent = {
@@ -10,6 +10,7 @@ export type MessagePassedEvent = {
   data: Hex
   withdrawalHash: Hex
 }
+
 
 export type GetWithdrawalMessagesParameters = {
   hash: Hash
