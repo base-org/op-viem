@@ -1,4 +1,5 @@
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
+import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
@@ -13,7 +14,6 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
 
 export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,

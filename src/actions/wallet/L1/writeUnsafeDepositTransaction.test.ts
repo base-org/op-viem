@@ -1,5 +1,10 @@
 import { accounts } from '../../../_test/constants'
-import { publicClient, testClient, walletClient } from '../../../_test/utils'
+import {
+  publicClient,
+  rollupPublicClient,
+  testClient,
+  walletClient,
+} from '../../../_test/utils'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
 import {
   DepositTransactionParameters,
@@ -7,7 +12,7 @@ import {
 } from './writeUnsafeDepositTransaction'
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
-import { mine } from 'viem/actions'
+import { estimateGas, mine } from 'viem/actions'
 import { base } from 'viem/chains'
 import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
@@ -30,14 +35,25 @@ test('default', async () => {
 })
 
 test('sends transaction to correct infered address', async () => {
+  const args: DepositTransactionParameters = {
+    to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+    value: 1n,
+    gasLimit: 0n,
+    data: '0x',
+    isCreation: false,
+  }
+
+  const gas = await estimateGas(rollupPublicClient, {
+    account: accounts[0].address,
+    to: args.to,
+    value: args.value,
+    data: args.data,
+  })
+
+  args.gasLimit = gas
+
   const hash = await writeUnsafeDepositTransaction(walletClient, {
-    args: {
-      to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-      value: 1n,
-      gasLimit: 25000n,
-      data: '0x',
-      isCreation: false,
-    },
+    args,
     value: 1n,
     l2ChainId: base.id,
     account: accounts[0].address,
