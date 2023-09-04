@@ -1,11 +1,12 @@
-import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import { Abi, Account, Address, Chain, ChainContract, SimulateContractParameters, WriteContractParameters } from 'viem'
 
 export type ExtractValidChainIdFromContract<
   TChain extends Chain | undefined,
   contractName extends string,
 > = TChain extends Chain
-  ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? keyof TChain['contracts'][contractName]
+  ? TChain['contracts'] extends { [key: string]: ChainContract | { [chainId: number]: ChainContract } }
+    ? TChain['contracts'][contractName] extends { [chainId: number]: ChainContract }
+      ? keyof TChain['contracts'][contractName]
     : undefined
   : undefined
   : undefined
@@ -37,7 +38,7 @@ export type GetContractAddress<
   contractName extends string,
 > = TChain extends Chain
   ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? {
+    ? TChain['contracts'][contractName] extends { [chainId: number]: ChainContract } ? {
         [k in `${contractName}Address`]?: Address
       }
     : {

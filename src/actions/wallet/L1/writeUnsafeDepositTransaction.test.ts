@@ -1,11 +1,17 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { estimateGas, mine } from 'viem/actions'
-import { base } from 'viem/chains'
+import { base, goerli } from 'viem/chains'
 import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants'
-import { publicClient, rollupPublicClient, testClient, walletClient } from '../../../_test/utils'
+import {
+  publicClient,
+  rollupPublicClient,
+  testClient,
+  walletClient,
+  walletClientWithoutChain,
+} from '../../../_test/utils'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
 import { DepositTransactionParameters, writeUnsafeDepositTransaction } from './writeUnsafeDepositTransaction'
 
@@ -24,6 +30,60 @@ test('default', async () => {
       account: accounts[0].address,
     }),
   ).toBeDefined()
+})
+
+test('throws error if optimismPortal not defined', async () => {
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      // @ts-expect-error
+      l2ChainId: goerli.id,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if no chain', async () => {
+  expect(() =>
+    // @ts-expect-error
+    writeUnsafeDepositTransaction(walletClientWithoutChain, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      l2ChainId: goerli.id,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if chain is not defined and optimismPortalAddress passed', async () => {
+  expect(() =>
+    // @ts-expect-error
+    writeUnsafeDepositTransaction(walletClientWithoutChain, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      optimismPortalAddress: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No chain was provided to the request.')
 })
 
 test('sends transaction to correct infered address', async () => {
@@ -55,7 +115,7 @@ test('sends transaction to correct infered address', async () => {
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.to).toEqual(
-    publicClient.chain.contracts.optimismPortal[base.id].toLowerCase(),
+    publicClient.chain.contracts.optimismPortal[base.id].address.toLowerCase(),
   )
 })
 
@@ -86,7 +146,7 @@ test('sends transaction to correct address with chain override', async () => {
     contracts: {
       ...walletClient.chain.contracts,
       optimismPortal: {
-        8453: portal,
+        8453: { address: portal },
       },
     },
   }

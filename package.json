@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "@eth-optimism/contracts-ts": "^0.15.0",
-    "viem": "^1.9.5"
+    "viem": "^1.10.0"
   }
 }

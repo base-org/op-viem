@@ -9,6 +9,7 @@ import {
   WriteContractParameters,
   WriteContractReturnType,
 } from 'viem'
+import { ChainContract } from 'viem'
 import { writeContract } from 'viem/actions'
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
@@ -19,11 +20,6 @@ export type DepositTransactionParameters = {
   value?: bigint
   isCreation?: boolean
   data?: Hex
-}
-
-// TODO(wilson): remove after viem updates types
-export type ContractToChainAddressMapping = {
-  [key: string]: { [chainId: number]: Address }
 }
 
 export type WriteUnsafeDepositTransactionParameters<
@@ -72,17 +68,10 @@ export async function writeUnsafeDepositTransaction<
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  if (!chain) {
-    throw new Error('Chain not defined')
-  }
-  const contracts = chain.contracts as ContractToChainAddressMapping | undefined
-  const portal = optimismPortalAddress
-    || (contracts?.[OpStackL1Contracts.optimismPortal]
-        && typeof l2ChainId === 'number'
-      ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
-      : undefined)
+  const resolved: ChainContract | undefined = chain?.contracts?.[OpStackL1Contracts.optimismPortal]?.[l2ChainId || -1]
+  const portal = optimismPortalAddress || resolved?.address
   if (!portal) {
-    throw new Error('Portal not defined')
+    throw new Error('No address for optimismPortal')
   }
   return writeContract(client, {
     address: portal,
