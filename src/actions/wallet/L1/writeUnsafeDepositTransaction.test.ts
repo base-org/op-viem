@@ -32,60 +32,6 @@ test('default', async () => {
   ).toBeDefined()
 })
 
-test('throws error if optimismPortal not defined', async () => {
-  expect(() =>
-    writeUnsafeDepositTransaction(walletClient, {
-      args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-        value: 1n,
-        gasLimit: 25000n,
-        data: '0x',
-        isCreation: false,
-      },
-      value: 0n,
-      // @ts-expect-error
-      l2ChainId: goerli.id,
-      account: accounts[0].address,
-    })
-  ).rejects.toThrowError('No address for optimismPortal')
-})
-
-test('throws error if no chain', async () => {
-  expect(() =>
-    // @ts-expect-error
-    writeUnsafeDepositTransaction(walletClientWithoutChain, {
-      args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-        value: 1n,
-        gasLimit: 25000n,
-        data: '0x',
-        isCreation: false,
-      },
-      value: 0n,
-      l2ChainId: goerli.id,
-      account: accounts[0].address,
-    })
-  ).rejects.toThrowError('No address for optimismPortal')
-})
-
-test('throws error if chain is not defined and optimismPortalAddress passed', async () => {
-  expect(() =>
-    // @ts-expect-error
-    writeUnsafeDepositTransaction(walletClientWithoutChain, {
-      args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-        value: 1n,
-        gasLimit: 25000n,
-        data: '0x',
-        isCreation: false,
-      },
-      value: 0n,
-      optimismPortalAddress: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-      account: accounts[0].address,
-    })
-  ).rejects.toThrowError('No chain was provided to the request.')
-})
-
 test('sends transaction to correct infered address', async () => {
   const args: DepositTransactionParameters = {
     to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
@@ -257,4 +203,107 @@ test('uses defaults for data, isCreation, and value', async () => {
       args: [args.to, 0n, args.gasLimit, false, '0x'],
     }),
   )
+})
+
+test('throws error if optimismPortal not defined on chain contracts', async () => {
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      // @ts-expect-error
+      l2ChainId: goerli.id,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if no chain', async () => {
+  expect(() =>
+    // @ts-expect-error
+    writeUnsafeDepositTransaction(walletClientWithoutChain, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      l2ChainId: base.id,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if chain does not have optimismPortal definition for l2ChainId', async () => {
+  const c = {
+    ...walletClient.chain,
+    contracts: {
+      ...walletClient.chain.contracts,
+      optimismPortal: {
+        8888: '0x',
+      },
+    },
+  }
+  delete c.contracts.optimismPortal[base.id]
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      // @ts-expect-error
+      chain: c,
+      l2ChainId: base.id,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if l2ChainId undefined and optimismPortalAddress not passed', async () => {
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      // TODO(Wilson): Would be good to have this give a type error
+      // but I think would require putting `never` in ExtractValidChainIdFromContract
+      // which causes other issues
+      l2ChainId: undefined,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No address for optimismPortal')
+})
+
+test('throws error if chain is not defined and optimismPortalAddress passed', async () => {
+  expect(() =>
+    // @ts-expect-error
+    writeUnsafeDepositTransaction(walletClientWithoutChain, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        value: 1n,
+        gasLimit: 25000n,
+        data: '0x',
+        isCreation: false,
+      },
+      value: 0n,
+      optimismPortalAddress: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('No chain was provided to the request.')
 })
