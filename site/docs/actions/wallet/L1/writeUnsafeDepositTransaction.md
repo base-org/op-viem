@@ -74,14 +74,14 @@ export const account = privateKeyToAccount(...)
 
 A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
 
-`writeContract` only returns a [Transaction Hash](https://viem.sh/docs/glossary/terms#hash). If you would like to retrieve the return data of a write function, you can use the [`simulateUnsafeDepositTransaction` action]() – this action does not execute a transaction, and does not require gas.
+`writeContract` only returns a [Transaction Hash](https://viem.sh/docs/glossary/terms#hash). If you would like to retrieve the return data of a write function, you can use the [`simulateUnsafeDepositTransaction` action] – this action does not execute a transaction, and does not require gas.
 
 ## Parameters
 
 ### args
 
 - #### to
-  - **Type:** [`Address`](/docs/glossary/types#address)
+  - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
   - The address the L2 transaction will be sent.
 
 - #### gasLimit
@@ -131,7 +131,7 @@ await walletClient.writeUnsafeDepositTransaction({
 
 ### optimismPortalAddress (optional)
 
-- **Type:** [`Address`](/docs/glossary/types#address)
+- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
 The `OptimismPortal` contract where the depositTransaction call should be made.
 

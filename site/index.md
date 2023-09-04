@@ -5,13 +5,6 @@ layout: home
 hero:
   name: "OP Viem"
   tagline: Viem extensions for the OP Stack
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
   - title: Feature A
