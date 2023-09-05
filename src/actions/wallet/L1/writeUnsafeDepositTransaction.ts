@@ -10,7 +10,7 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-import { ResolvedL1ChainId } from '../../../types/actions'
+import { GetL1ChainId } from '../../../types/actions'
 import { OpStackChain } from '../../../types/opStackContracts'
 
 export type DepositTransactionParameters = {
@@ -23,7 +23,7 @@ export type DepositTransactionParameters = {
 
 export type WriteUnsafeDepositTransactionParameters<
   TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & ResolvedL1ChainId<TL2Chain> = Chain & ResolvedL1ChainId<TL2Chain>,
+  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _abi extends typeof optimismPortalABI = typeof optimismPortalABI,
@@ -58,7 +58,7 @@ export type WriteUnsafeDepositTransactionParameters<
  */
 export async function writeUnsafeDepositTransaction<
   TL2Chain extends OpStackChain,
-  TChain extends Chain & ResolvedL1ChainId<TL2Chain>,
+  TChain extends Chain & GetL1ChainId<TL2Chain>,
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
