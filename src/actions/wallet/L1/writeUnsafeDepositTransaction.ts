@@ -10,9 +10,8 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-import { OpStackChain } from '../../../chains/base'
-import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
+import { ResolvedL1ChainId } from '../../../types/actions'
+import { OpStackChain } from '../../../types/opStackContracts'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -22,16 +21,9 @@ export type DepositTransactionParameters = {
   data?: Hex
 }
 
-// TODO(wilson): remove after viem updates types
-export type ContractToChainAddressMapping = {
-  [key: string]: { [chainId: number]: Address }
-}
-
 export type WriteUnsafeDepositTransactionParameters<
   TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & { id: TL2Chain['optimismConfig']['l1']['chainId'] } = Chain & {
-    id: TL2Chain['optimismConfig']['l1']['chainId']
-  },
+  TChain extends Chain & ResolvedL1ChainId<TL2Chain> = Chain & ResolvedL1ChainId<TL2Chain>,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   _abi extends typeof optimismPortalABI = typeof optimismPortalABI,
@@ -66,7 +58,7 @@ export type WriteUnsafeDepositTransactionParameters<
  */
 export async function writeUnsafeDepositTransaction<
   TL2Chain extends OpStackChain,
-  TChain extends Chain & { id: TL2Chain['optimismConfig']['l1']['chainId'] },
+  TChain extends Chain & ResolvedL1ChainId<TL2Chain>,
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(

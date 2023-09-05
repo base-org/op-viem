@@ -1,4 +1,9 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import { OpStackChain } from './opStackContracts'
+
+export type ResolvedL1ChainId<TOpStackChain extends OpStackChain> = {
+  id: TOpStackChain['optimismConfig']['l1']['chainId']
+}
 
 export type ExtractValidChainIdFromContract<
   TChain extends Chain | undefined,
