@@ -7,9 +7,9 @@ export type ExtractValidChainIdFromContract<
   ? TChain['contracts'] extends { [key: string]: ChainContract | { [chainId: number]: ChainContract } }
     ? TChain['contracts'][contractName] extends { [chainId: number]: ChainContract }
       ? keyof TChain['contracts'][contractName]
-    : undefined
-  : undefined
-  : undefined
+    : never
+  : never
+  : never
 
 export type ResolveChain<
   TChain extends Chain | undefined,
@@ -20,7 +20,7 @@ export type GetL2ChainId<
   TChain extends Chain | undefined,
   contractName extends string,
 > = ExtractValidChainIdFromContract<TChain, contractName> extends undefined ? {
-    l2ChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
+    l2ChainId?: never
   }
   // NOTE(Wilson): users will see this as a required arg in the case they are passing optimismPortalAddress
   // explicitly and the chain has entries at contracts[contractName], e.g. I am using a chain with some

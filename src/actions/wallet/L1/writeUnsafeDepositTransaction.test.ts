@@ -281,9 +281,7 @@ test('throws error if l2ChainId undefined and optimismPortalAddress not passed',
         isCreation: false,
       },
       value: 0n,
-      // TODO(Wilson): Would be good to have this give a type error
-      // but I think would require putting `never` in ExtractValidChainIdFromContract
-      // which causes other issues
+      // @ts-expect-error
       l2ChainId: undefined,
       account: accounts[0].address,
     })

@@ -68,8 +68,10 @@ export async function writeUnsafeDepositTransaction<
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  const resolved: ChainContract | undefined = l2ChainId
-    ? chain?.contracts?.[OpStackL1Contracts.optimismPortal]?.[l2ChainId]
+  const contracts: { [chainId: number]: ChainContract } | undefined = chain?.contracts
+    ?.[OpStackL1Contracts.optimismPortal]
+  const resolved: ChainContract | undefined = contracts && typeof l2ChainId === 'number'
+    ? contracts[l2ChainId]
     : undefined
   const portal = optimismPortalAddress || resolved?.address
   if (!portal) {
