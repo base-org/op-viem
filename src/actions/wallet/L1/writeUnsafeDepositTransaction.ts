@@ -10,6 +10,7 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
+import { OpStackChain } from '../../../chains/base'
 import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { OpStackL1Contracts } from '../../../types/opStackContracts'
 
@@ -37,17 +38,23 @@ export type WriteUnsafeDepositTransactionParameters<
     TChainOverride
   >,
 > =
-  & {
-    args: DepositTransactionParameters
-  }
-  & WriteActionBaseType<
-    TChain,
-    TAccount,
-    typeof optimismPortalABI,
-    TChainOverride,
-    _contractName,
-    _functionName,
-    _resolvedChain
+  & { args: DepositTransactionParameters }
+  & ({
+    l2Chain: OpStackChain
+    optimismPortalAddress?: never
+  } | {
+    l2Chain?: never
+    optimismPortalAddress: Address
+  })
+  & Omit<
+    WriteContractParameters<
+      typeof optimismPortalABI,
+      'depositTransaction',
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >
 
 /**
@@ -66,24 +73,12 @@ export async function writeUnsafeDepositTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
-    l2ChainId,
+    l2Chain,
     optimismPortalAddress,
-    chain = client.chain,
     ...rest
   }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  if (!chain) {
-    throw new Error('Chain not defined')
-  }
-  const contracts = chain.contracts as ContractToChainAddressMapping | undefined
-  const portal = optimismPortalAddress
-    || (contracts?.[OpStackL1Contracts.optimismPortal]
-        && typeof l2ChainId === 'number'
-      ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
-      : undefined)
-  if (!portal) {
-    throw new Error('Portal not defined')
-  }
+  const portal = optimismPortalAddress ?? l2Chain.optimismConfig.l1Contracts.optimismPortal.address
   return writeContract(client, {
     address: portal,
     abi: optimismPortalABI,
