@@ -1,4 +1,4 @@
-import { Address } from 'viem'
+import { Address, ChainContract } from 'viem'
 
 export enum OpStackL1Contracts {
   optimismL1CrossDomainMessenger = 'optimismL1CrossDomainMessenger',
@@ -20,12 +20,12 @@ export enum OpStackL2Contracts {
   optimismMintableErc721Factory = 'optimismMintableErc721Factory',
 }
 
-export const opStackL2ContractAddresses: { [key: string]: Address } = {
-  optimismL2CrossDomainMessenger: '0x4200000000000000000000000000000000000007',
-  optimismL2StandardBridge: '0x4200000000000000000000000000000000000010',
-  optimismGasPriceOracle: '0x420000000000000000000000000000000000000F',
-  optimismL1Block: '0x4200000000000000000000000000000000000015',
-  optimismL2ToL1MessagePasser: '0x4200000000000000000000000000000000000016',
-  optimismL2Erc721Bridge: '0x4200000000000000000000000000000000000014',
-  optimismMintableErc721Factory: '0x4200000000000000000000000000000000000017',
+export const opStackL2ContractAddresses: { [key: string]: ChainContract } = {
+  optimismL2CrossDomainMessenger: { address: '0x4200000000000000000000000000000000000007' },
+  optimismL2StandardBridge: { address: '0x4200000000000000000000000000000000000010' },
+  optimismGasPriceOracle: { address: '0x420000000000000000000000000000000000000F' },
+  optimismL1Block: { address: '0x4200000000000000000000000000000000000015' },
+  optimismL2ToL1MessagePasser: { address: '0x4200000000000000000000000000000000000016' },
+  optimismL2Erc721Bridge: { address: '0x4200000000000000000000000000000000000014' },
+  optimismMintableErc721Factory: { address: '0x4200000000000000000000000000000000000017' },
 }
