@@ -6,13 +6,12 @@ import {
   writeUnsafeDepositTransaction,
   WriteUnsafeDepositTransactionParameters,
 } from '../actions/wallet/L1/writeUnsafeDepositTransaction'
-import { OpStackChain } from '../chains/base'
+import { GetL1ChainId } from '../types/actions'
+import { OpStackChain } from '../types/opStackContracts'
 
 export type WalletL1OpStackActions<
   TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & { id: TL2Chain['optimismConfig']['l1']['chainId'] } = Chain & {
-    id: TL2Chain['optimismConfig']['l1']['chainId']
-  },
+  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
   TAccount extends Account | undefined = Account | undefined,
 > = {
   writeDepositETH: <
