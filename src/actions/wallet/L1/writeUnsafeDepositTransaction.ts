@@ -28,19 +28,18 @@ export type ContractToChainAddressMapping = {
 }
 
 export type WriteUnsafeDepositTransactionParameters<
-  TChain extends Chain | undefined = Chain,
+  TL2Chain extends OpStackChain = OpStackChain,
+  TChain extends Chain & { id: TL2Chain['optimismConfig']['l1']['chainId'] } = Chain & {
+    id: TL2Chain['optimismConfig']['l1']['chainId']
+  },
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismPortal,
+  _abi extends typeof optimismPortalABI = typeof optimismPortalABI,
   _functionName extends string = 'depositTransaction',
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
 > =
   & { args: DepositTransactionParameters }
   & ({
-    l2Chain: OpStackChain
+    l2Chain: TL2Chain
     optimismPortalAddress?: never
   } | {
     l2Chain?: never
@@ -48,8 +47,8 @@ export type WriteUnsafeDepositTransactionParameters<
   })
   & Omit<
     WriteContractParameters<
-      typeof optimismPortalABI,
-      'depositTransaction',
+      _abi,
+      _functionName,
       TChain,
       TAccount,
       TChainOverride
@@ -66,7 +65,8 @@ export type WriteUnsafeDepositTransactionParameters<
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
 export async function writeUnsafeDepositTransaction<
-  TChain extends Chain | undefined,
+  TL2Chain extends OpStackChain,
+  TChain extends Chain & { id: TL2Chain['optimismConfig']['l1']['chainId'] },
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
@@ -76,9 +76,9 @@ export async function writeUnsafeDepositTransaction<
     l2Chain,
     optimismPortalAddress,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
+  }: WriteUnsafeDepositTransactionParameters<TL2Chain, TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  const portal = optimismPortalAddress ?? l2Chain.optimismConfig.l1Contracts.optimismPortal.address
+  const portal = optimismPortalAddress ?? l2Chain.optimismConfig.l1.contracts.optimismPortal.address
   return writeContract(client, {
     address: portal,
     abi: optimismPortalABI,
