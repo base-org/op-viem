@@ -1,8 +1,9 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
-import { OpStackChain, OpStackL1Contract } from './opStackContracts'
+import { OpStackChain } from './opStackChain'
+import { OpStackL1Contract } from './opStackContracts'
 
 export type GetL1ChainId<TOpStackChain extends OpStackChain> = {
-  id: TOpStackChain['optimismConfig']['l1']['chainId']
+  id: TOpStackChain['opStackConfig']['l1']['chainId']
 }
 
 export type GetContractAddress<
@@ -53,7 +54,7 @@ export type WriteActionBaseType<
     // TODO(Wilson): There were some issues with `value` so
     // we omit and specify explicitly in the function args
     // but it would be nice to get all the types working better with viem
-    'abi' | 'functionName' | 'args' | 'address' | 'value'
+    'abi' | 'functionName' | 'args' | 'address'
   >
 
 export type SimulateActionBaseType<

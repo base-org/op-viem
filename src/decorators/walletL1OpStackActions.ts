@@ -17,12 +17,12 @@ export type WalletL1OpStackActions<
   writeDepositETH: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
-    args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
+    args: WriteDepositETHParameters<TL2Chain, TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
   writeDepositERC20: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
-    args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
+    args: WriteDepositERC20Parameters<TL2Chain, TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
   writeUnsafeDepositTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,

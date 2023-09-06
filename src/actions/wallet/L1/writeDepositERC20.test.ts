@@ -22,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [base.optimismConfig.l1.contracts.optimismL1StandardBridge.address, 10000n],
+    args: [base.opStackConfig.l1.contracts.optimismL1StandardBridge.address, 10000n],
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })

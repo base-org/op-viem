@@ -2,11 +2,11 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { BigNumber, ethers } from 'ethers'
 import { getTransactionReceipt } from 'viem/actions'
-import { optimism } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
-import { mainnet } from '../chains/mainnet'
+import { optimism } from '../chains/optimism'
 import { SourceHashDomain } from '../types/depositTransaction'
 import { getDepositTransaction } from './getDepositTransaction'
 import { getSourceHash } from './getSourceHash'
@@ -17,7 +17,7 @@ import { getTransactionDepositedEvents } from './getTransactionDepositedEvents'
 // if debugging again in the future.
 test('derives same values as op-ethereum/core-utils', async () => {
   const contract = new ethers.Contract(
-    mainnet.contracts.optimismPortal[optimism.id],
+    optimism.opStackConfig.l1.contracts.optimismPortal.address,
     optimismPortalABI,
     ethersProvider,
   )

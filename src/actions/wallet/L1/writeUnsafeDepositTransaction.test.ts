@@ -184,9 +184,9 @@ test('errors if l2Chain and optimismPortalAddress both not passed', async () => 
 test('errors if chain.id does not match l1.chainId', async () => {
   const baseAlt = {
     ...base,
-    optimismConfig: {
+    opStackConfig: {
       l1: {
-        ...base.optimismConfig.l1,
+        ...base.opStackConfig.l1,
         chainId: 2,
       },
     },
@@ -202,5 +202,5 @@ test('errors if chain.id does not match l1.chainId', async () => {
       l2Chain: baseAlt,
       account: accounts[0].address,
     })
-  ).rejects.toThrowError('Chain does not match known L1 for l2Chain')
+  ).rejects.toThrowError('Chain ID "1" does not match expected L1 chain ID "2"')
 })

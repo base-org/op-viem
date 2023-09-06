@@ -1,37 +1,21 @@
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Chain, PublicClient, SimulateContractParameters, SimulateContractReturnType, Transport } from 'viem'
-import { simulateContract } from 'viem/actions'
 import { GetL1ChainId, SimulateActionBaseType } from '../../../types/actions'
 import { DepositETHParameters } from '../../../types/depositETHParameters'
-import { OpStackChain, OpStackL1Contract } from '../../../types/opStackContracts'
+import { OpStackChain } from '../../../types/opStackChain'
+import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1'
 
 export type SimulateDepositETHParameters<
   TL2Chain extends OpStackChain = OpStackChain,
   TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
   TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
+  _abi extends typeof l1StandardBridgeABI = typeof l1StandardBridgeABI,
   _contractName extends OpStackL1Contract = OpStackL1Contract.OptimismL1StandardBridge,
   _functionName extends string = 'depositETH',
 > =
-  & {
-    args: DepositETHParameters
-  }
-  & SimulateActionBaseType<
-    TL2Chain,
-    TChain,
-    TChainOverride,
-    typeof l1StandardBridgeABI,
-    _contractName,
-    _functionName
-  >
-export type SimulateDepositETHReturnType<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
-> = SimulateContractReturnType<
-  typeof l1StandardBridgeABI,
-  'depositETH',
-  TChain,
-  TChainOverride
->
+  & { args: DepositETHParameters }
+  & SimulateActionBaseType<TL2Chain, TChain, TChainOverride, _abi, _contractName, _functionName>
 
 /**
  * Simulates a deposit of ETH to L2
@@ -40,35 +24,25 @@ export type SimulateDepositETHReturnType<
  * @returns {SimulateDepositETHReturnType} the simulated transaction
  */
 export async function simulateDepositETH<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined,
+  TL2Chain extends OpStackChain,
+  TChain extends Chain & GetL1ChainId<TL2Chain>,
+  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined,
+  _abi extends typeof l1StandardBridgeABI = typeof l1StandardBridgeABI,
+  _functionName extends string = 'depositETH',
 >(
   client: PublicClient<Transport, TChain>,
   {
-    args: { gasLimit, data },
-    l2ChainId,
+    args: { minGasLimit, extraData = '0x' },
     optimismL1StandardBridgeAddress,
-    chain = client.chain,
     ...rest
-  }: SimulateDepositETHParameters<TChain, TChainOverride>,
-): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
-  const contracts = chain?.contracts as
-    | ContractToChainAddressMapping
-    | undefined
-  const bridge = optimismL1StandardBridgeAddress
-    || (contracts && typeof l2ChainId === 'number'
-      ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
-      : undefined)
-  return simulateContract(client, {
-    address: bridge,
+  }: SimulateDepositETHParameters<TL2Chain, TChain, TChainOverride>,
+): Promise<SimulateContractReturnType<_abi, _functionName, TChain, TChainOverride>> {
+  return simulateOpStackL1(client, {
+    address: optimismL1StandardBridgeAddress,
     abi: l1StandardBridgeABI,
+    contract: OpStackL1Contract.OptimismL1StandardBridge,
     functionName: 'depositETH',
-    args: [gasLimit, data || '0x'],
+    args: [minGasLimit, extraData],
     ...rest,
-  } as unknown as SimulateContractParameters<
-    typeof l1StandardBridgeABI,
-    'depositETH',
-    TChain,
-    TChainOverride
-  >)
+  } as unknown as SimulateOpStackL1Parameters<TL2Chain, TChain, TChainOverride, _abi, _functionName>)
 }

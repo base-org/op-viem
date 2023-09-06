@@ -19,20 +19,6 @@ enum OpStackL2Contract {
   OptimismMintableErc721Factory = 'optimismMintableErc721Factory',
 }
 
-export type OpStackChain = Chain & {
-  contracts: OpStackL2ChainContracts
-  optimismConfig: OptimismConfig
-}
-
-export type OptimismConfig = {
-  l1: {
-    chainId: number
-    contracts: {
-      [key in OpStackL1Contract]: ChainContract
-    }
-  }
-}
-
 export type OpStackL2ChainContracts = { [key in OpStackL2Contract]: ChainContract }
 
 export const opStackL2ChainContracts: OpStackL2ChainContracts = {
