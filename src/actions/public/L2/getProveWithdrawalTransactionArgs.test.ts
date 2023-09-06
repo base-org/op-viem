@@ -1,7 +1,7 @@
 import { createPublicClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { base } from '../../../chains/base'
-import { mainnet } from '../../../chains/mainnet'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { getWithdrawalMessages } from './getWithdrawalMessages'

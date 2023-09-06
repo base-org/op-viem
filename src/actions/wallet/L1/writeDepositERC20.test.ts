@@ -1,9 +1,9 @@
 import { mine, writeContract } from 'viem/actions'
-import { base } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
 import { publicClient, testClient, walletClient } from '../../../_test/utils'
-import { mainnet } from '../../../chains/mainnet'
+import { base } from '../../../chains/base'
 import { writeDepositERC20 } from './writeDepositERC20'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -22,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [mainnet.contracts.optimismL1StandardBridge[base.id], 10000n],
+    args: [base.optimismConfig.l1.contracts.optimismL1StandardBridge.address, 10000n],
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })
@@ -34,7 +34,7 @@ test('default', async () => {
       gasLimit: 1n,
       data: '0x',
     },
-    l2ChainId: base.id,
+    l2Chain: base,
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })

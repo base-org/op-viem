@@ -1,21 +1,23 @@
 import { Chain } from 'viem'
 import { ChainContract } from 'viem'
 
-export type OpStackL1Contract =
-  | 'optimismL1CrossDomainMessenger'
-  | 'optimismL1Erc721Bridge'
-  | 'optimismL1StandardBridge'
-  | 'optimismL2OutputOracle'
-  | 'optimismPortal'
+export enum OpStackL1Contract {
+  OptimismL1CrossDomainMessenger = 'optimismL1CrossDomainMessenger',
+  OptimismL1Erc721Bridge = 'optimismL1Erc721Bridge',
+  OptimismL1StandardBridge = 'optimismL1StandardBridge',
+  OptimismL2OutputOracle = 'optimismL2OutputOracle',
+  OptimismPortal = 'optimismPortal',
+}
 
-export type OpStackL2Contract =
-  | 'optimismL2CrossDomainMessenger'
-  | 'optimismL2StandardBridge'
-  | 'optimismGasPriceOracle'
-  | 'optimismL1Block'
-  | 'optimismL2ToL1MessagePasser'
-  | 'optimismL2Erc721Bridge'
-  | 'optimismMintableErc721Factory'
+enum OpStackL2Contract {
+  OptimismL2CrossDomainMessenger = 'optimismL2CrossDomainMessenger',
+  OptimismL2StandardBridge = 'optimismL2StandardBridge',
+  OptimismGasPriceOracle = 'optimismGasPriceOracle',
+  OptimismL1Block = 'optimismL1Block',
+  OptimismL2ToL1MessagePasser = 'optimismL2ToL1MessagePasser',
+  OptimismL2Erc721Bridge = 'optimismL2Erc721Bridge',
+  OptimismMintableErc721Factory = 'optimismMintableErc721Factory',
+}
 
 export type OpStackChain = Chain & {
   contracts: OpStackL2ChainContracts
@@ -31,15 +33,7 @@ export type OptimismConfig = {
   }
 }
 
-export type OpStackL2ChainContracts = {
-  optimismL2CrossDomainMessenger: ChainContract
-  optimismL2StandardBridge: ChainContract
-  optimismGasPriceOracle: ChainContract
-  optimismL1Block: ChainContract
-  optimismL2ToL1MessagePasser: ChainContract
-  optimismL2Erc721Bridge: ChainContract
-  optimismMintableErc721Factory: ChainContract
-}
+export type OpStackL2ChainContracts = { [key in OpStackL2Contract]: ChainContract }
 
 export const opStackL2ChainContracts: OpStackL2ChainContracts = {
   optimismL2CrossDomainMessenger: { address: '0x4200000000000000000000000000000000000007' },

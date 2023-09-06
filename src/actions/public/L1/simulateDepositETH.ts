@@ -1,31 +1,27 @@
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Chain, PublicClient, SimulateContractParameters, SimulateContractReturnType, Transport } from 'viem'
 import { simulateContract } from 'viem/actions'
-import { ResolveChain, SimulateActionBaseType } from '../../../types/actions'
+import { GetL1ChainId, SimulateActionBaseType } from '../../../types/actions'
 import { DepositETHParameters } from '../../../types/depositETHParameters'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
-import { ContractToChainAddressMapping } from '../../wallet/L1/writeUnsafeDepositTransaction'
+import { OpStackChain, OpStackL1Contract } from '../../../types/opStackContracts'
 
 export type SimulateDepositETHParameters<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismL1StandardBridge,
+  TL2Chain extends OpStackChain = OpStackChain,
+  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
+  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
+  _contractName extends OpStackL1Contract = OpStackL1Contract.OptimismL1StandardBridge,
   _functionName extends string = 'depositETH',
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
 > =
   & {
     args: DepositETHParameters
   }
   & SimulateActionBaseType<
+    TL2Chain,
     TChain,
-    typeof l1StandardBridgeABI,
     TChainOverride,
+    typeof l1StandardBridgeABI,
     _contractName,
-    _functionName,
-    _resolvedChain
+    _functionName
   >
 export type SimulateDepositETHReturnType<
   TChain extends Chain | undefined = Chain,

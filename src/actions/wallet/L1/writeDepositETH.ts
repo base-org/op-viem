@@ -1,73 +1,55 @@
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
-import { writeContract } from 'viem/actions'
-import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
+import { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import { GetL1ChainId, WriteActionBaseType } from '../../../types/actions'
 import { DepositETHParameters } from '../../../types/depositETHParameters'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
-import { ContractToChainAddressMapping } from './writeUnsafeDepositTransaction'
+import { OpStackChain, OpStackL1Contract } from '../../../types/opStackContracts'
+import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
 
 export type WriteDepositETHParameters<
-  TChain extends Chain | undefined = Chain,
+  TL2Chain extends OpStackChain = OpStackChain,
+  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
   TAccount extends Account | undefined = Account | undefined,
-  TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismL1StandardBridge,
+  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
+  _abi extends typeof l1StandardBridgeABI = typeof l1StandardBridgeABI,
   _functionName extends string = 'depositETH',
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
+  _contractName extends OpStackL1Contract = OpStackL1Contract.OptimismL1StandardBridge,
 > =
-  & {
-    args: DepositETHParameters
-  }
-  & WriteActionBaseType<
-    TChain,
-    TAccount,
-    typeof l1StandardBridgeABI,
-    TChainOverride,
-    _contractName,
-    _functionName,
-    _resolvedChain
-  >
+  & { args: DepositETHParameters; value?: bigint }
+  & WriteActionBaseType<TL2Chain, TChain, TAccount, TChainOverride, _abi, _contractName>
 
 /**
  * Deposits ETH to L2
- * @param {bigint} gasLimit the gas limit for the transaction
- * @param {Hex} [data] the data to send with the transaction
- * @returns {WriteContractReturnType} the transaction hash
+ * @param parameters - {@link WriteDepositETHParameters}
+ * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
 export async function writeDepositETH<
-  TChain extends Chain | undefined,
+  TL2Chain extends OpStackChain,
+  TChain extends Chain & GetL1ChainId<TL2Chain>,
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { gasLimit, data },
-    chain = client.chain,
-    l2ChainId,
+    args: { minGasLimit, extraData = '0x' },
+    l2Chain,
     optimismL1StandardBridgeAddress,
     ...rest
-  }: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
+  }: WriteDepositETHParameters<TL2Chain, TChain, TAccount, TChainOverride>,
 ): Promise<WriteContractReturnType> {
-  const contracts = chain?.contracts as
-    | ContractToChainAddressMapping
-    | undefined
-  const bridge = optimismL1StandardBridgeAddress
-    || (contracts && typeof l2ChainId === 'number'
-      ? contracts[OpStackL1Contracts.optimismL1StandardBridge][l2ChainId]
-      : undefined)
-  return writeContract(client, {
-    address: bridge,
+  return writeOpStackL1(client, {
+    address: optimismL1StandardBridgeAddress,
+    l2Chain,
     abi: l1StandardBridgeABI,
     functionName: 'depositETH',
-    args: [gasLimit, data],
+    contract: OpStackL1Contract.OptimismL1StandardBridge,
+    args: [minGasLimit, extraData],
     ...rest,
-  } as unknown as WriteContractParameters<
-    typeof l1StandardBridgeABI,
-    'depositETH',
+  } as unknown as WriteOpStackL1Parameters<
+    TL2Chain,
     TChain,
     TAccount,
-    TChainOverride
+    TChainOverride,
+    typeof l1StandardBridgeABI,
+    'depositETH'
   >)
 }
