@@ -126,12 +126,13 @@ test('correctly passes arugments', async () => {
     args,
     l2Chain: base,
     account: accounts[0].address,
-    value: 0n,
+    value: 2n,
   })
 
   await mine(testClient, { blocks: 1 })
 
   const t = await publicClient.getTransaction({ hash })
+  expect(t.value).toEqual(2n)
   expect(t.input).toEqual(
     encodeFunctionData({
       abi: optimismPortalABI,
@@ -177,5 +178,29 @@ test('errors if l2Chain and optimismPortalAddress both not passed', async () => 
       value: 0n,
       account: accounts[0].address,
     })
-  ).rejects.toThrowError("Cannot read properties of undefined (reading 'optimismConfig')")
+  ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress')
+})
+
+test('errors if chain.id does not match l1.chainId', async () => {
+  const baseAlt = {
+    ...base,
+    optimismConfig: {
+      l1: {
+        ...base.optimismConfig.l1,
+        chainId: 2,
+      },
+    },
+  }
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        gasLimit: 25000n,
+      },
+      value: 0n,
+      // TODO this should type error
+      l2Chain: baseAlt,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('Chain does not match known L1 for l2Chain')
 })
