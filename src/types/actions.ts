@@ -1,6 +1,7 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
 import { OpStackChain } from './opStackChain'
 import { OpStackL1Contract } from './opStackContracts'
+import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type ResolveChain<
   TChain extends Chain | undefined,
@@ -31,7 +32,7 @@ export type WriteActionBaseType<
     | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
       : never)
     | never = never,
-> =
+> = GetChain<TChain, TChainOverride>
   & ActionBaseType<_l2, TContract>
   & Omit<
     WriteContractParameters<
@@ -41,8 +42,14 @@ export type WriteActionBaseType<
       TAccount,
       TChainOverride
     >,
-    'abi' | 'functionName' | 'args' | 'address'
+    'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >
+  type GetChain<
+  TChain extends Chain | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = IsUndefined<TChain> extends true
+  ? { chain: TChainOverride | null }
+  : { chain?: TChainOverride | null };
 
 export type SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,
