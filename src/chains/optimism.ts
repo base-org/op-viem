@@ -35,4 +35,4 @@ export const optimism = {
       },
     },
   },
-} satisfies OpStackChain
+} as const satisfies OpStackChain
