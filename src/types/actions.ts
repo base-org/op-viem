@@ -1,12 +1,16 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import { IsUndefined } from 'viem/dist/types/types/utils'
 import { OpStackChain } from './opStackChain'
 import { OpStackL1Contract } from './opStackContracts'
-import { IsUndefined } from 'viem/dist/types/types/utils'
 
 export type ResolveChain<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined = undefined,
 > = TChainOverride extends Chain ? TChainOverride : TChain
+
+export type GetL2Chain<TChain extends Chain | undefined> = TChain extends Chain
+  ? OpStackChain & { opStackConfig: { l1: { chainId: TChain['id'] } } }
+  : never
 
 export type ActionBaseType<
   TL2Chain extends OpStackChain,
@@ -19,7 +23,6 @@ export type ActionBaseType<
     l2Chain?: never
   } & { [k in `${TContract}Address`]: Address })
 
-  
 export type WriteActionBaseType<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
@@ -27,13 +30,9 @@ export type WriteActionBaseType<
   TAbi extends Abi | readonly unknown[] = Abi,
   TContract extends OpStackL1Contract = OpStackL1Contract,
   TFunctioName extends string = string,
-  _resolvedChain = ResolveChain<TChain, TChainOverride>,
-  _l2 extends
-    | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
-      : never)
-    | never = never,
-> = GetChain<TChain, TChainOverride>
-  & ActionBaseType<_l2, TContract>
+> =
+  & GetChain<TChain, TChainOverride>
+  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
     WriteContractParameters<
       TAbi,
@@ -44,12 +43,11 @@ export type WriteActionBaseType<
     >,
     'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >
-  type GetChain<
+type GetChain<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined = undefined,
-> = IsUndefined<TChain> extends true
-  ? { chain: TChainOverride | null }
-  : { chain?: TChainOverride | null };
+> = IsUndefined<TChain> extends true ? { chain: TChainOverride | null }
+  : { chain?: TChainOverride | null }
 
 export type SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,

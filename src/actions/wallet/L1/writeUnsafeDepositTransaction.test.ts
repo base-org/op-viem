@@ -1,7 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { estimateGas, mine } from 'viem/actions'
-import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants'
 import { publicClient, rollupPublicClient, rollupWalletClient, testClient, walletClient } from '../../../_test/utils'
@@ -192,7 +191,7 @@ test('errors if chain.id does not match l1.chainId', async () => {
       },
     },
   } as const satisfies OpStackChain
-  
+
   expect(() =>
     writeUnsafeDepositTransaction(walletClient, {
       args: {
@@ -217,8 +216,9 @@ test('works if override chain id matches l1.id', async () => {
       },
     },
   } as const satisfies OpStackChain
-  
-  expect(await writeUnsafeDepositTransaction(walletClient, {
+
+  expect(
+    await writeUnsafeDepositTransaction(walletClient, {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         gasLimit: 25000n,
@@ -227,7 +227,6 @@ test('works if override chain id matches l1.id', async () => {
       l2Chain: baseAlt,
       chain: rollupWalletClient.chain,
       account: accounts[0].address,
-    })
+    }),
   ).toBeDefined()
 })
-

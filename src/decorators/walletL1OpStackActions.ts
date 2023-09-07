@@ -10,8 +10,7 @@ import { GetL1ChainId } from '../types/actions'
 import { OpStackChain } from '../types/opStackContracts'
 
 export type WalletL1OpStackActions<
-  TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
+TChain extends Chain | undefined = Chain | undefined,
   TAccount extends Account | undefined = Account | undefined,
 > = {
   writeDepositETH: <
@@ -28,7 +27,6 @@ export type WalletL1OpStackActions<
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: WriteUnsafeDepositTransactionParameters<
-      TL2Chain,
       TChain,
       TAccount,
       TChainOverride
@@ -43,7 +41,7 @@ export function walletL1OpStackActions<
   TAccount extends Account = Account,
 >(
   client: WalletClient<TTransport, TChain, TAccount>,
-): WalletL1OpStackActions<TL2Chain, TChain, TAccount> {
+): WalletL1OpStackActions<TChain, TAccount> {
   return {
     writeUnsafeDepositTransaction: (args) => writeUnsafeDepositTransaction(client, args),
     writeDepositETH: (args) => writeDepositETH(client, args),
