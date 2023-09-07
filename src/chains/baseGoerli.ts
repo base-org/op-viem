@@ -30,4 +30,4 @@ export const baseGoerli = {
       },
     },
   },
-} satisfies OpStackChain
+} as const satisfies OpStackChain

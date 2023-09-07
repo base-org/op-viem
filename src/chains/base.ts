@@ -35,4 +35,4 @@ export const base = {
       },
     },
   },
-} satisfies OpStackChain
+} as const satisfies OpStackChain

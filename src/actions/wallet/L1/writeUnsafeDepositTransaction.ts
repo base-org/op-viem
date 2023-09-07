@@ -1,6 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import { GetL1ChainId, WriteActionBaseType } from '../../../types/actions'
+import { ActionBaseType, ResolveChain, WriteActionBaseType } from '../../../types/actions'
 import { OpStackChain } from '../../../types/opStackChain'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
@@ -14,16 +14,17 @@ export type DepositTransactionParameters = {
 }
 
 export type WriteUnsafeDepositTransactionParameters<
-  TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
+  TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
-  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
-  _abi extends typeof optimismPortalABI = typeof optimismPortalABI,
-  _contractName extends OpStackL1Contract = OpStackL1Contract.OptimismPortal,
-  _functionName extends string = 'depositTransaction',
+  TChainOverride extends Chain | undefined = Chain | undefined,
+  TResolvedChain = ResolveChain<TChain, TChainOverride>,
+  TL2Chain extends
+    | (TResolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: TResolvedChain['id'] } } }
+      : never)
+    | never = never,
 > =
   & { args: DepositTransactionParameters }
-  & WriteActionBaseType<TL2Chain, TChain, TAccount, TChainOverride, _abi, _contractName, _functionName>
+  & WriteActionBaseType<TChain, TAccount, TChainOverride, typeof optimismPortalABI, OpStackL1Contract.OptimismPortal, 'depositTransaction', TResolvedChain, TL2Chain>
 
 /**
  * Calls depositTransaction directly on the OptimismPortal contract.
@@ -34,19 +35,32 @@ export type WriteUnsafeDepositTransactionParameters<
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
 export async function writeUnsafeDepositTransaction<
-  TL2Chain extends OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain>,
+  TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined,
-  _abi extends typeof optimismPortalABI = typeof optimismPortalABI,
-  _functionName extends string = 'depositTransaction',
+  TChainOverride extends Chain | undefined = undefined,
+  TResolvedChain = ResolveChain<TChain, TChainOverride>,
+  TL2Chain extends
+    | (TResolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: TResolvedChain['id'] } } }
+      : never)
+    | never = never,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value, gasLimit, isCreation, data },
     optimismPortalAddress,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<TL2Chain, TChain, TAccount, TChainOverride>,
+  }:
+    & { args: DepositTransactionParameters }
+    & WriteActionBaseType<
+      TChain,
+      TAccount,
+      TChainOverride,
+      typeof optimismPortalABI,
+      OpStackL1Contract.OptimismPortal,
+      'depositTransaction',
+      TResolvedChain,
+      TL2Chain
+    >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
     address: optimismPortalAddress,
@@ -56,11 +70,10 @@ export async function writeUnsafeDepositTransaction<
     args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
     ...rest,
   } as unknown as WriteOpStackL1Parameters<
-    TL2Chain,
     TChain,
     TAccount,
     TChainOverride,
-    _abi,
-    _functionName
+    typeof optimismPortalABI,
+    'depositTransaction'
   >)
 }

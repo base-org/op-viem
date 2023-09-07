@@ -2,27 +2,14 @@ import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContract
 import { OpStackChain } from './opStackChain'
 import { OpStackL1Contract } from './opStackContracts'
 
-export type GetL1ChainId<TOpStackChain extends OpStackChain> = {
-  id: TOpStackChain['opStackConfig']['l1']['chainId']
-}
-
-export type GetContractAddress<
+export type ResolveChain<
   TChain extends Chain | undefined,
-  contractName extends string,
-> = TChain extends Chain
-  ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? {
-        [k in `${contractName}Address`]?: Address
-      }
-    : {
-      [k in `${contractName}Address`]: Address
-    }
-  : never
-  : never
+  TChainOverride extends Chain | undefined = undefined,
+> = TChainOverride extends Chain ? TChainOverride : TChain
 
 export type ActionBaseType<
-  TL2Chain extends OpStackChain = OpStackChain,
-  TContract extends OpStackL1Contract = OpStackL1Contract,
+  TL2Chain extends OpStackChain,
+  TContract extends OpStackL1Contract,
 > =
   | ({
     l2Chain: TL2Chain
@@ -31,42 +18,46 @@ export type ActionBaseType<
     l2Chain?: never
   } & { [k in `${TContract}Address`]: Address })
 
+  
 export type WriteActionBaseType<
-  TL2Chain extends OpStackChain = OpStackChain,
-  // TODO(Wilson): this type check is not working, only check that id is type number
-  // not that it matches exactly
-  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
+  TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
-  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
+  TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
   TContract extends OpStackL1Contract = OpStackL1Contract,
-  TFunctionname extends string = string,
+  TFunctioName extends string = string,
+  _resolvedChain = ResolveChain<TChain, TChainOverride>,
+  _l2 extends
+    | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
+      : never)
+    | never = never,
 > =
-  & ActionBaseType<TL2Chain, TContract>
+  & ActionBaseType<_l2, TContract>
   & Omit<
     WriteContractParameters<
       TAbi,
-      TFunctionname,
+      TFunctioName,
       TChain,
       TAccount,
       TChainOverride
     >,
-    // TODO(Wilson): There were some issues with `value` so
-    // we omit and specify explicitly in the function args
-    // but it would be nice to get all the types working better with viem
     'abi' | 'functionName' | 'args' | 'address'
   >
 
 export type SimulateActionBaseType<
-  TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
-  TChainOverride extends Chain & GetL1ChainId<TL2Chain> | undefined = Chain & GetL1ChainId<TL2Chain> | undefined,
+  TChain extends Chain | undefined = Chain,
+  TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
-  _contractName extends OpStackL1Contract = OpStackL1Contract,
-  _functionName extends string = string,
+  TContract extends OpStackL1Contract = OpStackL1Contract,
+  TFunctioName extends string = string,
+  _resolvedChain = ResolveChain<TChain, TChainOverride>,
+  _l2 extends
+    | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
+      : never)
+    | never = never,
 > =
-  & ActionBaseType<TL2Chain, _contractName>
+  & ActionBaseType<_l2, TContract>
   & Omit<
-    SimulateContractParameters<TAbi, _functionName, TChain, TChainOverride>,
+    SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
     'abi' | 'functionName' | 'args' | 'address'
   >

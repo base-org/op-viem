@@ -7,6 +7,7 @@ import { accounts } from '../../../_test/constants'
 import { publicClient, rollupPublicClient, testClient, walletClient } from '../../../_test/utils'
 import { base } from '../../../chains/base'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { OpStackChain } from '../../../types/opStackChain'
 import { DepositTransactionParameters, writeUnsafeDepositTransaction } from './writeUnsafeDepositTransaction'
 
 test('default', async () => {
@@ -190,7 +191,8 @@ test('errors if chain.id does not match l1.chainId', async () => {
         chainId: 2,
       },
     },
-  }
+  } as const satisfies OpStackChain
+  console.log(baseAlt.opStackConfig.l1.chainId)
   expect(() =>
     writeUnsafeDepositTransaction(walletClient, {
       args: {
@@ -198,7 +200,7 @@ test('errors if chain.id does not match l1.chainId', async () => {
         gasLimit: 25000n,
       },
       value: 0n,
-      // TODO this should type error
+      // @ts-expect-error
       l2Chain: baseAlt,
       account: accounts[0].address,
     })
