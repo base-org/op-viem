@@ -4,7 +4,7 @@ import { WriteActionBaseType } from '../../../types/actions'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
 
-const ABI = optimismPortalABI; 
+const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal
 const FUNCTION = 'depositTransaction'
 
@@ -46,26 +46,21 @@ export async function writeUnsafeDepositTransaction<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, value, gasLimit, isCreation, data },
+    args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
     optimismPortalAddress,
     ...rest
-  }:
-    & { args: DepositTransactionParameters }
-    & WriteActionBaseType<
-      TChain,
-      TAccount,
-      TChainOverride,
-      typeof ABI,
-      typeof CONTRACT,
-      typeof FUNCTION
-    >,
+  }: WriteUnsafeDepositTransactionParameters<
+    TChain,
+    TAccount,
+    TChainOverride
+  >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
     address: optimismPortalAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
+    args: [to, value, gasLimit, isCreation, data],
     ...rest,
   } as unknown as WriteOpStackL1Parameters<
     TChain,

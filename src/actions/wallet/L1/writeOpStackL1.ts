@@ -2,8 +2,7 @@ import { Chain } from 'viem'
 import { Abi, Account, Address, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
 import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action'
-import { ResolveChain } from '../../../types/actions'
-import { OpStackChain } from '../../../types/opStackChain'
+import { GetL2Chain, ResolveChain } from '../../../types/actions'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 
 export type WriteOpStackL1Parameters<
@@ -11,16 +10,11 @@ export type WriteOpStackL1Parameters<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctioName extends string = string,
-  _resolvedChain = ResolveChain<TChain, TChainOverride>,
-  _l2 extends
-    | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
-      : never)
-    | never = never,
+  TFunctionName extends string = string,
 > =
   & { contract: OpStackL1Contract; chain: TChain | TChainOverride }
   & ({
-    l2Chain: _l2
+    l2Chain: GetL2Chain<ResolveChain<TChain, TChainOverride>>
     address?: never
   } | {
     l2Chain?: never
@@ -29,7 +23,7 @@ export type WriteOpStackL1Parameters<
   & Omit<
     WriteContractParameters<
       TAbi,
-      TFunctioName,
+      TFunctionName,
       TChain,
       TAccount,
       TChainOverride
@@ -40,9 +34,9 @@ export type WriteOpStackL1Parameters<
 export function writeOpStackL1<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  TChainOverride extends Chain | undefined,
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
+  TChainOverride extends Chain | undefined = undefined,
+  const TAbi extends Abi | readonly unknown[] = Abi,
+  TFunctionName extends string = string,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {

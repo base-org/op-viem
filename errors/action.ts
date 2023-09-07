@@ -6,7 +6,7 @@ export class L1ChainMismatchError extends BaseError {
   override name = 'L1ChainMismatchError'
   constructor(
     { chainId, opChainL1ChainId }: {
-      chainId: Chain['id']
+      chainId: Chain['id'] | undefined
       opChainL1ChainId: OpStackChain['opStackConfig']['l1']['chainId']
     },
   ) {

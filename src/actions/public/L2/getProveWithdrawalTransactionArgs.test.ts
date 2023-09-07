@@ -43,7 +43,7 @@ test('correctly generates args', async () => {
 
   const output = await getOutputForL2Block(l1Client, {
     l2BlockNumber: withdrawalMessages.blockNumber,
-    l2ChainId: base.id,
+    l2Chain: base,
   })
 
   // TODO(wilson): We should simplify these test to not require so much setup ^

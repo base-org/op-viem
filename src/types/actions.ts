@@ -61,7 +61,8 @@ export type SimulateActionBaseType<
       : never)
     | never = never,
 > =
-  & ActionBaseType<_l2, TContract>
+  & GetChain<TChain, TChainOverride>
+  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
     SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
     'abi' | 'functionName' | 'args' | 'address'

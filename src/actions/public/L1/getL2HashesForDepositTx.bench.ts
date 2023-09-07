@@ -1,11 +1,10 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
-import { base } from 'viem/chains'
 import { bench, describe } from 'vitest'
 import { ethersProvider } from '../../../_test/bench'
 import { publicClient } from '../../../_test/utils'
-import { mainnet } from '../../../chains/mainnet'
+import { base } from '../../../chains/base'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
 
 describe('Computes L2 hash for L1 event', () => {
@@ -20,7 +19,7 @@ describe('Computes L2 hash for L1 event', () => {
     // I am not sure how to produce an event from a transaction receipt.
     // Happy to update this if there is a better comparison
     const contract = new ethers.Contract(
-      mainnet.contracts.optimismPortal[base.id],
+      base.opStackConfig.l1.contracts.optimismPortal.address,
       optimismPortalABI,
       ethersProvider,
     )

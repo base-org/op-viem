@@ -1,9 +1,10 @@
 import { CrossChainMessenger } from '@eth-optimism/sdk'
 import { providers } from 'ethers'
 import { createPublicClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
 import { bench, describe } from 'vitest'
+import { forkUrl, rollupForkUrl } from '../../../_test/constants'
 import { base } from '../../../chains/base'
-import { mainnet } from '../../../chains/mainnet'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
@@ -29,7 +30,7 @@ describe('Computes L1 prove args from L2 tx hash', () => {
 
       const output = await getOutputForL2Block(l1Client, {
         l2BlockNumber: withdrawalMessages.blockNumber,
-        l2ChainId: base.id,
+        l2Chain: base,
       })
 
       await getProveWithdrawalTransactionArgs(client, {
@@ -46,10 +47,10 @@ describe('Computes L1 prove args from L2 tx hash', () => {
     '@eth-optimism/sdk: `getBedrockMessageProof`',
     async () => {
       const ethersProvider = new providers.JsonRpcProvider(
-        'https://cloudflare-eth.com',
+        forkUrl,
       )
       const ethersRollupProvider = new providers.JsonRpcProvider(
-        'https://mainnet.base.org',
+        rollupForkUrl,
       )
       const messenger = new CrossChainMessenger({
         l1ChainId: mainnet.id,

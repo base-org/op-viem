@@ -38,7 +38,7 @@ export type PublicL1OpStackActions<
     args: SimulateDepositERC20Parameters<TChain, TChainOverride>,
   ) => Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>>
   getOutputForL2Block: (
-    args: GetOutputForL2BlockParameters,
+    args: GetOutputForL2BlockParameters<TChain>,
   ) => Promise<GetOutputForL2BlockReturnType>
 }
 

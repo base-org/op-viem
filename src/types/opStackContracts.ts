@@ -1,4 +1,3 @@
-import { Chain } from 'viem'
 import { ChainContract } from 'viem'
 
 export enum OpStackL1Contract {

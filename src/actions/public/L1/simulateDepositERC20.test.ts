@@ -1,5 +1,4 @@
 import { readContract, writeContract } from 'viem/actions'
-import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
 import { publicClient, testClient } from '../../../_test/utils'
@@ -38,7 +37,7 @@ test('default', async () => {
       l1Token: USDCL1,
       l2Token: USDCL2,
       amount: 1n,
-      gasLimit: 100000n,
+      minGasLimit: 100000n,
     },
     l2Chain: base,
     account: zenaddress,

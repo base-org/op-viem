@@ -2,20 +2,18 @@ import { Chain } from 'viem'
 import { Abi, Address, PublicClient, Transport } from 'viem'
 import { simulateContract, SimulateContractParameters, SimulateContractReturnType } from 'viem/actions'
 import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action'
-import { GetL1ChainId } from '../../../types/actions'
-import { OpStackChain } from '../../../types/opStackChain'
+import { GetL2Chain, ResolveChain } from '../../../types/actions'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 
 export type SimulateOpStackL1Parameters<
-  TL2Chain extends OpStackChain = OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain> = Chain & GetL1ChainId<TL2Chain>,
+  TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
   TFunctionName extends string = string,
 > =
   & { contract: OpStackL1Contract; chain: TChain | TChainOverride }
   & ({
-    l2Chain: TL2Chain
+    l2Chain: GetL2Chain<ResolveChain<TChain, TChainOverride>>
     address?: never
   } | {
     l2Chain?: never
@@ -32,11 +30,10 @@ export type SimulateOpStackL1Parameters<
   >
 
 export function simulateOpStackL1<
-  TL2Chain extends OpStackChain,
-  TChain extends Chain & GetL1ChainId<TL2Chain>,
-  TChainOverride extends Chain | undefined,
-  const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
+  TChain extends Chain | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+  const TAbi extends Abi | readonly unknown[] = Abi,
+  TFunctionName extends string = string,
 >(
   client: PublicClient<Transport, TChain>,
   {
@@ -45,7 +42,7 @@ export function simulateOpStackL1<
     address,
     chain = client.chain,
     ...rest
-  }: SimulateOpStackL1Parameters<TL2Chain, TChain, TChainOverride, TAbi, TFunctionName>,
+  }: SimulateOpStackL1Parameters<TChain, TChainOverride, TAbi, TFunctionName>,
 ): Promise<SimulateContractReturnType<TAbi, TFunctionName, TChain, TChainOverride>> {
   if (l2Chain && l2Chain.opStackConfig.l1.chainId !== chain?.id) {
     throw new L1ChainMismatchError({ chainId: chain?.id, opChainL1ChainId: l2Chain.opStackConfig.l1.chainId })
