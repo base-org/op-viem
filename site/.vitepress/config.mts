@@ -64,6 +64,10 @@ export default defineConfig({
                 text: 'writeUnsafeDepositTransaction',
                 link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
               },
+              {
+                text: 'writeSendMessage',
+                link: '/docs/actions/wallet/L1/writeSendMessage',
+              },
             ],
           },
         ],
