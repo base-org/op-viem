@@ -3,11 +3,7 @@ import { decodeEventLog } from 'viem'
 import { mine, writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
-import {
-  rollupPublicClient,
-  rollupTestClient,
-  rollupWalletClient,
-} from '../../../_test/utils'
+import { rollupPublicClient, rollupTestClient, rollupWalletClient } from '../../../_test/utils'
 import { opStackL2ChainContracts } from '../../../types/opStackContracts'
 import { writeWithdrawERC20 } from './writeWithdrawERC20'
 
