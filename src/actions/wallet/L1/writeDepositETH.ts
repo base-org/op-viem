@@ -1,8 +1,6 @@
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import { WriteActionBaseType } from '../../../types/actions'
 import { ABI, CONTRACT, DepositETHParameters, FUNCTION } from '../../../types/depositETH'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
 
 export type WriteDepositETHParameters<
