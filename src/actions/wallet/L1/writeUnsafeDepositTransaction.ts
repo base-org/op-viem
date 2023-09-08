@@ -1,17 +1,12 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import {
-  Account,
-  Address,
-  Chain,
-  Hex,
-  Transport,
-  WalletClient,
-  WriteContractParameters,
-  WriteContractReturnType,
-} from 'viem'
-import { writeContract } from 'viem/actions'
-import { ResolveChain, WriteActionBaseType } from '../../../types/actions'
-import { OpStackL1Contracts } from '../../../types/opStackContracts'
+import { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import { WriteActionBaseType } from '../../../types/actions'
+import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
+
+const ABI = optimismPortalABI
+const CONTRACT = OpStackL1Contract.OptimismPortal
+const FUNCTION = 'depositTransaction'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -21,33 +16,19 @@ export type DepositTransactionParameters = {
   data?: Hex
 }
 
-// TODO(wilson): remove after viem updates types
-export type ContractToChainAddressMapping = {
-  [key: string]: { [chainId: number]: Address }
-}
-
 export type WriteUnsafeDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends OpStackL1Contracts = OpStackL1Contracts.optimismPortal,
-  _functionName extends string = 'depositTransaction',
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
 > =
-  & {
-    args: DepositTransactionParameters
-  }
+  & { args: DepositTransactionParameters }
   & WriteActionBaseType<
     TChain,
     TAccount,
-    typeof optimismPortalABI,
     TChainOverride,
-    _contractName,
-    _functionName,
-    _resolvedChain
+    typeof ABI,
+    typeof CONTRACT,
+    typeof FUNCTION
   >
 
 /**
@@ -61,40 +42,31 @@ export type WriteUnsafeDepositTransactionParameters<
 export async function writeUnsafeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
-  TChainOverride extends Chain | undefined,
+  TChainOverride extends Chain | undefined = undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, value, gasLimit, isCreation, data },
-    l2ChainId,
+    args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
     optimismPortalAddress,
-    chain = client.chain,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> {
-  if (!chain) {
-    throw new Error('Chain not defined')
-  }
-  const contracts = chain.contracts as ContractToChainAddressMapping | undefined
-  const portal = optimismPortalAddress
-    || (contracts?.[OpStackL1Contracts.optimismPortal]
-        && typeof l2ChainId === 'number'
-      ? contracts[OpStackL1Contracts.optimismPortal][l2ChainId]
-      : undefined)
-  if (!portal) {
-    throw new Error('Portal not defined')
-  }
-  return writeContract(client, {
-    address: portal,
-    abi: optimismPortalABI,
-    functionName: 'depositTransaction' as any,
-    args: [to, value || 0n, gasLimit, isCreation || false, data || '0x'],
-    ...rest,
-  } as unknown as WriteContractParameters<
-    typeof optimismPortalABI,
-    'depositTransaction',
+  }: WriteUnsafeDepositTransactionParameters<
     TChain,
     TAccount,
     TChainOverride
+  >,
+): Promise<WriteContractReturnType> {
+  return writeOpStackL1(client, {
+    address: optimismPortalAddress,
+    abi: ABI,
+    contract: CONTRACT,
+    functionName: FUNCTION,
+    args: [to, value, gasLimit, isCreation, data],
+    ...rest,
+  } as unknown as WriteOpStackL1Parameters<
+    TChain,
+    TAccount,
+    TChainOverride,
+    typeof ABI,
+    typeof FUNCTION
   >)
 }

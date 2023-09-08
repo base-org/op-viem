@@ -1,31 +1,31 @@
-import { Address } from 'viem'
+import { ChainContract } from 'viem'
 
-export enum OpStackL1Contracts {
-  optimismL1CrossDomainMessenger = 'optimismL1CrossDomainMessenger',
-  optimismL1Erc721Bridge = 'optimismL1Erc721Bridge',
-  optimismL1StandardBridge = 'optimismL1StandardBridge',
-  optimismL2OutputOracle = 'optimismL2OutputOracle',
-  optimismPortal = 'optimismPortal',
-  optimismSystemConfig = 'optimismSystemConfig',
-  optimismSystemDictator = 'optimismSystemDictator',
+export enum OpStackL1Contract {
+  OptimismL1CrossDomainMessenger = 'optimismL1CrossDomainMessenger',
+  OptimismL1Erc721Bridge = 'optimismL1Erc721Bridge',
+  OptimismL1StandardBridge = 'optimismL1StandardBridge',
+  OptimismL2OutputOracle = 'optimismL2OutputOracle',
+  OptimismPortal = 'optimismPortal',
 }
 
-export enum OpStackL2Contracts {
-  optimismL2CrossDomainMessenger = 'optimismL2CrossDomainMessenger',
-  optimismL2StandardBridge = 'optimismL2StandardBridge',
-  optimismGasPriceOracle = 'optimismGasPriceOracle',
-  optimismL1Block = 'optimismL1Block',
-  optimismL2ToL1MessagePasser = 'optimismL2ToL1MessagePasser',
-  optimismL2Erc721Bridge = 'optimismL2Erc721Bridge',
-  optimismMintableErc721Factory = 'optimismMintableErc721Factory',
+enum OpStackL2Contract {
+  OptimismL2CrossDomainMessenger = 'optimismL2CrossDomainMessenger',
+  OptimismL2StandardBridge = 'optimismL2StandardBridge',
+  OptimismGasPriceOracle = 'optimismGasPriceOracle',
+  OptimismL1Block = 'optimismL1Block',
+  OptimismL2ToL1MessagePasser = 'optimismL2ToL1MessagePasser',
+  OptimismL2Erc721Bridge = 'optimismL2Erc721Bridge',
+  OptimismMintableErc721Factory = 'optimismMintableErc721Factory',
 }
 
-export const opStackL2ContractAddresses: { [key: string]: Address } = {
-  optimismL2CrossDomainMessenger: '0x4200000000000000000000000000000000000007',
-  optimismL2StandardBridge: '0x4200000000000000000000000000000000000010',
-  optimismGasPriceOracle: '0x420000000000000000000000000000000000000F',
-  optimismL1Block: '0x4200000000000000000000000000000000000015',
-  optimismL2ToL1MessagePasser: '0x4200000000000000000000000000000000000016',
-  optimismL2Erc721Bridge: '0x4200000000000000000000000000000000000014',
-  optimismMintableErc721Factory: '0x4200000000000000000000000000000000000017',
+export type OpStackL2ChainContracts = { [key in OpStackL2Contract]: ChainContract }
+
+export const opStackL2ChainContracts: OpStackL2ChainContracts = {
+  optimismL2CrossDomainMessenger: { address: '0x4200000000000000000000000000000000000007' },
+  optimismL2StandardBridge: { address: '0x4200000000000000000000000000000000000010' },
+  optimismGasPriceOracle: { address: '0x420000000000000000000000000000000000000F' },
+  optimismL1Block: { address: '0x4200000000000000000000000000000000000015' },
+  optimismL2ToL1MessagePasser: { address: '0x4200000000000000000000000000000000000016' },
+  optimismL2Erc721Bridge: { address: '0x4200000000000000000000000000000000000014' },
+  optimismMintableErc721Factory: { address: '0x4200000000000000000000000000000000000017' },
 }

@@ -1,7 +1,7 @@
 import { createPublicClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { base } from '../../../chains/base'
-import { mainnet } from '../../../chains/mainnet'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs'
 import { getWithdrawalMessages } from './getWithdrawalMessages'
@@ -43,7 +43,7 @@ test('correctly generates args', async () => {
 
   const output = await getOutputForL2Block(l1Client, {
     l2BlockNumber: withdrawalMessages.blockNumber,
-    l2ChainId: base.id,
+    l2Chain: base,
   })
 
   // TODO(wilson): We should simplify these test to not require so much setup ^

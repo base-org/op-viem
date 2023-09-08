@@ -1,105 +1,69 @@
 import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
-
-export type ExtractValidChainIdFromContract<
-  TChain extends Chain | undefined,
-  contractName extends string,
-> = TChain extends Chain
-  ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? keyof TChain['contracts'][contractName]
-    : undefined
-  : undefined
-  : undefined
+import { IsUndefined } from 'viem/dist/types/types/utils'
+import { OpStackChain } from './opStackChain'
+import { OpStackL1Contract } from './opStackContracts'
 
 export type ResolveChain<
   TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined = undefined,
 > = TChainOverride extends Chain ? TChainOverride : TChain
 
-export type GetL2ChainId<
-  TChain extends Chain | undefined,
-  contractName extends string,
-> = ExtractValidChainIdFromContract<TChain, contractName> extends undefined ? {
-    l2ChainId?: `Contract ${contractName} is not provided on chain. Please add a ${contractName}Address as an arugment`
-  }
-  // NOTE(Wilson): users will see this as a required arg in the case they are passing optimismPortalAddress
-  // explicitly and the chain has entries at contracts[contractName], e.g. I am using a chain with some
-  // known optimismPortal address but I am sending to a different one. toChainId does not actually get
-  // get used in the code on this path, but I am leaving this as making it optional means NOT passing optimismPortalAddress
-  // and also not passing toChainId is allowed.
-  : { l2ChainId: ExtractValidChainIdFromContract<TChain, contractName> }
-
-// actually isn't quite what we want? do we want to let them override
-// contract name might be specified but this specific chain might not be
-// we want to say, if they pass in a toChainId then we need to make sure
-
-export type GetContractAddress<
-  TChain extends Chain | undefined,
-  contractName extends string,
-> = TChain extends Chain
-  ? TChain['contracts'] extends { [key: string]: any }
-    ? TChain['contracts'][contractName] extends { [chainId: number]: Address } ? {
-        [k in `${contractName}Address`]?: Address
-      }
-    : {
-      [k in `${contractName}Address`]: Address
-    }
-  : never
+export type GetL2Chain<TChain extends Chain | undefined> = TChain extends Chain
+  ? OpStackChain & { opStackConfig: { l1: { chainId: TChain['id'] } } }
   : never
 
 export type ActionBaseType<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends string = string,
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
-> // TODO consider moving GetL2ChainId to make this even more generic
- =
-  & { chain?: TChain | TChainOverride }
-  & GetL2ChainId<
-    _resolvedChain,
-    _contractName
-  >
-  & GetContractAddress<_resolvedChain, _contractName>
+  TL2Chain extends OpStackChain,
+  TContract extends OpStackL1Contract,
+> =
+  | ({
+    l2Chain: TL2Chain
+  } & { [k in `${TContract}Address`]?: never })
+  | ({
+    l2Chain?: never
+  } & { [k in `${TContract}Address`]: Address })
 
 export type WriteActionBaseType<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
-  TAbi extends Abi | readonly unknown[] = Abi,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends string = string,
-  _functionName extends string = string,
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TContract extends OpStackL1Contract = OpStackL1Contract,
+  TFunctioName extends string = string,
 > =
-  & ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain>
+  & GetChain<TChain, TChainOverride>
+  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
     WriteContractParameters<
       TAbi,
-      _functionName,
+      TFunctioName,
       TChain,
       TAccount,
       TChainOverride
     >,
     'abi' | 'functionName' | 'args' | 'address' | 'chain'
   >
+type GetChain<
+  TChain extends Chain | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = IsUndefined<TChain> extends true ? { chain: TChainOverride | null }
+  : { chain?: TChainOverride | null }
 
 export type SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,
-  TAbi extends Abi | readonly unknown[] = Abi,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  _contractName extends string = string,
-  _functionName extends string = string,
-  _resolvedChain extends Chain | undefined = ResolveChain<
-    TChain,
-    TChainOverride
-  >,
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TContract extends OpStackL1Contract = OpStackL1Contract,
+  TFunctioName extends string = string,
+  _resolvedChain = ResolveChain<TChain, TChainOverride>,
+  _l2 extends
+    | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
+      : never)
+    | never = never,
 > =
-  & ActionBaseType<TChain, TChainOverride, _contractName, _resolvedChain>
+  & GetChain<TChain, TChainOverride>
+  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
-    SimulateContractParameters<TAbi, _functionName, TChain, TChainOverride>,
-    'abi' | 'functionName' | 'args' | 'address' | 'chain'
+    SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
+    'abi' | 'functionName' | 'args' | 'address'
   >

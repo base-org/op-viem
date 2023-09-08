@@ -18,6 +18,7 @@ Interacting directly the portal offers no replay protection: if you are sending 
 
 ```ts [example.ts]
 import { DepositTransactionParameters } from 'op-viem'
+import { base } from 'op-viem/chains'
 import { account, l2PublicClient, opStackL1WalletClient } from './config'
 
 const args: DepositTransactionParameters = {
@@ -39,7 +40,7 @@ args.gasLimit = gas
 
 const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
   args,
-  l2ChainId: base.id,
+  l2Chain: base,
   value: 1n,
 })
 ```
@@ -112,20 +113,20 @@ await walletClient.writeUnsafeDepositTransaction({
     gasLimit: 21000n,
     isCreation: false,
   },
-  l2ChainId: base.id,
+  l2Chain: base,
 })
 ```
 
-### l2ChainId (optional)
+### l2Chain (optional)
 
-- **Type:** `number`
+- **Type:** `OpStackChain`
 
-The ID of the L2 chain the deposit transaction is intended for. This will be used to check for a known `OptimismPortal` address in the contract definitions of the chain where the deposit tx is originating (`chain.contracts.optimismPortal[l2ChainId]`). If no such definition exists, [optimismPortalAddress](#optimismPortalAddress) must be passed explicitly.
+The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.optimismPortal.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [optimismPortalAddress](#optimismPortalAddress) must be passed explicitly.
 
 ```ts
 await walletClient.writeUnsafeDepositTransaction({
   args,
-  l2ChainId: base.id, // [!code focus:1]
+  l2Chain: base, // [!code focus:1]
 })
 ```
 

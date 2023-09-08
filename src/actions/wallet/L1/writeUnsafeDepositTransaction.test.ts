@@ -1,12 +1,12 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Address, decodeEventLog, encodeFunctionData, encodePacked } from 'viem'
 import { estimateGas, mine } from 'viem/actions'
-import { base } from 'viem/chains'
-import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants'
-import { publicClient, rollupPublicClient, testClient, walletClient } from '../../../_test/utils'
+import { publicClient, rollupPublicClient, rollupWalletClient, testClient, walletClient } from '../../../_test/utils'
+import { base } from '../../../chains/base'
 import { TransactionDepositedEvent } from '../../../types/depositTransaction'
+import { OpStackChain } from '../../../types/opStackChain'
 import { DepositTransactionParameters, writeUnsafeDepositTransaction } from './writeUnsafeDepositTransaction'
 
 test('default', async () => {
@@ -20,7 +20,7 @@ test('default', async () => {
         isCreation: false,
       },
       value: 0n,
-      l2ChainId: base.id,
+      l2Chain: base,
       account: accounts[0].address,
     }),
   ).toBeDefined()
@@ -47,7 +47,7 @@ test('sends transaction to correct infered address', async () => {
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: 1n,
-    l2ChainId: base.id,
+    l2Chain: base,
     account: accounts[0].address,
   })
 
@@ -68,40 +68,7 @@ test('sends transaction to correct explicit address', async () => {
       gasLimit: 25000n,
     },
     value: 1n,
-    chain: mainnet, // a chain with no optimismPortal
     optimismPortalAddress: portal,
-    account: accounts[0].address,
-  })
-
-  await mine(testClient, { blocks: 1 })
-
-  const r = await publicClient.getTransactionReceipt({ hash })
-  expect(r.to).toEqual(portal.toLowerCase())
-})
-
-test('sends transaction to correct address with chain override', async () => {
-  const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
-  const c = {
-    ...walletClient.chain,
-    contracts: {
-      ...walletClient.chain.contracts,
-      optimismPortal: {
-        8453: portal,
-      },
-    },
-  }
-
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
-    args: {
-      to: portal,
-      value: 1n,
-      gasLimit: 25000n,
-      data: '0x',
-      isCreation: false,
-    },
-    value: 1n,
-    chain: c,
-    l2ChainId: base.id,
     account: accounts[0].address,
   })
 
@@ -122,7 +89,7 @@ test('creates correct deposit transaction', async () => {
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
     value: args.value!,
-    l2ChainId: base.id,
+    l2Chain: base,
     account: accounts[0].address,
   })
 
@@ -157,14 +124,15 @@ test('correctly passes arugments', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    l2ChainId: base.id,
+    l2Chain: base,
     account: accounts[0].address,
-    value: 0n,
+    value: 2n,
   })
 
   await mine(testClient, { blocks: 1 })
 
   const t = await publicClient.getTransaction({ hash })
+  expect(t.value).toEqual(2n)
   expect(t.input).toEqual(
     encodeFunctionData({
       abi: optimismPortalABI,
@@ -182,7 +150,7 @@ test('uses defaults for data, isCreation, and value', async () => {
 
   const hash = await writeUnsafeDepositTransaction(walletClient, {
     args,
-    l2ChainId: base.id,
+    l2Chain: base,
     account: accounts[0].address,
     value: 0n,
   })
@@ -197,4 +165,68 @@ test('uses defaults for data, isCreation, and value', async () => {
       args: [args.to, 0n, args.gasLimit, false, '0x'],
     }),
   )
+})
+
+test('errors if l2Chain and optimismPortalAddress both not passed', async () => {
+  expect(() =>
+    // @ts-expect-error
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        gasLimit: 25000n,
+      },
+      value: 0n,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress')
+})
+
+test('errors if chain.id does not match l1.chainId', async () => {
+  const baseAlt = {
+    ...base,
+    opStackConfig: {
+      l1: {
+        ...base.opStackConfig.l1,
+        chainId: 2,
+      },
+    },
+  } as const satisfies OpStackChain
+
+  expect(() =>
+    writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        gasLimit: 25000n,
+      },
+      value: 0n,
+      // @ts-expect-error
+      l2Chain: baseAlt,
+      account: accounts[0].address,
+    })
+  ).rejects.toThrowError('Chain ID "1" does not match expected L1 chain ID "2"')
+})
+
+test('works if override chain id matches l1.id', async () => {
+  const baseAlt = {
+    ...base,
+    opStackConfig: {
+      l1: {
+        ...base.opStackConfig.l1,
+        chainId: 2,
+      },
+    },
+  } as const satisfies OpStackChain
+
+  expect(
+    await writeUnsafeDepositTransaction(walletClient, {
+      args: {
+        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
+        gasLimit: 25000n,
+      },
+      value: 0n,
+      l2Chain: baseAlt,
+      chain: rollupWalletClient.chain,
+      account: accounts[0].address,
+    }),
+  ).toBeDefined()
 })

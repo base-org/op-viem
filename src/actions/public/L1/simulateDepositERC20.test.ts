@@ -1,9 +1,8 @@
 import { readContract, writeContract } from 'viem/actions'
-import { base } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
 import { publicClient, testClient } from '../../../_test/utils'
-import { mainnet } from '../../../chains/mainnet'
+import { base } from '../../../chains/base'
 import { simulateDepositERC20 } from './simulateDepositERC20'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -23,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [mainnet.contracts.optimismL1StandardBridge[base.id], 10000n],
+    args: [base.opStackConfig.l1.contracts.optimismL1StandardBridge.address, 10000n],
     account: zenaddress,
   })
   const balanceBefore = await readContract(testClient, {
@@ -38,11 +37,13 @@ test('default', async () => {
       l1Token: USDCL1,
       l2Token: USDCL2,
       amount: 1n,
-      gasLimit: 100000n,
+      minGasLimit: 100000n,
     },
-    l2ChainId: base.id,
+    l2Chain: base,
     account: zenaddress,
   })
+
+  expect(request).toBeDefined()
 
   expect(request.args[0]).toEqual(USDCL1)
   expect(await writeContract(testClient, request)).toBeDefined()
