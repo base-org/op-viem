@@ -1,8 +1,12 @@
 {
-  "name": "op-viem",
-  "version": "0.1.0",
+  "name": "@base-org/op-viem",
+  "description": "Viem extensions for the OP Stack",
+  "license": "MIT",
+  "repository": "base-org/op-viem",
+  "version": "0.1.0-alpha",
   "devDependencies": {
     "@biomejs/biome": "1.0.0",
+    "@changesets/cli": "^2.26.2",
     "@eth-optimism/core-utils": "^0.12.3",
     "@eth-optimism/sdk": "^3.1.2",
     "@testing-library/react": "^13.3.0",
