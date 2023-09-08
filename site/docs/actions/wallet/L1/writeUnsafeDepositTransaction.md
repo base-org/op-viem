@@ -1,16 +1,20 @@
 # writeUnsafeDepositTransaction
 
-Excutes a depositTransaction call to the `OptimismPortal` contract.
+Excutes a [depositTransaction](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L374) call to the [`OptimismPortal`](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) contract.
 
 ::: danger
 
-Interacting directly the portal offers no replay protection: if you are sending ETH and your L2 transaction fails--e.g. if the gas limit is too low--your ETH will be in the `OptimismPortal` but you'll have nothing on L2: i.e. your ETH will be stuck indefinitely.
+Interacting directly the portal offers no replayability. For example, if you are sending ETH and your L2 transaction fails––because the gas limit is too low or something else goes wrong––your ETH will be in the `OptimismPortal` on L1 but you'll have nothing on L2: i.e. your ETH will be stuck indefinitely. You can read more about replays here and deposit transactions [here](https://community.optimism.io/docs/protocol/deposit-flow/#replaying-messages).
 
 :::
 
 ::: warning
 
-[Viem recommends simulating tranasctions](https://viem.sh/docs/contract/writeContract.html#writecontract) before sending. In this case, you can use simulateWriteUnsafeTransaction.
+From Viem [writeContract]((https://viem.sh/docs/contract/writeContract.html#writecontract)), which this function uses internally.
+
+> The `writeContract` internally sends a transaction – it **does not** validate if the contract write will succeed (the contract may throw an error). It is highly recommended to [simulate the contract write with `simulateContract`](#usage) before you execute it.
+
+In this case, you can use [simulateSendMessage](/docs/actions/wallet/L1/simulateUnsafeDepositTransaction).
 
 :::
 

@@ -5,7 +5,8 @@ Calls to the L2OutputOracle contract on L1 to get the output for a given L2 bloc
 ::: code-group
 
 ```ts [example.ts]
-import { base, publicL1Actions } from 'op-viem'
+import { publicL1Actions } from 'op-viem'
+import { base } from 'op-viem/chains'
 import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
@@ -16,7 +17,7 @@ const publicClient = createPublicClient({
 
 await getOutputForL2Block(publicClient, {
   blockNumber: 2725977n,
-  rollup: base,
+  l2Chain: base,
 })
 ```
 
