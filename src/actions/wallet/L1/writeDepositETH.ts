@@ -6,7 +6,7 @@ import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
 
 const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.OptimismL1StandardBridge
+const CONTRACT = OpStackL1Contract.L1StandardBridge
 const FUNCTION = 'depositETH'
 
 export type WriteDepositETHParameters<
@@ -37,7 +37,7 @@ export async function writeDepositETH<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { minGasLimit, extraData = '0x' },
-    optimismL1StandardBridgeAddress,
+    l1StandardBridgeAddress,
     ...rest
   }: WriteDepositETHParameters<
     TChain,
@@ -46,7 +46,7 @@ export async function writeDepositETH<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: optimismL1StandardBridgeAddress,
+    address: l1StandardBridgeAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

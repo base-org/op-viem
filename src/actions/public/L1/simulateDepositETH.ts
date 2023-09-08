@@ -6,7 +6,7 @@ import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1'
 
 const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.OptimismL1StandardBridge
+const CONTRACT = OpStackL1Contract.L1StandardBridge
 const FUNCTION = 'depositETH'
 
 export type SimulateDepositETHParameters<
@@ -33,12 +33,12 @@ export async function simulateDepositETH<
   client: PublicClient<Transport, TChain>,
   {
     args: { minGasLimit, extraData = '0x' },
-    optimismL1StandardBridgeAddress,
+    l1StandardBridgeAddress,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
 ): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: optimismL1StandardBridgeAddress,
+    address: l1StandardBridgeAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

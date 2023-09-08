@@ -12,19 +12,19 @@ export const optimism = {
     l1: {
       chainId: 1,
       contracts: {
-        optimismL1CrossDomainMessenger: {
+        l1CrossDomainMessenger: {
           address: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1',
           blockCreated: 12686757,
         },
-        optimismL1Erc721Bridge: {
+        l1Erc721Bridge: {
           address: '0x5a7749f83b81B301cAb5f48EB8516B986DAef23D',
           blockCreated: 15677422,
         },
-        optimismL1StandardBridge: {
+        l1StandardBridge: {
           address: '0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1',
           blockCreated: 12686786,
         },
-        optimismL2OutputOracle: {
+        l2OutputOracle: {
           address: '0xdfe97868233d1aa22e815a266982f2cf17685a27',
           blockCreated: 17365801,
         },

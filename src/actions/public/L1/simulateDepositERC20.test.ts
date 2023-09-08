@@ -22,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [base.opStackConfig.l1.contracts.optimismL1StandardBridge.address, 10000n],
+    args: [base.opStackConfig.l1.contracts.l1StandardBridge.address, 10000n],
     account: zenaddress,
   })
   const balanceBefore = await readContract(testClient, {

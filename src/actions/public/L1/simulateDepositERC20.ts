@@ -6,7 +6,7 @@ import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1'
 
 const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.OptimismL1StandardBridge
+const CONTRACT = OpStackL1Contract.L1StandardBridge
 const FUNCTION = 'depositERC20'
 
 export type SimulateDepositERC20Parameters<
@@ -33,12 +33,12 @@ export async function simulateDepositERC20<
   client: PublicClient<Transport, TChain>,
   {
     args: { l1Token, l2Token, amount, minGasLimit, extraData = '0x' },
-    optimismL1StandardBridgeAddress,
+    l1StandardBridgeAddress,
     ...rest
   }: SimulateDepositERC20Parameters<TChain, TChainOverride>,
 ): Promise<SimulateContractReturnType<typeof ABI, typeof FUNCTION, TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: optimismL1StandardBridgeAddress,
+    address: l1StandardBridgeAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
