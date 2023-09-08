@@ -212,7 +212,7 @@ test('works if override chain id matches l1.id', async () => {
     opStackConfig: {
       l1: {
         ...base.opStackConfig.l1,
-        chainId: 2,
+        chainId: 8453,
       },
     },
   } as const satisfies OpStackChain

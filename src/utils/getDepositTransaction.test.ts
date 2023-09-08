@@ -54,7 +54,7 @@ test('works with or without sourceHash passed', async () => {
     hash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
   })
   const depositEvents = getTransactionDepositedEvents({ txReceipt })
-  console.log(depositEvents)
+
   const first = getDepositTransaction({
     event: depositEvents[0].event,
     domain: SourceHashDomain.UserDeposit,
