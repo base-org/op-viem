@@ -88,7 +88,7 @@ if (process.env.VITE_ANVIL_ROLLUP_BLOCK_NUMBER) {
     Number(process.env.VITE_ANVIL_ROLLUP_BLOCK_NUMBER),
   )
 } else {
-  rollupForkBlockNumber = 3267972n
+  rollupForkBlockNumber = 3709321n
   warn(
     `\`VITE_ANVIL_ROLLUP_BLOCK_NUMBER\` not found. Falling back to \`${rollupForkBlockNumber}\`.`,
   )

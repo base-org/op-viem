@@ -46,7 +46,7 @@ export const anvilChain = {
 
 export const rollupAnvilChain = {
   ...base,
-  id: 2,
+  id: 8453,
   name: 'Rollup Localhost',
   network: 'localhost',
   nativeCurrency: {
@@ -226,7 +226,7 @@ export const rollupWalletClient = createWalletClient({
 export const rollupTestClient = createTestClient({
   chain: rollupAnvilChain,
   mode: 'anvil',
-  transport: http(localHttpUrl),
+  transport: http(localRollupHttpUrl),
 })
 
 export const httpClient = createPublicClient({
