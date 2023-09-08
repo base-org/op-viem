@@ -5,7 +5,7 @@ import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/
 import { ActionBaseType, GetL2Chain } from '../../../types/actions'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 
-const CONTRACT = OpStackL1Contract.OptimismL2OutputOracle
+const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type Proposal = {
   outputRoot: Hex
@@ -39,16 +39,16 @@ export async function getOutputForL2Block<TChain extends Chain | undefined>(
   {
     l2BlockNumber,
     l2Chain,
-    optimismL2OutputOracleAddress,
+    l2OutputOracleAddress,
   }: GetOutputForL2BlockParameters<TChain>,
 ): Promise<GetOutputForL2BlockReturnType> {
   if (l2Chain && l2Chain.opStackConfig.l1.chainId !== client.chain?.id) {
     throw new L1ChainMismatchError({ chainId: client.chain?.id, opChainL1ChainId: l2Chain.opStackConfig.l1.chainId })
   }
-  if (!optimismL2OutputOracleAddress && (!l2Chain || !l2Chain.opStackConfig.l1.contracts[CONTRACT])) {
+  if (!l2OutputOracleAddress && (!l2Chain || !l2Chain.opStackConfig.l1.contracts[CONTRACT])) {
     throw new L2ChainOrAddressError({ contract: CONTRACT })
   }
-  const resolvedAddress = optimismL2OutputOracleAddress ?? l2Chain.opStackConfig.l1.contracts[CONTRACT].address
+  const resolvedAddress = l2OutputOracleAddress ?? l2Chain.opStackConfig.l1.contracts[CONTRACT].address
   const outputIndex = await readContract(client, {
     address: resolvedAddress,
     abi: l2OutputOracleABI,

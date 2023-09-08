@@ -1,5 +1,4 @@
 import {
-  Address,
   Chain,
   createPublicClient,
   createTestClient,
@@ -10,8 +9,10 @@ import {
   RpcRequestError,
   webSocket,
 } from 'viem'
-import { base, localhost, mainnet } from 'viem/chains'
+import { localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
+import { base } from '../chains/base.js'
+import { OpStackChain } from '../types/opStackChain.js'
 import { accounts, localHttpUrl, localRollupHttpUrl, localWsUrl, locaRolluplWsUrl } from './constants.js'
 
 export class ProviderRpcError extends Error {
@@ -25,39 +26,11 @@ export class ProviderRpcError extends Error {
   }
 }
 
-// TODO(wilson): remove after viem updates types
-export type ContractRichChain = Chain & {
-  contracts: {
-    [key: string]: { [chainId: number]: Address }
-  }
-}
-
 export const anvilChain = {
   ...localhost,
   id: 1,
   contracts: {
     ...mainnet.contracts,
-    optimismL1CrossDomainMessenger: {
-      8453: '0x866E82a600A1414e583f7F13623F1aC5d58b0Afa',
-    },
-    optimismL1Erc721Bridge: {
-      8453: '0x608d94945A64503E642E6370Ec598e519a2C1E53',
-    },
-    optimismL1StandardBridge: {
-      8453: '0x3154Cf16ccdb4C6d922629664174b904d80F2C35',
-    },
-    optimismL2OutputOracle: {
-      8453: '0x56315b90c40730925ec5485cf004d835058518A0',
-    },
-    optimismPortal: {
-      8453: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
-    },
-    optimismSystemConfig: {
-      8453: '0x73a79Fab69143498Ed3712e519A88a918e1f4072',
-    },
-    optimismSystemDictator: {
-      8453: '0x1fE3fdd1F0193Dd657C0a9AAC37314D6B479E557',
-    },
   },
   rpcUrls: {
     default: {
@@ -69,9 +42,10 @@ export const anvilChain = {
       webSocket: [localWsUrl],
     },
   },
-} as const satisfies ContractRichChain
+} as const satisfies Chain
 
 export const rollupAnvilChain = {
+  ...base,
   id: 2,
   name: 'Rollup Localhost',
   network: 'localhost',
@@ -80,7 +54,6 @@ export const rollupAnvilChain = {
     name: 'Ether',
     symbol: 'ETH',
   },
-  contracts: base.contracts,
   rpcUrls: {
     default: {
       http: [localRollupHttpUrl],
@@ -91,7 +64,7 @@ export const rollupAnvilChain = {
       webSocket: [locaRolluplWsUrl],
     },
   },
-} as const satisfies Chain
+} as const satisfies OpStackChain
 
 const provider: EIP1193Provider = {
   on: (message, listener) => {

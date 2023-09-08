@@ -5,7 +5,7 @@ import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
 
 const ABI = l1CrossDomainMessengerABI
-const CONTRACT = OpStackL1Contract.OptimismL1CrossDomainMessenger
+const CONTRACT = OpStackL1Contract.L1CrossDomainMessenger
 const FUNCTION = 'sendMessage'
 
 export type SendMessageParameters = {
@@ -45,7 +45,7 @@ export async function writeSendMessage<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { target, minGasLimit, message = '0x' },
-    optimismL1CrossDomainMessengerAddress,
+    l1CrossDomainMessengerAddress,
     ...rest
   }: WriteSendMessageParameters<
     TChain,
@@ -54,7 +54,7 @@ export async function writeSendMessage<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: optimismL1CrossDomainMessengerAddress,
+    address: l1CrossDomainMessengerAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

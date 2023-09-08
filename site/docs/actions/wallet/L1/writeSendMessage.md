@@ -92,7 +92,7 @@ await walletClient.writeSendMessage({
 
 - **Type:** `OpStackChain`
 
-The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.optimismL1CrossDomainMessenger.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [optimismL1CrossDomainMessengerAddress](#optimismL1CrossDomainMessengerAddress) must be passed explicitly.
+The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.l1CrossDomainMessenger.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [l1CrossDomainMessengerAddress](#l1CrossDomainMessengerAddress) must be passed explicitly.
 
 ```ts
 await walletClient.writeSendMessage({
@@ -101,7 +101,7 @@ await walletClient.writeSendMessage({
 })
 ```
 
-### optimismL1CrossDomainMessengerAddress (optional)
+### l1CrossDomainMessengerAddress (optional)
 
 - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
@@ -110,7 +110,7 @@ The `L1CrossDomainMessengerAddress` contract where the sendMessage call should b
 ```ts
 await walletClient.writeSendMessage({
   args,
-  optimismL1CrossDomainMessengerAddress: messenger, // [!code focus:1]
+  l1CrossDomainMessengerAddress: messenger, // [!code focus:1]
 })
 ```
 

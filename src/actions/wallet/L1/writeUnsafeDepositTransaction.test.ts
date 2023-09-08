@@ -55,7 +55,7 @@ test('sends transaction to correct infered address', async () => {
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.to).toEqual(
-    publicClient.chain.contracts.optimismPortal[base.id].toLowerCase(),
+    base.opStackConfig.l1.contracts.optimismPortal.address.toLowerCase(),
   )
 })
 
