@@ -1,10 +1,14 @@
 # writeSendMessage
 
-Excutes a [sendMessage](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/universal/CrossDomainMessenger.sol#L180) call to the [`L1CrossDomainMessenger`](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/L1CrossDomainMessenger.sol) contract. This is a fairly low level call and generally it will be more convenient to use [`depositWriteContract`].
+Excutes a [sendMessage](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/universal/CrossDomainMessenger.sol#L180) call to the [`L1CrossDomainMessenger`](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/L1CrossDomainMessenger.sol) contract. This is a fairly low level function and generally it will be more convenient to use [`writeContractDeposit`](/docs/actions/wallet/L1/writeContractDeposit).
 
 ::: warning
 
-[Viem recommends simulating tranasctions](https://viem.sh/docs/contract/writeContract.html#writecontract) before sending. In this case, you can use simulateSendMessage.
+From Viem [writeContract]((https://viem.sh/docs/contract/writeContract.html#writecontract)), which this function uses internally.
+
+> The `writeContract` internally sends a transaction – it **does not** validate if the contract write will succeed (the contract may throw an error). It is highly recommended to [simulate the contract write with `simulateContract`](#usage) before you execute it.
+
+In this case, you can use [simulateSendMessage](/docs/actions/wallet/L1/simulateSendMessage).
 
 :::
 

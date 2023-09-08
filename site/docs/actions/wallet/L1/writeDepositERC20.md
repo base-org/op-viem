@@ -5,7 +5,7 @@ Writes a deposit of ERC20 tokens to L2.
 ::: code-group
 
 ```ts [example.ts]
-import { base, publicL1Actions } from 'op-viem'
+import { publicL1Actions } from 'op-viem'
 import { createWalletClient } from 'viem'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
