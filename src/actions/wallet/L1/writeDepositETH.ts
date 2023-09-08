@@ -1,13 +1,9 @@
 import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import { WriteActionBaseType } from '../../../types/actions'
-import { DepositETHParameters } from '../../../types/depositETHParameters'
+import { ABI, CONTRACT, DepositETHParameters, FUNCTION } from '../../../types/depositETH'
 import { OpStackL1Contract } from '../../../types/opStackContracts'
 import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
-
-const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.L1StandardBridge
-const FUNCTION = 'depositETH'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -36,7 +32,7 @@ export async function writeDepositETH<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { minGasLimit, extraData = '0x' },
+    args: { to, minGasLimit, extraData = '0x' },
     l1StandardBridgeAddress,
     ...rest
   }: WriteDepositETHParameters<
@@ -50,7 +46,7 @@ export async function writeDepositETH<
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [minGasLimit, extraData],
+    args: [to, minGasLimit, extraData],
     ...rest,
   } as unknown as WriteOpStackL1Parameters<
     TChain,
