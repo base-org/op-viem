@@ -8,6 +8,7 @@ import { simulateDepositETH } from './simulateDepositETH'
 test('default', async () => {
   const { request } = await simulateDepositETH(publicClient, {
     args: {
+      to: accounts[0].address,
       minGasLimit: 100000n,
     },
     value: 1n,

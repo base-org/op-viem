@@ -36,6 +36,7 @@ test('default', async () => {
     args: {
       l1Token: USDCL1,
       l2Token: USDCL2,
+      to: zenaddress,
       amount: 1n,
       minGasLimit: 100000n,
     },

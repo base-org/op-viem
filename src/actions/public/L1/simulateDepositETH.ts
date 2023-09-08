@@ -1,13 +1,7 @@
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
 import { SimulateActionBaseType } from '../../../types/actions'
-import { DepositETHParameters } from '../../../types/depositETHParameters'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { ABI, CONTRACT, DepositETHParameters, FUNCTION } from '../../../types/depositETH'
 import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1'
-
-const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.L1StandardBridge
-const FUNCTION = 'depositETH'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -32,7 +26,7 @@ export async function simulateDepositETH<
 >(
   client: PublicClient<Transport, TChain>,
   {
-    args: { minGasLimit, extraData = '0x' },
+    args: { to, minGasLimit, extraData = '0x' },
     l1StandardBridgeAddress,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
@@ -42,7 +36,7 @@ export async function simulateDepositETH<
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [minGasLimit, extraData],
+    args: [to, minGasLimit, extraData],
     ...rest,
   } as unknown as SimulateOpStackL1Parameters<TChain, TChainOverride, typeof ABI, typeof FUNCTION>)
 }

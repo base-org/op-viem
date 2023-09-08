@@ -1,13 +1,7 @@
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
 import { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
 import { SimulateActionBaseType } from '../../../types/actions'
-import { DepositERC20Parameters } from '../../../types/depositERC20Parameters'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { ABI, CONTRACT, DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20'
 import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1'
-
-const ABI = l1StandardBridgeABI
-const CONTRACT = OpStackL1Contract.L1StandardBridge
-const FUNCTION = 'depositERC20'
 
 export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -32,7 +26,7 @@ export async function simulateDepositERC20<
 >(
   client: PublicClient<Transport, TChain>,
   {
-    args: { l1Token, l2Token, amount, minGasLimit, extraData = '0x' },
+    args: { l1Token, l2Token, to, amount, minGasLimit, extraData = '0x' },
     l1StandardBridgeAddress,
     ...rest
   }: SimulateDepositERC20Parameters<TChain, TChainOverride>,
@@ -42,7 +36,7 @@ export async function simulateDepositERC20<
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [l1Token, l2Token, amount, minGasLimit, extraData],
+    args: [l1Token, l2Token, to, amount, minGasLimit, extraData],
     ...rest,
   } as unknown as SimulateOpStackL1Parameters<TChain, TChainOverride, typeof ABI, typeof FUNCTION>)
 }
