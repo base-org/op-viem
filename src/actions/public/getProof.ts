@@ -1,17 +1,16 @@
 import { Address, BlockTag, Chain, Hash, Hex, PublicClient, Transport } from 'viem'
-import { Quantity, RpcBlockNumber } from 'viem/dist/types/types/rpc'
 
 export type GetProofParameters = {
   address: Address
   storageKeys: Hex[]
-  block: RpcBlockNumber | BlockTag | Hash
+  block: Hex | BlockTag | Hash
 }
 
 export type AccountProof = {
   address: Address
   accountProof: Hex[]
-  balance: Quantity
-  nonce: Quantity
+  balance: Hex
+  nonce: Hex
   storageHash: Hex
   storageProof: StorageProof[]
 }
@@ -27,7 +26,7 @@ export async function getProof<TChain extends Chain | undefined>(
   { address, storageKeys, block }: GetProofParameters,
 ): Promise<AccountProof> {
   return await client.request<{
-    Parameters: [Address, Hex[], RpcBlockNumber | BlockTag | Hash]
+    Parameters: [Address, Hex[], Hex | BlockTag | Hash]
     ReturnType: AccountProof
   }>({ method: 'eth_getProof', params: [address, storageKeys, block] })
 }
