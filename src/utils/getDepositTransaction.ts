@@ -2,7 +2,7 @@ import { type Hex, size, slice } from 'viem'
 import { type DepositTransaction, SourceHashDomain, type TransactionDepositedEvent } from '../types/depositTransaction.js'
 import { getSourceHash } from './getSourceHash.js'
 
-export type getDepositTransactionParams =
+export type GetDepositTransactionParams =
   & { event: TransactionDepositedEvent }
   & ({
     sourceHash: Hex
@@ -22,7 +22,7 @@ export function getDepositTransaction({
   logIndex,
   l1BlockHash,
   domain = SourceHashDomain.UserDeposit,
-}: getDepositTransactionParams): DepositTransaction {
+}: GetDepositTransactionParams): DepositTransaction {
   sourceHash = sourceHash ?? getSourceHash({ domain, logIndex, l1BlockHash })
   /// code from https://github.com/ethereum-optimism/optimism/blob/develop/packages/core-utils/src/optimism/deposit-transaction.ts#L198
   /// with adaptions for viem
