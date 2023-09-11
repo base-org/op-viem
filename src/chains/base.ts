@@ -2,7 +2,7 @@ import { base as viemBase } from 'viem/chains'
 import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
 
-export const base = {
+export const base: OpStackChain = {
   ...viemBase,
   contracts: {
     ...viemBase.contracts,
