@@ -1,1 +1,1 @@
-export { getDepositTransaction, type GetDepositTransactionParams } from './utils/getDepositTransaction.js'
+export { getDepositTransaction, type GetDepositTransactionParams } from './getDepositTransaction.js'
