@@ -1,4 +1,4 @@
-import { ChainContract } from 'viem'
+import type { ChainContract } from 'viem'
 
 export enum OpStackL1Contract {
   L1CrossDomainMessenger = 'l1CrossDomainMessenger',

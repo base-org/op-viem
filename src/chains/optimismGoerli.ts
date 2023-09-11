@@ -1,5 +1,5 @@
 import { optimismGoerli as viemOptimismGoerli } from 'viem/chains'
-import { OpStackChain } from '../types/opStackChain.js'
+import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
 
 export const optimismGoerli = {

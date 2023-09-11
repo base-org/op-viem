@@ -1,17 +1,15 @@
 {
+  // This file is used to compile the for cjs and esm (see package.json build scripts). It should exclude all test files.
+  "extends": "./tsconfig.base.json",
+  "include": ["src"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test-d.ts",
+    "src/**/*.bench.ts",
+    "src/_test"
+  ],
   "compilerOptions": {
-    "declaration": true,
-    "target": "ES2021",
-    "lib": ["esnext", "dom"],
-    "types": ["bun-types"],
-    "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"]
+    "sourceMap": true,
+    "rootDir": "./src"
+  }
 }

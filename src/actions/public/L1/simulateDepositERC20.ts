@@ -1,7 +1,7 @@
-import { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
-import { SimulateActionBaseType } from '../../../types/actions.js'
-import { ABI, CONTRACT, DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
-import { simulateOpStackL1, SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
+import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
+import type { SimulateActionBaseType } from '../../../types/actions.js'
+import { ABI, CONTRACT, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
+import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,

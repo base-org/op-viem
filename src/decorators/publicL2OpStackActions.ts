@@ -1,13 +1,13 @@
-import { Chain, type PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, Transport } from 'viem'
 import {
   getProveWithdrawalTransactionArgs,
-  getProveWithdrawalTransactionArgsParams,
-  getProveWithdrawalTransactionArgsReturnType,
+  type GetProveWithdrawalTransactionArgsParams,
+  type GetProveWithdrawalTransactionArgsReturnType,
 } from '../actions/public/L2/getProveWithdrawalTransactionArgs.js'
 import {
   getWithdrawalMessages,
-  GetWithdrawalMessagesParameters,
-  GetWithdrawalMessagesReturnType,
+  type GetWithdrawalMessagesParameters,
+  type GetWithdrawalMessagesReturnType,
 } from '../actions/public/L2/getWithdrawalMessages.js'
 
 export type PublicL2OpStackActions = {
@@ -15,8 +15,8 @@ export type PublicL2OpStackActions = {
     args: GetWithdrawalMessagesParameters,
   ) => Promise<GetWithdrawalMessagesReturnType>
   getProveWithdrawalTransactionArgs: (
-    args: getProveWithdrawalTransactionArgsParams,
-  ) => Promise<getProveWithdrawalTransactionArgsReturnType>
+    args: GetProveWithdrawalTransactionArgsParams,
+  ) => Promise<GetProveWithdrawalTransactionArgsReturnType>
 }
 
 export function publicL2OpStackActions<

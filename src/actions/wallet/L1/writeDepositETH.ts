@@ -1,7 +1,7 @@
-import { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import { WriteActionBaseType } from '../../../types/actions.js'
-import { ABI, CONTRACT, DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
-import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1.js'
+import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { WriteActionBaseType } from '../../../types/actions.js'
+import { ABI, CONTRACT, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
+import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,

@@ -25,3 +25,4 @@ bench
 dist
 cache
 node_modules
+tsconfig*.tsbuildinfo

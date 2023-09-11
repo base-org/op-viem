@@ -1,23 +1,23 @@
-import { Chain, type PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, Transport } from 'viem'
 import {
   getL2HashesForDepositTx,
-  GetL2HashesForDepositTxParamters,
-  GetL2HashesForDepositTxReturnType,
+  type GetL2HashesForDepositTxParamters,
+  type GetL2HashesForDepositTxReturnType,
 } from '../actions/public/L1/getL2HashesForDepositTx.js'
 import {
   getOutputForL2Block,
-  GetOutputForL2BlockParameters,
-  GetOutputForL2BlockReturnType,
+  type GetOutputForL2BlockParameters,
+  type GetOutputForL2BlockReturnType,
 } from '../actions/public/L1/getOutputForL2Block.js'
 import {
   simulateDepositERC20,
-  SimulateDepositERC20Parameters,
-  SimulateDepositERC20ReturnType,
+  type SimulateDepositERC20Parameters,
+  type SimulateDepositERC20ReturnType,
 } from '../actions/public/L1/simulateDepositERC20.js'
 import {
   simulateDepositETH,
-  SimulateDepositETHParameters,
-  SimulateDepositETHReturnType,
+  type SimulateDepositETHParameters,
+  type SimulateDepositETHReturnType,
 } from '../actions/public/L1/simulateDepositETH.js'
 
 export type PublicL1OpStackActions<

@@ -1,8 +1,7 @@
-import { Chain } from 'viem'
-import { Abi, Account, Address, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import type { Abi, Account, Address, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action.js'
-import { GetL2Chain, ResolveChain } from '../../../types/actions.js'
+import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
+import type { GetL2Chain, ResolveChain } from '../../../types/actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 export type WriteOpStackL1Parameters<

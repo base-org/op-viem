@@ -1,6 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import { decodeEventLog, TransactionReceipt } from 'viem'
-import { TransactionDepositedEvent } from '../types/depositTransaction.js'
+import { decodeEventLog, type TransactionReceipt } from 'viem'
+import { type TransactionDepositedEvent } from '../types/depositTransaction.js'
 
 type GetTransactionDepositedEventsParams = {
   txReceipt: TransactionReceipt

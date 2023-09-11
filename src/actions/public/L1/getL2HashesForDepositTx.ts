@@ -1,4 +1,4 @@
-import { Chain, Hash, type PublicClient, Transport } from 'viem'
+import type { Chain, Hash, PublicClient, Transport } from 'viem'
 import { getL2HashFromL1DepositInfo } from '../../../utils/getL2HashFromL1DepositInfo.js'
 import { getTransactionDepositedEvents } from '../../../utils/getTransactionDepositedEvents.js'
 
