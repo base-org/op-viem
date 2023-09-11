@@ -1,0 +1,30 @@
+on:
+  workflow_dispatch:
+  release:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+name: Publish
+
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      # check out main branch
+      - uses: actions/checkout@v3
+        with:
+          ref: "main"
+
+      - name: "Setup"
+        uses: ./.github/actions/setup
+
+      - name: Run build
+        run: pnpm build
+
+      - name: Publish package on NPM 📦
+        run: pnpm release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
