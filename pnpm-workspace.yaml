@@ -1,0 +1,6 @@
+prefer-workspace-packages: true
+packages:
+  - '.'
+  - 'examples/**/*'
+  - 'playgrounds/*'
+  - 'site'
