@@ -2,7 +2,7 @@ import { optimismGoerli as viemOptimismGoerli } from 'viem/chains'
 import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
 
-export const optimismGoerli = {
+export const optimismGoerli: OpStackChain = {
   ...viemOptimismGoerli,
   contracts: {
     ...viemOptimismGoerli.contracts,

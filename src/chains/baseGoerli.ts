@@ -2,7 +2,7 @@ import { baseGoerli as viemChain } from 'viem/chains'
 import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
 
-export const baseGoerli = {
+export const baseGoerli: OpStackChain = {
   ...viemChain,
   contracts: {
     ...viemChain.contracts,
