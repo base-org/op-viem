@@ -1,6 +1,6 @@
 {
   "name": "@roninjin10/op-viem",
-  "version": "0.0.9-alpha",
+  "version": "0.0.10-alpha",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
