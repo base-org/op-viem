@@ -1,9 +1,9 @@
 import { writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
-import { accounts } from '../../../_test/constants'
-import { publicClient, walletClient } from '../../../_test/utils'
-import { base } from '../../../chains/base'
-import { simulateDepositETH } from './simulateDepositETH'
+import { accounts } from '../../../_test/constants.js'
+import { publicClient, walletClient } from '../../../_test/utils.js'
+import { base } from '../../../chains/base.js'
+import { simulateDepositETH } from './simulateDepositETH.js'
 
 test('default', async () => {
   const { request } = await simulateDepositETH(publicClient, {

@@ -1,29 +1,11 @@
 {
+  // This configuration is used for local development and type checking.
+  "extends": "./tsconfig.base.json",
+  "include": ["src"],
+  "exclude": [],
+  "references": [{ "path": "./tsconfig.node.json" }],
   "compilerOptions": {
-    "target": "es2021",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": [
-    "src",
-    "src/types/chains.ts",
-    "src/types/depositTransaction.ts",
-    "src/actions/public/getL2HashesForDepositTx.ts"
-  ]
+    // Json import is used in `src/_test/utils.ts`.
+    "resolveJsonModule": true // TODO: Try to avoid this. Maybe generate .ts files for bytecode too with wagmi?
+  }
 }

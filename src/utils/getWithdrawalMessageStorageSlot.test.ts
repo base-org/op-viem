@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { getWithdrawalMessageStorageSlot } from './getWithdrawalMessageStorageSlot'
+import { getWithdrawalMessageStorageSlot } from './getWithdrawalMessageStorageSlot.js'
 
 test('returns correct source hash', async () => {
   const hash = '0xB1C3824DEF40047847145E069BF467AA67E906611B9F5EF31515338DB0AABFA2'

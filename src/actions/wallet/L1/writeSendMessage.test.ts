@@ -2,10 +2,10 @@ import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
 import { decodeEventLog, encodeFunctionData, Hex } from 'viem'
 import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
-import { accounts } from '../../../_test/constants'
-import { publicClient, testClient, walletClient } from '../../../_test/utils'
-import { base } from '../../../chains/base'
-import { writeSendMessage } from './writeSendMessage'
+import { accounts } from '../../../_test/constants.js'
+import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
+import { base } from '../../../chains/base.js'
+import { writeSendMessage } from './writeSendMessage.js'
 
 test('can successfully call sendsMessage', async () => {
   const args = {

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { rollupPublicClient } from '../../../_test/utils'
-import { getWithdrawalMessages } from './getWithdrawalMessages'
+import { rollupPublicClient } from '../../../_test/utils.js'
+import { getWithdrawalMessages } from './getWithdrawalMessages.js'
 
 test('correctly retrieves L2 hash', async () => {
   const messages = await getWithdrawalMessages(rollupPublicClient, {

@@ -1,7 +1,7 @@
 import { createPublicClient, http, toHex } from 'viem'
 import { base } from 'viem/chains'
 import { expect, test } from 'vitest'
-import { getProof } from './getProof'
+import { getProof } from './getProof.js'
 
 test('correctly retrieves proof', async () => {
   // cannot currently use anvil rollupPublicClient for this as eth_getProof isn't working

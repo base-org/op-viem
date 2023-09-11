@@ -3,25 +3,24 @@ import {
   getL2HashesForDepositTx,
   GetL2HashesForDepositTxParamters,
   GetL2HashesForDepositTxReturnType,
-} from '../actions/public/L1/getL2HashesForDepositTx'
+} from '../actions/public/L1/getL2HashesForDepositTx.js'
 import {
   getOutputForL2Block,
   GetOutputForL2BlockParameters,
   GetOutputForL2BlockReturnType,
-} from '../actions/public/L1/getOutputForL2Block'
+} from '../actions/public/L1/getOutputForL2Block.js'
 import {
   simulateDepositERC20,
   SimulateDepositERC20Parameters,
   SimulateDepositERC20ReturnType,
-} from '../actions/public/L1/simulateDepositERC20'
+} from '../actions/public/L1/simulateDepositERC20.js'
 import {
   simulateDepositETH,
   SimulateDepositETHParameters,
   SimulateDepositETHReturnType,
-} from '../actions/public/L1/simulateDepositETH'
+} from '../actions/public/L1/simulateDepositETH.js'
 
 export type PublicL1OpStackActions<
-  TTransport extends Transport = Transport,
   TChain extends Chain | undefined = Chain | undefined,
 > = {
   getL2HashesForDepositTx: (
@@ -47,7 +46,7 @@ export function publicL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
 >(
   client: PublicClient<TTransport, TChain>,
-): PublicL1OpStackActions<TTransport, TChain> {
+): PublicL1OpStackActions<TChain> {
   return {
     getL2HashesForDepositTx: (args) => getL2HashesForDepositTx(client, args),
     simulateDepositETH: (args) => simulateDepositETH(client, args),
