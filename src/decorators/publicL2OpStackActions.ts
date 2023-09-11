@@ -3,17 +3,14 @@ import {
   getProveWithdrawalTransactionArgs,
   getProveWithdrawalTransactionArgsParams,
   getProveWithdrawalTransactionArgsReturnType,
-} from '../actions/public/L2/getProveWithdrawalTransactionArgs'
+} from '../actions/public/L2/getProveWithdrawalTransactionArgs.js'
 import {
   getWithdrawalMessages,
   GetWithdrawalMessagesParameters,
   GetWithdrawalMessagesReturnType,
-} from '../actions/public/L2/getWithdrawalMessages'
+} from '../actions/public/L2/getWithdrawalMessages.js'
 
-export type PublicL2OpStackActions<
-  TTransport extends Transport = Transport,
-  TChain extends Chain | undefined = Chain | undefined,
-> = {
+export type PublicL2OpStackActions = {
   getWithdrawalMessages: (
     args: GetWithdrawalMessagesParameters,
   ) => Promise<GetWithdrawalMessagesReturnType>
@@ -27,7 +24,7 @@ export function publicL2OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
 >(
   client: PublicClient<TTransport, TChain>,
-): PublicL2OpStackActions<TTransport, TChain> {
+): PublicL2OpStackActions {
   return {
     getWithdrawalMessages: (args) => getWithdrawalMessages(client, args),
     getProveWithdrawalTransactionArgs: (args) => getProveWithdrawalTransactionArgs(client, args),

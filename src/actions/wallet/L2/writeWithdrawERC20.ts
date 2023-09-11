@@ -10,7 +10,7 @@ import {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-import { opStackL2ChainContracts } from '../../../types/opStackContracts'
+import { opStackL2ChainContracts } from '../../../types/opStackContracts.js'
 
 const ABI = l2StandardBridgeABI
 const FUNCTION = 'withdrawTo'

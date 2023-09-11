@@ -1,8 +1,8 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import { WriteActionBaseType } from '../../../types/actions'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
-import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1'
+import { WriteActionBaseType } from '../../../types/actions.js'
+import { OpStackL1Contract } from '../../../types/opStackContracts.js'
+import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal

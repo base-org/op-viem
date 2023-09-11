@@ -1,9 +1,9 @@
 import { Chain } from 'viem'
 import { Abi, Address, PublicClient, Transport } from 'viem'
 import { simulateContract, SimulateContractParameters, SimulateContractReturnType } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action'
-import { GetL2Chain, ResolveChain } from '../../../types/actions'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action.js'
+import { GetL2Chain, ResolveChain } from '../../../types/actions.js'
+import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 export type SimulateOpStackL1Parameters<
   TChain extends Chain | undefined = Chain,

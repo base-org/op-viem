@@ -1,5 +1,5 @@
 import { concat, Hex, toRlp, trim } from 'viem'
-import { DEPOSIT_TX_PREFIX, DepositTransaction } from '../types/depositTransaction'
+import { DEPOSIT_TX_PREFIX, DepositTransaction } from '../types/depositTransaction.js'
 
 export function rlpEncodeDepositTransaction(
   depositTx: DepositTransaction,

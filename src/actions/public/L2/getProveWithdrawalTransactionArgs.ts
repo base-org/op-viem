@@ -1,9 +1,9 @@
 import { Chain, Hex, PublicClient, toHex, Transport } from 'viem'
 import { getBlock } from 'viem/actions'
-import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
-import { getProof } from '../getProof'
-import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
-import { MessagePassedEvent } from './getWithdrawalMessages'
+import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot.js'
+import { getProof } from '../getProof.js'
+import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block.js'
+import { MessagePassedEvent } from './getWithdrawalMessages.js'
 
 export type OutputRootProof = {
   version: Hex

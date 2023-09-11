@@ -1,5 +1,5 @@
 import { Chain, ChainContract } from 'viem'
-import { OpStackL1Contract, OpStackL2ChainContracts } from './opStackContracts'
+import { OpStackL1Contract, OpStackL2ChainContracts } from './opStackContracts.js'
 
 export type OpStackChain = Chain & {
   contracts: OpStackL2ChainContracts

@@ -3,10 +3,10 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { estimateGas } from 'viem/actions'
 import { goerli } from 'viem/chains'
 import { test } from 'vitest'
-import { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction'
-import { baseGoerli } from '../chains/baseGoerli'
-import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions'
-import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions'
+import { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction.js'
+import { baseGoerli } from '../chains/baseGoerli.js'
+import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions.js'
+import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions.js'
 
 test('correctly retrieves L2 hash', async () => {
   return

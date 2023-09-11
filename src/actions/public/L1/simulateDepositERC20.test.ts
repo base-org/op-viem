@@ -1,9 +1,9 @@
 import { readContract, writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
-import { publicClient, testClient } from '../../../_test/utils'
-import { base } from '../../../chains/base'
-import { simulateDepositERC20 } from './simulateDepositERC20'
+import { publicClient, testClient } from '../../../_test/utils.js'
+import { base } from '../../../chains/base.js'
+import { simulateDepositERC20 } from './simulateDepositERC20.js'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const USDCL2 = '0x2e668bb88287675e34c8df82686dfd0b7f0c0383'
