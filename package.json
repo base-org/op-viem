@@ -1,5 +1,5 @@
 {
-  "name": "test-op-viem",
+  "name": "@roninjin10/op-viem",
   "version": "0.0.9-alpha",
   "type": "module",
   "main": "./dist/cjs/index.js",
@@ -73,6 +73,7 @@
     "test:typecheck": "SKIP_GLOBAL_SETUP=true vitest typecheck",
     "test:ui": "vitest dev --ui",
     "typecheck": "tsc --noEmit",
+    "release": "pnpm build && pnpm publish --tag latest --access=public",
     "bench": "vitest bench",
     "bench:ci": "CI=true vitest bench",
     "dev:docs": "pnpm -r --filter site dev"
