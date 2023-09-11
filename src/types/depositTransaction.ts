@@ -1,4 +1,4 @@
-import { Address, Hex } from 'viem'
+import type { Address, Hex } from 'viem'
 
 // https://github.com/ethereum-optimism/op-geth/blob/optimism/core/types/deposit_tx.go#L25
 export const DEPOSIT_TX_PREFIX = '0x7E'

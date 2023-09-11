@@ -1,4 +1,4 @@
-import { TransactionReceipt } from 'viem'
+import type { TransactionReceipt } from 'viem'
 import { expect, test } from 'vitest'
 import { getTransactionDepositedEvents } from './getTransactionDepositedEvents.js'
 

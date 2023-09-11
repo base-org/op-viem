@@ -1,5 +1,5 @@
 import { l2StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import {
+import type {
   Account,
   Address,
   Chain,

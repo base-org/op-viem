@@ -1,5 +1,5 @@
 import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
-import { decodeEventLog, encodeFunctionData, Hex } from 'viem'
+import { decodeEventLog, encodeFunctionData, type Hex } from 'viem'
 import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'

@@ -1,5 +1,5 @@
 import { type Hex, size, slice } from 'viem'
-import { DepositTransaction, SourceHashDomain, TransactionDepositedEvent } from '../types/depositTransaction.js'
+import { type DepositTransaction, SourceHashDomain, type TransactionDepositedEvent } from '../types/depositTransaction.js'
 import { getSourceHash } from './getSourceHash.js'
 
 export type getDepositTransactionParams =

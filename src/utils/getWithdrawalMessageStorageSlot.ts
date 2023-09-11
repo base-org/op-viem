@@ -1,4 +1,4 @@
-import { encodeAbiParameters, Hex, keccak256, parseAbiParameters } from 'viem'
+import { encodeAbiParameters, type Hex, keccak256, parseAbiParameters } from 'viem'
 
 // from https://github.com/ethereum-optimism/optimism/blob/develop/packages/sdk/src/utils/message-utils.ts#L42
 // adapted to viem

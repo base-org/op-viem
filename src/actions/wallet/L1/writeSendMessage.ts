@@ -1,8 +1,8 @@
 import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
-import { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import { WriteActionBaseType } from '../../../types/actions.js'
+import type { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { WriteActionBaseType } from '../../../types/actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import { writeOpStackL1, WriteOpStackL1Parameters } from './writeOpStackL1.js'
+import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 const ABI = l1CrossDomainMessengerABI
 const CONTRACT = OpStackL1Contract.L1CrossDomainMessenger

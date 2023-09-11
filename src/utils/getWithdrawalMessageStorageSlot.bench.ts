@@ -1,5 +1,5 @@
 import { hashMessageHash } from '@eth-optimism/sdk'
-import { Hex } from 'viem'
+import { type Hex } from 'viem'
 import { bench, describe } from 'vitest'
 import { getWithdrawalMessageStorageSlot } from './getWithdrawalMessageStorageSlot.js'
 

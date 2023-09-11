@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  test-op-viem: workspace:*
+
 dependencies:
   '@eth-optimism/contracts-ts':
     specifier: ^0.15.0
@@ -46,9 +49,6 @@ devDependencies:
   '@wagmi/cli':
     specifier: ^1.3.0
     version: 1.5.0(typescript@5.2.2)(wagmi@1.4.1)
-  bun-types:
-    specifier: ^1.0.1
-    version: 1.0.1
   dprint:
     specifier: ^0.40.2
     version: 0.40.2
@@ -2426,10 +2426,6 @@ packages:
   /bufio@1.2.1:
     resolution: {integrity: sha512-9oR3zNdupcg/Ge2sSHQF3GX+kmvL/fTPvD0nd5AGLq8SjUYnTz+SlFjK/GXidndbZtIj+pVKXiWeR9w6e9wKCA==}
     engines: {node: '>=14.0.0'}
-    dev: true
-
-  /bun-types@1.0.1:
-    resolution: {integrity: sha512-7NrXqhMIaNKmWn2dSWEQ50znMZqrN/5Z0NBMXvQTRu/+Y1CvoXRznFy0pnqLe024CeZgVdXoEpARNO1JZLAPGw==}
     dev: true
 
   /bundle-require@3.1.2(esbuild@0.16.17):
