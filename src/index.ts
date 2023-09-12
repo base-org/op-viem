@@ -1,5 +1,6 @@
 export type { DepositTransaction, TransactionDepositedEvent } from './types/depositTransaction.js'
 export { SourceHashDomain } from './types/depositTransaction.js'
+export { DEPOSIT_TX_PREFIX } from './types/depositTransaction.js'
 export type { GetDepositTransactionParams } from './utils/getDepositTransaction.js'
 export { getDepositTransaction } from './utils/getDepositTransaction.js'
 export { getL2HashFromL1DepositInfo } from './utils/getL2HashFromL1DepositInfo.js'
