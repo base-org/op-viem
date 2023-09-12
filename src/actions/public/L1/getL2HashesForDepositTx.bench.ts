@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { bench, describe } from 'vitest'
 import { ethersProvider } from '../../../_test/bench.js'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { base } from '../../../chains/index.js'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx.js'
 
 describe('Computes L2 hash for L1 event', () => {

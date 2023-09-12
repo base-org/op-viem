@@ -2,7 +2,7 @@ import { writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { base } from '../../../chains/index.js'
 import { simulateDepositETH } from './simulateDepositETH.js'
 
 test('default', async () => {

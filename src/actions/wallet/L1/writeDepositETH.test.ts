@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { base } from '../../../chains/index.js'
 import { writeDepositETH } from './writeDepositETH.js'
 
 test('default', async () => {
