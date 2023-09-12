@@ -8,7 +8,7 @@ export enum OpStackL1Contract {
   OptimismPortal = 'optimismPortal',
 }
 
-enum OpStackL2Contract {
+export enum OpStackL2Contract {
   L2CrossDomainMessenger = 'l2CrossDomainMessenger',
   L2StandardBridge = 'l2StandardBridge',
   GasPriceOracle = 'gasPriceOracle',
