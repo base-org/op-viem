@@ -2,14 +2,16 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { decodeEventLog, type TransactionReceipt } from 'viem'
 import { type TransactionDepositedEvent } from '../types/depositTransaction.js'
 
-type GetTransactionDepositedEventsParams = {
-  txReceipt: TransactionReceipt
-}
-
-type TransactionDepositedEventDetails = {
+export type TransactionDepositedEventDetails = {
   event: TransactionDepositedEvent
   logIndex: number
 }
+
+export type GetTransactionDepositedEventsParams = {
+  txReceipt: TransactionReceipt
+}
+
+export type GetTransactionDepositedEventsReturnType = TransactionDepositedEventDetails[]
 
 /**
  * @description Returns the TransactionDeposited event and log index, if found,
@@ -20,7 +22,7 @@ type TransactionDepositedEventDetails = {
  */
 export function getTransactionDepositedEvents({
   txReceipt,
-}: GetTransactionDepositedEventsParams): TransactionDepositedEventDetails[] {
+}: GetTransactionDepositedEventsParams): GetTransactionDepositedEventsReturnType {
   const depositEvents: {
     event: TransactionDepositedEvent
     logIndex: number
