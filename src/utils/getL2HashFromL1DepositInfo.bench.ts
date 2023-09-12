@@ -5,7 +5,7 @@ import { getTransactionReceipt } from 'viem/actions'
 import { bench, describe } from 'vitest'
 import { ethersProvider } from '../_test/bench'
 import { publicClient } from '../_test/utils'
-import { optimism } from '../chains/optimism'
+import { base } from '../chains/base'
 import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
 import { getTransactionDepositedEvents } from './getTransactionDepositedEvents'
 
@@ -23,7 +23,7 @@ describe('Obtain L2 hash from already fetched event', async () => {
   })
 
   const contract = new ethers.Contract(
-    optimism.opStackConfig.l1.contracts.optimismPortal.address,
+    base.opStackConfig.l1.contracts.optimismPortal.address,
     optimismPortalABI,
     ethersProvider,
   )
