@@ -14,10 +14,10 @@ export enum SourceHashDomain {
 export type TransactionDepositedEvent = {
   eventName: 'TransactionDeposited'
   args: {
-    from: `0x${string}`
-    to: `0x${string}`
+    from: Address
+    to: Address
     version: bigint
-    opaqueData: `0x${string}`
+    opaqueData: Hex
   }
 }
 
