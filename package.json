@@ -1,6 +1,6 @@
 {
   "name": "test-op-viem",
-  "version": "0.0.9-alpha",
+  "version": "0.0.14-alpha",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
