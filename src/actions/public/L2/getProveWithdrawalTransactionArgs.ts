@@ -1,9 +1,9 @@
-import { Chain, Hex, PublicClient, toHex, Transport } from 'viem'
+import { type Chain, type Hex, type PublicClient, toHex, type Transport } from 'viem'
 import { getBlock } from 'viem/actions'
-import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot'
-import { getProof } from '../getProof'
-import { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block'
-import { MessagePassedEvent } from './getWithdrawalMessages'
+import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot.js'
+import { getProof } from '../getProof.js'
+import type { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block.js'
+import type { MessagePassedEvent } from './getWithdrawalMessages.js'
 
 export type OutputRootProof = {
   version: Hex
@@ -15,12 +15,12 @@ export type OutputRootProof = {
 const L2_TO_L1_MESSAGE_PASSER = '0x4200000000000000000000000000000000000016'
 const OUTPUT_ROOT_PROOF_VERSION = 0n
 
-export type getProveWithdrawalTransactionArgsParams = {
+export type GetProveWithdrawalTransactionArgsParams = {
   message: MessagePassedEvent
   output: GetOutputForL2BlockReturnType
 }
 
-export type getProveWithdrawalTransactionArgsReturnType = {
+export type GetProveWithdrawalTransactionArgsReturnType = {
   withdrawalTransaction: Omit<MessagePassedEvent, 'withdrawalHash'>
   outputRootProof: OutputRootProof
   withdrawalProof: Hex[]
@@ -39,8 +39,8 @@ export async function getProveWithdrawalTransactionArgs<
   TChain extends Chain | undefined,
 >(
   client: PublicClient<Transport, TChain>,
-  { message, output }: getProveWithdrawalTransactionArgsParams,
-): Promise<getProveWithdrawalTransactionArgsReturnType> {
+  { message, output }: GetProveWithdrawalTransactionArgsParams,
+): Promise<GetProveWithdrawalTransactionArgsReturnType> {
   const slot = getWithdrawalMessageStorageSlot(message.withdrawalHash)
   const block = await getBlock(client, {
     blockNumber: output.proposal.l2BlockNumber,

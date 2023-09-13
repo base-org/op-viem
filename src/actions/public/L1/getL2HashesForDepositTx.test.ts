@@ -2,10 +2,10 @@ import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import { DepositTx } from '@eth-optimism/core-utils'
 import { ethers } from 'ethers'
 import { expect, test } from 'vitest'
-import { ethersProvider } from '../../../_test/bench'
-import { publicClient } from '../../../_test/utils'
-import { optimism } from '../../../chains/optimism'
-import { getL2HashesForDepositTx } from './getL2HashesForDepositTx'
+import { ethersProvider } from '../../../_test/bench.js'
+import { publicClient } from '../../../_test/utils.js'
+import { optimism } from '../../../chains/optimism.js'
+import { getL2HashesForDepositTx } from './getL2HashesForDepositTx.js'
 
 test('correctly retrieves L2 hash', async () => {
   const hashes = await getL2HashesForDepositTx(publicClient, {

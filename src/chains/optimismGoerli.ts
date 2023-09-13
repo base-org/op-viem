@@ -1,8 +1,8 @@
-import { optimismGoerli as viemOptimismGoerli } from 'viem/chains'
-import { OpStackChain } from '../types/opStackChain'
-import { opStackL2ChainContracts } from '../types/opStackContracts'
+import { goerli, optimismGoerli as viemOptimismGoerli } from 'viem/chains'
+import type { OpStackChain } from '../types/opStackChain.js'
+import { opStackL2ChainContracts } from '../types/opStackContracts.js'
 
-export const optimismGoerli = {
+export const optimismGoerli: OpStackChain & { opStackConfig: { l1: { chainId: typeof goerli['id'] } } } = {
   ...viemOptimismGoerli,
   contracts: {
     ...viemOptimismGoerli.contracts,

@@ -1,11 +1,11 @@
-import { Account, Chain, Transport, WriteContractReturnType } from 'viem'
-import { WalletClient } from 'viem'
-import { writeDepositERC20, WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20'
-import { writeDepositETH, WriteDepositETHParameters } from '../actions/wallet/L1/writeDepositETH'
+import type { Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import type { WalletClient } from 'viem'
+import { writeDepositERC20, type WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20.js'
+import { writeDepositETH, type WriteDepositETHParameters } from '../actions/wallet/L1/writeDepositETH.js'
 import {
   writeUnsafeDepositTransaction,
-  WriteUnsafeDepositTransactionParameters,
-} from '../actions/wallet/L1/writeUnsafeDepositTransaction'
+  type WriteUnsafeDepositTransactionParameters,
+} from '../actions/wallet/L1/writeUnsafeDepositTransaction.js'
 
 export type WalletL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,

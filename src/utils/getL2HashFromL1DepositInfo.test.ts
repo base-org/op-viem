@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
-import { TransactionDepositedEvent } from '../types/depositTransaction'
-import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo'
+import { type TransactionDepositedEvent } from '../types/depositTransaction.js'
+import { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo.js'
 
 const event: TransactionDepositedEvent = {
   eventName: 'TransactionDeposited',

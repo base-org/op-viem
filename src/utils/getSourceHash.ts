@@ -1,5 +1,5 @@
-import { concat, Hex, keccak256, pad, toHex } from 'viem'
-import { SourceHashDomain } from '../types/depositTransaction'
+import { concat, type Hex, keccak256, pad, toHex } from 'viem'
+import { SourceHashDomain } from '../types/depositTransaction.js'
 
 type GetSourceHashParams = {
   domain: SourceHashDomain

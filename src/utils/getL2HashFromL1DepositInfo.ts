@@ -1,7 +1,7 @@
-import { Hash, keccak256 } from 'viem'
-import { TransactionDepositedEvent } from '../types/depositTransaction'
-import { getDepositTransaction } from './getDepositTransaction'
-import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction'
+import { type Hash, keccak256 } from 'viem'
+import { type TransactionDepositedEvent } from '../types/depositTransaction.js'
+import { getDepositTransaction } from './getDepositTransaction.js'
+import { rlpEncodeDepositTransaction } from './rlpEncodeDepositTransaction.js'
 
 type GetL2HashFromDepositInfoParams = {
   event: TransactionDepositedEvent

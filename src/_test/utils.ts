@@ -1,18 +1,19 @@
 import {
-  Chain,
+  type Chain,
   createPublicClient,
   createTestClient,
   createWalletClient,
   custom,
-  EIP1193Provider,
+  type EIP1193Provider,
   http,
+  type PublicClient,
   RpcRequestError,
   webSocket,
 } from 'viem'
 import { localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
 import { base } from '../chains/base.js'
-import { OpStackChain } from '../types/opStackChain.js'
+import type { OpStackChain } from '../types/opStackChain.js'
 import { accounts, localHttpUrl, localRollupHttpUrl, localWsUrl, locaRolluplWsUrl } from './constants.js'
 
 export class ProviderRpcError extends Error {
@@ -192,7 +193,7 @@ const rollupProvider: EIP1193Provider = {
   },
 }
 
-export const rollUpHttpClient = createPublicClient({
+export const rollUpHttpClient: PublicClient = createPublicClient({
   batch: {
     multicall: process.env.VITE_BATCH_MULTICALL === 'true',
   },
@@ -201,18 +202,18 @@ export const rollUpHttpClient = createPublicClient({
   transport: http(localRollupHttpUrl, {
     batch: process.env.VITE_BATCH_JSON_RPC === 'true',
   }),
-})
+}) as PublicClient
 
-export const rollupWebSocketClient = createPublicClient({
+export const rollupWebSocketClient: PublicClient = createPublicClient({
   batch: {
     multicall: process.env.VITE_BATCH_MULTICALL === 'true',
   },
   chain: rollupAnvilChain,
   pollingInterval: 1_000,
   transport: webSocket(locaRolluplWsUrl),
-})
+}) as PublicClient
 
-export const rollupPublicClient = (
+export const rollupPublicClient: PublicClient = (
   process.env.VITE_NETWORK_TRANSPORT_MODE === 'webSocket'
     ? rollupWebSocketClient
     : rollUpHttpClient
@@ -229,7 +230,7 @@ export const rollupTestClient = createTestClient({
   transport: http(localRollupHttpUrl),
 })
 
-export const httpClient = createPublicClient({
+export const httpClient: PublicClient = createPublicClient({
   batch: {
     multicall: process.env.VITE_BATCH_MULTICALL === 'true',
   },
@@ -240,7 +241,7 @@ export const httpClient = createPublicClient({
   }),
 })
 
-export const webSocketClient = createPublicClient({
+export const webSocketClient: PublicClient = createPublicClient({
   batch: {
     multicall: process.env.VITE_BATCH_MULTICALL === 'true',
   },
@@ -249,13 +250,13 @@ export const webSocketClient = createPublicClient({
   transport: webSocket(localWsUrl),
 })
 
-export const publicClient = (
+export const publicClient: PublicClient = (
   process.env.VITE_NETWORK_TRANSPORT_MODE === 'webSocket'
     ? webSocketClient
     : httpClient
 ) as typeof httpClient
 
-export const publicClientMainnet = createPublicClient({
+export const publicClientMainnet: PublicClient = createPublicClient({
   chain: mainnet,
   transport: http(),
 })

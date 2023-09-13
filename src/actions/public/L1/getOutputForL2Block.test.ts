@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { publicClient } from '../../../_test/utils'
-import { base } from '../../../chains/base'
-import { getOutputForL2Block } from './getOutputForL2Block'
+import { publicClient } from '../../../_test/utils.js'
+import { base } from '../../../chains/index.js'
+import { getOutputForL2Block } from './getOutputForL2Block.js'
 
 test('retrieves correctly', async () => {
   const result = await getOutputForL2Block(publicClient, {

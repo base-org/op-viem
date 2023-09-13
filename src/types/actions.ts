@@ -1,6 +1,6 @@
-import { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
-import { OpStackChain } from './opStackChain'
-import { OpStackL1Contract } from './opStackContracts'
+import type { Abi, Account, Address, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import type { OpStackChain } from './opStackChain.js'
+import type { OpStackL1Contract } from './opStackContracts.js'
 
 export type ResolveChain<
   TChain extends Chain | undefined,

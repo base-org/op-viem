@@ -1,9 +1,9 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
-import { Chain, Hex, PublicClient, Transport } from 'viem'
+import type { Chain, Hex, PublicClient, Transport } from 'viem'
 import { readContract } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../../errors/action'
-import { ActionBaseType, GetL2Chain } from '../../../types/actions'
-import { OpStackL1Contract } from '../../../types/opStackContracts'
+import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
+import type { ActionBaseType, GetL2Chain } from '../../../types/actions.js'
+import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 

@@ -1,6 +1,49 @@
 {
-  "name": "op-viem",
-  "version": "0.1.0",
+  "name": "test-op-viem",
+  "version": "0.0.21-alpha",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo",
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/**/*.test-d.ts",
+    "!src/**/*.bench.ts",
+    "!src/_test/**/*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./chains": {
+      "types": "./dist/types/chains/index.d.ts",
+      "import": "./dist/esm/chains/index.js",
+      "default": "./dist/cjs/chains/index.js"
+    },
+    "./utils": {
+      "types": "./dist/types/utils/index.d.ts",
+      "import": "./dist/esm/utils/index.js",
+      "default": "./dist/cjs/utils/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "chains": [
+        "./dist/types/chains.d.ts"
+      ],
+      "utils": [
+        "./dist/types/utils/index.d.ts"
+      ]
+    }
+  },
   "devDependencies": {
     "@biomejs/biome": "1.0.0",
     "@eth-optimism/core-utils": "^0.12.3",
@@ -17,11 +60,17 @@
     "ethers": "^5.7.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "typescript": "^5.2.2",
+    "rimraf": "^5.0.1",
+    "typescript": "5.0.4",
     "vitest": "^0.34.1",
     "wagmi": "^1.3.11"
   },
   "scripts": {
+    "build": "pnpm run clean && pnpm run build:cjs && pnpm run build:esm && pnpm run build:types",
+    "build:cjs": "tsc --project tsconfig.build.json --module commonjs --outDir ./dist/cjs --removeComments --verbatimModuleSyntax false && echo > ./dist/cjs/package.json '{\"type\":\"commonjs\"}'",
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir ./dist/esm && echo > ./dist/esm/package.json '{\"type\":\"module\",\"sideEffects\":false}'",
+    "build:types": "tsc --project tsconfig.build.json --module esnext --declarationDir ./dist/types --emitDeclarationOnly --declaration --declarationMap",
+    "clean": "rimraf dist",
     "format": "dprint fmt",
     "format:check": "dprint check",
     "lint": "biome check .",
@@ -40,6 +89,17 @@
     "@eth-optimism/contracts-ts": "^0.15.0"
   },
   "peerDependencies": {
-    "viem": "1.x"
+    "viem": "1.x",
+    "typescript": ">=5.0.4"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "test-op-viem": "workspace:*"
+    }
   }
 }

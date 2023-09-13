@@ -1,6 +1,6 @@
-import { Chain } from 'viem'
+import type { Chain } from 'viem'
 import { BaseError } from 'viem'
-import { OpStackChain } from '../src/types/opStackChain'
+import type { OpStackChain } from '../types/opStackChain.js'
 
 export class L1ChainMismatchError extends BaseError {
   override name = 'L1ChainMismatchError'

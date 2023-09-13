@@ -1,4 +1,4 @@
-import { Address, BlockTag, Chain, Hash, Hex, PublicClient, Transport } from 'viem'
+import type { Address, BlockTag, Chain, Hash, Hex, PublicClient, Transport } from 'viem'
 
 export type GetProofParameters = {
   address: Address
