@@ -62,6 +62,15 @@ export default defineConfig({
               },
             ],
           },
+          {
+            text: 'L2',
+            items: [
+              {
+                text: 'simulateWithdrawETH',
+                link: '/docs/actions/public/L2/simulateWithdrawETH',
+              },
+            ],
+          },
         ],
       },
       {
@@ -90,6 +99,15 @@ export default defineConfig({
               {
                 text: 'writeOpStackL1',
                 link: '/docs/actions/wallet/L1/writeOpStackL1',
+              },
+            ],
+          },
+          {
+            text: 'L2',
+            items: [
+              {
+                text: 'writeWithdrawETH',
+                link: '/docs/actions/wallet/L2/writeWithdrawETH',
               },
             ],
           },

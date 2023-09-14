@@ -1,27 +1,8 @@
-import { l2StandardBridgeABI } from '@eth-optimism/contracts-ts'
-import type {
-  Account,
-  Address,
-  Chain,
-  Hex,
-  Transport,
-  WalletClient,
-  WriteContractParameters,
-  WriteContractReturnType,
-} from 'viem'
+import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
+import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
 import { opStackL2ChainContracts } from '../../../types/opStackContracts.js'
-
-const ABI = l2StandardBridgeABI
-const FUNCTION = 'withdrawTo'
-
-export type WithdrawToParameters = {
-  l2Token: Address
-  to: Address
-  amount: bigint
-  minGasLimit: number
-  extraData?: Hex
-}
+import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdraw.js'
 
 export type WriteWithdrawERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -29,10 +10,7 @@ export type WriteWithdrawERC20Parameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
   & { args: WithdrawToParameters }
-  & Omit<
-    WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>,
-    'abi' | 'functionName' | 'args' | 'address'
-  >
+  & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
 
 export async function writeWithdrawERC20<
   TChain extends Chain | undefined = Chain,

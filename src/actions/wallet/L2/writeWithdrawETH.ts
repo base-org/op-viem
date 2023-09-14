@@ -1,22 +1,15 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import {
-  type WithdrawToParameters,
-  writeWithdrawERC20,
-  type WriteWithdrawERC20Parameters,
-} from './writeWithdrawERC20.js'
-
-export const OVM_ETH = '0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000'
+import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
+import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdraw.js'
+import { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './writeWithdrawERC20.js'
 
 type WriteWithdrawETHParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & Omit<
-    WriteWithdrawERC20Parameters<TChain, TAccount, TChainOverride>,
-    'args' | 'value'
-  >
-  & { args: Omit<WithdrawToParameters, 'l2Token'> }
+  & { args: WithdrawETHParameters }
+  & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
 
 export async function writeWithdrawETH<
   TChain extends Chain | undefined = Chain,

@@ -5,7 +5,8 @@ import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { rollupPublicClient, rollupTestClient, rollupWalletClient } from '../../../_test/utils.js'
 import { opStackL2ChainContracts } from '../../../types/opStackContracts.js'
-import { OVM_ETH, writeWithdrawETH } from './writeWithdrawETH.js'
+import { OVM_ETH } from '../../../types/withdraw.js'
+import { writeWithdrawETH } from './writeWithdrawETH.js'
 
 test('successfuly submits transaction', async () => {
   const amount = 100n
