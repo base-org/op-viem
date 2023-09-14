@@ -17,7 +17,7 @@ In this case, you can use [simulateSendMessage](/docs/actions/wallet/L1/simulate
 ```ts [example.ts]
 import { SendMessageParameters } from 'op-viem'
 import { base } from 'op-viem/chains'
-import { account, l2PublicClient, opStackL1WalletClient } from './config'
+import { account, opStackL1WalletClient } from './config'
 
 const args: SendMessageParameters = {
   target: '0x00008453e27e8e88f305f13cf27c30d724fdd055',
@@ -35,13 +35,8 @@ const hash = await opStackL1WalletClient.writeSendMessage({
 ```ts [config.ts]
 import { createWalletClient, custom } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { base, mainnet } from 'op-viem/chains'
+import { mainnet } from 'viem/chains'
 import { walletL1OpStackActions } from 'op-viem'
-
-export const l2PublicClient = createPublicClient({
-  chain: base,
-  transport: http()
-})
 
 export const opStackL1WalletClient = createWalletClient({
   chain: mainnet,
@@ -73,7 +68,7 @@ A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
   - The `to` address of the L2 transaction.
 
 - #### minGasLimit
-  - **Type:** `bigint`
+  - **Type:** `number`
   - The minimum gas limit for the L2 transaction. This will be padded to account for some overhead on the OPStack contract calls.
 
 - #### message (optional)

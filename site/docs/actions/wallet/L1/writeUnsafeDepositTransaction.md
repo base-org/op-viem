@@ -52,7 +52,8 @@ const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
 ```ts [config.ts]
 import { createWalletClient, custom } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { base, mainnet } from 'op-viem/chains'
+import { base } from 'op-viem/chains'
+import { mainnet } from 'viem/chains'
 import { walletL1OpStackActions } from 'op-viem'
 
 export const l2PublicClient = createPublicClient({
@@ -96,7 +97,7 @@ A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
 - #### value (optional)
   - **Type:** `bigint`
   - **Default:** `0`
-  - The gas limit of the L2 transaction
+  - Value in wei of the L2 transaction.
 
 - #### isCreation (optional)
   - **Type:** `boolean`
