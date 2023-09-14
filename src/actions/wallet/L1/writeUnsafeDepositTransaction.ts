@@ -1,6 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import type { WriteActionBaseType } from '../../../types/actions.js'
+import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
@@ -22,7 +22,7 @@ export type WriteUnsafeDepositTransactionParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
   & { args: DepositTransactionParameters }
-  & WriteActionBaseType<
+  & L1WriteActionBaseType<
     TChain,
     TAccount,
     TChainOverride,

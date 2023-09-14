@@ -1,9 +1,10 @@
 import { type Chain, type Hex, type PublicClient, toHex, type Transport } from 'viem'
 import { getBlock } from 'viem/actions'
+import { opStackL2ChainContracts } from '../../../index.js'
+import type { MessagePassedEvent } from '../../../types/withdrawal.js'
 import { getWithdrawalMessageStorageSlot } from '../../../utils/getWithdrawalMessageStorageSlot.js'
 import { getProof } from '../getProof.js'
 import type { GetOutputForL2BlockReturnType } from '../L1/getOutputForL2Block.js'
-import type { MessagePassedEvent } from './getWithdrawalMessages.js'
 
 export type OutputRootProof = {
   version: Hex
@@ -11,8 +12,6 @@ export type OutputRootProof = {
   messagePasserStorageRoot: Hex
   latestBlockhash: Hex
 }
-
-const L2_TO_L1_MESSAGE_PASSER = '0x4200000000000000000000000000000000000016'
 const OUTPUT_ROOT_PROOF_VERSION = 0n
 
 export type GetProveWithdrawalTransactionArgsParams = {
@@ -51,7 +50,7 @@ export async function getProveWithdrawalTransactionArgs<
     )
   }
   const proof = await getProof(client, {
-    address: L2_TO_L1_MESSAGE_PASSER,
+    address: opStackL2ChainContracts.l2ToL1MessagePasser.address,
     storageKeys: [slot],
     block: block.hash,
   })

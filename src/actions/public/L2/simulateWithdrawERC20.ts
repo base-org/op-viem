@@ -2,7 +2,7 @@ import type { Chain, PublicClient, SimulateContractParameters, SimulateContractR
 import { simulateContract } from 'viem/actions'
 import type { L2SimulateContractParameters } from '../../../types/l2Actions.js'
 import { opStackL2ChainContracts } from '../../../types/opStackContracts.js'
-import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdraw.js'
+import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdrawTo.js'
 
 export type SimulateWithdrawERC20Parameters<
   TChain extends Chain | undefined = Chain,

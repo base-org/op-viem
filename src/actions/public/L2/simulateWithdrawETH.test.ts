@@ -2,7 +2,7 @@ import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { rollupPublicClient } from '../../../_test/utils.js'
 import { opStackL2ChainContracts } from '../../../index.js'
-import { OVM_ETH } from '../../../types/withdraw.js'
+import { OVM_ETH } from '../../../types/withdrawTo.js'
 import { simulateWithdrawETH } from './simulateWithdrawETH.js'
 
 test('correctly simulatwes transaction', async () => {

@@ -1,6 +1,6 @@
 import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
-import type { SimulateActionBaseType } from '../../../types/actions.js'
 import { ABI, CONTRACT, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
+import type { L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositETHParameters<
@@ -8,7 +8,7 @@ export type SimulateDepositETHParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
   & { args: DepositETHParameters }
-  & SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof CONTRACT, typeof FUNCTION>
+  & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof CONTRACT, typeof FUNCTION>
 
 export type SimulateDepositETHReturnType<
   TChain extends Chain | undefined,

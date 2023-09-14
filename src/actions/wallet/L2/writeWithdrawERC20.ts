@@ -2,7 +2,7 @@ import type { Account, Chain, Transport, WalletClient, WriteContractParameters, 
 import { writeContract } from 'viem/actions'
 import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
 import { opStackL2ChainContracts } from '../../../types/opStackContracts.js'
-import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdraw.js'
+import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdrawTo.js'
 
 export type WriteWithdrawERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -28,6 +28,8 @@ export async function writeWithdrawERC20<
     abi: ABI,
     functionName: FUNCTION,
     args: [l2Token, to, amount, minGasLimit, extraData],
+    // TODO(Wilson): consider pulling this from chain.contracts
+    // so that it will have a better error if they are not on an L2 chain
     address: opStackL2ChainContracts.l2StandardBridge.address,
     ...rest,
   } as unknown as WriteContractParameters<
