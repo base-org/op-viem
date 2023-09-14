@@ -22,6 +22,11 @@ export {
 } from './public/L1/simulateDepositETH.js'
 export { simulateOpStackL1, type SimulateOpStackL1Parameters } from './public/L1/simulateOpStackL1.js'
 export {
+  simulateProveWithdrawalTransaction,
+  type SimulateProveWithdrawalTransactionParameters,
+  type SimulateProveWithdrawalTransactionReturnType,
+} from './public/L1/simulateProveWithdrawalTransaction.js'
+export {
   getProveWithdrawalTransactionArgs,
   type GetProveWithdrawalTransactionArgsParams,
   type GetProveWithdrawalTransactionArgsReturnType,
@@ -45,6 +50,10 @@ export {
 export { writeDepositERC20, type WriteDepositERC20Parameters } from './wallet/L1/writeDepositERC20.js'
 export { writeDepositETH, type WriteDepositETHParameters } from './wallet/L1/writeDepositETH.js'
 export { writeOpStackL1, type WriteOpStackL1Parameters } from './wallet/L1/writeOpStackL1.js'
+export {
+  writeProveWithdrawalTransaction,
+  type WriteProveWithdrawalTransactionParameters,
+} from './wallet/L1/writeProveWithdrawalTransaction.js'
 export {
   type SendMessageParameters,
   writeSendMessage,
