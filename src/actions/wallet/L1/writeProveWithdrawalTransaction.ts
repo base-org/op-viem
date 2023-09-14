@@ -5,9 +5,9 @@ import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import type { GetProveWithdrawalTransactionArgsReturnType } from '../../index.js'
 import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
-const ABI = optimismPortalABI
-const CONTRACT = OpStackL1Contract.OptimismPortal
-const FUNCTION = 'proveWithdrawalTransaction'
+export const ABI = optimismPortalABI
+export const CONTRACT = OpStackL1Contract.OptimismPortal
+export const FUNCTION = 'proveWithdrawalTransaction'
 
 export type ProveWithdrawalTransactionArgs = GetProveWithdrawalTransactionArgsReturnType
 
