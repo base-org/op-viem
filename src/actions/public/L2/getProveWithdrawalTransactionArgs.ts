@@ -21,9 +21,9 @@ export type GetProveWithdrawalTransactionArgsParams = {
 
 export type GetProveWithdrawalTransactionArgsReturnType = {
   withdrawalTransaction: Omit<MessagePassedEvent, 'withdrawalHash'>
+  L2OutputIndex: bigint
   outputRootProof: OutputRootProof
   withdrawalProof: Hex[]
-  L2OutputIndex: bigint
 }
 
 /**
