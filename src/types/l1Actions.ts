@@ -11,7 +11,7 @@ export type GetL2Chain<TChain extends Chain | undefined> = TChain extends Chain
   ? OpStackChain & { opStackConfig: { l1: { chainId: TChain['id'] } } }
   : never
 
-export type ActionBaseType<
+export type L1ActionBaseType<
   TL2Chain extends OpStackChain,
   TContract extends OpStackL1Contract,
 > =
@@ -22,7 +22,7 @@ export type ActionBaseType<
     l2Chain?: never
   } & { [k in `${TContract}Address`]: Address })
 
-export type WriteActionBaseType<
+export type L1WriteActionBaseType<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
@@ -31,7 +31,7 @@ export type WriteActionBaseType<
   TFunctioName extends string = string,
 > =
   & GetChain<TChain, TChainOverride>
-  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
+  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
     WriteContractParameters<
       TAbi,
@@ -48,7 +48,7 @@ type GetChain<
 > = TChain extends Chain ? { chain?: TChainOverride | null }
   : { chain: TChainOverride | null }
 
-export type SimulateActionBaseType<
+export type L1SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
@@ -61,7 +61,7 @@ export type SimulateActionBaseType<
     | never = never,
 > =
   & GetChain<TChain, TChainOverride>
-  & ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
+  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
   & Omit<
     SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
     'abi' | 'functionName' | 'args' | 'address'

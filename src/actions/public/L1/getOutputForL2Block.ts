@@ -2,7 +2,7 @@ import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import type { Chain, Hex, PublicClient, Transport } from 'viem'
 import { readContract } from 'viem/actions'
 import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
-import type { ActionBaseType, GetL2Chain } from '../../../types/actions.js'
+import type { GetL2Chain, L1ActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 const CONTRACT = OpStackL1Contract.L2OutputOracle
@@ -17,7 +17,7 @@ export type GetOutputForL2BlockParameters<
   TChain extends Chain | undefined = Chain,
 > =
   & { l2BlockNumber: bigint }
-  & ActionBaseType<
+  & L1ActionBaseType<
     GetL2Chain<TChain>,
     typeof CONTRACT
   >

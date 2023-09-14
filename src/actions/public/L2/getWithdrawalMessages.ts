@@ -1,15 +1,6 @@
 import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
-import { type Address, type Chain, decodeEventLog, type Hash, type Hex, type PublicClient, type Transport } from 'viem'
-
-export type MessagePassedEvent = {
-  nonce: bigint
-  sender: Address
-  target: Address
-  value: bigint
-  gasLimit: bigint
-  data: Hex
-  withdrawalHash: Hex
-}
+import { type Chain, decodeEventLog, type Hash, type PublicClient, type Transport } from 'viem'
+import type { MessagePassedEvent } from '../../../types/withdrawal.js'
 
 export type GetWithdrawalMessagesParameters = {
   hash: Hash

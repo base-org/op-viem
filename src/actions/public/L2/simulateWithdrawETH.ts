@@ -1,6 +1,6 @@
 import type { Chain, PublicClient, Transport } from 'viem'
 import type { L2SimulateContractParameters } from '../../../types/l2Actions.js'
-import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdraw.js'
+import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdrawTo.js'
 import {
   simulateWithdrawERC20,
   type SimulateWithdrawERC20Parameters,

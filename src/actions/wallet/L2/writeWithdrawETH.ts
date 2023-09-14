@@ -1,9 +1,9 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
-import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdraw.js'
+import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdrawTo.js'
 import { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './writeWithdrawERC20.js'
 
-type WriteWithdrawETHParameters<
+export type WriteWithdrawETHParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,

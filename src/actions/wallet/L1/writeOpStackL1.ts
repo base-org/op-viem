@@ -10,7 +10,7 @@ import type {
 } from 'viem'
 import { writeContract } from 'viem/actions'
 import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
-import type { GetL2Chain, ResolveChain } from '../../../types/actions.js'
+import type { GetL2Chain, ResolveChain } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 export type WriteOpStackL1Parameters<
