@@ -1,6 +1,6 @@
 {
   "name": "test-op-viem",
-  "version": "0.0.24-alpha",
+  "version": "0.0.25-alpha",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -22,6 +22,11 @@
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
+    "./actions": {
+      "types": "./dist/types/actions/index.d.ts",
+      "import": "./dist/esm/actions/index.js",
+      "default": "./dist/cjs/actions/index.js"
+    },
     "./chains": {
       "types": "./dist/types/chains/index.d.ts",
       "import": "./dist/esm/chains/index.js",
@@ -36,6 +41,9 @@
   },
   "typesVersions": {
     "*": {
+      "actions": [
+        "./dist/types/actions/index.d.ts"
+      ],
       "chains": [
         "./dist/types/chains.d.ts"
       ],
