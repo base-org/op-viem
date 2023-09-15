@@ -11,7 +11,6 @@ op-viem is a TypeScript extension for [Viem](https://viem.sh) that provides acti
 - TypeScript ready
 - Test suite running against [forked](https://ethereum.org/en/glossary/#fork) Ethereum network
 
-
 ## Installation
 
 ::: code-group
