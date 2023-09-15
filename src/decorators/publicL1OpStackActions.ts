@@ -19,6 +19,11 @@ import {
   type SimulateDepositETHParameters,
   type SimulateDepositETHReturnType,
 } from '../actions/public/L1/simulateDepositETH.js'
+import {
+  simulateProveWithdrawalTransaction,
+  type SimulateProveWithdrawalTransactionParameters,
+  type SimulateProveWithdrawalTransactionReturnType,
+} from '../actions/public/L1/simulateProveWithdrawalTransaction.js'
 
 export type PublicL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
@@ -36,6 +41,11 @@ export type PublicL1OpStackActions<
   >(
     args: SimulateDepositERC20Parameters<TChain, TChainOverride>,
   ) => Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>>
+  simulateProveWithdrawTransaction: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: SimulateProveWithdrawalTransactionParameters<TChain, TChainOverride>,
+  ) => Promise<SimulateProveWithdrawalTransactionReturnType<TChain, TChainOverride>>
   getOutputForL2Block: (
     args: GetOutputForL2BlockParameters<TChain>,
   ) => Promise<GetOutputForL2BlockReturnType>
@@ -52,5 +62,6 @@ export function publicL1OpStackActions<
     simulateDepositETH: (args) => simulateDepositETH(client, args),
     simulateDepositERC20: (args) => simulateDepositERC20(client, args),
     getOutputForL2Block: (args) => getOutputForL2Block(client, args),
+    simulateProveWithdrawTransaction: (args) => simulateProveWithdrawalTransaction(client, args),
   }
 }

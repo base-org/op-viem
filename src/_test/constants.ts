@@ -60,7 +60,7 @@ export let forkBlockNumber: bigint
 if (process.env.VITE_ANVIL_BLOCK_NUMBER) {
   forkBlockNumber = BigInt(Number(process.env.VITE_ANVIL_BLOCK_NUMBER))
 } else {
-  forkBlockNumber = 18033413n
+  forkBlockNumber = 18136087n
   warn(
     `\`VITE_ANVIL_BLOCK_NUMBER\` not found. Falling back to \`${forkBlockNumber}\`.`,
   )
