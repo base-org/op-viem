@@ -3,8 +3,8 @@ import { type L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import {
   ABI,
   CONTRACT,
-  FUNCTION,
   type FinalizeWithdrawalTransactionParameters,
+  FUNCTION,
 } from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
 import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 

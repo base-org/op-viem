@@ -2,9 +2,7 @@ import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient } from '../../../_test/utils.js'
 import { base } from '../../../chains/base.js'
-import {
-  type FinalizeWithdrawalTransactionParameters
-} from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
+import { type FinalizeWithdrawalTransactionParameters } from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
 import { simulateFinalizeWithdrawalTransaction } from './simulateFinalizeWithdrawalTransaction.js'
 
 test('succesfully submits finalizeWithdrawalTransaction', async () => {
@@ -17,7 +15,7 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
     data: '0x01',
   }
 
-  const {request} = await simulateFinalizeWithdrawalTransaction(publicClient, {
+  const { request } = await simulateFinalizeWithdrawalTransaction(publicClient, {
     l2Chain: base,
     withdrawal,
     account: accounts[0].address,
