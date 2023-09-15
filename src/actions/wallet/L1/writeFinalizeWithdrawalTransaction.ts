@@ -1,22 +1,22 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { MessagePassedEvent } from '../../../index.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import type { GetProveWithdrawalTransactionArgsReturnType } from '../../index.js'
 import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 export const ABI = optimismPortalABI
 export const CONTRACT = OpStackL1Contract.OptimismPortal
-export const FUNCTION = 'proveWithdrawalTransaction'
+export const FUNCTION = 'finalizeWithdrawalTransaction'
 
-export type ProveWithdrawalTransactionParameters = GetProveWithdrawalTransactionArgsReturnType
+export type FinalizeWithdrawalTransactionParameters = Omit<MessagePassedEvent, 'withdrawalHash'>
 
-export type WriteProveWithdrawalTransactionParameters<
+export type WriteFinalizeWithdrawalTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & { args: ProveWithdrawalTransactionParameters }
+  & { withdrawal: FinalizeWithdrawalTransactionParameters }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
@@ -27,23 +27,23 @@ export type WriteProveWithdrawalTransactionParameters<
   >
 
 /**
- * Calls proveWithdrawalTransaction on the OptimismPortal contract.
- * Is the first L1 step of a withdrawal.
+ * Calls writeFinalizeWithdrawalTranasction on the OptimismPortal contract.
+ * Is the second and final L1 step of a withdrawal.
  *
- * @param parameters - {@link WriteProveWithdrawalTransactionParameters}
+ * @param parameters - {@link WriteFinalizeWithdrawalTransactionParameters}
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
-export async function writeProveWithdrawalTransaction<
+export async function writeFinalizeWithdrawalTranasction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined = undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { withdrawalTransaction, outputRootProof, withdrawalProof, L2OutputIndex },
+    withdrawal,
     optimismPortalAddress,
     ...rest
-  }: WriteProveWithdrawalTransactionParameters<
+  }: WriteFinalizeWithdrawalTransactionParameters<
     TChain,
     TAccount,
     TChainOverride
@@ -54,7 +54,7 @@ export async function writeProveWithdrawalTransaction<
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [withdrawalTransaction, L2OutputIndex, outputRootProof, withdrawalProof],
+    args: [withdrawal],
     ...rest,
   } as unknown as WriteOpStackL1Parameters<
     TChain,
