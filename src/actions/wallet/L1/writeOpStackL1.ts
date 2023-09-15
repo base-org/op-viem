@@ -9,9 +9,12 @@ import type {
   WriteContractReturnType,
 } from 'viem'
 import { writeContract } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
 import type { GetL2Chain, ResolveChain } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
+import {
+  resolveL1OpStackContractAddress,
+  type ResolveL1OpStackContractAddressParameters,
+} from '../../../utils/resolveL1OpStackContractAddress.js'
 
 export type WriteOpStackL1Parameters<
   TChain extends Chain | undefined = Chain,
@@ -55,13 +58,9 @@ export function writeOpStackL1<
     ...rest
   }: WriteOpStackL1Parameters<TChain, TAccount, TChainOverride, TAbi, TFunctionName>,
 ): Promise<WriteContractReturnType> {
-  if (l2Chain && l2Chain.opStackConfig.l1.chainId !== chain?.id) {
-    throw new L1ChainMismatchError({ chainId: chain?.id, opChainL1ChainId: l2Chain.opStackConfig.l1.chainId })
-  }
-  if (!address && (!l2Chain || !l2Chain.opStackConfig.l1.contracts[contract])) {
-    throw new L2ChainOrAddressError({ contract })
-  }
-  const resolvedAddress = address ?? l2Chain.opStackConfig.l1.contracts[contract].address
+  const resolvedAddress = resolveL1OpStackContractAddress(
+    { l2Chain, chain, contract, address } as ResolveL1OpStackContractAddressParameters<TChain, TChainOverride>,
+  )
   return writeContract(client, {
     address: resolvedAddress,
     ...rest,
