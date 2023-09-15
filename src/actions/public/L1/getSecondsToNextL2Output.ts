@@ -48,10 +48,13 @@ export async function getSecondsToNextL2Output<TChain extends Chain | undefined>
   const blockTime = await readOpStackL1(client, {
     contract: OpStackL1Contract.L2OutputOracle,
     abi: ABI,
-    functionName: 'SUBMISSION_INTERVAL',
+    functionName: 'L2_BLOCK_TIME',
     l2Chain,
     address: l2OutputOracleAddress,
   } as ReadOpStackL1Parameters<TChain, typeof ABI, 'L2_BLOCK_TIME'>)
 
-  return (interval - ((latestBlockNumber - latestL2BlockNumber) * blockTime))
+  const blocksTillUpdate = interval - (latestL2BlockNumber - latestBlockNumber)
+  // NOTE(Wilson): incase there is some problem, we do not
+  // all the return value to go negative.
+  return blocksTillUpdate < 0n ? 0n : blocksTillUpdate * blockTime
 }

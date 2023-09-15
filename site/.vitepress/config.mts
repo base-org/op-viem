@@ -64,6 +64,10 @@ export default defineConfig({
                 text: 'simulateProveWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
               },
+              {
+                text: 'getSecondsToNextL2Output',
+                link: '/docs/actions/public/L1/getSecondsToNextL2Output',
+              },
             ],
           },
           {

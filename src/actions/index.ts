@@ -11,6 +11,10 @@ export {
   type Proposal,
 } from './public/L1/getOutputForL2Block.js'
 export {
+  getSecondsToNextL2Output,
+  type GetSecondsToNextL2OutputParameters,
+} from './public/L1/getSecondsToNextL2Output.js'
+export {
   simulateDepositERC20,
   type SimulateDepositERC20Parameters,
   type SimulateDepositERC20ReturnType,

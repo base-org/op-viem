@@ -10,6 +10,10 @@ import {
   type GetOutputForL2BlockReturnType,
 } from '../actions/public/L1/getOutputForL2Block.js'
 import {
+  getSecondsToNextL2Output,
+  type GetSecondsToNextL2OutputParameters,
+} from '../actions/public/L1/getSecondsToNextL2Output.js'
+import {
   simulateDepositERC20,
   type SimulateDepositERC20Parameters,
   type SimulateDepositERC20ReturnType,
@@ -49,6 +53,9 @@ export type PublicL1OpStackActions<
   getOutputForL2Block: (
     args: GetOutputForL2BlockParameters<TChain>,
   ) => Promise<GetOutputForL2BlockReturnType>
+  getSecondsToNextL2Output: (
+    args: GetSecondsToNextL2OutputParameters<TChain>,
+  ) => Promise<bigint>
 }
 
 export function publicL1OpStackActions<
@@ -63,5 +70,6 @@ export function publicL1OpStackActions<
     simulateDepositERC20: (args) => simulateDepositERC20(client, args),
     getOutputForL2Block: (args) => getOutputForL2Block(client, args),
     simulateProveWithdrawTransaction: (args) => simulateProveWithdrawalTransaction(client, args),
+    getSecondsToNextL2Output: (args) => getSecondsToNextL2Output(client, args),
   }
 }
