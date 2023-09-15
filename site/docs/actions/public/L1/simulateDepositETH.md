@@ -1,6 +1,6 @@
 # simulateDepositETH
 
-Simulates a deposit of ETH to L2.
+Simulates a deposit of ETH from L1 to L2.
 
 ::: code-group
 

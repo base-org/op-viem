@@ -77,15 +77,14 @@ export default defineConfig({
           {
             text: 'L1',
             items: [
-              // removing until we correct
-              // {
-              //   text: 'writeDepositERC20',
-              //   link: '/docs/actions/wallet/L1/writeDepositERC20',
-              // },
-              // {
-              //   text: 'writeDepositETH',
-              //   link: '/docs/actions/wallet/L1/writeDepositETH',
-              // },
+              {
+                text: 'writeDepositERC20',
+                link: '/docs/actions/wallet/L1/writeDepositERC20',
+              },
+              {
+                text: 'writeDepositETH',
+                link: '/docs/actions/wallet/L1/writeDepositETH',
+              },
               {
                 text: 'writeUnsafeDepositTransaction',
                 link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
@@ -94,10 +93,11 @@ export default defineConfig({
                 text: 'writeSendMessage',
                 link: '/docs/actions/wallet/L1/writeSendMessage',
               },
-              {
-                text: 'writeOpStackL1',
-                link: '/docs/actions/wallet/L1/writeOpStackL1',
-              },
+              // removing until we add
+              // {
+              //   text: 'writeOpStackL1',
+              //   link: '/docs/actions/wallet/L1/writeOpStackL1',
+              // },
               {
                 text: 'writeProveWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
