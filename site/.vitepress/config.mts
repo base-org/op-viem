@@ -10,8 +10,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/docs/introduction/quickstart' },
+      { text: 'Docs', link: '/' },
     ],
     search: {
       provider: 'local',
@@ -21,16 +20,7 @@ export default defineConfig({
       {
         text: 'Introduction',
         items: [
-          { text: 'Why op-viem', link: '/docs/introduction/introduction' },
-          { text: 'Getting started', link: '/docs/introduction/getting-started' },
-          { text: 'Benchmarks', link: '/docs/introduction/benchmarks' },
-        ],
-      },
-      {
-        text: 'Clients',
-        items: [
-          { text: 'Public Client', link: '/docs/clients/public' },
-          { text: 'Wallet Client', link: '/docs/clients/wallet' },
+          { text: 'Getting started', link: '/' },
         ],
       },
       {
@@ -47,19 +37,19 @@ export default defineConfig({
                 text: 'getOutputForL2Block',
                 link: '/docs/actions/public/L1/getOutputForL2Block',
               },
-              // removing until we correct
-              // {
-              //   text: 'simulateDepositERC20',
-              //   link: '/docs/actions/public/L1/simulateDepositERC20',
-              // },
-              // {
-              //   text: 'simulateDepositETH',
-              //   link: '/docs/actions/public/L1/simulateDepositETH',
-              // },
               {
-                text: 'simulateOpStackL1',
-                link: '/docs/actions/public/L1/simulateOpStackL1',
+                text: 'simulateDepositERC20',
+                link: '/docs/actions/public/L1/simulateDepositERC20',
               },
+              {
+                text: 'simulateDepositETH',
+                link: '/docs/actions/public/L1/simulateDepositETH',
+              },
+              // removing until we add it
+              // {
+              //   text: 'simulateOpStackL1',
+              //   link: '/docs/actions/public/L1/simulateOpStackL1',
+              // },
               {
                 text: 'simulateProveWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
@@ -87,15 +77,14 @@ export default defineConfig({
           {
             text: 'L1',
             items: [
-              // removing until we correct
-              // {
-              //   text: 'writeDepositERC20',
-              //   link: '/docs/actions/wallet/L1/writeDepositERC20',
-              // },
-              // {
-              //   text: 'writeDepositETH',
-              //   link: '/docs/actions/wallet/L1/writeDepositETH',
-              // },
+              {
+                text: 'writeDepositERC20',
+                link: '/docs/actions/wallet/L1/writeDepositERC20',
+              },
+              {
+                text: 'writeDepositETH',
+                link: '/docs/actions/wallet/L1/writeDepositETH',
+              },
               {
                 text: 'writeUnsafeDepositTransaction',
                 link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
@@ -104,10 +93,11 @@ export default defineConfig({
                 text: 'writeSendMessage',
                 link: '/docs/actions/wallet/L1/writeSendMessage',
               },
-              {
-                text: 'writeOpStackL1',
-                link: '/docs/actions/wallet/L1/writeOpStackL1',
-              },
+              // removing until we add
+              // {
+              //   text: 'writeOpStackL1',
+              //   link: '/docs/actions/wallet/L1/writeOpStackL1',
+              // },
               {
                 text: 'writeProveWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
@@ -137,20 +127,20 @@ export default defineConfig({
               },
               {
                 text: 'getL2HashFromL1DepositInfo',
-                link: '/docs/actions/wallet/L1/getL2HashFromL1DepositInfo',
+                link: '/docs/utilities/deposits/getL2HashFromL1DepositInfo',
               },
-              {
-                text: 'getSourceHash',
-                link: '/docs/actions/wallet/L1/getSourceHash',
-              },
-              {
-                text: 'getTransactionDepositedEvents',
-                link: '/docs/actions/wallet/L1/getTransactionDepositedEvents',
-              },
-              {
-                text: 'rlpEncodeDepositTransaction',
-                link: '/docs/actions/wallet/L1/rlpEncodeDepositTransaction',
-              },
+              // {
+              //   text: 'getSourceHash',
+              //   link: '/docs/actions/wallet/L1/getSourceHash',
+              // },
+              // {
+              //   text: 'getTransactionDepositedEvents',
+              //   link: '/docs/actions/wallet/L1/getTransactionDepositedEvents',
+              // },
+              // {
+              //   text: 'rlpEncodeDepositTransaction',
+              //   link: '/docs/actions/wallet/L1/rlpEncodeDepositTransaction',
+              // },
             ],
           },
           {
