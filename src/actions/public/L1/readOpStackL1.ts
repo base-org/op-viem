@@ -1,4 +1,4 @@
-import type { Abi, Address, Chain, PublicClient, ReadContractParameters, ReadContractReturnType, Transport } from 'viem'
+import type { Abi, Address, Chain, Client, ReadContractParameters, ReadContractReturnType, Transport } from 'viem'
 import { readContract } from 'viem/actions'
 import type { GetL2Chain } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
@@ -33,7 +33,7 @@ export function readOpStackL1<
   const TAbi extends Abi | readonly unknown[],
   TFunctionName extends string,
 >(
-  client: PublicClient<Transport, TChain>,
+  client: Client<Transport, TChain>,
   {
     l2Chain,
     contract,

@@ -1,6 +1,3 @@
-export { getSecondsToFinalizable, type GetSecondsToFinalizableParameters } from './public/L1/getSecondsToFinalizable.js'
-export { readProvenWithdrawals, type ReadProvenWithdrawalsParameters } from './public/L1/readProvenWithdrawals.js'
-
 export { type AccountProof, getProof, type GetProofParameters, type StorageProof } from './public/getProof.js'
 export {
   getL2HashesForDepositTx,
@@ -13,10 +10,12 @@ export {
   type GetOutputForL2BlockReturnType,
   type Proposal,
 } from './public/L1/getOutputForL2Block.js'
+export { getSecondsToFinalizable, type GetSecondsToFinalizableParameters } from './public/L1/getSecondsToFinalizable.js'
 export {
   getSecondsToNextL2Output,
   type GetSecondsToNextL2OutputParameters,
 } from './public/L1/getSecondsToNextL2Output.js'
+export { readProvenWithdrawals, type ReadProvenWithdrawalsParameters } from './public/L1/readProvenWithdrawals.js'
 export {
   simulateDepositERC20,
   type SimulateDepositERC20Parameters,
