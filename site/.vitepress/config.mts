@@ -10,8 +10,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/docs/introduction/quickstart' },
+      { text: 'Docs', link: '/' },
     ],
     search: {
       provider: 'local',
@@ -21,16 +20,7 @@ export default defineConfig({
       {
         text: 'Introduction',
         items: [
-          { text: 'Why op-viem', link: '/docs/introduction/introduction' },
-          { text: 'Getting started', link: '/docs/introduction/getting-started' },
-          { text: 'Benchmarks', link: '/docs/introduction/benchmarks' },
-        ],
-      },
-      {
-        text: 'Clients',
-        items: [
-          { text: 'Public Client', link: '/docs/clients/public' },
-          { text: 'Wallet Client', link: '/docs/clients/wallet' },
+          { text: 'Getting started', link: '/' },
         ],
       },
       {
