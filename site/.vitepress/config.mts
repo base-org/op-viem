@@ -57,8 +57,12 @@ export default defineConfig({
               //   link: '/docs/actions/public/L1/simulateDepositETH',
               // },
               {
-                text: 'simulateOkStackL1',
+                text: 'simulateOpStackL1',
                 link: '/docs/actions/public/L1/simulateOpStackL1',
+              },
+              {
+                text: 'simulateProveWithdrawalTransaction',
+                link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
               },
             ],
           },
@@ -99,6 +103,10 @@ export default defineConfig({
               {
                 text: 'writeOpStackL1',
                 link: '/docs/actions/wallet/L1/writeOpStackL1',
+              },
+              {
+                text: 'writeProveWithdrawalTransaction',
+                link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
               },
             ],
           },
