@@ -1,3 +1,6 @@
+export { getSecondsToFinalizable, type GetSecondsToFinalizableParameters } from './public/L1/getSecondsToFinalizable.js'
+export { readProvenWithdrawals, type ReadProvenWithdrawalsParameters } from './public/L1/readProvenWithdrawals.js'
+
 export { type AccountProof, getProof, type GetProofParameters, type StorageProof } from './public/getProof.js'
 export {
   getL2HashesForDepositTx,
