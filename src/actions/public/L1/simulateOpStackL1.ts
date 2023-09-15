@@ -1,8 +1,11 @@
 import type { Abi, Address, Chain, PublicClient, Transport } from 'viem'
 import { simulateContract, type SimulateContractParameters, type SimulateContractReturnType } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
 import type { GetL2Chain, ResolveChain } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
+import {
+  resolveL1OpStackContractAddress,
+  type ResolveL1OpStackContractAddressParameters,
+} from '../../../utils/resolveL1OpStackContractAddress.js'
 
 export type SimulateOpStackL1Parameters<
   TChain extends Chain | undefined = Chain,
@@ -43,13 +46,9 @@ export function simulateOpStackL1<
     ...rest
   }: SimulateOpStackL1Parameters<TChain, TChainOverride, TAbi, TFunctionName>,
 ): Promise<SimulateContractReturnType<TAbi, TFunctionName, TChain, TChainOverride>> {
-  if (l2Chain && l2Chain.opStackConfig.l1.chainId !== chain?.id) {
-    throw new L1ChainMismatchError({ chainId: chain?.id, opChainL1ChainId: l2Chain.opStackConfig.l1.chainId })
-  }
-  if (!l2Chain && !address) {
-    throw new L2ChainOrAddressError({ contract })
-  }
-  const resolvedAddress = address ?? l2Chain.opStackConfig.l1.contracts[contract].address
+  const resolvedAddress = resolveL1OpStackContractAddress(
+    { l2Chain, chain, contract, address } as ResolveL1OpStackContractAddressParameters<TChain, TChainOverride>,
+  )
   return simulateContract(client, {
     address: resolvedAddress,
     ...rest,
