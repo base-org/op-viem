@@ -127,20 +127,20 @@ export default defineConfig({
               },
               {
                 text: 'getL2HashFromL1DepositInfo',
-                link: '/docs/actions/wallet/L1/getL2HashFromL1DepositInfo',
+                link: '/docs/utilities/deposits/getL2HashFromL1DepositInfo',
               },
-              {
-                text: 'getSourceHash',
-                link: '/docs/actions/wallet/L1/getSourceHash',
-              },
-              {
-                text: 'getTransactionDepositedEvents',
-                link: '/docs/actions/wallet/L1/getTransactionDepositedEvents',
-              },
-              {
-                text: 'rlpEncodeDepositTransaction',
-                link: '/docs/actions/wallet/L1/rlpEncodeDepositTransaction',
-              },
+              // {
+              //   text: 'getSourceHash',
+              //   link: '/docs/actions/wallet/L1/getSourceHash',
+              // },
+              // {
+              //   text: 'getTransactionDepositedEvents',
+              //   link: '/docs/actions/wallet/L1/getTransactionDepositedEvents',
+              // },
+              // {
+              //   text: 'rlpEncodeDepositTransaction',
+              //   link: '/docs/actions/wallet/L1/rlpEncodeDepositTransaction',
+              // },
             ],
           },
           {
