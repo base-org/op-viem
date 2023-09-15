@@ -54,7 +54,9 @@ export async function getSecondsToNextL2Output<TChain extends Chain | undefined>
   } as ReadOpStackL1Parameters<TChain, typeof ABI, 'L2_BLOCK_TIME'>)
 
   const blocksTillUpdate = interval - (latestL2BlockNumber - latestBlockNumber)
-  // NOTE(Wilson): incase there is some problem, we do not
-  // all the return value to go negative.
+  // NOTE(Wilson): incase there is some problem
+  // e.g. output posting has stalled or the wrong latestL2BlockNumber is passed
+  // we do not return a negative number, as negative seconds to next output
+  // does not make sense
   return blocksTillUpdate < 0n ? 0n : blocksTillUpdate * blockTime
 }
