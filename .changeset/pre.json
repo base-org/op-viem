@@ -1,0 +1,16 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "op-viem": "0.0.0",
+    "@op-viem/site": "0.0.0"
+  },
+  "changesets": [
+    "cold-flowers-explain",
+    "itchy-gorillas-run",
+    "quiet-otters-provide",
+    "rare-queens-deliver",
+    "tame-onions-collect",
+    "warm-shirts-drop"
+  ]
+}
