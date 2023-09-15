@@ -37,19 +37,19 @@ export default defineConfig({
                 text: 'getOutputForL2Block',
                 link: '/docs/actions/public/L1/getOutputForL2Block',
               },
-              // removing until we correct
-              // {
-              //   text: 'simulateDepositERC20',
-              //   link: '/docs/actions/public/L1/simulateDepositERC20',
-              // },
-              // {
-              //   text: 'simulateDepositETH',
-              //   link: '/docs/actions/public/L1/simulateDepositETH',
-              // },
               {
-                text: 'simulateOpStackL1',
-                link: '/docs/actions/public/L1/simulateOpStackL1',
+                text: 'simulateDepositERC20',
+                link: '/docs/actions/public/L1/simulateDepositERC20',
               },
+              {
+                text: 'simulateDepositETH',
+                link: '/docs/actions/public/L1/simulateDepositETH',
+              },
+              // removing until we add it
+              // {
+              //   text: 'simulateOpStackL1',
+              //   link: '/docs/actions/public/L1/simulateOpStackL1',
+              // },
               {
                 text: 'simulateProveWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
