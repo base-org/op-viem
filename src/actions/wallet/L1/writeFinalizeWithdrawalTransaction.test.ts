@@ -1,3 +1,4 @@
+import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
@@ -6,7 +7,6 @@ import {
   type FinalizeWithdrawalTransactionParameters,
   writeFinalizeWithdrawalTranasction,
 } from './writeFinalizeWithdrawalTransaction.js'
-import { mine } from 'viem/actions'
 
 test('succesfully submits finalizeWithdrawalTransaction', async () => {
   const withdrawal: FinalizeWithdrawalTransactionParameters = {

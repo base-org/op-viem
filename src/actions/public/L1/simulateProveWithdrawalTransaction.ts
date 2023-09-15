@@ -4,7 +4,7 @@ import {
   ABI,
   CONTRACT,
   FUNCTION,
-  type ProveWithdrawalTransactionArgs,
+  type ProveWithdrawalTransactionParameters,
 } from '../../wallet/L1/writeProveWithdrawalTransaction.js'
 import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
@@ -12,7 +12,7 @@ export type SimulateProveWithdrawalTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & { args: ProveWithdrawalTransactionArgs }
+  & { args: ProveWithdrawalTransactionParameters }
   & L1SimulateActionBaseType<
     TChain,
     TChainOverride,

@@ -28,3 +28,4 @@ export type {
 export { getTransactionDepositedEvents } from './utils/getTransactionDepositedEvents.js'
 export { getWithdrawalMessageStorageSlot } from './utils/getWithdrawalMessageStorageSlot.js'
 export { rlpEncodeDepositTransaction } from './utils/rlpEncodeDepositTransaction.js'
+export { type ProveWithdrawalTransactionParameters } from './actions/wallet/L1/writeProveWithdrawalTransaction.js'
