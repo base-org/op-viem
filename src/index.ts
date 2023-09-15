@@ -1,4 +1,5 @@
 export { type ProvenWithdrawal } from './actions/public/L1/readProvenWithdrawals.js'
+export { type ProveWithdrawalTransactionParameters } from './actions/wallet/L1/writeProveWithdrawalTransaction.js'
 export { type PublicL1OpStackActions, publicL1OpStackActions } from './decorators/publicL1OpStackActions.js'
 export { type PublicL2OpStackActions, publicL2OpStackActions } from './decorators/publicL2OpStackActions.js'
 export { type WalletL1OpStackActions, walletL1OpStackActions } from './decorators/walletL1OpStackActions.js'
@@ -28,4 +29,3 @@ export type {
 export { getTransactionDepositedEvents } from './utils/getTransactionDepositedEvents.js'
 export { getWithdrawalMessageStorageSlot } from './utils/getWithdrawalMessageStorageSlot.js'
 export { rlpEncodeDepositTransaction } from './utils/rlpEncodeDepositTransaction.js'
-export { type ProveWithdrawalTransactionParameters } from './actions/wallet/L1/writeProveWithdrawalTransaction.js'
