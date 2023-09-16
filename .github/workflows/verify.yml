@@ -91,3 +91,9 @@ jobs:
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
           
+      - name: 'Report Coverage'
+        if: always() # Also generate the report if tests are failing
+        uses:  davelosert/vitest-coverage-report-action@v2
+        with:
+          name: "op-viem"
+          working-directory: "."

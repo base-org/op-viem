@@ -11,8 +11,17 @@ export default defineConfig({
       outputFile: './bench/report.json',
       reporters: process.env.CI ? ['json'] : ['verbose'],
     },
+    // if you are using the default rpc you will need these to not get rate limited
+    // maxConcurrency: 1,
+    // maxThreads: 1,
+    // minThreads: 1,
     coverage: {
-      reporter: process.env.CI ? ['lcov'] : ['text', 'json', 'html'],
+      lines: 97.29,
+      statements: 97.29,
+      functions: 90.24,
+      branches: 90.9,
+      thresholdAutoUpdate: true,
+      reporter: ['text', 'json-summary', 'json'],
       exclude: [
         '**/errors/utils.ts',
         '**/dist/**',
