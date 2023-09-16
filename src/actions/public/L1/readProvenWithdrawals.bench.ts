@@ -1,5 +1,3 @@
-import { createPublicClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
 import { bench, describe } from 'vitest'
 import { opSDKMessenger } from '../../../_test/bench.js'
 import { publicClient } from '../../../_test/utils.js'
