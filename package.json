@@ -1,6 +1,6 @@
 {
   "name": "op-viem",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.3",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -45,7 +45,7 @@
         "./dist/types/actions/index.d.ts"
       ],
       "chains": [
-        "./dist/types/chains.d.ts"
+        "./dist/types/chains/index.d.ts"
       ],
       "utils": [
         "./dist/types/utils/index.d.ts"
