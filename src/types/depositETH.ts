@@ -8,6 +8,6 @@ export const FUNCTION = 'depositETHTo'
 
 export type DepositETHParameters = {
   to: Address
-  minGasLimit: bigint
+  minGasLimit: number
   extraData?: Hex
 }

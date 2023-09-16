@@ -16,7 +16,7 @@ const walletClient = createWalletClient({
 const hash = await walletClient.writeDepositETH({
   args: {
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
-    minGasLimit: 100000n,
+    minGasLimit: 100000,
   },
   value: 1n,
   l2chain: base,
