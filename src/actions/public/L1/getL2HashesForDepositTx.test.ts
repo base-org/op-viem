@@ -19,6 +19,21 @@ test('correctly retrieves L2 hash', async () => {
   )
 })
 
+test('correctly retrieves L2 hash when given receipt', async () => {
+  const l1TxReceipt = await publicClient.getTransactionReceipt({
+    hash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
+  })
+  const hashes = await getL2HashesForDepositTx(publicClient, {
+    l1TxReceipt,
+  })
+
+  expect(hashes.length).toEqual(1)
+
+  expect(hashes[0]).toEqual(
+    '0xed88afbd3f126180bd5488c2212cd033c51a6f9b1765249bdb738dcac1d0cb41',
+  )
+})
+
 test('matches @eth-optimism/core-utils', async () => {
   const hashes = await getL2HashesForDepositTx(publicClient, {
     l1TxHash: '0x33faeeee9c6d5e19edcdfc003f329c6652f05502ffbf3218d9093b92589a42c4',
