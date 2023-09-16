@@ -1,5 +1,11 @@
 # op-viem
 
+## 0.0.1-alpha.4
+
+### Patch Changes
+
+- Update minGasLimit to be type number for consistency with ABI
+
 ## 0.0.1-alpha.3
 
 ### Patch Changes

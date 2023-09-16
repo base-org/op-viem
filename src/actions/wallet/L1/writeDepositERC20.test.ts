@@ -31,7 +31,7 @@ test('default', async () => {
       l2Token: USDCL2,
       to: zenaddress,
       amount: 1n,
-      minGasLimit: 1n,
+      minGasLimit: 21000,
       extraData: '0x',
     },
     l2Chain: base,
