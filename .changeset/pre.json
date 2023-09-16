@@ -6,6 +6,7 @@
     "@op-viem/site": "0.0.0"
   },
   "changesets": [
+    "big-pants-shout",
     "happy-books-burn"
   ]
 }
