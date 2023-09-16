@@ -118,5 +118,8 @@
     "overrides": {
       "test-op-viem": "workspace:*"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
