@@ -38,6 +38,18 @@ export default defineConfig({
                 link: '/docs/actions/public/L1/getOutputForL2Block',
               },
               {
+                text: 'getSecondsToNextL2Output',
+                link: '/docs/actions/public/L1/getSecondsToNextL2Output',
+              },
+              {
+                text: 'getSecondsToFinalizable',
+                link: '/docs/actions/public/L1/getSecondsToFinalizable',
+              },
+              {
+                text: 'readOpStackL1',
+                link: '/docs/actions/public/L1/readOpStackL1',
+              },
+              {
                 text: 'simulateDepositERC20',
                 link: '/docs/actions/public/L1/simulateDepositERC20',
               },
@@ -45,18 +57,17 @@ export default defineConfig({
                 text: 'simulateDepositETH',
                 link: '/docs/actions/public/L1/simulateDepositETH',
               },
-              // removing until we add it
-              // {
-              //   text: 'simulateOpStackL1',
-              //   link: '/docs/actions/public/L1/simulateOpStackL1',
-              // },
               {
                 text: 'simulateProveWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
               },
               {
-                text: 'getSecondsToNextL2Output',
-                link: '/docs/actions/public/L1/getSecondsToNextL2Output',
+                text: 'simulateFinalizeWithdrawalTransaction',
+                link: '/docs/actions/public/L1/simulateFinalizeWithdrawalTransaction',
+              },
+              {
+                text: 'simulateOpStackL1',
+                link: '/docs/actions/public/L1/simulateOpStackL1',
               },
             ],
           },
@@ -64,7 +75,19 @@ export default defineConfig({
             text: 'L2',
             items: [
               {
+                text: 'getProveWithdrawalTransactionArgs',
+                link: '/docs/actions/public/L2/getProveWithdrawalTransactionArgs',
+              },
+              {
+                text: 'getWithdrawalMessages',
+                link: '/docs/actions/public/L2/getWithdrawalMessages',
+              },
+              {
                 text: 'simulateWithdrawETH',
+                link: '/docs/actions/public/L2/simulateWithdrawETH',
+              },
+              {
+                text: 'simulateWithdrawERC20',
                 link: '/docs/actions/public/L2/simulateWithdrawETH',
               },
             ],
@@ -93,11 +116,6 @@ export default defineConfig({
                 text: 'writeSendMessage',
                 link: '/docs/actions/wallet/L1/writeSendMessage',
               },
-              // removing until we add
-              // {
-              //   text: 'writeOpStackL1',
-              //   link: '/docs/actions/wallet/L1/writeOpStackL1',
-              // },
               {
                 text: 'writeProveWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
@@ -105,6 +123,10 @@ export default defineConfig({
               {
                 text: 'writeFinalizeWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction',
+              },
+              {
+                text: 'writeOpStackL1',
+                link: '/docs/actions/wallet/L1/writeOpStackL1',
               },
             ],
           },
@@ -114,6 +136,14 @@ export default defineConfig({
               {
                 text: 'writeWithdrawETH',
                 link: '/docs/actions/wallet/L2/writeWithdrawETH',
+              },
+              {
+                text: 'writeWithdrawERC20',
+                link: '/docs/actions/wallet/L2/writeWithdrawERC20',
+              },
+              {
+                text: 'writeOpStackL2',
+                link: '/docs/actions/wallet/L2/writeOpStackL2',
               },
             ],
           },
@@ -133,23 +163,28 @@ export default defineConfig({
                 text: 'getL2HashFromL1DepositInfo',
                 link: '/docs/utilities/deposits/getL2HashFromL1DepositInfo',
               },
-              // {
-              //   text: 'getSourceHash',
-              //   link: '/docs/actions/wallet/L1/getSourceHash',
-              // },
-              // {
-              //   text: 'getTransactionDepositedEvents',
-              //   link: '/docs/actions/wallet/L1/getTransactionDepositedEvents',
-              // },
-              // {
-              //   text: 'rlpEncodeDepositTransaction',
-              //   link: '/docs/actions/wallet/L1/rlpEncodeDepositTransaction',
-              // },
+              {
+                text: 'getSourceHash',
+                link: '/docs/utilities/deposits/L1/getSourceHash',
+              },
+              {
+                text: 'getTransactionDepositedEvents',
+                link: '/docs/utilities/deposits/L1/getTransactionDepositedEvents',
+              },
+              {
+                text: 'rlpEncodeDepositTransaction',
+                link: '/docs/utilities/deposits/L1/rlpEncodeDepositTransaction',
+              },
             ],
           },
           {
-            text: 'getWithdrawlMessageStorageSlot',
-            link: '/docs/actions/wallet/L1/getWithdrawlMessageStorageSlot',
+            text: 'Withdrawals',
+            items: [
+              {
+                text: 'getWithdrawlMessageStorageSlot',
+                link: '/docs/actions/wallet/L1/getWithdrawlMessageStorageSlot',
+              },
+            ],
           },
         ],
       },
