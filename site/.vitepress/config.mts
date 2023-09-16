@@ -46,10 +46,6 @@ export default defineConfig({
                 link: '/docs/actions/public/L1/getSecondsToFinalizable',
               },
               {
-                text: 'readOpStackL1',
-                link: '/docs/actions/public/L1/readOpStackL1',
-              },
-              {
                 text: 'simulateDepositERC20',
                 link: '/docs/actions/public/L1/simulateDepositERC20',
               },
@@ -64,10 +60,6 @@ export default defineConfig({
               {
                 text: 'simulateFinalizeWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateFinalizeWithdrawalTransaction',
-              },
-              {
-                text: 'simulateOpStackL1',
-                link: '/docs/actions/public/L1/simulateOpStackL1',
               },
             ],
           },
@@ -124,10 +116,6 @@ export default defineConfig({
                 text: 'writeFinalizeWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction',
               },
-              {
-                text: 'writeOpStackL1',
-                link: '/docs/actions/wallet/L1/writeOpStackL1',
-              },
             ],
           },
           {
@@ -140,10 +128,6 @@ export default defineConfig({
               {
                 text: 'writeWithdrawERC20',
                 link: '/docs/actions/wallet/L2/writeWithdrawERC20',
-              },
-              {
-                text: 'writeOpStackL2',
-                link: '/docs/actions/wallet/L2/writeOpStackL2',
               },
             ],
           },
@@ -165,15 +149,15 @@ export default defineConfig({
               },
               {
                 text: 'getSourceHash',
-                link: '/docs/utilities/deposits/L1/getSourceHash',
+                link: '/docs/utilities/deposits/getSourceHash',
               },
               {
                 text: 'getTransactionDepositedEvents',
-                link: '/docs/utilities/deposits/L1/getTransactionDepositedEvents',
+                link: '/docs/utilities/deposits/getTransactionDepositedEvents',
               },
               {
                 text: 'rlpEncodeDepositTransaction',
-                link: '/docs/utilities/deposits/L1/rlpEncodeDepositTransaction',
+                link: '/docs/utilities/deposits/rlpEncodeDepositTransaction',
               },
             ],
           },
@@ -182,7 +166,7 @@ export default defineConfig({
             items: [
               {
                 text: 'getWithdrawlMessageStorageSlot',
-                link: '/docs/actions/wallet/L1/getWithdrawlMessageStorageSlot',
+                link: '/docs/utilities/withdrawals/getWithdrawlMessageStorageSlot',
               },
             ],
           },
