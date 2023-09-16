@@ -56,7 +56,7 @@ Check out the following places for more viem-related content:
 
 ## Contributing
 
-If you're interested in contributing, please read the [contributing docs](/.github/CONTRIBUTING.md) **before submitting a pull request**.
+If you're interested in contributing, please read the [contributing docs](CONTRIBUTING.md) **before submitting a pull request**.
 
 ## Authors
 
@@ -66,4 +66,4 @@ If you're interested in contributing, please read the [contributing docs](/.gith
 
 ## License
 
-[MIT](/LICENSE) License
+[MIT](LICENSE.md) License
