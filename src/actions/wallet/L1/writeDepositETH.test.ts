@@ -9,7 +9,7 @@ test('default', async () => {
     await writeDepositETH(walletClient, {
       args: {
         to: accounts[0].address,
-        minGasLimit: 1n,
+        minGasLimit: 21000,
         extraData: '0x',
       },
       value: 1n,
