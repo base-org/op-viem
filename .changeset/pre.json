@@ -6,6 +6,8 @@
     "@op-viem/site": "0.0.0"
   },
   "changesets": [
-    "happy-books-burn"
+    "big-pants-shout",
+    "happy-books-burn",
+    "soft-wolves-admire"
   ]
 }
