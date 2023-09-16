@@ -12,7 +12,7 @@ test('read finalized withdrawals', async () => {
   expect(finalizedWithdrawal).toEqual(true)
 })
 
-test('raises error if not finalized', async () => {
+test('returns false if not finalized', async () => {
   const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
     l2Chain: base,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0C18D4889A23E74692101BA4C6DC9B5709',
