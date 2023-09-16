@@ -7,6 +7,7 @@ import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 
 const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal
+const FUNCTION_NAME = 'finalizedWithdrawals'
 
 export type ReadFinalizedWithdrawalsParameters<
   TChain extends Chain | undefined = Chain,
@@ -28,16 +29,12 @@ export async function readFinalizedWithdrawals<TChain extends Chain | undefined>
   const finalizedWithdrawal = await readOpStackL1(client, {
     contract: CONTRACT,
     abi: ABI,
-    functionName: 'finalizedWithdrawals',
+    functionName: FUNCTION_NAME,
     l2Chain,
     address: optimismPortalAddress,
     args: [withdrawalHash],
     chain: client.chain,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'finalizedWithdrawals'>)
-
-  if (finalizedWithdrawal === false) {
-    throw new Error(`Withdrawal with hash ${withdrawalHash} is not finalized`)
-  }
+  } as ReadOpStackL1Parameters<TChain, typeof ABI, typeof FUNCTION_NAME>)
 
   return finalizedWithdrawal
 }

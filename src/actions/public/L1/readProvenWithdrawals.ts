@@ -7,6 +7,7 @@ import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 
 const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal
+const FUNCTION_NAME = 'provenWithdrawals'
 
 export type ReadProvenWithdrawalsParameters<
   TChain extends Chain | undefined = Chain,
@@ -37,12 +38,12 @@ export async function readProvenWithdrawals<TChain extends Chain | undefined>(
   const values = await readOpStackL1(client, {
     contract: CONTRACT,
     abi: ABI,
-    functionName: 'provenWithdrawals',
+    functionName: FUNCTION_NAME,
     l2Chain,
     address: optimismPortalAddress,
     args: [withdrawalHash],
     chain: client.chain,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'provenWithdrawals'>)
+  } as ReadOpStackL1Parameters<TChain, typeof ABI, typeof FUNCTION_NAME>)
 
   const provenWithdrawal = {
     outputRoot: values[0],
