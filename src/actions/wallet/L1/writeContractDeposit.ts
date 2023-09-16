@@ -9,7 +9,8 @@ import {
   type WriteContractParameters,
   type WriteContractReturnType,
 } from 'viem'
-import type { OpStackChain } from '../../../index.js'
+import { OpStackL1Contract } from '../../../index.js'
+import type { GetL2Chain, L1ActionBaseType, ResolveChain } from '../../../types/l1Actions.js'
 import { writeSendMessage, type WriteSendMessageParameters } from './writeSendMessage.js'
 
 export type WriteContractDepositParameters<
@@ -19,7 +20,8 @@ export type WriteContractDepositParameters<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & { minGasLimit: number; l2Chain: OpStackChain }
+  & { minGasLimit: number }
+  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, typeof OpStackL1Contract.L1CrossDomainMessenger>
   & WriteContractParameters<
     TAbi,
     TFunctionName,
@@ -31,6 +33,7 @@ export type WriteContractDepositParameters<
 /**
  * A L1 -> L2 version of Viem's writeContract. Can be used to call any L2 contract from L1.
  * Internally uses writeSendMessage, which calls to the cross chain messenger contract.
+ * NOTE: msg.sender on the call to `address` will NOT be msg.sender on L1, but the L2CrossDomainMessenger.
  *
  * @param parameters - {@link WriteContractDepositParameters}
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
@@ -50,6 +53,7 @@ export async function writeContractDeposit<
     functionName,
     minGasLimit,
     l2Chain,
+    l1CrossDomainMessengerAddress,
     ...request
   }: WriteContractDepositParameters<
     TAbi,
@@ -65,6 +69,7 @@ export async function writeContractDeposit<
     functionName,
   } as unknown as EncodeFunctionDataParameters<TAbi, TFunctionName>)
   return writeSendMessage(client, {
+    l1CrossDomainMessengerAddress,
     l2Chain,
     args: { minGasLimit, target: address, message: calldata },
     ...request,
