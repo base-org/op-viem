@@ -102,6 +102,10 @@ export default defineConfig({
                 text: 'writeProveWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
               },
+              {
+                text: 'writeFinalizeWithdrawalTransaction',
+                link: '/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction',
+              },
             ],
           },
           {

@@ -7,7 +7,7 @@ This is the second step in a withdrawal flow, or more generally, an L2 -> L1 cal
 
 Calling this method requires that the state root of the L2 transaction has been written to L1. [getProveWithdrawalTransactionArgs]() supplies the arguments for this function.
 
-To finalize after this is called, anyone can call [writeFinalizeWithdrawalTransaction] after the fault challenge period has elapsed.
+To finalize after this is called, anyone can call [writeFinalizeWithdrawalTransaction](/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction) after the fault challenge period has elapsed.
 
 Read [here](https://community.optimism.io/docs/developers/bridge/messaging/#for-op-mainnet-l2-to-ethereum-l1-transactions) for more details.
 

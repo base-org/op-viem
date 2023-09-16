@@ -6,7 +6,7 @@ Initiates an L2 -> L1 ETH transfer by calling [withdrawTo](https://github.com/et
 Beyond this transaction, completing a withdraw requires
 
 1. Calling [writeProveWithdrawalTransaction](/docs/actions/wallet/L1/writeProveWithdrawalTransaction) after the state root including this transaction is written to L1
-2. Calling [writeFinalizeWithdrawalTransaction] after the fault challenge period has elapsed.
+2. Calling [writeFinalizeWithdrawalTransaction](/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction) after the fault challenge period has elapsed.
 
 Read [here](https://community.optimism.io/docs/developers/bridge/messaging/#for-op-mainnet-l2-to-ethereum-l1-transactions) for more details.
 

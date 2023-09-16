@@ -2,11 +2,11 @@ import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient } from '../../../_test/utils.js'
 import { base } from '../../../chains/base.js'
-import { type ProveWithdrawalTransactionArgs } from '../../wallet/L1/writeProveWithdrawalTransaction.js'
+import { type ProveWithdrawalTransactionParameters } from '../../wallet/L1/writeProveWithdrawalTransaction.js'
 import { simulateProveWithdrawalTransaction } from './simulateProveWithdrawalTransaction.js'
 
 // taken from https://etherscan.io/tx/0xdad240950e129f2fd1f3b10f2556064ba873b639588b9efa652f5bbf29c26356
-const args: ProveWithdrawalTransactionArgs = {
+const args: ProveWithdrawalTransactionParameters = {
   withdrawalTransaction: {
     nonce: 1766847064778384329583297500742918515827483896875618958121606201292641781n,
     sender: '0x6fF4d0F93f42085905465a1F95C84C6F479276d4',
