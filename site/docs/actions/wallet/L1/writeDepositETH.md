@@ -40,7 +40,7 @@ The address to deposit the tokens to.
 
 ### minGasLimit
 
-- **Type:** `bigint`
+- **Type:** `number`
 
 The minimum gas limit to use for the deposit transaction.
 
