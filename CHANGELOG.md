@@ -1,5 +1,11 @@
 # op-viem
 
+## 0.0.1-alpha.5
+
+### Patch Changes
+
+- readFinalizedWithdrawals, txReceipt to getDeposits and getWithdrawals
+
 ## 0.0.1-alpha.4
 
 ### Patch Changes
