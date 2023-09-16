@@ -19,20 +19,20 @@ export const zoraGoerli: OpStackChain & {
           blockCreated: 8942397,
         },
         l1Erc721Bridge: {
-          address: '0x7e3A6D16c3017b7876138350749981704cA333E',
-          blockCreated: 8942402,
+          address: '0x57C1C6b596ce90C0e010c358DD4Aa052404bB70F',
+          blockCreated: 8942394,
         },
         l1StandardBridge: {
           address: '0x39CCDe9769d52d61189AB799d91665A11b5f3464',
           blockCreated: 8942398,
         },
         l2OutputOracle: {
-          address: '0x5881e7B1429FE78b1c98eBAe55d67184597a787c',
-          blockCreated: 8942399,
+          address: '0xdD292C9eEd00f6A32Ff5245d0BCd7f2a15f24e00',
+          blockCreated: 8942390,
         },
         optimismPortal: {
-          address: '0xc2112491c6A6994f1Aa299FA0A2a0397d7D2b438',
-          blockCreated: 8942400,
+          address: '0xDb9F51790365e7dc196e7D072728df39Be958ACe',
+          blockCreated: 8942392,
         },
       },
     },
