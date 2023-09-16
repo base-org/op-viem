@@ -22,7 +22,7 @@ const { request } = await walletClient.writeDepositERC20({
     l2Token: USDCL2,
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
     amount: 1n,
-    minGasLimit: 100000n,
+    minGasLimit: 100000,
   },
   l2chain: base,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',

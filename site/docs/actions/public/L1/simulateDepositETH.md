@@ -17,7 +17,7 @@ const publicClient = createPublicClient({
 const { request } = await publicClient.simulateDepositETH({
   args: {
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
-    minGasLimit: 100000n,
+    minGasLimit: 100000,
   },
   value: 1n,
   l2chain: base,
@@ -41,7 +41,7 @@ The address to deposit the tokens to.
 
 ### minGasLimit
 
-- **Type:** `bigint`
+- **Type:** `number`
 
 The minimum gas limit to use for the deposit transaction.
 

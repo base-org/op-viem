@@ -23,7 +23,7 @@ const { request } = await publicClient.simulateDepositERC20({
     l2Token: USDCL2,
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
     amount: 1n,
-    minGasLimit: 100000n,
+    minGasLimit: 100000,
   },
   l2chain: base,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
@@ -38,41 +38,31 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
 
 ## Parameters
 
-### l1Token
+### args
 
-- **Type:** `Address`
+- #### l1Token
+  - **Type:** `Address`
+  - The L1 token contract address.
 
-The L1 token contract address.
+- #### l2Token
+  - **Type:** `Address`
+  - The L2 token contract address.
 
-### l2Token
+- #### to
+  - **Type:** `Address`
+  - The address to deposit the tokens to.
 
-- **Type:** `Address`
+- #### amount
+  - **Type:** `bigint`
+  - The amount of tokens to deposit.
 
-The L2 token contract address.
+- #### minGasLimit
+  - **Type:** `number`
+  - The gas limit for the transaction.
 
-### to
-
-- **Type:** `Address`
-
-The address to deposit the tokens to.
-
-### amount
-
-- **Type:** `bigint`
-
-The amount of tokens to deposit.
-
-### gasLimit
-
-- **Type:** `bigint`
-
-The gas limit for the transaction.
-
-### extraData (optional)
-
-- **Type:** `data`
-
-Extra data to include in the transaction.
+- #### extraData (optional)
+  - **Type:** `Hex`
+  - Extra data to include in the transaction.
 
 ### l2chain
 
