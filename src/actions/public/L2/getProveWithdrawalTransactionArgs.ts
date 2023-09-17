@@ -1,4 +1,4 @@
-import { type Chain, type Hex, type PublicClient, toHex, type Transport } from 'viem'
+import { type Chain, type Hex, type PublicClient, type Transport } from 'viem'
 import { getBlock } from 'viem/actions'
 import { opStackL2ChainContracts } from '../../../index.js'
 import type { MessagePassedEvent } from '../../../types/withdrawal.js'
@@ -12,7 +12,7 @@ export type OutputRootProof = {
   messagePasserStorageRoot: Hex
   latestBlockhash: Hex
 }
-const OUTPUT_ROOT_PROOF_VERSION = 0n
+const OUTPUT_ROOT_PROOF_VERSION = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 export type GetProveWithdrawalTransactionArgsParams = {
   message: MessagePassedEvent
@@ -59,7 +59,7 @@ export async function getProveWithdrawalTransactionArgs<
   return {
     withdrawalTransaction,
     outputRootProof: {
-      version: toHex(OUTPUT_ROOT_PROOF_VERSION),
+      version: OUTPUT_ROOT_PROOF_VERSION,
       stateRoot: block.stateRoot,
       messagePasserStorageRoot: proof.storageHash,
       latestBlockhash: block.hash,
