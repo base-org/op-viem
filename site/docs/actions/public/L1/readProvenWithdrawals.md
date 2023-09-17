@@ -1,6 +1,6 @@
-# getSecondsToFinalizable
+# readProvenWithdrawals
 
-Returns the number of seconds until a withdrawal is finalized for a given withdrawal hash. Will return 0 if seconds would be negative.
+Returns a `ProvenWithdrawal` struct containing the `outputRoot`, `timestamp`, and `l2OutputIndex` for a given withdrawal hash. Returns error if withdrawal has not been proven.
 
 ::: code-group
 
@@ -14,7 +14,7 @@ const publicClient = createPublicClient({
     transport: http(),
 }).extend(publicL1Actions)
 
-const seconds = await getSecondsToFinalizable(publicClient, {
+const provenWithdrawal = await readProvenWithdrawals(publicClient, {
     l2Chain: base,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
@@ -24,7 +24,7 @@ const seconds = await getSecondsToFinalizable(publicClient, {
 
 ## Return Value
 
-Returns a `number` representative of the seconds until withdrawal finalization.
+Returns an object that represents a `ProvenWithdrawl` struct that contains the `outputRoot`, `timestamp`, and `l2OutputIndex`
 
 ## Parameters
 

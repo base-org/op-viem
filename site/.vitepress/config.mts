@@ -38,12 +38,20 @@ export default defineConfig({
                 link: '/docs/actions/public/L1/getOutputForL2Block',
               },
               {
+                text: 'getSecondsToFinalizable',
+                link: '/docs/actions/public/L1/getSecondsToFinalizable',
+              },
+              {
                 text: 'getSecondsToNextL2Output',
                 link: '/docs/actions/public/L1/getSecondsToNextL2Output',
               },
               {
-                text: 'getSecondsToFinalizable',
-                link: '/docs/actions/public/L1/getSecondsToFinalizable',
+                text: 'readFinalizedWithdrawals',
+                link: '/docs/actions/public/L1/readFinalizedWithdrawals',
+              },
+              {
+                text: 'readProvenWithdrawals',
+                link: '/docs/actions/public/L1/readProvenWithdrawals',
               },
               {
                 text: 'simulateDepositERC20',
@@ -54,12 +62,12 @@ export default defineConfig({
                 link: '/docs/actions/public/L1/simulateDepositETH',
               },
               {
-                text: 'simulateProveWithdrawalTransaction',
-                link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
-              },
-              {
                 text: 'simulateFinalizeWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateFinalizeWithdrawalTransaction',
+              },
+              {
+                text: 'simulateProveWithdrawalTransaction',
+                link: '/docs/actions/public/L1/simulateProveWithdrawalTransaction',
               },
             ],
           },
@@ -75,11 +83,11 @@ export default defineConfig({
                 link: '/docs/actions/public/L2/getWithdrawalMessages',
               },
               {
-                text: 'simulateWithdrawETH',
-                link: '/docs/actions/public/L2/simulateWithdrawETH',
+                text: 'simulateWithdrawERC20',
+                link: '/docs/actions/public/L2/simulateWithdrawERC20',
               },
               {
-                text: 'simulateWithdrawERC20',
+                text: 'simulateWithdrawETH',
                 link: '/docs/actions/public/L2/simulateWithdrawETH',
               },
             ],
