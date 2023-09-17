@@ -6,19 +6,19 @@
 
 - Export writeFinalizeWithdrawTransaction and fix getProveWithdrawalTransactionArgs
 
-## 0.0.1-alpha.5
+## 0.0.1-alpha.4
 
 ### Patch Changes
 
 - readFinalizedWithdrawals, txReceipt to getDeposits and getWithdrawals
 
-## 0.0.1-alpha.4
+## 0.0.1-alpha.3
 
 ### Patch Changes
 
 - Update minGasLimit to be type number for consistency with ABI
 
-## 0.0.1-alpha.3
+## 0.0.1-alpha.2
 
 ### Patch Changes
 
