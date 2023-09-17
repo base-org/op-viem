@@ -9,14 +9,15 @@ import { publicL1Actions } from 'op-viem'
 import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
-    account,
-    chain: mainnet,
-    transport: http(),
+  account,
+  chain: mainnet,
+  transport: http(),
 }).extend(publicL1Actions)
 
 const seconds = await getSecondsToFinalizable(publicClient, {
-    l2Chain: base,
-    withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
+  l2Chain: base,
+  withdrawalHash:
+    '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
 ```
 
