@@ -3,6 +3,10 @@ import type { WalletClient } from 'viem'
 import { writeDepositERC20, type WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20.js'
 import { writeDepositETH, type WriteDepositETHParameters } from '../actions/wallet/L1/writeDepositETH.js'
 import {
+  writeFinalizeWithdrawalTranasction,
+  type WriteFinalizeWithdrawalTransactionParameters,
+} from '../actions/wallet/L1/writeFinalizeWithdrawalTransaction.js'
+import {
   writeProveWithdrawalTransaction,
   type WriteProveWithdrawalTransactionParameters,
 } from '../actions/wallet/L1/writeProveWithdrawalTransaction.js'
@@ -43,6 +47,15 @@ export type WalletL1OpStackActions<
       TChainOverride
     >,
   ) => Promise<WriteContractReturnType>
+  writeFinalizeWithdrawalTransaction: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteFinalizeWithdrawalTransactionParameters<
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ) => Promise<WriteContractReturnType>
 }
 
 export function walletL1OpStackActions<
@@ -57,5 +70,6 @@ export function walletL1OpStackActions<
     writeDepositETH: (args) => writeDepositETH(client, args),
     writeDepositERC20: (args) => writeDepositERC20(client, args),
     writeProveWithdrawalTransaction: (args) => writeProveWithdrawalTransaction(client, args),
+    writeFinalizeWithdrawalTransaction: (args) => writeFinalizeWithdrawalTranasction(client, args),
   }
 }
