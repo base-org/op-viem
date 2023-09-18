@@ -18,29 +18,28 @@ test('resolves Base OptimismPortal contract address', async () => {
 })
 
 test('raises error if chain undefined', async () => {
-    await expect(async () =>
-      resolveL1OpStackContractAddress(
-        {
-          l2Chain: undefined,
-          chain: publicClient.chain,
-          contract: OpStackL1Contract.OptimismPortal,
-        }
-      )
-    ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress');
-  });
-      
+  await expect(async () =>
+    resolveL1OpStackContractAddress(
+      {
+        l2Chain: undefined,
+        chain: publicClient.chain,
+        contract: OpStackL1Contract.OptimismPortal,
+      },
+    )
+  ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress')
+})
+
 test('raises error if L1 mismatch', async () => {
-    // Create a mock of publicClient with the modified chain ID
-    const mockClient = { ...publicClient, chain: { id: 0 } as Chain };
-  
-    await expect(async () =>
-      resolveL1OpStackContractAddress(
-        {
-          l2Chain: base,
-          chain: mockClient.chain,
-          contract: OpStackL1Contract.OptimismPortal,
-        },
-      )
-    ).rejects.toThrowError('Chain ID "0" does not match expected L1 chain ID "1"');
-});
-    
+  // Create a mock of publicClient with the modified chain ID
+  const mockClient = { ...publicClient, chain: { id: 0 } as Chain }
+
+  await expect(async () =>
+    resolveL1OpStackContractAddress(
+      {
+        l2Chain: base,
+        chain: mockClient.chain,
+        contract: OpStackL1Contract.OptimismPortal,
+      },
+    )
+  ).rejects.toThrowError('Chain ID "0" does not match expected L1 chain ID "1"')
+})
