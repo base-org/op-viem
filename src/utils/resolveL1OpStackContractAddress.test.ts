@@ -20,6 +20,7 @@ test('resolves Base OptimismPortal contract address', async () => {
 test('raises error if chain undefined', async () => {
   await expect(async () =>
     resolveL1OpStackContractAddress(
+      // @ts-expect-error
       {
         l2Chain: undefined,
         chain: publicClient.chain,
