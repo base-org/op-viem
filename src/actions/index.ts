@@ -15,6 +15,7 @@ export {
   getSecondsToNextL2Output,
   type GetSecondsToNextL2OutputParameters,
 } from './public/L1/getSecondsToNextL2Output.js'
+export { readFinalizedWithdrawals, type ReadFinalizedWithdrawalsParameters } from './public/L1/readFinalizedWithdrawals.js'
 export { readProvenWithdrawals, type ReadProvenWithdrawalsParameters } from './public/L1/readProvenWithdrawals.js'
 export {
   simulateDepositERC20,
