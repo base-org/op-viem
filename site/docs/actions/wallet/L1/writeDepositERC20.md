@@ -2,8 +2,6 @@
 
 Writes a deposit of ERC20 tokens from L1 to L2.
 
-::: code-group
-
 ```ts [example.ts]
 import { base, walletL1OpStackActions } from 'op-viem'
 import { createWalletClient } from 'viem'
@@ -28,8 +26,6 @@ const { request } = await walletClient.writeDepositERC20({
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
-
-:::
 
 ## Return Value
 

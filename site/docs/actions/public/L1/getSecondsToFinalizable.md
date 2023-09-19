@@ -2,8 +2,6 @@
 
 Returns the number of seconds until a withdrawal is finalized for a given withdrawal hash. Will return 0 if seconds would be negative.
 
-::: code-group
-
 ```ts [example.ts]
 import { publicL1Actions } from 'op-viem'
 import { createPublicClient } from 'viem'
@@ -21,15 +19,13 @@ const seconds = await getSecondsToFinalizable(publicClient, {
 })
 ```
 
-:::
-
 ## Return Value
 
 Returns a `number` representative of the seconds until withdrawal finalization.
 
 ## Parameters
 
-### l2chain
+### l2chain (optional)
 
 - **Type:** `OpStackChain`
 

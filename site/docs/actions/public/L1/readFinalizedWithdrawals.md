@@ -2,8 +2,6 @@
 
 Returns a boolean for whether the withdrawal of a given withdrawl hash has been finalized.
 
-::: code-group
-
 ```ts [example.ts]
 import { publicL1Actions } from 'op-viem'
 import { createPublicClient } from 'viem'
@@ -20,8 +18,6 @@ const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
 ```
-
-:::
 
 ## Return Value
 
