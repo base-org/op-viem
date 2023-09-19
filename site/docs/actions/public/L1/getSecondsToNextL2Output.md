@@ -2,8 +2,6 @@
 
 Returns how long until the next L2 output, for a given chain, is posted on L1. This is useful when waiting to prove a withdrawal.
 
-::: code-group
-
 ```ts [example.ts]
 const l2Client = createPublicClient({
   chain: base,
@@ -21,8 +19,6 @@ const time = await l1Client.getSecondsToNextL2Output(, {
   l2Chain: base,
 })
 ```
-
-:::
 
 ## Return Value
 

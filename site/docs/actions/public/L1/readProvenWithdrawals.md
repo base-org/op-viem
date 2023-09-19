@@ -2,8 +2,6 @@
 
 Returns a `ProvenWithdrawal` struct containing the `outputRoot`, `timestamp`, and `l2OutputIndex` for a given withdrawal hash. Returns error if withdrawal has not been proven.
 
-::: code-group
-
 ```ts [example.ts]
 import { publicL1Actions } from 'op-viem'
 import { createPublicClient } from 'viem'
@@ -20,8 +18,6 @@ const provenWithdrawal = await readProvenWithdrawals(publicClient, {
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
 ```
-
-:::
 
 ## Return Value
 
