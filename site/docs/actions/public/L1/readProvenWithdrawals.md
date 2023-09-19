@@ -29,14 +29,20 @@ Returns an object that represents a `ProvenWithdrawl` struct that contains the `
 
 ## Parameters
 
-### l2chain
+### l2chain (optional)
 
 - **Type:** `OpStackChain`
+
+### optimismPortalAddress (optional)
+
+- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
 
 The L2 chain to deposit to.
 
 ### withdrawalHash
 
-- **Type:** `0x{string}`
+- **Type:** `Hex`
 
 The hash of the withdrawal

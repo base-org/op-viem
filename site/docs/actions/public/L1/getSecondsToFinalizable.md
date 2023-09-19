@@ -31,8 +31,14 @@ Returns a `number` representative of the seconds until withdrawal finalization.
 
 The L2 chain to deposit to.
 
+### optimismPortalAddress (optional)
+
+- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
+
+The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
+
 ### withdrawalHash
 
-- **Type:** `0x{string}`
+- **Type:** `Hex`
 
 The hash of the withdrawal
