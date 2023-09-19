@@ -17,6 +17,19 @@ test('resolves Base OptimismPortal contract address', async () => {
   expect(resolvedPortalAddress).toEqual('0x49048044D57e1C92A77f79988d21Fa8fAF74E97e')
 })
 
+test('returns address if provided', async () => {
+  const resolvedAddress = resolveL1OpStackContractAddress(
+    {
+      l2Chain: undefined,
+      chain: publicClient.chain,
+      contract: OpStackL1Contract.OptimismPortal,
+      address: '0x0000000000000000000000000000000000000001',
+    },
+  )
+
+  expect(resolvedAddress).toEqual('0x0000000000000000000000000000000000000001')
+})
+
 test('raises error if chain undefined', async () => {
   await expect(async () =>
     resolveL1OpStackContractAddress(
