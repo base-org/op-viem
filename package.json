@@ -88,6 +88,7 @@
     "format:check": "dprint check",
     "lint": "biome check .",
     "lint:fix": "pnpm lint --apply",
+    "preinstall": "npx only-allow pnpm",
     "test": "vitest dev",
     "test:cov": "vitest dev --coverage",
     "test:ci": "CI=true vitest --coverage",
