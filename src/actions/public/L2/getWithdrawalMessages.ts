@@ -1,7 +1,7 @@
 import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
 import { type Chain, decodeEventLog, type Hash, type PublicClient, type TransactionReceipt, type Transport } from 'viem'
-import type { MessagePassedEvent } from '../../../types/withdrawal.js'
 import { getTransactionReceipt } from 'viem/actions'
+import type { MessagePassedEvent } from '../../../types/withdrawal.js'
 
 export type GetWithdrawalMessagesParameters = {
   hash: Hash

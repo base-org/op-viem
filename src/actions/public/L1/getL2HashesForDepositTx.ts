@@ -1,7 +1,7 @@
 import type { Chain, Hash, PublicClient, TransactionReceipt, Transport } from 'viem'
+import { getTransactionReceipt } from 'viem/actions'
 import { getL2HashFromL1DepositInfo } from '../../../utils/getL2HashFromL1DepositInfo.js'
 import { getTransactionDepositedEvents } from '../../../utils/getTransactionDepositedEvents.js'
-import { getTransactionReceipt } from 'viem/actions'
 
 export type GetL2HashesForDepositTxParamters = {
   l1TxHash: Hash
