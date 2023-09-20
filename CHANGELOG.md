@@ -1,6 +1,6 @@
 # op-viem
 
-## 0.0.1-alpha.5
+## 0.0.1-alpha.6
 
 ### Patch Changes
 
