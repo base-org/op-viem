@@ -2,8 +2,6 @@
 
 Get the L2 transaction hash for a given L1 deposit transaction.
 
-::: code-group
-
 ```ts [example.ts]
 import { getL2HashFromL1DepositInfo, TransactionDepositedEvent } from 'op-viem'
 
@@ -28,8 +26,6 @@ const hash = getL2HashFromL1DepositInfo({
   l1BlockHash: blockHash,
 })
 ```
-
-:::
 
 ## Returns
 

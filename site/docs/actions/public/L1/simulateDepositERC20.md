@@ -2,8 +2,6 @@
 
 Simulates a deposit of ERC20 tokens to L2.
 
-::: code-group
-
 ```ts [example.ts]
 import { base, publicL1Actions } from 'op-viem'
 import { createPublicClient } from 'viem'
@@ -29,8 +27,6 @@ const { request } = await publicClient.simulateDepositERC20({
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
-
-:::
 
 ## Return Value
 
