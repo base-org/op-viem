@@ -41,7 +41,7 @@ The address of the `OptimismPortal` contract where the `readProvenWithdrawals` c
 
 - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
-The address of the L2OutputOracle contract. MUST be provied if [l2Chain](l2chain-optional) is not.
+The address of the L2OutputOracle contract where the `FINALIZATION_PERIOD_SECONDS` call will be made. MUST be provied if [l2Chain](l2chain-optional) is not.
 
 ### withdrawalHash
 
