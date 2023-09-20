@@ -35,7 +35,7 @@ The L2 chain to deposit to.
 
 - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
-The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
+The address of the `OptimismPortal` contract where the `readProvenWithdrawals` call will be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
 
 ### l2OutputOracleAddress (optional)
 
