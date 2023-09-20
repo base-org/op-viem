@@ -3,7 +3,7 @@ import { privateKeyToAccount } from 'viem/accounts'
 import { estimateGas } from 'viem/actions'
 import { goerli } from 'viem/chains'
 import { test } from 'vitest'
-import type { DepositTransactionParameters } from '../actions/wallet/L1/writeUnsafeDepositTransaction.js'
+import type { DepositTransactionParameters } from '../actions/wallet/L1/writeDepositTransaction.js'
 import { baseGoerli } from '../chains/baseGoerli.js'
 import { publicL1OpStackActions } from '../decorators/publicL1OpStackActions.js'
 import { walletL1OpStackActions } from '../decorators/walletL1OpStackActions.js'
@@ -45,7 +45,7 @@ test('correctly retrieves L2 hash', async () => {
 
   args.gasLimit = gas
 
-  const depositHash = await walletClient.writeUnsafeDepositTransaction({
+  const depositHash = await walletClient.writeDepositTransaction({
     l2Chain: baseGoerli,
     args,
     value: 1n,

@@ -7,11 +7,11 @@ import { publicClient, rollupPublicClient, rollupWalletClient, testClient, walle
 import { base } from '../../../chains/index.js'
 import { type TransactionDepositedEvent } from '../../../types/depositTransaction.js'
 import type { OpStackChain } from '../../../types/opStackChain.js'
-import { type DepositTransactionParameters, writeUnsafeDepositTransaction } from './writeUnsafeDepositTransaction.js'
+import { type DepositTransactionParameters, writeDepositTransaction } from './writeDepositTransaction.js'
 
 test('default', async () => {
   expect(
-    await writeUnsafeDepositTransaction(walletClient, {
+    await writeDepositTransaction(walletClient, {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         value: 1n,
@@ -44,7 +44,7 @@ test('sends transaction to correct infered address', async () => {
 
   args.gasLimit = gas
 
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
+  const hash = await writeDepositTransaction(walletClient, {
     args,
     value: 1n,
     l2Chain: base,
@@ -61,7 +61,7 @@ test('sends transaction to correct infered address', async () => {
 
 test('sends transaction to correct explicit address', async () => {
   const portal: Address = '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed'
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
+  const hash = await writeDepositTransaction(walletClient, {
     args: {
       to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
       value: 1n,
@@ -86,7 +86,7 @@ test('creates correct deposit transaction', async () => {
     data: '0x',
     isCreation: false,
   }
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
+  const hash = await writeDepositTransaction(walletClient, {
     args,
     value: args.value!,
     l2Chain: base,
@@ -122,7 +122,7 @@ test('correctly passes arugments', async () => {
     isCreation: false,
   }
 
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
+  const hash = await writeDepositTransaction(walletClient, {
     args,
     l2Chain: base,
     account: accounts[0].address,
@@ -148,7 +148,7 @@ test('uses defaults for data, isCreation, and value', async () => {
     gasLimit: 25000n,
   }
 
-  const hash = await writeUnsafeDepositTransaction(walletClient, {
+  const hash = await writeDepositTransaction(walletClient, {
     args,
     l2Chain: base,
     account: accounts[0].address,
@@ -170,7 +170,7 @@ test('uses defaults for data, isCreation, and value', async () => {
 test('errors if l2Chain and optimismPortalAddress both not passed', async () => {
   expect(() =>
     // @ts-expect-error
-    writeUnsafeDepositTransaction(walletClient, {
+    writeDepositTransaction(walletClient, {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         gasLimit: 25000n,
@@ -193,7 +193,7 @@ test('errors if chain.id does not match l1.chainId', async () => {
   } as const satisfies OpStackChain
 
   expect(() =>
-    writeUnsafeDepositTransaction(walletClient, {
+    writeDepositTransaction(walletClient, {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         gasLimit: 25000n,
@@ -218,7 +218,7 @@ test('works if override chain id matches l1.id', async () => {
   } as const satisfies OpStackChain
 
   expect(
-    await writeUnsafeDepositTransaction(walletClient, {
+    await writeDepositTransaction(walletClient, {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         gasLimit: 25000n,
