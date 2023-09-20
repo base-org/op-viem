@@ -179,15 +179,6 @@ export default defineConfig({
               },
             ],
           },
-          {
-            text: 'General',
-            items: [
-              {
-                text: 'resolveL1OpStackContractAddress',
-                link: '/docs/utilities/general/resolveL1OpStackContractAddress',
-              },
-            ],
-          },
         ],
       },
       {
