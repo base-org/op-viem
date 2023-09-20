@@ -1,6 +1,7 @@
 import { l2ToL1MessagePasserABI } from '@eth-optimism/contracts-ts'
 import { type Chain, decodeEventLog, type Hash, type PublicClient, type TransactionReceipt, type Transport } from 'viem'
 import type { MessagePassedEvent } from '../../../types/withdrawal.js'
+import { getTransactionReceipt } from 'viem/actions'
 
 export type GetWithdrawalMessagesParameters = {
   hash: Hash
@@ -23,7 +24,7 @@ export async function getWithdrawalMessages<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   { hash, txReceipt }: GetWithdrawalMessagesParameters,
 ): Promise<GetWithdrawalMessagesReturnType> {
-  const receipt = txReceipt ?? await client.getTransactionReceipt({ hash })
+  const receipt = txReceipt ?? await getTransactionReceipt(client, { hash })
   const messages: MessagePassedEvent[] = []
   for (const log of receipt.logs) {
     /// These transactions will contain events from several contracts
