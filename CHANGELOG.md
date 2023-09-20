@@ -1,5 +1,11 @@
 # op-viem
 
+## 0.0.1-alpha.6
+
+### Patch Changes
+
+- Export writeFinalizeWithdrawTransaction and fix getProveWithdrawalTransactionArgs
+
 ## 0.0.1-alpha.5
 
 ### Patch Changes

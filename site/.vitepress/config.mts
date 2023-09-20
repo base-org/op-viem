@@ -21,6 +21,7 @@ export default defineConfig({
         text: 'Introduction',
         items: [
           { text: 'Getting started', link: '/' },
+          { text: 'Examples', link: '/docs/examples' },
         ],
       },
       {
@@ -109,26 +110,34 @@ export default defineConfig({
                 link: '/docs/actions/wallet/L1/writeDepositETH',
               },
               {
-                text: 'writeUnsafeDepositTransaction',
-                link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
+                text: 'writeFinalizeWithdrawalTransaction',
+                link: '/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction',
               },
               {
-                text: 'writeSendMessage',
-                link: '/docs/actions/wallet/L1/writeSendMessage',
+                text: 'writeOpStackL1',
+                link: '/docs/actions/wallet/L1/writeOpStackL1',
               },
               {
                 text: 'writeProveWithdrawalTransaction',
                 link: '/docs/actions/wallet/L1/writeProveWithdrawalTransaction',
               },
               {
-                text: 'writeFinalizeWithdrawalTransaction',
-                link: '/docs/actions/wallet/L1/writeFinalizeWithdrawalTransaction',
+                text: 'writeSendMessage',
+                link: '/docs/actions/wallet/L1/writeSendMessage',
+              },
+              {
+                text: 'writeUnsafeDepositTransaction',
+                link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
               },
             ],
           },
           {
             text: 'L2',
             items: [
+              {
+                text: 'writeOpStackL2',
+                link: '/docs/actions/wallet/L2/writeOpStackL2',
+              },
               {
                 text: 'writeWithdrawETH',
                 link: '/docs/actions/wallet/L2/writeWithdrawETH',

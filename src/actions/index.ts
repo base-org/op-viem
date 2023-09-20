@@ -59,6 +59,10 @@ export {
 } from './public/L2/simulateWithdrawETH.js'
 export { writeDepositERC20, type WriteDepositERC20Parameters } from './wallet/L1/writeDepositERC20.js'
 export { writeDepositETH, type WriteDepositETHParameters } from './wallet/L1/writeDepositETH.js'
+export {
+  writeFinalizeWithdrawalTranasction,
+  type WriteFinalizeWithdrawalTransactionParameters,
+} from './wallet/L1/writeFinalizeWithdrawalTransaction.js'
 export { writeOpStackL1, type WriteOpStackL1Parameters } from './wallet/L1/writeOpStackL1.js'
 export {
   writeProveWithdrawalTransaction,

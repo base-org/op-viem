@@ -1,7 +1,10 @@
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
+import { accounts } from '../../../_test/constants.js'
+import { walletClient } from '../../../_test/utils.js'
 import { base } from '../../../chains/index.js'
+import { writeProveWithdrawalTransaction } from '../../index.js'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block.js'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs.js'
 import { getWithdrawalMessages } from './getWithdrawalMessages.js'
@@ -9,7 +12,7 @@ import { getWithdrawalMessages } from './getWithdrawalMessages.js'
 // from OP SDK getMessageBedrockOutput
 const expectedResult = {
   outputRootProof: {
-    version: '0x0',
+    version: '0x0000000000000000000000000000000000000000000000000000000000000000',
     stateRoot: '0xe909d5e15d0c6146b47ebd1607c3182af86e18485f7f305fa2021917497d5d98',
     messagePasserStorageRoot: '0x063558cfefd548f5e1e10bb279d77f844e0c1600b82e001b61dc39d8a110c99d',
     latestBlockhash: '0xbabd4c84a2ae4686fe3a2316e506fbdf7a29186ec0bdfb4b0c94dfed235f59ba',
@@ -58,4 +61,11 @@ test('correctly generates args', async () => {
   // rome-ignore lint: ok unused variable
   const { withdrawalHash, ...withdrawalTransaction } = withdrawalMessages.messages[0]
   expect(args.withdrawalTransaction).toEqual(withdrawalTransaction)
+
+  const hash = await writeProveWithdrawalTransaction(walletClient, {
+    args,
+    l2Chain: base,
+    account: accounts[0].address,
+  })
+  expect(hash).toBeDefined()
 })

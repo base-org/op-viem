@@ -14,6 +14,7 @@ describe('Computes L1 prove args from L2 tx hash', () => {
   bench(
     'op-viem: `getWithdrawalMessages, getOutputForL2Block, getProveArgsForWithdrawal`',
     async () => {
+      // cannot currently use anvil rollupPublicClient for this as eth_getProof isn't working
       const client = createPublicClient({
         chain: base,
         transport: http(),
@@ -38,9 +39,6 @@ describe('Computes L1 prove args from L2 tx hash', () => {
         output: output,
       })
     },
-    // these test take a while to run and I worry we'll get throttled by RPC since
-    // we're using live for now
-    { iterations: 2 },
   )
 
   bench(
@@ -60,6 +58,5 @@ describe('Computes L1 prove args from L2 tx hash', () => {
       })
       await messenger.getBedrockMessageProof(hash)
     },
-    { iterations: 2 },
   )
 })
