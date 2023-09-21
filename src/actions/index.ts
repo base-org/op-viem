@@ -60,6 +60,11 @@ export {
 export { writeDepositERC20, type WriteDepositERC20Parameters } from './wallet/L1/writeDepositERC20.js'
 export { writeDepositETH, type WriteDepositETHParameters } from './wallet/L1/writeDepositETH.js'
 export {
+  type DepositTransactionParameters,
+  writeDepositTransaction,
+  type WriteDepositTransactionParameters,
+} from './wallet/L1/writeDepositTransaction.js'
+export {
   writeFinalizeWithdrawalTranasction,
   type WriteFinalizeWithdrawalTransactionParameters,
 } from './wallet/L1/writeFinalizeWithdrawalTransaction.js'
@@ -73,11 +78,6 @@ export {
   writeSendMessage,
   type WriteSendMessageParameters,
 } from './wallet/L1/writeSendMessage.js'
-export {
-  type DepositTransactionParameters,
-  writeUnsafeDepositTransaction,
-  type WriteUnsafeDepositTransactionParameters,
-} from './wallet/L1/writeUnsafeDepositTransaction.js'
 export { writeOpStackL2, type WriteOpStackL2Parameters } from './wallet/L2/writeOpStackL2.js'
 export { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './wallet/L2/writeWithdrawERC20.js'
 export { writeWithdrawETH, type WriteWithdrawETHParameters } from './wallet/L2/writeWithdrawETH.js'

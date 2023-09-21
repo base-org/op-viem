@@ -126,8 +126,8 @@ export default defineConfig({
                 link: '/docs/actions/wallet/L1/writeSendMessage',
               },
               {
-                text: 'writeUnsafeDepositTransaction',
-                link: '/docs/actions/wallet/L1/writeUnsafeDepositTransaction',
+                text: 'writeDepositTransaction',
+                link: '/docs/actions/wallet/L1/writeDepositTransaction',
               },
             ],
           },

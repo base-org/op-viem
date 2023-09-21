@@ -3,6 +3,10 @@ import type { WalletClient } from 'viem'
 import { writeDepositERC20, type WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20.js'
 import { writeDepositETH, type WriteDepositETHParameters } from '../actions/wallet/L1/writeDepositETH.js'
 import {
+  writeDepositTransaction,
+  type WriteDepositTransactionParameters,
+} from '../actions/wallet/L1/writeDepositTransaction.js'
+import {
   writeFinalizeWithdrawalTranasction,
   type WriteFinalizeWithdrawalTransactionParameters,
 } from '../actions/wallet/L1/writeFinalizeWithdrawalTransaction.js'
@@ -10,10 +14,6 @@ import {
   writeProveWithdrawalTransaction,
   type WriteProveWithdrawalTransactionParameters,
 } from '../actions/wallet/L1/writeProveWithdrawalTransaction.js'
-import {
-  writeUnsafeDepositTransaction,
-  type WriteUnsafeDepositTransactionParameters,
-} from '../actions/wallet/L1/writeUnsafeDepositTransaction.js'
 
 export type WalletL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
@@ -29,10 +29,10 @@ export type WalletL1OpStackActions<
   >(
     args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
-  writeUnsafeDepositTransaction: <
+  writeDepositTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
-    args: WriteUnsafeDepositTransactionParameters<
+    args: WriteDepositTransactionParameters<
       TChain,
       TAccount,
       TChainOverride
@@ -66,7 +66,7 @@ export function walletL1OpStackActions<
   client: WalletClient<TTransport, TChain, TAccount>,
 ): WalletL1OpStackActions<TChain, TAccount> {
   return {
-    writeUnsafeDepositTransaction: (args) => writeUnsafeDepositTransaction(client, args),
+    writeDepositTransaction: (args) => writeDepositTransaction(client, args),
     writeDepositETH: (args) => writeDepositETH(client, args),
     writeDepositERC20: (args) => writeDepositERC20(client, args),
     writeProveWithdrawalTransaction: (args) => writeProveWithdrawalTransaction(client, args),
