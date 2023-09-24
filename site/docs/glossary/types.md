@@ -35,4 +35,5 @@ An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b
 An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L79) emitted from a [proveWithdrawalTransaction](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L208) call to the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) contract for a [WithdrawalTransaction](#withdrawtransaction).
 
 ## WithdrawalProof
+
 A dynamic-length array of bytes used in proving transactions in the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L212). The proving transaction [must verify](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L263) that this hash is contained in the L2ToL1MessagePasser's storage.
