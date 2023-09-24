@@ -16,7 +16,7 @@ export type DepositTransactionParameters = {
   data?: Hex
 }
 
-export type WriteUnsafeDepositTransactionParameters<
+export type WriteDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
@@ -32,14 +32,21 @@ export type WriteUnsafeDepositTransactionParameters<
   >
 
 /**
- * Calls depositTransaction directly on the OptimismPortal contract.
- * Marked 'unsafe' becaused does not offer replayability incase the
- * L2 tx fails.
+ * Calls depositTransaction on the OptimismPortal contract.
  *
- * @param parameters - {@link WriteUnsafeDepositTransactionParameters}
+ * Unlike writeSendMessage, does not offer replayability on L2 incase the L2 tx fails.
+ * But has the advantage that, if the caller is an EOA, msg.sender of the L2 tx
+ * will be the caller address. Allowing users to fully tranasact on L2 from L1, which
+ * is a critical security property.
+ *
+ * If the caller is not an EOA, e.g. if the caller is a smart contract wallet,
+ * msg.sender on L2 will be alias of the caller address
+ * https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L407
+ *
+ * @param parameters - {@link WriteDepositTransactionParameters}
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
-export async function writeUnsafeDepositTransaction<
+export async function writeDepositTransaction<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined = undefined,
@@ -49,7 +56,7 @@ export async function writeUnsafeDepositTransaction<
     args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
     optimismPortalAddress,
     ...rest
-  }: WriteUnsafeDepositTransactionParameters<
+  }: WriteDepositTransactionParameters<
     TChain,
     TAccount,
     TChainOverride

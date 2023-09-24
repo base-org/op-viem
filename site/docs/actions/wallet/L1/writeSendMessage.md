@@ -120,7 +120,7 @@ await walletClient.writeSendMessage({
 Value in wei sent with this transaction. This value will be credited to the balance of the caller address on L2 _before_ the L2 transaction created by this transaction is made.
 
 ```ts
-await walletClient.writeUnsafeDepositTransaction({
+await walletClient.writeDepositTransaction({
   args,
   optimismPortalAddress: portal,
   value: parseEther(1), // [!code focus:1]

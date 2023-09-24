@@ -1,6 +1,14 @@
 # op-viem
 
-## 0.0.1-alpha.5
+## 0.0.1-alpha.7
+
+### Patch Changes
+
+- 86f8263: writeUnsafeDepositTransaction -> writeDepositTransaction
+- 745a65a: Fix getTransactionHash to use un-decorated function for better tree shaking
+- 6938582: Add readFinalizedWithdrawals to decorator and export in actions
+
+## 0.0.1-alpha.6
 
 ### Patch Changes
 
