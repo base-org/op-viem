@@ -11,7 +11,7 @@ import {
 } from 'viem'
 import { OpStackL1Contract } from '../../../index.js'
 import type { GetL2Chain, L1ActionBaseType, ResolveChain } from '../../../types/l1Actions.js'
-import { writeSendMessage, type WriteSendMessageParameters } from './writeSendMessage.js'
+import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
 
 export type WriteContractDepositParameters<
   TAbi extends Abi | readonly unknown[] = Abi,
@@ -20,14 +20,20 @@ export type WriteContractDepositParameters<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & { minGasLimit: number }
-  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, typeof OpStackL1Contract.L1CrossDomainMessenger>
-  & WriteContractParameters<
-    TAbi,
-    TFunctionName,
-    TChain,
-    TAccount,
-    TChainOverride
+  & { l2GasLimit: bigint; l2MsgValue?: bigint }
+  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, typeof OpStackL1Contract.OptimismPortal>
+  & Omit<
+    WriteContractParameters<
+      TAbi,
+      TFunctionName,
+      TChain,
+      TAccount,
+      TChainOverride
+    >, // NOTE(Wilson):
+    // In the future we could possibly allow value to be passed, creating an L2 mint
+    // as writeDepositTransaction does but I want to avoid for now as it complicates
+    // simulating the L2 transaction that results from this call, as we have no to mock/simulate the L2 mint.
+    'value'
   >
 
 /**
@@ -51,9 +57,10 @@ export async function writeContractDeposit<
     address,
     args,
     functionName,
-    minGasLimit,
+    l2GasLimit,
+    l2MsgValue = 0n,
     l2Chain,
-    l1CrossDomainMessengerAddress,
+    optimismPortalAddress,
     ...request
   }: WriteContractDepositParameters<
     TAbi,
@@ -68,10 +75,10 @@ export async function writeContractDeposit<
     args,
     functionName,
   } as unknown as EncodeFunctionDataParameters<TAbi, TFunctionName>)
-  return writeSendMessage(client, {
-    l1CrossDomainMessengerAddress,
+  return writeDepositTransaction(client, {
+    optimismPortalAddress,
     l2Chain,
-    args: { minGasLimit, target: address, message: calldata },
+    args: { gasLimit: l2GasLimit, to: address, data: calldata, value: l2MsgValue },
     ...request,
-  } as unknown as WriteSendMessageParameters<TChain, TAccount, TChainOverride>)
+  } as unknown as WriteDepositTransactionParameters<TChain, TAccount, TChainOverride>)
 }
