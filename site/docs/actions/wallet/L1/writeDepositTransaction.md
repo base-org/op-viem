@@ -1,12 +1,10 @@
-# writeUnsafeDepositTransaction
+# writeDepositTransaction
 
 Excutes a [depositTransaction](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L374) call to the [`OptimismPortal`](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) contract.
 
-::: danger
+Unlike [writeSendMessage](docs/actions/wallet/L1/writeSendMessage), using this call does not offer replayability on L2 in the case the L2 tx fails. But this call has the advantage that, if the caller is an EOA, msg.sender of the L2 tx will be the caller address. Allowing users to fully tranasact on L2 from L1, which is a critical security property.
 
-Interacting directly the portal offers no replayability. For example, if you are sending ETH and your L2 transaction fails––because the gas limit is too low or something else goes wrong––your ETH will be in the `OptimismPortal` on L1 but you'll have nothing on L2: i.e. your ETH will be stuck indefinitely. You can read more about replays here and deposit transactions [here](https://community.optimism.io/docs/protocol/deposit-flow/#replaying-messages).
-
-:::
+If the caller is not an EOA, e.g. if the caller is a smart contract wallet, msg.sender on L2 will be [alias](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L407) of the caller address.
 
 ::: warning
 
@@ -42,7 +40,7 @@ const gas = await l2PublicClient.estimateGas({
 
 args.gasLimit = gas
 
-const hash = await opStackL1WalletClient.writeUnsafeDepositTransaction({
+const hash = await opStackL1WalletClient.writeDepositTransaction({
   args,
   l2Chain: base,
   value: 1n,
@@ -110,7 +108,7 @@ A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
   - The calldata of the L2 transaction
 
 ```ts
-await walletClient.writeUnsafeDepositTransaction({
+await walletClient.writeDepositTransaction({
   args: { // [!code focus:7]
     to: account.address,
     value: 1n,
@@ -129,7 +127,7 @@ await walletClient.writeUnsafeDepositTransaction({
 The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.optimismPortal.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [optimismPortalAddress](#optimismPortalAddress) must be passed explicitly.
 
 ```ts
-await walletClient.writeUnsafeDepositTransaction({
+await walletClient.writeDepositTransaction({
   args,
   l2Chain: base, // [!code focus:1]
 })
@@ -142,7 +140,7 @@ await walletClient.writeUnsafeDepositTransaction({
 The `OptimismPortal` contract where the depositTransaction call should be made.
 
 ```ts
-await walletClient.writeUnsafeDepositTransaction({
+await walletClient.writeDepositTransaction({
   args,
   optimismPortalAddress: portal, // [!code focus:1]
 })
@@ -155,7 +153,7 @@ await walletClient.writeUnsafeDepositTransaction({
 Value in wei sent with this transaction. This value will be credited to the balance of the caller address on L2 _before_ the L2 transaction created by this transaction is made.
 
 ```ts
-await walletClient.writeUnsafeDepositTransaction({
+await walletClient.writeDepositTransaction({
   args,
   optimismPortalAddress: portal,
   value: parseEther(1), // [!code focus:1]

@@ -52,7 +52,7 @@ opStackL1PublicClient.getOutputForL2Block(blockNumber: 2725977n, l2Chain: base)
 
 Check out the following places for more viem-related content:
 
-- Follow [@wilsoncuask](https://twitter.com/wilsoncuask) Twitter for project updates
+- Follow [@wilsoncusack](https://twitter.com/wilsoncusack) Twitter for project updates
 
 ## Contributing
 

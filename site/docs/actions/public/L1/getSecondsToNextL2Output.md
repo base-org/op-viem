@@ -2,7 +2,7 @@
 
 Returns how long until the next L2 output, for a given chain, is posted on L1. This is useful when waiting to prove a withdrawal.
 
-```ts
+```ts [example.ts]
 const l2Client = createPublicClient({
   chain: base,
   transport: http(),
