@@ -4,7 +4,11 @@ A deposit transaction is a special type of transaction format specific to the OP
 
 ## MessagePassedEvent
 
+An event declared in the [L2ToL1MessagePasser](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L2/L2ToL1MessagePasser.sol#L37) that is [emitted](https://github.com/ethereum-optimism/optimism/blob/62c7f3b05a70027b30054d4c8974f44000606fb7/packages/contracts-bedrock/contracts/L2/L2ToL1MessagePasser.sol#L116-L124) when a [WithdrawTransaction](#withdrawtransaction) is initiated.
+
 ## OutputRootProof
+
+A struct used in the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) that represents a snapshot of L2 state. Defined in the [Types](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/libraries/Types.sol#L25) library. Used in proving withdrawal transactions.
 
 ## SourceHash
 
@@ -20,6 +24,8 @@ An [event](https://github.com/ethereum-optimism/optimism/blob/develop/packages/c
 
 ## WithdrawTransaction
 
+A withdraw transaction is a special type of transaction format specific to the OP Stack. It is for creating L1 transactions from L2. The withdrawal flow consists of three parts. First, there is the withdraw initiating transaction which the user submits on L2 and emits a [MessagePassedEvent](#messagepassedevent). Second, there is the withdrawal proving transaction which is submitted on L1 by the user to prove legitimacy of the withdrawal. This transaction emits a [WithdrawalProvenEvent](#withdrawalprovenevent). Lastly, there is the withdrawal finalizing transaction which is submitted on L1 by the user after the fault challenge period has passed which emits a [WithdrawalFinalizedEvent](#withdrawalfinalizedevent) and executes the transaction on L1.
+
 ## WithdrawalFinalizedEvent
 
 An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L84) emitted from a [finalizeWithdrawalTransaction](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L283) call to the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) contract for a [WithdrawalTransaction](#withdrawtransaction).
@@ -29,3 +35,4 @@ An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b
 An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L79) emitted from a [proveWithdrawalTransaction](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b144389cc39011fff3b0147/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L208) call to the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L1/OptimismPortal.sol) contract for a [WithdrawalTransaction](#withdrawtransaction).
 
 ## WithdrawalProof
+A dynamic-length array of bytes used in proving transactions in the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L212). The proving transaction [must verify](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L263) that this hash is contained in the L2ToL1MessagePasser's storage.
