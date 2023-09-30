@@ -1,6 +1,7 @@
 import {
   type Abi,
   type Account,
+  type Address,
   type Chain,
   encodeFunctionData,
   type EncodeFunctionDataParameters,
@@ -9,6 +10,8 @@ import {
   type WriteContractParameters,
   type WriteContractReturnType,
 } from 'viem'
+import { getBytecode } from 'viem/actions'
+import { parseAccount } from 'viem/utils'
 import { OpStackL1Contract } from '../../../index.js'
 import type { GetL2Chain, L1ActionBaseType, ResolveChain } from '../../../types/l1Actions.js'
 import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
@@ -20,7 +23,7 @@ export type WriteContractDepositParameters<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
-  & { l2GasLimit: bigint; l2MsgValue?: bigint }
+  & { account: TAccount | Address; l2GasLimit: bigint; l2MsgValue?: bigint; strict?: boolean }
   & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, typeof OpStackL1Contract.OptimismPortal>
   & Omit<
     WriteContractParameters<
@@ -33,7 +36,7 @@ export type WriteContractDepositParameters<
     // In the future we could possibly allow value to be passed, creating an L2 mint
     // as writeDepositTransaction does but I want to avoid for now as it complicates
     // simulating the L2 transaction that results from this call, as we have no to mock/simulate the L2 mint.
-    'value'
+    'value' | 'account'
   >
 
 /**
@@ -54,6 +57,7 @@ export async function writeContractDeposit<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     abi,
+    account: account_ = client.account,
     address,
     args,
     functionName,
@@ -61,6 +65,7 @@ export async function writeContractDeposit<
     l2MsgValue = 0n,
     l2Chain,
     optimismPortalAddress,
+    strict = true,
     ...request
   }: WriteContractDepositParameters<
     TAbi,
@@ -75,10 +80,25 @@ export async function writeContractDeposit<
     args,
     functionName,
   } as unknown as EncodeFunctionDataParameters<TAbi, TFunctionName>)
+  if (!account_) {
+    throw new Error('No account found')
+  }
+  const account = parseAccount(account_)
+
+  if (strict) {
+    const code = await getBytecode(client, { address: account.address })
+    if (code) {
+      throw new Error(
+        'Calling depositTransaction from a smart contract can have unexpected results. Set `strict` to false to disable this check.',
+      )
+    }
+  }
+
   return writeDepositTransaction(client, {
     optimismPortalAddress,
     l2Chain,
     args: { gasLimit: l2GasLimit, to: address, data: calldata, value: l2MsgValue },
+    account,
     ...request,
   } as unknown as WriteDepositTransactionParameters<TChain, TAccount, TChainOverride>)
 }
