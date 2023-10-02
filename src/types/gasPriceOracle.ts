@@ -11,7 +11,7 @@ import type { Chain } from 'viem/chains'
 /**
  * Options to query a specific block
  */
-type BlockOptions = {
+export type BlockOptions = {
   /**
    * Block number to query from
    */

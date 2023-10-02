@@ -1,7 +1,6 @@
 import { gasPriceOracleABI, gasPriceOracleAddress } from '@eth-optimism/contracts-ts'
 import {
   type Abi,
-  type BlockTag,
   type EncodeFunctionDataParameters,
   type PublicClient,
   type TransactionSerializableEIP1559,
@@ -9,21 +8,8 @@ import {
 } from 'viem'
 import { readContract } from 'viem/actions'
 import { type Chain } from 'viem/chains'
+import type { BlockOptions } from '../../../types/gasPriceOracle.js'
 import { serializeEip1559Transaction } from '../../../utils/transactionSerializer.js'
-
-/**
- * Options to query a specific block
- */
-type BlockOptions = {
-  /**
-   * Block number to query from
-   */
-  blockNumber?: bigint
-  /**
-   * Block tag to query from
-   */
-  blockTag?: BlockTag
-}
 
 /**
  * Options for all GasPriceOracle methods
