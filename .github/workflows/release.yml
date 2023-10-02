@@ -10,7 +10,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   version:
     name: Release
-    if: github.repository == 'latticexyz/mud'
     runs-on: ubuntu-latest
     permissions:
       contents: write
