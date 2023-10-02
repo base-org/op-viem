@@ -1,4 +1,4 @@
-import { gasPriceOracleABI, gasPriceOracleAddress } from '@eth-optimism/contracts-ts'
+import { gasPriceOracleABI } from '@eth-optimism/contracts-ts'
 import {
   type Abi,
   type EncodeFunctionDataParameters,
@@ -8,6 +8,7 @@ import {
 } from 'viem'
 import { readContract } from 'viem/actions'
 import { type Chain } from 'viem/chains'
+import { opStackL2ChainContracts } from '../../../index.js'
 import type { BlockOptions } from '../../../types/gasPriceOracle.js'
 import { serializeEip1559Transaction } from '../../../utils/transactionSerializer.js'
 
@@ -47,10 +48,13 @@ export type GasPriceOracleEstimator = <
  *  args: [address],
  * });
  */
-export const estimateL1GasUsed: GasPriceOracleEstimator = async (client, options) => {
+export const estimateL1GasUsed: GasPriceOracleEstimator = async (
+  client,
+  options,
+) => {
   const data = serializeEip1559Transaction(options)
   return readContract(client, {
-    address: gasPriceOracleAddress['420'],
+    address: opStackL2ChainContracts.gasPriceOracle.address,
     abi: gasPriceOracleABI,
     blockNumber: options.blockNumber,
     blockTag: options.blockTag,
