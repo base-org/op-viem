@@ -1,31 +1,15 @@
 import { gasPriceOracleABI, gasPriceOracleAddress } from '@eth-optimism/contracts-ts'
-import {
-  type Abi,
-  type EncodeFunctionDataParameters,
-  type PublicClient,
-  type TransactionSerializableEIP1559,
-  type Transport,
-} from 'viem'
+import { type Abi, type PublicClient, type Transport } from 'viem'
 import { readContract } from 'viem/actions'
 import { type Chain } from 'viem/chains'
-import type { BlockOptions } from '../../../types/gasPriceOracle.js'
+import type { OracleTransactionParameters } from '../../../types/gasPriceOracle.js'
 import { serializeEip1559Transaction } from '../../../utils/transactionSerializer.js'
 
-/**
- * Options for all GasPriceOracle methods
- */
-export type GasPriceOracleParameters = BlockOptions
+export type EstimateL1FeeParameters<
+  TAbi extends Abi,
+  TFunctionName extends string | undefined,
+> = OracleTransactionParameters<TAbi, TFunctionName>
 
-/**
- * Options for specifying the transaction being estimated
- */
-export type OracleTransactionParameters<
-  TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
-> =
-  & EncodeFunctionDataParameters<TAbi, TFunctionName>
-  & Omit<TransactionSerializableEIP1559, 'data' | 'type'>
-  & GasPriceOracleParameters
 /**
  * Options for specifying the transaction being estimated
  */
@@ -48,7 +32,10 @@ export type GasPriceOracleEstimator = <
  *   args: [address],
  * });
  */
-export const estimateL1Fee: GasPriceOracleEstimator = async (client, options) => {
+export const estimateL1Fee: GasPriceOracleEstimator = async (
+  client,
+  options,
+) => {
   const data = serializeEip1559Transaction(options)
   return readContract(client, {
     address: gasPriceOracleAddress['420'],

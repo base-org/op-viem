@@ -36,6 +36,9 @@ export {
   type SimulateProveWithdrawalTransactionParameters,
   type SimulateProveWithdrawalTransactionReturnType,
 } from './public/L1/simulateProveWithdrawalTransaction.js'
+export { estimateFees, type EstimateFeesParameters } from './public/L2/estimateFees.js'
+export { estimateL1Fee, type EstimateL1FeeParameters } from './public/L2/estimateL1Fee.js'
+export { estimateL1GasUsed, type GasPriceOracleEstimator } from './public/L2/estimateL1GasUsed.js'
 export {
   getProveWithdrawalTransactionArgs,
   type GetProveWithdrawalTransactionArgsParams,

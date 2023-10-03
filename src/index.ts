@@ -8,6 +8,12 @@ export type { DepositERC20Parameters } from './types/depositERC20.js'
 export type { DepositETHParameters } from './types/depositETH.js'
 export type { DepositTransaction, TransactionDepositedEvent } from './types/depositTransaction.js'
 export { DEPOSIT_TX_PREFIX, SourceHashDomain } from './types/depositTransaction.js'
+export type {
+  BlockOptions,
+  GasPriceOracleEstimator,
+  GasPriceOracleParameters,
+  OracleTransactionParameters,
+} from './types/gasPriceOracle.js'
 export type { OpStackChain, OpStackConfig } from './types/opStackChain.js'
 export {
   OpStackL1Contract,

@@ -1,32 +1,16 @@
 import { gasPriceOracleABI } from '@eth-optimism/contracts-ts'
-import {
-  type Abi,
-  type EncodeFunctionDataParameters,
-  type PublicClient,
-  type TransactionSerializableEIP1559,
-  type Transport,
-} from 'viem'
+import { type Abi, type PublicClient, type Transport } from 'viem'
 import { readContract } from 'viem/actions'
 import { type Chain } from 'viem/chains'
 import { opStackL2ChainContracts } from '../../../index.js'
-import type { BlockOptions } from '../../../types/gasPriceOracle.js'
+import type { OracleTransactionParameters } from '../../../types/gasPriceOracle.js'
 import { serializeEip1559Transaction } from '../../../utils/transactionSerializer.js'
 
-/**
- * Options for all GasPriceOracle methods
- */
-export type GasPriceOracleParameters = BlockOptions
+export type EstimateL1GasUsedParameters<
+  TAbi extends Abi,
+  TFunctionName extends string | undefined,
+> = OracleTransactionParameters<TAbi, TFunctionName>
 
-/**
- * Options for specifying the transaction being estimated
- */
-export type OracleTransactionParameters<
-  TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
-> =
-  & EncodeFunctionDataParameters<TAbi, TFunctionName>
-  & Omit<TransactionSerializableEIP1559, 'data' | 'type'>
-  & GasPriceOracleParameters
 /**
  * Options for specifying the transaction being estimated
  */
