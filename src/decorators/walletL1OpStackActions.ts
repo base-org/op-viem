@@ -1,5 +1,6 @@
-import type { Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import type { Abi, Account, Chain, Transport, WriteContractReturnType } from 'viem'
 import type { WalletClient } from 'viem'
+import { writeContractDeposit, type WriteContractDepositParameters } from '../actions/wallet/L1/writeContractDeposit.js'
 import { writeDepositERC20, type WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20.js'
 import { writeDepositETH, type WriteDepositETHParameters } from '../actions/wallet/L1/writeDepositETH.js'
 import {
@@ -56,6 +57,19 @@ export type WalletL1OpStackActions<
       TChainOverride
     >,
   ) => Promise<WriteContractReturnType>
+  writeContractDeposit: <
+    TAbi extends Abi | readonly unknown[] = Abi,
+    TFunctionName extends string = string,
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: WriteContractDepositParameters<
+      TAbi,
+      TFunctionName,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ) => Promise<WriteContractReturnType>
 }
 
 export function walletL1OpStackActions<
@@ -71,5 +85,6 @@ export function walletL1OpStackActions<
     writeDepositERC20: (args) => writeDepositERC20(client, args),
     writeProveWithdrawalTransaction: (args) => writeProveWithdrawalTransaction(client, args),
     writeFinalizeWithdrawalTransaction: (args) => writeFinalizeWithdrawalTranasction(client, args),
+    writeContractDeposit: (args) => writeContractDeposit(client, args),
   }
 }

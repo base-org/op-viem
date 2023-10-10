@@ -57,6 +57,7 @@ export {
   type SimulateWithdrawETHParameters,
   type SimulateWithdrawETHReturnType,
 } from './public/L2/simulateWithdrawETH.js'
+export { writeContractDeposit, type WriteContractDepositParameters } from './wallet/L1/writeContractDeposit.js'
 export { writeDepositERC20, type WriteDepositERC20Parameters } from './wallet/L1/writeDepositERC20.js'
 export { writeDepositETH, type WriteDepositETHParameters } from './wallet/L1/writeDepositETH.js'
 export {

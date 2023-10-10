@@ -36,7 +36,7 @@ export function getTransactionDepositedEvents({
       })
       if (event.eventName === 'TransactionDeposited') {
         if (!l.logIndex) {
-          throw new Error('Found TransactionDeposited by logIndex undefined')
+          throw new Error('Found TransactionDeposited but logIndex undefined')
         }
         depositEvents.push({ event, logIndex: l.logIndex })
       }
