@@ -49,3 +49,52 @@ test('default', async () => {
     functionName,
   }))
 })
+
+test('throws error if strict = true and account is smart contract wallet', async () => {
+  const scw_address = '0x2De5Aad1bD26ec3fc4F64E95068c02D84Df072C6'
+  await testClient.impersonateAccount({
+    address: scw_address,
+  })
+  const functionName = 'approve'
+  const args: [`0x${string}`, bigint] = ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', 2048n]
+  const l2GasLimit = 100000n
+  expect(() =>
+    writeContractDeposit(walletClient, {
+      abi: erc721ABI,
+      address: '0x6171f829e107f70b58d67594c6b62a7d3eb7f23b',
+      functionName,
+      args,
+      account: scw_address,
+      l2GasLimit,
+      l2Chain: base,
+    })
+  ).rejects.toThrowError(
+    'Calling depositTransaction from a smart contract can have unexpected results, see https://github.com/ethereum-optimism/optimism/blob/develop/specs/deposits.md#address-aliasing. Set `strict` to false to disable this check.',
+  )
+})
+
+test('allows smart contract wallet if strict = false', async () => {
+  const scw_address = '0x2De5Aad1bD26ec3fc4F64E95068c02D84Df072C6'
+  await testClient.impersonateAccount({
+    address: scw_address,
+  })
+  await testClient.setBalance({
+    address: scw_address,
+    value: 10n ** 22n,
+  })
+  const functionName = 'approve'
+  const args: [`0x${string}`, bigint] = ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', 2048n]
+  const l2GasLimit = 100000n
+  expect(
+    await writeContractDeposit(walletClient, {
+      abi: erc721ABI,
+      address: '0x6171f829e107f70b58d67594c6b62a7d3eb7f23b',
+      functionName,
+      args,
+      account: scw_address,
+      l2GasLimit,
+      l2Chain: base,
+      strict: false,
+    }),
+  ).toBeDefined()
+})

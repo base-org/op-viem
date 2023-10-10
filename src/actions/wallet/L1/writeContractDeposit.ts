@@ -40,9 +40,9 @@ export type WriteContractDepositParameters<
   >
 
 /**
- * A L1 -> L2 version of Viem's writeContract. Can be used to call any L2 contract from L1.
- * Internally uses writeSendMessage, which calls to the cross chain messenger contract.
- * NOTE: msg.sender on the call to `address` will NOT be msg.sender on L1, but the L2CrossDomainMessenger.
+ * A L1 -> L2 version of Viem's writeContract. Can be used to create an arbitrary L2 transaction from L1.
+ * NOTE: If caller is a smart contract wallet, msg.sender on the L2 transaction will be an alias of the L1 address.
+ * Must set `strict` = false to allow calling from smart contract wallet.
  *
  * @param parameters - {@link WriteContractDepositParameters}
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
@@ -89,11 +89,10 @@ export async function writeContractDeposit<
     const code = await getBytecode(client, { address: account.address })
     if (code) {
       throw new Error(
-        'Calling depositTransaction from a smart contract can have unexpected results. Set `strict` to false to disable this check.',
+        'Calling depositTransaction from a smart contract can have unexpected results, see https://github.com/ethereum-optimism/optimism/blob/develop/specs/deposits.md#address-aliasing. Set `strict` to false to disable this check.',
       )
     }
   }
-
   return writeDepositTransaction(client, {
     optimismPortalAddress,
     l2Chain,
