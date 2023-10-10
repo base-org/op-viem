@@ -1,12 +1,12 @@
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { decodeEventLog, encodePacked } from 'viem'
+import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
 import { base } from '../../../chains/index.js'
-import { writeDepositETH } from './writeDepositETH.js'
 import type { DepositETHParameters, TransactionDepositedEvent } from '../../../index.js'
-import { mine } from 'viem/actions'
-import { decodeEventLog, encodePacked } from 'viem'
-import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import { writeDepositETH } from './writeDepositETH.js'
 
 test('default', async () => {
   expect(

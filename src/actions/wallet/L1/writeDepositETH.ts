@@ -41,7 +41,7 @@ export async function writeDepositETH<
   >,
 ): Promise<WriteContractReturnType> {
   return writeDepositTransaction(client, {
-    args: {to, value, gasLimit: BigInt(gasLimit), data},
+    args: { to, value, gasLimit: BigInt(gasLimit), data },
     optimismPortalAddress,
     value,
     ...rest,
