@@ -15,7 +15,7 @@ const publicClient = createPublicClient({
 const { request } = await publicClient.simulateDepositETH({
   args: {
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
-    minGasLimit: 100000,
+    gasLimit: 100000,
   },
   value: 1n,
   l2chain: base,
@@ -35,7 +35,7 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
 
 The address to deposit the tokens to.
 
-### minGasLimit
+### gasLimit
 
 - **Type:** `number`
 
