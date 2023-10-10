@@ -98,3 +98,22 @@ test('allows smart contract wallet if strict = false', async () => {
     }),
   ).toBeDefined()
 })
+
+test('throws error if no account passed', async () => {
+  const functionName = 'approve'
+  const args: [`0x${string}`, bigint] = ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', 2048n]
+  const l2GasLimit = 100000n
+  expect(() =>
+    // @ts-expect-error
+    writeContractDeposit(walletClient, {
+      abi: erc721ABI,
+      address: '0x6171f829e107f70b58d67594c6b62a7d3eb7f23b',
+      functionName,
+      args,
+      l2GasLimit,
+      l2Chain: base,
+    })
+  ).rejects.toThrowError(
+    'No account found',
+  )
+})
