@@ -9,7 +9,7 @@ test('default', async () => {
   const { request } = await simulateDepositETH(publicClient, {
     args: {
       to: accounts[0].address,
-      minGasLimit: 100000,
+      gasLimit: 100000,
     },
     value: 1n,
     l2Chain: base,

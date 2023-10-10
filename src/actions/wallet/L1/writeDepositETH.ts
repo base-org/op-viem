@@ -30,8 +30,9 @@ export async function writeDepositETH<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, minGasLimit, extraData = '0x' },
-    l1StandardBridgeAddress,
+    args: { to, gasLimit, extraData = '0x' },
+    optimismPortalAddress,
+    value,
     ...rest
   }: WriteDepositETHParameters<
     TChain,
@@ -40,11 +41,12 @@ export async function writeDepositETH<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: l1StandardBridgeAddress,
+    address: optimismPortalAddress,
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [to, minGasLimit, extraData],
+    args: [to, value, gasLimit, false, extraData],
+    value,
     ...rest,
   } as unknown as WriteOpStackL1Parameters<
     TChain,

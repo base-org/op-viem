@@ -1,13 +1,13 @@
-import { l1StandardBridgeABI } from '@eth-optimism/contracts-ts'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Address, Hex } from 'viem'
 import { OpStackL1Contract } from './opStackContracts.js'
 
-export const ABI = l1StandardBridgeABI
-export const CONTRACT = OpStackL1Contract.L1StandardBridge
-export const FUNCTION = 'depositETHTo'
+export const ABI = optimismPortalABI
+export const CONTRACT = OpStackL1Contract.OptimismPortal
+export const FUNCTION = 'depositTransaction'
 
 export type DepositETHParameters = {
   to: Address
-  minGasLimit: number
+  gasLimit: number
   extraData?: Hex
 }
