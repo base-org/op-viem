@@ -24,7 +24,7 @@ An [event](https://github.com/ethereum-optimism/optimism/blob/develop/packages/c
 
 ## Withdrawal
 
-A withdrawal for an OP Stack chain is an L2 to L1 transaction where L2 state is crated and can later be proven on L1. The withdrawal flow consists of three parts. First, there is the withdraw initiating transaction which the user submits on L2 and emits a [MessagePassedEvent](#messagepassedevent). Second, there is the withdrawal proving transaction which is submitted on L1 by the user to prove legitimacy of the withdrawal. This transaction emits a [WithdrawalProvenEvent](#withdrawalprovenevent). Lastly, there is the withdrawal finalizing transaction which is submitted on L1 by the user after the fault challenge period has passed which emits a [WithdrawalFinalizedEvent](#withdrawalfinalizedevent) and executes the transaction on L1.
+A withdrawal for an OP Stack chain is an L2 to L1 transaction where L2 state is created and can later be proven on L1. The withdrawal flow consists of three parts. First, there is the withdraw initiating transaction which the user submits on L2 and emits a [MessagePassedEvent](#messagepassedevent). Second, there is the withdrawal proving transaction which is submitted on L1 by the user to prove legitimacy of the withdrawal. This transaction emits a [WithdrawalProvenEvent](#withdrawalprovenevent). Lastly, there is the withdrawal finalizing transaction which is submitted on L1 by the user after the fault challenge period has passed which emits a [WithdrawalFinalizedEvent](#withdrawalfinalizedevent) and executes the transaction on L1.
 
 ## WithdrawalFinalizedEvent
 
