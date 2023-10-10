@@ -1,7 +1,7 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import { ABI, CONTRACT, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
+import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -19,7 +19,7 @@ export type WriteDepositETHParameters<
   >
 
 /**
- * Deposits ETH to L2 using the standard messenger contract
+ * Deposits ETH to L2 using the OptimismPortal contract
  * @param parameters - {@link WriteDepositETHParameters}
  * @returns A [Transaction Hash](https://viem.sh/docs/glossary/terms.html#hash). {@link WriteContractReturnType}
  */
@@ -30,7 +30,7 @@ export async function writeDepositETH<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, gasLimit, extraData = '0x' },
+    args: { to, gasLimit, data },
     optimismPortalAddress,
     value,
     ...rest
@@ -40,19 +40,14 @@ export async function writeDepositETH<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
-    address: optimismPortalAddress,
-    abi: ABI,
-    contract: CONTRACT,
-    functionName: FUNCTION,
-    args: [to, value, gasLimit, false, extraData],
+  return writeDepositTransaction(client, {
+    args: {to, value, gasLimit: BigInt(gasLimit), data},
+    optimismPortalAddress,
     value,
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteDepositTransactionParameters<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

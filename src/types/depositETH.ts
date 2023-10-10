@@ -9,5 +9,5 @@ export const FUNCTION = 'depositTransaction'
 export type DepositETHParameters = {
   to: Address
   gasLimit: number
-  extraData?: Hex
+  data?: Hex
 }

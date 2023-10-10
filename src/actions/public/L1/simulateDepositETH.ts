@@ -26,7 +26,7 @@ export async function simulateDepositETH<
 >(
   client: PublicClient<Transport, TChain>,
   {
-    args: { to, gasLimit, extraData = '0x' },
+    args: { to, gasLimit, data = '0x' },
     optimismPortalAddress,
     value,
     ...rest
@@ -37,7 +37,7 @@ export async function simulateDepositETH<
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
-    args: [to, value, gasLimit, false, extraData],
+    args: [to, value, gasLimit, false, data],
     value,
     ...rest,
   } as unknown as SimulateOpStackL1Parameters<TChain, TChainOverride, typeof ABI, typeof FUNCTION>)
