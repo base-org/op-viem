@@ -26,7 +26,7 @@ export {
   type SimulateDepositERC20ReturnType,
 } from './public/L1/simulateDepositERC20.js'
 export {
-  type simulateDepositETH,
+  simulateDepositETH,
   type SimulateDepositETHParameters,
   type SimulateDepositETHReturnType,
 } from './public/L1/simulateDepositETH.js'
