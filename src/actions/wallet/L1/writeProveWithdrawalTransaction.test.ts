@@ -2,7 +2,7 @@ import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import {
   type ProveWithdrawalTransactionParameters,
   writeProveWithdrawalTransaction,
@@ -38,7 +38,7 @@ const args: ProveWithdrawalTransactionParameters = {
 test('succesfuly submits a proveWithdrawalTranasction', async () => {
   const hash = await writeProveWithdrawalTransaction(walletClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
   await mine(testClient, { blocks: 1 })

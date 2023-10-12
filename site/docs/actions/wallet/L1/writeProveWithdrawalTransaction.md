@@ -27,7 +27,7 @@ In this case, you can use [simulateProveWithdrawalTransactoin](/docs/actions/pub
 
 ```ts [example.ts]
 import { ProveWithdrawalTransactionArgs } from 'op-viem'
-import { base } from 'op-viem/chains'
+import { baseAddresses } from 'op-viem/chains'
 import {
   account,
   opStackL1PublicClient,
@@ -74,7 +74,7 @@ const withdrawalMessages = await opStackL2PublicClient.getWithdrawalMessages({
 
 const output = await opStackL1PublicClient.getOutputForL2Block({
   l2BlockNumber: withdrawalMessages.blockNumber,
-  l2Chain: base,
+  ...baseAddresses,
 })
 
 const args = await opStackL2PublicClient.getProveWithdrawalTransactionArgs({
@@ -84,7 +84,7 @@ const args = await opStackL2PublicClient.getProveWithdrawalTransactionArgs({
 
 const hash = await opStackL1WalletClient.writeProveWithdrawalTransaction({
   args,
-  l2Chain: base,
+  ...baseAdddresses,
   account: account,
 })
 ```
@@ -178,33 +178,20 @@ await walletClient.writeProveWithdrawalTransaction({
       '0xe09e3244a3f2d3e778ea2b2c739f085da3cf4453befda1c8c31c84e17e18a39301',
     ],
   }
-  l2Chain: base,
+  ...baseAddresses
 })
 ```
 
-### l2Chain (optional)
+### optimismPortal
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The chain on which the withdrawal was initiated, used to determine which `OptimismPortal` to call.
+The `OptimismPortal` contract where the sendMessage call should be made.
 
 ```ts
 await walletClient.writeProveWithdrawalTransaction({
   args,
-  l2Chain: base, // [!code focus:1]
-})
-```
-
-### optimismPortalAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
-
-```ts
-await walletClient.writeProveWithdrawalTransaction({
-  args,
-  optimismPortalAddress: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
+  optimismPortal: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
 })
 ```
 
