@@ -2,7 +2,7 @@ import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import {
   type FinalizeWithdrawalTransactionParameters,
   writeFinalizeWithdrawalTranasction,
@@ -19,7 +19,7 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
   }
 
   const hash = await writeFinalizeWithdrawalTranasction(walletClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawal,
     account: accounts[0].address,
   })

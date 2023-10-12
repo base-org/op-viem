@@ -3,10 +3,9 @@ import { type Address, decodeEventLog, encodeFunctionData, encodePacked } from '
 import { estimateGas, mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
-import { publicClient, rollupPublicClient, rollupWalletClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { publicClient, rollupPublicClient, testClient, walletClient } from '../../../_test/utils.js'
+import { baseAddresses } from '../../../chains/index.js'
 import { type TransactionDepositedEvent } from '../../../types/depositTransaction.js'
-import type { OpStackChain } from '../../../types/opStackChain.js'
 import { type DepositTransactionParameters, writeDepositTransaction } from './writeDepositTransaction.js'
 
 test('default', async () => {
@@ -20,7 +19,7 @@ test('default', async () => {
         isCreation: false,
       },
       value: 0n,
-      l2Chain: base,
+      ...baseAddresses,
       account: accounts[0].address,
     }),
   ).toBeDefined()
@@ -47,7 +46,7 @@ test('sends transaction to correct infered address', async () => {
   const hash = await writeDepositTransaction(walletClient, {
     args,
     value: 1n,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
 
@@ -55,7 +54,7 @@ test('sends transaction to correct infered address', async () => {
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.to).toEqual(
-    base.opStackConfig.l1.contracts.optimismPortal.address.toLowerCase(),
+    baseAddresses.optimismPortal.address.toLowerCase(),
   )
 })
 
@@ -68,7 +67,7 @@ test('sends transaction to correct explicit address', async () => {
       gasLimit: 25000n,
     },
     value: 1n,
-    optimismPortalAddress: portal,
+    optimismPortal: portal,
     account: accounts[0].address,
   })
 
@@ -89,7 +88,7 @@ test('creates correct deposit transaction', async () => {
   const hash = await writeDepositTransaction(walletClient, {
     args,
     value: args.value!,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
 
@@ -124,7 +123,7 @@ test('correctly passes arugments', async () => {
 
   const hash = await writeDepositTransaction(walletClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
     value: 2n,
   })
@@ -150,7 +149,7 @@ test('uses defaults for data, isCreation, and value', async () => {
 
   const hash = await writeDepositTransaction(walletClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
     value: 0n,
   })
@@ -179,54 +178,4 @@ test('errors if l2Chain and optimismPortalAddress both not passed', async () => 
       account: accounts[0].address,
     })
   ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress')
-})
-
-test('errors if chain.id does not match l1.chainId', async () => {
-  const baseAlt = {
-    ...base,
-    opStackConfig: {
-      l1: {
-        ...base.opStackConfig.l1,
-        chainId: 2,
-      },
-    },
-  } as const satisfies OpStackChain
-
-  expect(() =>
-    writeDepositTransaction(walletClient, {
-      args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-        gasLimit: 25000n,
-      },
-      value: 0n,
-      // @ts-expect-error
-      l2Chain: baseAlt,
-      account: accounts[0].address,
-    })
-  ).rejects.toThrowError('Chain ID "1" does not match expected L1 chain ID "2"')
-})
-
-test('works if override chain id matches l1.id', async () => {
-  const baseAlt = {
-    ...base,
-    opStackConfig: {
-      l1: {
-        ...base.opStackConfig.l1,
-        chainId: 8453,
-      },
-    },
-  } as const satisfies OpStackChain
-
-  expect(
-    await writeDepositTransaction(walletClient, {
-      args: {
-        to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
-        gasLimit: 25000n,
-      },
-      value: 0n,
-      l2Chain: baseAlt,
-      chain: rollupWalletClient.chain,
-      account: accounts[0].address,
-    }),
-  ).toBeDefined()
 })

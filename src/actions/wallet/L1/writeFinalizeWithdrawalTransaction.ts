@@ -1,6 +1,8 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { _ } from 'vitest/dist/reporters-cb94c88b.js'
 import type { MessagePassedEvent } from '../../../index.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
@@ -15,14 +17,14 @@ export type WriteFinalizeWithdrawalTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { withdrawal: FinalizeWithdrawalTransactionParameters }
+  & { withdrawal: FinalizeWithdrawalTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
     TChainOverride,
     typeof ABI,
-    typeof CONTRACT,
     typeof FUNCTION
   >
 
@@ -41,7 +43,7 @@ export async function writeFinalizeWithdrawalTranasction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     withdrawal,
-    optimismPortalAddress,
+    optimismPortal,
     ...rest
   }: WriteFinalizeWithdrawalTransactionParameters<
     TChain,
@@ -50,7 +52,7 @@ export async function writeFinalizeWithdrawalTranasction<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: optimismPortalAddress,
+    address: resolveAddress(optimismPortal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

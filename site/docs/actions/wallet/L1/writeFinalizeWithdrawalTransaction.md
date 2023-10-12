@@ -1,3 +1,5 @@
+# writeFinalizeWithdrawalTransaction
+
 ```ts
 const withdrawal: FinalizeWithdrawalTransactionParameters = {
   nonce: 176684 7064778384329583297500742918515827483896875618958121606201292641795n,
@@ -9,8 +11,35 @@ const withdrawal: FinalizeWithdrawalTransactionParameters = {
 }
 
 const hash = await opStackL1WalletClient.writeFinalizeWithdrawalTranasction({
-  l2Chain: base,
+  optimismPortal: baseAddresses.optimismPortal,
   withdrawal,
   account,
 })
 ```
+
+## Return Value
+
+[`Hash`](https://viem.sh/docs/glossary/types#hash)
+
+A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
+
+## Parameters
+
+### withdrawal
+
+```ts
+type FinalizeWithdrawalTransactionParameters = {
+  nonce: bigint
+  sender: `0x${string}`
+  target: `0x${string}`
+  value: bigint
+  gasLimit: bigint
+  data: `0x${string}`
+}
+```
+
+### optimismPortal
+
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+
+The `OptimismPortal` contract.
