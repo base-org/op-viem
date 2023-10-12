@@ -38,4 +38,4 @@ The L2 chain that we are waiting on the output of.
 
 - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
-The address of the L2OutputOracle contract. MUST be provied if [l2Chain](l2chain-optional) is not.
+The address of the L2OutputOracle contract. MUST be provided if [l2Chain](l2chain-optional) is not.

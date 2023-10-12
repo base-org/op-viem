@@ -76,13 +76,13 @@ Can be provided instead of [l1BlockHash](#l1blockhash-optional) and [logIndex](#
 
 - **Type:** `number`
 
-The index of the given [`TransactionDepositedEvent`](/docs/glossary/types#transactiondepositedevent) log among all events emitted in the same L1 block. MUST be provied with [l1BlockHash](#l1BlockHash-optional) if sourceHash not passed.
+The index of the given [`TransactionDepositedEvent`](/docs/glossary/types#transactiondepositedevent) log among all events emitted in the same L1 block. MUST be provided with [l1BlockHash](#l1BlockHash-optional) if sourceHash not passed.
 
 ### l1BlockHash (optional)
 
 - **Type:** `Hex`
 
-The blockhash of the L1 block in which the passed [event](#event) was emitted. MUST be provied with [logIndex](#logIndex-optional) if sourceHash not passed.
+The blockhash of the L1 block in which the passed [event](#event) was emitted. MUST be provided with [logIndex](#logIndex-optional) if sourceHash not passed.
 
 ### domain (optional)
 
