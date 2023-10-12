@@ -1,7 +1,7 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import type { Chain, Hex, PublicClient, Transport } from 'viem'
 import { readContract } from 'viem/actions'
-import type { RawOrContractAddress } from '../../../types/addresses.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 
 export type Proposal = {
   outputRoot: Hex
@@ -33,7 +33,7 @@ export async function getOutputForL2Block<TChain extends Chain | undefined>(
     l2OutputOracle,
   }: GetOutputForL2BlockParameters<TChain>,
 ): Promise<GetOutputForL2BlockReturnType> {
-  const resolvedAddress = typeof l2OutputOracle === 'string' ? l2OutputOracle : l2OutputOracle.address
+  const resolvedAddress = resolveAddress(l2OutputOracle)
   const outputIndex = await readContract(client, {
     address: resolvedAddress,
     abi: l2OutputOracleABI,

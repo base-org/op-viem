@@ -1,5 +1,5 @@
 import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
-import type { RawOrContractAddress } from '../../../types/addresses.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { type L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import {
   ABI,
@@ -54,7 +54,7 @@ export async function simulateFinalizeWithdrawalTransaction<
   >,
 ): Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: typeof optimismPortal === 'string' ? optimismPortal : optimismPortal.address,
+    address: resolveAddress(optimismPortal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

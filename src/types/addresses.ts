@@ -6,3 +6,7 @@ export type Addresses<chainId = number> = {
 }
 
 export type RawOrContractAddress<chainId> = `0x${string}` | ContractAddress<chainId>
+
+export function resolveAddress(address: RawOrContractAddress<number>): `0x${string}` {
+  return typeof address === 'string' ? address : address.address
+}

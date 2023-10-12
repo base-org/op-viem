@@ -1,7 +1,7 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Chain, Hex, PublicClient, Transport } from 'viem'
 import type { MessagePassedEvent } from '../../../index.js'
-import type { RawOrContractAddress } from '../../../types/addresses.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 
@@ -34,7 +34,7 @@ export async function readProvenWithdrawals<TChain extends Chain | undefined>(
     contract: CONTRACT,
     abi: ABI,
     functionName: FUNCTION_NAME,
-    address: typeof optimismPortal === 'string' ? optimismPortal : optimismPortal.address,
+    address: resolveAddress(optimismPortal),
     args: [withdrawalHash],
     chain: client.chain,
   } as ReadOpStackL1Parameters<TChain, typeof ABI, typeof FUNCTION_NAME>)
