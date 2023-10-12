@@ -6,7 +6,7 @@ import { getOutputForL2Block } from './getOutputForL2Block.js'
 test('retrieves correctly', async () => {
   const result = await getOutputForL2Block(publicClient, {
     l2BlockNumber: 2725977n,
-    ...baseAddresses
+    ...baseAddresses,
   })
   expect(result.proposal).toBeDefined()
   expect(result.outputIndex).toBeDefined()
