@@ -3,7 +3,6 @@ import { type RawOrContractAddress, resolveAddress } from '../../../types/addres
 import { type L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import {
   ABI,
-  CONTRACT,
   FUNCTION,
   type ProveWithdrawalTransactionParameters,
 } from '../../wallet/L1/writeProveWithdrawalTransaction.js'
@@ -19,7 +18,6 @@ export type SimulateProveWithdrawalTransactionParameters<
     TChain,
     TChainOverride,
     typeof ABI,
-    typeof CONTRACT,
     typeof FUNCTION
   >
 
@@ -57,7 +55,6 @@ export async function simulateProveWithdrawalTransaction<
   return simulateOpStackL1(client, {
     address: resolveAddress(optimismPortal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawalTransaction, L2OutputIndex, outputRootProof, withdrawalProof],
     ...rest,

@@ -177,5 +177,5 @@ test('errors if l2Chain and optimismPortalAddress both not passed', async () => 
       value: 0n,
       account: accounts[0].address,
     })
-  ).rejects.toThrowError('Must provide either l2Chain or optimismPortalAddress')
+  ).rejects.toThrowError('Must provide optimismPortal')
 })

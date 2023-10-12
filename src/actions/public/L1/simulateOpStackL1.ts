@@ -1,6 +1,5 @@
 import type { Abi, Address, Chain, PublicClient, Transport } from 'viem'
 import { simulateContract, type SimulateContractParameters, type SimulateContractReturnType } from 'viem/actions'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 export type SimulateOpStackL1Parameters<
   TChain extends Chain | undefined = Chain,
@@ -8,7 +7,7 @@ export type SimulateOpStackL1Parameters<
   TAbi extends Abi | readonly unknown[] = Abi,
   TFunctionName extends string = string,
 > =
-  & { contract: OpStackL1Contract; chain: TChain | TChainOverride; address: Address }
+  & { chain: TChain | TChainOverride; address: Address }
   & Omit<
     SimulateContractParameters<
       TAbi,
