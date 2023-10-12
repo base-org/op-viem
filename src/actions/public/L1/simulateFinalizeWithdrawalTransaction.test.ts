@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { type FinalizeWithdrawalTransactionParameters } from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
 import { simulateFinalizeWithdrawalTransaction } from './simulateFinalizeWithdrawalTransaction.js'
 
@@ -16,11 +16,11 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
   }
 
   const { request } = await simulateFinalizeWithdrawalTransaction(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawal,
     account: accounts[0].address,
   })
 
-  expect(request.address).toEqual(base.opStackConfig.l1.contracts.optimismPortal.address)
+  expect(request.address).toEqual(baseAddresses.optimismPortal.address)
   expect(request.args[0]).toEqual(withdrawal)
 })

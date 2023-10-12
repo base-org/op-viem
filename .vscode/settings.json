@@ -5,5 +5,8 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dprint.dprint"
   }
 }
