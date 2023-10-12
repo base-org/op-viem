@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { readFinalizedWithdrawals } from './readFinalizedWithdrawals.js'
 
 test('read finalized withdrawals', async () => {
   const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
   })
 
@@ -14,7 +14,7 @@ test('read finalized withdrawals', async () => {
 
 test('returns false if not finalized', async () => {
   const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0C18D4889A23E74692101BA4C6DC9B5709',
   })
 
