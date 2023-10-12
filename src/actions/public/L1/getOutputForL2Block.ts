@@ -1,11 +1,7 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import type { Chain, Hex, PublicClient, Transport } from 'viem'
 import { readContract } from 'viem/actions'
-import { L1ChainMismatchError, L2ChainOrAddressError } from '../../../errors/action.js'
-import type { GetL2Chain, L1ActionBaseType } from '../../../types/l1Actions.js'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-
-const CONTRACT = OpStackL1Contract.L2OutputOracle
+import type { RawOrContractAddress } from '../../../types/addresses.js'
 
 export type Proposal = {
   outputRoot: Hex
@@ -14,13 +10,10 @@ export type Proposal = {
 }
 
 export type GetOutputForL2BlockParameters<
-  TChain extends Chain | undefined = Chain,
+  chain extends Chain | undefined = Chain | undefined,
+  _chainId = chain extends Chain ? chain['id'] : number,
 > =
-  & { l2BlockNumber: bigint }
-  & L1ActionBaseType<
-    GetL2Chain<TChain>,
-    typeof CONTRACT
-  >
+  & { l2BlockNumber: bigint, l2OutputOracle: RawOrContractAddress<_chainId> }
 
 export type GetOutputForL2BlockReturnType = {
   proposal: Proposal
@@ -38,17 +31,10 @@ export async function getOutputForL2Block<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {
     l2BlockNumber,
-    l2Chain,
-    l2OutputOracleAddress,
+    l2OutputOracle,
   }: GetOutputForL2BlockParameters<TChain>,
 ): Promise<GetOutputForL2BlockReturnType> {
-  if (l2Chain && l2Chain.opStackConfig.l1.chainId !== client.chain?.id) {
-    throw new L1ChainMismatchError({ chainId: client.chain?.id, opChainL1ChainId: l2Chain.opStackConfig.l1.chainId })
-  }
-  if (!l2OutputOracleAddress && (!l2Chain || !l2Chain.opStackConfig.l1.contracts[CONTRACT])) {
-    throw new L2ChainOrAddressError({ contract: CONTRACT })
-  }
-  const resolvedAddress = l2OutputOracleAddress ?? l2Chain.opStackConfig.l1.contracts[CONTRACT].address
+  const resolvedAddress = typeof l2OutputOracle === 'string' ? l2OutputOracle : l2OutputOracle.address
   const outputIndex = await readContract(client, {
     address: resolvedAddress,
     abi: l2OutputOracleABI,
