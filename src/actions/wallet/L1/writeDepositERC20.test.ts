@@ -2,7 +2,7 @@ import { mine, writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { base, baseAddresses } from '../../../chains/index.js'
 import { writeDepositERC20 } from './writeDepositERC20.js'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -34,7 +34,7 @@ test('default', async () => {
       minGasLimit: 21000,
       extraData: '0x',
     },
-    l2Chain: base,
+    ...baseAddresses,
     account: zenaddress,
   })
   await mine(testClient, { blocks: 1 })

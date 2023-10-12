@@ -27,26 +27,17 @@ export type L1WriteActionBaseType<
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
-  TContract extends OpStackL1Contract = OpStackL1Contract,
   TFunctioName extends string = string,
-> =
-  & GetChain<TChain, TChainOverride>
-  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
-  & Omit<
-    WriteContractParameters<
-      TAbi,
-      TFunctioName,
-      TChain,
-      TAccount,
-      TChainOverride
-    >,
-    'abi' | 'functionName' | 'args' | 'address' | 'chain'
-  >
-type GetChain<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
-> = TChain extends Chain ? { chain?: TChainOverride | null }
-  : { chain: TChainOverride | null }
+> = Omit<
+  WriteContractParameters<
+    TAbi,
+    TFunctioName,
+    TChain,
+    TAccount,
+    TChainOverride
+  >,
+  'abi' | 'functionName' | 'args' | 'address' | 'chain'
+>
 
 export type L1SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,

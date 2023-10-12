@@ -3,7 +3,8 @@
 Writes a deposit of ERC20 tokens from L1 to L2.
 
 ```ts [example.ts]
-import { base, walletL1OpStackActions } from 'op-viem'
+import { walletL1OpStackActions } from 'op-viem'
+import { baseAddresses } from 'op-viem/chains'
 import { createWalletClient } from 'viem'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -22,7 +23,7 @@ const { request } = await walletClient.writeDepositERC20({
     amount: 1n,
     minGasLimit: 100000,
   },
-  l2chain: base,
+  ...baseAddresses,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
@@ -33,47 +34,49 @@ Returns a transaction hash of the deposit transaction.
 
 ## Parameters
 
-### l1Token
+### args
+
+#### l1Token
 
 - **Type:** `Address`
 
 The L1 token contract address.
 
-### l2Token
+#### l2Token
 
 - **Type:** `Address`
 
 The L2 token contract address.
 
-### to
+#### to
 
 - **Type:** `Address`
 
 The address to deposit the tokens to.
 
-### amount
+#### amount
 
 - **Type:** `bigint`
 
 The amount of tokens to deposit.
 
-### gasLimit
+#### gasLimit
 
 - **Type:** `bigint`
 
 The gas limit for the transaction.
 
-### extraData (optional)
+#### extraData (optional)
 
 - **Type:** `data`
 
 Extra data to include in the transaction.
 
-### l2chain
+### l1StandardBridge
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The L2 chain to deposit to.
+The `L1StandardBridge` contract.
 
 ### account
 
