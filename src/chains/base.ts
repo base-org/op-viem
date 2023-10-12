@@ -38,7 +38,7 @@ export const base: OpStackChain & { opStackConfig: { l1: { chainId: typeof mainn
   },
 } as const satisfies OpStackChain
 
-export const baseAddresses: Addresses = {
+export const baseAddresses: Addresses<1> = {
   optimismPortal: {
     address: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
     chainId: 1,
