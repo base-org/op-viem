@@ -8,8 +8,8 @@ const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type GetSecondsToNextL2OutputParameters<
-    TChain extends Chain | undefined = Chain | undefined,
-    _chainId = TChain extends Chain ? TChain['id'] : number,
+  TChain extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > = { latestL2BlockNumber: bigint; l2OutputOracle: RawOrContractAddress<_chainId> }
 
 export async function getSecondsToNextL2Output<TChain extends Chain | undefined>(

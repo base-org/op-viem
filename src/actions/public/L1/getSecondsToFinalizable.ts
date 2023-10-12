@@ -10,8 +10,8 @@ const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type GetSecondsToFinalizableParameters<
-    TChain extends Chain | undefined = Chain | undefined,
-    _chainId = TChain extends Chain ? TChain['id'] : number,
+  TChain extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > = {
   withdrawalHash: MessagePassedEvent['withdrawalHash']
   optimismPortal: RawOrContractAddress<_chainId>
