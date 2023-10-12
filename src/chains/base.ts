@@ -1,6 +1,7 @@
 import { base as viemBase, mainnet } from 'viem/chains'
 import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
+import { type Addresses } from '../types/addresses.js'
 
 export const base: OpStackChain & { opStackConfig: { l1: { chainId: typeof mainnet['id'] } } } = {
   ...viemBase,
@@ -36,3 +37,16 @@ export const base: OpStackChain & { opStackConfig: { l1: { chainId: typeof mainn
     },
   },
 } as const satisfies OpStackChain
+
+export const baseAddresses: Addresses = {
+  optimismPortal: {
+    address: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
+    chainId: 1,
+    blockCreated: 17482143,
+  },
+  l2OutputOracle: {
+    address: '0x56315b90c40730925ec5485cf004d835058518A0',
+    chainId: 1,
+    blockCreated: 17482143,
+  },
+} as const

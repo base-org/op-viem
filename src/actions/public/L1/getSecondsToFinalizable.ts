@@ -1,55 +1,38 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
-import type { Address, Chain, PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, Transport } from 'viem'
 import type { MessagePassedEvent } from '../../../index.js'
-import type { GetL2Chain, L1ActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import {
-  resolveL1OpStackContractAddress,
-  type ResolveL1OpStackContractAddressParameters,
-} from '../../../utils/resolveL1OpStackContractAddress.js'
 import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 import { readProvenWithdrawals } from './readProvenWithdrawals.js'
+import { type RawOrContractAddress } from '../../../types/addresses.js'
 
 const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type GetSecondsToFinalizableParameters<
-  TChain extends Chain | undefined = Chain,
+chain extends Chain | undefined = Chain | undefined,
+_chainId = chain extends Chain ? chain["id"] : number,
 > =
-  & { withdrawalHash: MessagePassedEvent['withdrawalHash']; optimismPortalAddress?: Address }
-  & L1ActionBaseType<
-    GetL2Chain<TChain>,
-    typeof CONTRACT
-  >
+  & { withdrawalHash: MessagePassedEvent['withdrawalHash']; optimismPortal: RawOrContractAddress<_chainId>, l2OutputOracle: RawOrContractAddress<_chainId> }
 
 export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {
     withdrawalHash,
-    l2OutputOracleAddress,
-    optimismPortalAddress,
-    l2Chain,
-  }: GetSecondsToFinalizableParameters<TChain>,
+    l2OutputOracle,
+    optimismPortal,
+  }: GetSecondsToFinalizableParameters,
 ): Promise<bigint> {
-  const resolvedPortalAddress = resolveL1OpStackContractAddress(
-    {
-      l2Chain,
-      chain: client.chain,
-      contract: OpStackL1Contract.OptimismPortal,
-      address: optimismPortalAddress,
-    } as ResolveL1OpStackContractAddressParameters<TChain>,
-  )
   const provenWithdrawal = await readProvenWithdrawals(client, {
-    optimismPortalAddress: resolvedPortalAddress,
+    optimismPortalAddress: typeof optimismPortal === 'string' ? optimismPortal : optimismPortal.address,
     withdrawalHash,
   })
 
   const finalizationPeriod = await readOpStackL1(client, {
-    contract: OpStackL1Contract.L2OutputOracle,
+    contract: CONTRACT,
     abi: l2OutputOracleABI,
     functionName: 'FINALIZATION_PERIOD_SECONDS',
-    l2Chain,
-    address: l2OutputOracleAddress,
+    address: typeof l2OutputOracle === 'string' ? l2OutputOracle : l2OutputOracle.address,
   } as ReadOpStackL1Parameters<TChain, typeof ABI, 'FINALIZATION_PERIOD_SECONDS'>)
 
   const timeSinceProven = BigInt(Date.now()) / 1000n - provenWithdrawal.timestamp
