@@ -1,7 +1,7 @@
 import { base as viemBase, mainnet } from 'viem/chains'
+import { type Addresses } from '../types/addresses.js'
 import type { OpStackChain } from '../types/opStackChain.js'
 import { opStackL2ChainContracts } from '../types/opStackContracts.js'
-import { type Addresses } from '../types/addresses.js'
 
 export const base: OpStackChain & { opStackConfig: { l1: { chainId: typeof mainnet['id'] } } } = {
   ...viemBase,

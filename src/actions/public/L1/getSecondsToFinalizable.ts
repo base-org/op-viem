@@ -1,19 +1,22 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import type { Chain, PublicClient, Transport } from 'viem'
 import type { MessagePassedEvent } from '../../../index.js'
+import { type RawOrContractAddress } from '../../../types/addresses.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 import { readProvenWithdrawals } from './readProvenWithdrawals.js'
-import { type RawOrContractAddress } from '../../../types/addresses.js'
 
 const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type GetSecondsToFinalizableParameters<
-chain extends Chain | undefined = Chain | undefined,
-_chainId = chain extends Chain ? chain["id"] : number,
-> =
-  & { withdrawalHash: MessagePassedEvent['withdrawalHash']; optimismPortal: RawOrContractAddress<_chainId>, l2OutputOracle: RawOrContractAddress<_chainId> }
+  chain extends Chain | undefined = Chain | undefined,
+  _chainId = chain extends Chain ? chain['id'] : number,
+> = {
+  withdrawalHash: MessagePassedEvent['withdrawalHash']
+  optimismPortal: RawOrContractAddress<_chainId>
+  l2OutputOracle: RawOrContractAddress<_chainId>
+}
 
 export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
