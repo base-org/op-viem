@@ -3,7 +3,8 @@
 Simulates a deposit of ETH from L1 to L2.
 
 ```ts [example.ts]
-import { base, publicL1Actions } from 'op-viem'
+import { publicL1Actions } from 'op-viem'
+import { baseAddresses } from 'op-viem/chains'
 import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
@@ -18,7 +19,7 @@ const { request } = await publicClient.simulateDepositETH({
     gasLimit: 100000,
   },
   value: 1n,
-  l2chain: base,
+  optimismPortal: baseAddresses.optimismPortal,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
@@ -29,17 +30,15 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
 
 ## Parameters
 
-### to
+### args
 
-- **Type:** `Address`
+- #### to
+  - **Type:** `Address`
+  - The address to deposit the tokens to.
 
-The address to deposit the tokens to.
-
-### gasLimit
-
-- **Type:** `number`
-
-The minimum gas limit to use for the deposit transaction.
+- #### gasLimit
+  - **Type:** `number`
+  - The minimum gas limit to use for the deposit transaction.
 
 ### value
 
@@ -47,11 +46,11 @@ The minimum gas limit to use for the deposit transaction.
 
 The amount of ETH to deposit.
 
-### l2chain
+### optimismPortal
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The L2 chain to deposit to.
+The `OptimismPortal` contract.
 
 ### account
 

@@ -52,17 +52,13 @@ export type L1SimulateActionBaseType<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
   TAbi extends Abi | readonly unknown[] = Abi,
-  TContract extends OpStackL1Contract = OpStackL1Contract,
   TFunctioName extends string = string,
   _resolvedChain = ResolveChain<TChain, TChainOverride>,
   _l2 extends
     | (_resolvedChain extends Chain ? OpStackChain & { opStackConfig: { l1: { chainId: _resolvedChain['id'] } } }
       : never)
     | never = never,
-> =
-  & GetChain<TChain, TChainOverride>
-  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, TContract>
-  & Omit<
-    SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
-    'abi' | 'functionName' | 'args' | 'address'
-  >
+> = Omit<
+  SimulateContractParameters<TAbi, TFunctioName, TChain, TChainOverride>,
+  'abi' | 'functionName' | 'args' | 'address'
+>
