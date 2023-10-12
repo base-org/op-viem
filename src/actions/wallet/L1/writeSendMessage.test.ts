@@ -4,7 +4,7 @@ import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/index.js'
 import { writeSendMessage } from './writeSendMessage.js'
 
 test('can successfully call sendsMessage', async () => {
@@ -15,7 +15,7 @@ test('can successfully call sendsMessage', async () => {
   const hash = await writeSendMessage(walletClient, {
     args,
     value: 0n,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
 
@@ -48,7 +48,7 @@ test('passes correct calldata to sendMessage', async () => {
   const hash = await writeSendMessage(walletClient, {
     args,
     value: 0n,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
 

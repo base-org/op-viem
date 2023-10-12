@@ -16,7 +16,7 @@ In this case, you can use [simulateSendMessage](/docs/actions/wallet/L1/simulate
 
 ```ts [example.ts]
 import { SendMessageParameters } from 'op-viem'
-import { base } from 'op-viem/chains'
+import { baseAddresses } from 'op-viem/chains'
 import { account, opStackL1WalletClient } from './config'
 
 const args: SendMessageParameters = {
@@ -27,7 +27,7 @@ const args: SendMessageParameters = {
 
 const hash = await opStackL1WalletClient.writeSendMessage({
   args,
-  l2Chain: base,
+  ...baseAddresses,
   value: 1n,
 })
 ```
@@ -83,28 +83,15 @@ await walletClient.writeSendMessage({
     minGasLimit: 85000,
     message: '0x8c874ebd0021fb3f',
   }
-  l2Chain: base,
+  ...baseAddresses
 })
 ```
 
-### l2Chain (optional)
+### l1CrossDomainMessenger
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.l1CrossDomainMessenger.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [l1CrossDomainMessengerAddress](#l1CrossDomainMessengerAddress) must be passed explicitly.
-
-```ts
-await walletClient.writeSendMessage({
-  args,
-  l2Chain: base, // [!code focus:1]
-})
-```
-
-### l1CrossDomainMessengerAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The `L1CrossDomainMessengerAddress` contract where the sendMessage call should be made.
+The `L1CrossDomainMessenger` contract where the sendMessage call should be made.
 
 ```ts
 await walletClient.writeSendMessage({
@@ -120,9 +107,9 @@ await walletClient.writeSendMessage({
 Value in wei sent with this transaction. This value will be credited to the balance of the caller address on L2 _before_ the L2 transaction created by this transaction is made.
 
 ```ts
-await walletClient.writeDepositTransaction({
+await walletClient.writeSendMessage({
   args,
-  optimismPortalAddress: portal,
+  l1CrossDomainMessengerAddress: messenger,
   value: parseEther(1), // [!code focus:1]
 })
 ```

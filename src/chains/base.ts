@@ -54,4 +54,9 @@ export const baseAddresses: Addresses<1> = {
     chainId: 1,
     blockCreated: 17482143,
   },
+  l1CrossDomainMessenger: {
+    address: '0x866E82a600A1414e583f7F13623F1aC5d58b0Afa',
+    chainId: 1,
+    blockCreated: 17482143,
+  },
 } as const
