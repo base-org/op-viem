@@ -29,7 +29,6 @@ export type WriteDepositTransactionParameters<
     TAccount,
     TChainOverride,
     typeof ABI,
-    typeof CONTRACT,
     typeof FUNCTION
   >
 

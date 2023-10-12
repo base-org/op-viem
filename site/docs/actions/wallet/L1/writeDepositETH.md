@@ -3,7 +3,8 @@
 Writes a deposit of ETH from L1 to L2.
 
 ```ts [example.ts]
-import { base, walletL1OpStackActions } from 'op-viem'
+import { walletL1OpStackActions } from 'op-viem'
+import { baseAddresses } from 'op-viem/chains'
 import { createWalletClient } from 'viem'
 
 const walletClient = createWalletClient({
@@ -16,8 +17,8 @@ const hash = await walletClient.writeDepositETH({
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
     gasLimit: 100000,
   },
+  ...baseAddresses,
   value: 1n,
-  l2chain: base,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
@@ -28,13 +29,15 @@ Returns a transaction hash of the deposit transaction.
 
 ## Parameters
 
-### to
+### args
+
+#### to
 
 - **Type:** `Address`
 
 The address to deposit the tokens to.
 
-### gasLimit
+#### gasLimit
 
 - **Type:** `number`
 
@@ -46,11 +49,11 @@ The minimum gas limit to use for the deposit transaction.
 
 The amount of ETH to deposit.
 
-### l2chain
+### optimismPortal
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The L2 chain to deposit to.
+The `OptimismPortal` contract.
 
 ### account
 

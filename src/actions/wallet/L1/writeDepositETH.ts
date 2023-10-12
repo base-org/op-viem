@@ -1,5 +1,6 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import { ABI, CONTRACT, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
+import { ABI, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
 
@@ -7,14 +8,14 @@ export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositETHParameters }
+  & { args: DepositETHParameters; optimismPortal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
     TChainOverride,
     typeof ABI,
-    typeof CONTRACT,
     typeof FUNCTION
   >
 
@@ -31,7 +32,7 @@ export async function writeDepositETH<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, gasLimit, data },
-    optimismPortalAddress,
+    optimismPortal,
     value,
     ...rest
   }: WriteDepositETHParameters<
@@ -42,7 +43,7 @@ export async function writeDepositETH<
 ): Promise<WriteContractReturnType> {
   return writeDepositTransaction(client, {
     args: { to, value, gasLimit: BigInt(gasLimit), data },
-    optimismPortalAddress,
+    optimismPortal: resolveAddress(optimismPortal),
     value,
     ...rest,
   } as unknown as WriteDepositTransactionParameters<
