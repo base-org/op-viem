@@ -10,8 +10,8 @@ const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
 
 export type GetSecondsToFinalizableParameters<
-  chain extends Chain | undefined = Chain | undefined,
-  _chainId = chain extends Chain ? chain['id'] : number,
+    TChain extends Chain | undefined = Chain | undefined,
+    _chainId = TChain extends Chain ? TChain['id'] : number,
 > = {
   withdrawalHash: MessagePassedEvent['withdrawalHash']
   optimismPortal: RawOrContractAddress<_chainId>
@@ -27,7 +27,7 @@ export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
   }: GetSecondsToFinalizableParameters,
 ): Promise<bigint> {
   const provenWithdrawal = await readProvenWithdrawals(client, {
-    optimismPortalAddress: typeof optimismPortal === 'string' ? optimismPortal : optimismPortal.address,
+    optimismPortal: typeof optimismPortal === 'string' ? optimismPortal : optimismPortal.address,
     withdrawalHash,
   })
 

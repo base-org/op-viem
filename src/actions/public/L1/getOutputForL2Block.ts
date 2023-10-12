@@ -10,8 +10,8 @@ export type Proposal = {
 }
 
 export type GetOutputForL2BlockParameters<
-  chain extends Chain | undefined = Chain | undefined,
-  _chainId = chain extends Chain ? chain['id'] : number,
+  TChain extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > = { l2BlockNumber: bigint; l2OutputOracle: RawOrContractAddress<_chainId> }
 
 export type GetOutputForL2BlockReturnType = {

@@ -10,8 +10,8 @@ const CONTRACT = OpStackL1Contract.OptimismPortal
 const FUNCTION_NAME = 'finalizedWithdrawals'
 
 export type ReadFinalizedWithdrawalsParameters<
-  chain extends Chain | undefined = Chain | undefined,
-  _chainId = chain extends Chain ? chain['id'] : number,
+  TChain extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > = { withdrawalHash: MessagePassedEvent['withdrawalHash']; optimismPortal: RawOrContractAddress<_chainId> }
 
 export async function readFinalizedWithdrawals<TChain extends Chain | undefined>(
