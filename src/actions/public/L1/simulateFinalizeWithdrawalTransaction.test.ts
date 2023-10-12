@@ -1,5 +1,4 @@
 import { expect, test } from 'vitest'
-import { accounts } from '../../../_test/constants.js'
 import { publicClient } from '../../../_test/utils.js'
 import { baseAddresses } from '../../../chains/base.js'
 import { type FinalizeWithdrawalTransactionParameters } from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
@@ -18,7 +17,6 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
   const { request } = await simulateFinalizeWithdrawalTransaction(publicClient, {
     ...baseAddresses,
     withdrawal,
-    account: accounts[0].address,
   })
 
   expect(request.address).toEqual(baseAddresses.optimismPortal.address)
