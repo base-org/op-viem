@@ -4,6 +4,7 @@ Returns a `ProvenWithdrawal` struct containing the `outputRoot`, `timestamp`, an
 
 ```ts [example.ts]
 import { publicL1Actions } from 'op-viem'
+import { baseAddresses } from 'op-viem/chains'
 import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
@@ -13,7 +14,13 @@ const publicClient = createPublicClient({
 }).extend(publicL1Actions)
 
 const provenWithdrawal = await readProvenWithdrawals(publicClient, {
-  l2Chain: base,
+  optimismPortal: baseAddresses.optimismPortal,
+  withdrawalHash:
+    '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
+})
+// or
+const provenWithdrawal = await readProvenWithdrawals(publicClient, {
+  ...baseAddresses,
   withdrawalHash:
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
@@ -23,19 +30,21 @@ const provenWithdrawal = await readProvenWithdrawals(publicClient, {
 
 Returns an object that represents a `ProvenWithdrawl` struct that contains the `outputRoot`, `timestamp`, and `l2OutputIndex`
 
+```ts
+type ProvenWithdrawal = {
+  outputRoot: Hex
+  timestamp: bigint
+  l2OutputIndex: bigint
+}
+```
+
 ## Parameters
 
-### l2chain (optional)
+### optimismPortal
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-### optimismPortalAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
-
-The L2 chain to deposit to.
+The `OptimismPortal` contract where the sendMessage call should be made.
 
 ### withdrawalHash
 

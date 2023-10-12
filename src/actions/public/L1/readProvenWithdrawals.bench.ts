@@ -1,7 +1,7 @@
 import { bench, describe } from 'vitest'
 import { opSDKMessenger } from '../../../_test/bench.js'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/index.js'
 import { readProvenWithdrawals } from './readProvenWithdrawals.js'
 
 describe('reads proven withdrawal', () => {
@@ -10,7 +10,7 @@ describe('reads proven withdrawal', () => {
     'op-viem: `readProvenWithdrawals`',
     async () => {
       await readProvenWithdrawals(publicClient, {
-        l2Chain: base,
+        ...baseAddresses,
         withdrawalHash: withdrawalHash,
       })
     },
