@@ -1,8 +1,8 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
 import type { Chain, PublicClient, Transport } from 'viem'
+import type { RawOrContractAddress } from '../../../types/addresses.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
-import type { RawOrContractAddress } from '../../../types/addresses.js'
 
 const ABI = l2OutputOracleABI
 const CONTRACT = OpStackL1Contract.L2OutputOracle
@@ -10,8 +10,7 @@ const CONTRACT = OpStackL1Contract.L2OutputOracle
 export type GetSecondsToNextL2OutputParameters<
   chain extends Chain | undefined = Chain | undefined,
   _chainId = chain extends Chain ? chain['id'] : number,
-> =
-  & { latestL2BlockNumber: bigint, l2OutputOracle: RawOrContractAddress<_chainId> }
+> = { latestL2BlockNumber: bigint; l2OutputOracle: RawOrContractAddress<_chainId> }
 
 export async function getSecondsToNextL2Output<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
