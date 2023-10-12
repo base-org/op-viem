@@ -10,5 +10,6 @@ export type Addresses<chainId = number> = {
 export type RawOrContractAddress<chainId> = `0x${string}` | ContractAddress<chainId>
 
 export function resolveAddress(address: RawOrContractAddress<number>): `0x${string}` {
+  if (typeof address !== 'string' && !address?.address) throw new Error('Invalid address')
   return typeof address === 'string' ? address : address.address
 }
