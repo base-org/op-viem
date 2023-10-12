@@ -1,6 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
-import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
@@ -18,18 +18,8 @@ export type DepositTransactionParameters = {
 
 export type WriteDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
-  TChainOverride extends Chain | undefined = Chain | undefined,
-> =
-  & { args: DepositTransactionParameters }
-  & L1WriteActionBaseType<
-    TChain,
-    TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof CONTRACT,
-    typeof FUNCTION
-  >
+  _chainId = TChain extends Chain ? TChain['id'] : number,
+> = { args: DepositTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
 
 /**
  * Calls depositTransaction on the OptimismPortal contract.
@@ -54,16 +44,14 @@ export async function writeDepositTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
-    optimismPortalAddress,
+    optimismPortal,
     ...rest
   }: WriteDepositTransactionParameters<
-    TChain,
-    TAccount,
-    TChainOverride
+    TChain
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: optimismPortalAddress,
+    address: resolveAddress(optimismPortal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
