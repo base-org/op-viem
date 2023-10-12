@@ -64,7 +64,7 @@ test('correctly generates args', async () => {
 
   const hash = await writeProveWithdrawalTransaction(walletClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
   expect(hash).toBeDefined()

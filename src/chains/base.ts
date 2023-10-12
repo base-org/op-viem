@@ -59,4 +59,9 @@ export const baseAddresses: Addresses<1> = {
     chainId: 1,
     blockCreated: 17482143,
   },
+  l1Erc721Bridge: {
+    address: '0x608d94945A64503E642E6370Ec598e519a2C1E53',
+    chainId: 1,
+    blockCreated: 17482143,
+  },
 } as const
