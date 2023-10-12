@@ -4,7 +4,7 @@ import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { bench, describe } from 'vitest'
 import { forkUrl, rollupForkUrl } from '../../../_test/constants.js'
-import { base } from '../../../chains/index.js'
+import { base, baseAddresses } from '../../../chains/index.js'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block.js'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs.js'
 import { getWithdrawalMessages } from './getWithdrawalMessages.js'
@@ -31,7 +31,7 @@ describe('Computes L1 prove args from L2 tx hash', () => {
 
       const output = await getOutputForL2Block(l1Client, {
         l2BlockNumber: withdrawalMessages.blockNumber,
-        l2Chain: base,
+        ...baseAddresses,
       })
 
       await getProveWithdrawalTransactionArgs(client, {
