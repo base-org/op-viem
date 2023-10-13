@@ -8,6 +8,7 @@ import {
   writeFinalizeWithdrawalTranasction,
 } from './writeFinalizeWithdrawalTransaction.js'
 
+// From https://etherscan.io/tx/0x33b540f3ae33049ecb19c83a62fe15ad41dc38ccce4cf0eaf92c55431031f1b5
 test('succesfully submits finalizeWithdrawalTransaction', async () => {
   const withdrawal: FinalizeWithdrawalTransactionParameters = {
     nonce: 1766847064778384329583297500742918515827483896875618958121606201292641795n,
