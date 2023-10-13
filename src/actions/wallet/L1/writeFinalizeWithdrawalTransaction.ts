@@ -23,9 +23,7 @@ export type WriteFinalizeWithdrawalTransactionParameters<
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**

@@ -25,9 +25,7 @@ export type WriteSendMessageParameters<
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**

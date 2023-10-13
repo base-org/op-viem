@@ -1,20 +1,16 @@
-import type { Abi, Account, Chain, SimulateContractParameters, WriteContractParameters } from 'viem'
+import type { Abi, Account, Chain, SendTransactionParameters, SimulateContractParameters } from 'viem'
 
 export type L1WriteActionBaseType<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctioName extends string = string,
 > = Omit<
-  WriteContractParameters<
-    TAbi,
-    TFunctioName,
+  SendTransactionParameters<
     TChain,
     TAccount,
     TChainOverride
   >,
-  'abi' | 'functionName' | 'args' | 'address' | 'chain'
+  'chain'
 >
 
 export type L1SimulateActionBaseType<

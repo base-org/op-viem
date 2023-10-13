@@ -1,6 +1,6 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
-import { ABI, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
+import { type DepositETHParameters } from '../../../types/depositETH.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
 
@@ -14,9 +14,7 @@ export type WriteDepositETHParameters<
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**

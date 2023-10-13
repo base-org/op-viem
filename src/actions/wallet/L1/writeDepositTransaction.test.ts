@@ -166,7 +166,7 @@ test('uses defaults for data, isCreation, and value', async () => {
   )
 })
 
-test('errors if l2Chain and optimismPortalAddress both not passed', async () => {
+test('errors if optimismPortal not passed', async () => {
   expect(() =>
     // @ts-expect-error
     writeDepositTransaction(walletClient, {
