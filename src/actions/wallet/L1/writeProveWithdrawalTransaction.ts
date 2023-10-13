@@ -18,7 +18,7 @@ export type WriteProveWithdrawalTransactionParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: ProveWithdrawalTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
+  & { args: ProveWithdrawalTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
@@ -40,7 +40,7 @@ export async function writeProveWithdrawalTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { withdrawalTransaction, outputRootProof, withdrawalProof, L2OutputIndex },
-    optimismPortal,
+    portal,
     ...rest
   }: WriteProveWithdrawalTransactionParameters<
     TChain,
@@ -49,7 +49,7 @@ export async function writeProveWithdrawalTransaction<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

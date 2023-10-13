@@ -31,7 +31,7 @@ export const zoraGoerli: OpStackChain & {
           address: '0xdD292C9eEd00f6A32Ff5245d0BCd7f2a15f24e00',
           blockCreated: 8942390,
         },
-        optimismPortal: {
+        portal: {
           address: '0xDb9F51790365e7dc196e7D072728df39Be958ACe',
           blockCreated: 8942392,
         },
@@ -41,7 +41,7 @@ export const zoraGoerli: OpStackChain & {
 } as const satisfies OpStackChain
 
 export const zoraGoerliAddresses: Addresses<5> = {
-  optimismPortal: {
+  portal: {
     address: '0xDb9F51790365e7dc196e7D072728df39Be958ACe',
     chainId: 5,
     blockCreated: 8942392,

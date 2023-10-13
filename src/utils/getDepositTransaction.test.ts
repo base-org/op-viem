@@ -16,7 +16,7 @@ import { getTransactionDepositedEvents } from './getTransactionDepositedEvents.j
 // if debugging again in the future.
 test('derives same values as op-ethereum/core-utils', async () => {
   const contract = new ethers.Contract(
-    optimism.opStackConfig.l1.contracts.optimismPortal.address,
+    optimism.opStackConfig.l1.contracts.portal.address,
     optimismPortalABI,
     ethersProvider,
   )

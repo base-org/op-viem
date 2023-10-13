@@ -44,5 +44,5 @@ test('productes correct tx', async () => {
     args.outputRootProof,
     args.withdrawalProof,
   ])
-  expect(request.address).toEqual(baseAddresses.optimismPortal.address)
+  expect(request.address).toEqual(baseAddresses.portal.address)
 })

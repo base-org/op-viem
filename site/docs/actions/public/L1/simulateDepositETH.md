@@ -19,7 +19,7 @@ const { request } = await publicClient.simulateDepositETH({
     gasLimit: 100000,
   },
   value: 1n,
-  optimismPortal: baseAddresses.optimismPortal,
+  portal: baseAddresses.portal,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
@@ -46,7 +46,7 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
 
 The amount of ETH to deposit.
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 

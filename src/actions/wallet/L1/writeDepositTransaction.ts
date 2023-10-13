@@ -23,7 +23,7 @@ export type WriteDepositTransactionParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
+  & { args: DepositTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
@@ -53,7 +53,7 @@ export async function writeDepositTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
-    optimismPortal,
+    portal,
     ...rest
   }: WriteDepositTransactionParameters<
     TChain,
@@ -62,7 +62,7 @@ export async function writeDepositTransaction<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

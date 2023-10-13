@@ -153,7 +153,7 @@ await walletClient.simulateProveWithdrawalTransaction({
 })
 ```
 
-### optimismPortalAddress (optional)
+### portalAddress (optional)
 
 - **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
 
@@ -162,7 +162,7 @@ The `OptimismPortal` contract where the sendMessage call should be made. MUST be
 ```ts
 await walletClient.simulateProveWithdrawalTransaction({
   args,
-  optimismPortalAddress: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
+  portalAddress: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
 })
 ```
 

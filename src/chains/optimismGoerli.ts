@@ -26,7 +26,7 @@ export const optimismGoerli: OpStackChain & { opStackConfig: { l1: { chainId: ty
         l2OutputOracle: {
           address: '0xE6Dfba0953616Bacab0c9A8ecb3a9BBa77FC15c0',
         },
-        optimismPortal: {
+        portal: {
           address: '0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80',
         },
       },
@@ -35,7 +35,7 @@ export const optimismGoerli: OpStackChain & { opStackConfig: { l1: { chainId: ty
 } as const satisfies OpStackChain
 
 export const optimismGoerliAddresses: Addresses<5> = {
-  optimismPortal: {
+  portal: {
     address: '0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80',
     chainId: 5,
   },

@@ -23,7 +23,7 @@ describe('Obtain L2 hash from already fetched event', async () => {
   })
 
   const contract = new ethers.Contract(
-    base.opStackConfig.l1.contracts.optimismPortal.address,
+    base.opStackConfig.l1.contracts.portal.address,
     optimismPortalABI,
     ethersProvider,
   )

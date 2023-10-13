@@ -40,7 +40,7 @@ test('matches @eth-optimism/core-utils', async () => {
   })
 
   const contract = new ethers.Contract(
-    optimism.opStackConfig.l1.contracts.optimismPortal.address,
+    optimism.opStackConfig.l1.contracts.portal.address,
     optimismPortalABI,
     ethersProvider,
   )

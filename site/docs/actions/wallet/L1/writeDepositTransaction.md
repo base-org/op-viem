@@ -120,7 +120,7 @@ await walletClient.writeDepositTransaction({
 })
 ```
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
@@ -129,7 +129,7 @@ The `OptimismPortal` contract where the depositTransaction call should be made.
 ```ts
 await walletClient.writeDepositTransaction({
   args,
-  optimismPortalAddress: portal, // [!code focus:1]
+  portalAddress: portal, // [!code focus:1]
 })
 ```
 
@@ -142,7 +142,7 @@ Value in wei sent with this transaction. This value will be credited to the bala
 ```ts
 await walletClient.writeDepositTransaction({
   args,
-  optimismPortalAddress: portal,
+  portalAddress: portal,
   value: parseEther(1), // [!code focus:1]
 })
 ```

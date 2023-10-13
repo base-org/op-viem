@@ -11,7 +11,7 @@ const withdrawal: FinalizeWithdrawalTransactionParameters = {
 }
 
 const hash = await opStackL1WalletClient.writeFinalizeWithdrawalTranasction({
-  optimismPortal: baseAddresses.optimismPortal,
+  portal: baseAddresses.portal,
   withdrawal,
   account,
 })
@@ -38,7 +38,7 @@ type FinalizeWithdrawalTransactionParameters = {
 }
 ```
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 

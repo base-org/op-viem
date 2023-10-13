@@ -21,6 +21,6 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
     account: accounts[0].address,
   })
 
-  expect(request.address).toEqual(baseAddresses.optimismPortal.address)
+  expect(request.address).toEqual(baseAddresses.portal.address)
   expect(request.args[0]).toEqual(withdrawal)
 })

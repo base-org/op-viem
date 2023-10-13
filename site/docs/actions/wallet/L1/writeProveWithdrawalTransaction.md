@@ -182,7 +182,7 @@ await walletClient.writeProveWithdrawalTransaction({
 })
 ```
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
@@ -191,7 +191,7 @@ The `OptimismPortal` contract where the sendMessage call should be made.
 ```ts
 await walletClient.writeProveWithdrawalTransaction({
   args,
-  optimismPortal: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
+  portal: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
 })
 ```
 

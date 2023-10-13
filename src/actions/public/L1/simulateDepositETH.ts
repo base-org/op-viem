@@ -9,7 +9,7 @@ export type SimulateDepositETHParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositETHParameters; optimismPortal: RawOrContractAddress<_chainId> }
+  & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
   & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof FUNCTION>
 
 export type SimulateDepositETHReturnType<
@@ -29,13 +29,13 @@ export async function simulateDepositETH<
   client: PublicClient<Transport, TChain>,
   {
     args: { to, gasLimit, data = '0x' },
-    optimismPortal,
+    portal,
     value,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
 ): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     abi: ABI,
     functionName: FUNCTION,
     args: [to, value, gasLimit, false, data],

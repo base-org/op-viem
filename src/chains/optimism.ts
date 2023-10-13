@@ -29,7 +29,7 @@ export const optimism: OpStackChain & { opStackConfig: { l1: { chainId: typeof m
           address: '0xdfe97868233d1aa22e815a266982f2cf17685a27',
           blockCreated: 17365801,
         },
-        optimismPortal: {
+        portal: {
           address: '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed',
           blockCreated: 17365802,
         },
@@ -39,7 +39,7 @@ export const optimism: OpStackChain & { opStackConfig: { l1: { chainId: typeof m
 } as const satisfies OpStackChain
 
 export const optimismAddresses: Addresses<1> = {
-  optimismPortal: {
+  portal: {
     address: '0xbEb5Fc579115071764c7423A4f12eDde41f106Ed',
     chainId: 1,
     blockCreated: 17365802,

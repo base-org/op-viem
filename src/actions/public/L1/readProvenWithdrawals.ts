@@ -10,7 +10,7 @@ const FUNCTION_NAME = 'provenWithdrawals'
 export type ReadProvenWithdrawalsParameters<
   TChain extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
-> = { withdrawalHash: MessagePassedEvent['withdrawalHash']; optimismPortal: RawOrContractAddress<_chainId> }
+> = { withdrawalHash: MessagePassedEvent['withdrawalHash']; portal: RawOrContractAddress<_chainId> }
 
 export type ProvenWithdrawal = {
   outputRoot: Hex
@@ -25,13 +25,13 @@ export async function readProvenWithdrawals<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {
     withdrawalHash,
-    optimismPortal,
+    portal,
   }: ReadProvenWithdrawalsParameters<TChain>,
 ): Promise<ReadProvenWithdrawalsReturnType> {
   const values = await readOpStackL1(client, {
     abi: ABI,
     functionName: FUNCTION_NAME,
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     args: [withdrawalHash],
     chain: client.chain,
   } as ReadOpStackL1Parameters<TChain, typeof ABI, typeof FUNCTION_NAME>)

@@ -28,7 +28,7 @@ export type WriteContractDepositParameters<
     l2GasLimit: bigint
     l2MsgValue?: bigint
     strict?: boolean
-    optimismPortal: RawOrContractAddress<_chainId>
+    portal: RawOrContractAddress<_chainId>
   }
   & Omit<
     WriteContractParameters<
@@ -68,7 +68,7 @@ export async function writeContractDeposit<
     functionName,
     l2GasLimit,
     l2MsgValue = 0n,
-    optimismPortal,
+    portal,
     strict = true,
     ...request
   }: WriteContractDepositParameters<
@@ -98,7 +98,7 @@ export async function writeContractDeposit<
     }
   }
   return writeDepositTransaction(client, {
-    optimismPortal: resolveAddress(optimismPortal),
+    portal: resolveAddress(portal),
     args: { gasLimit: l2GasLimit, to: address, data: calldata, value: l2MsgValue },
     account,
     ...request,

@@ -13,7 +13,7 @@ export type SimulateFinalizeWithdrawalTransactionParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { withdrawal: FinalizeWithdrawalTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
+  & { withdrawal: FinalizeWithdrawalTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1SimulateActionBaseType<
     TChain,
     TChainOverride,
@@ -44,7 +44,7 @@ export async function simulateFinalizeWithdrawalTransaction<
   client: PublicClient<Transport, TChain>,
   {
     withdrawal,
-    optimismPortal,
+    portal,
     ...rest
   }: SimulateFinalizeWithdrawalTransactionParameters<
     TChain,
@@ -52,7 +52,7 @@ export async function simulateFinalizeWithdrawalTransaction<
   >,
 ): Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     abi: ABI,
     functionName: FUNCTION,
     args: [withdrawal],

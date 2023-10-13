@@ -14,7 +14,7 @@ const publicClient = createPublicClient({
 }).extend(publicL1Actions)
 
 const provenWithdrawal = await readProvenWithdrawals(publicClient, {
-  optimismPortal: baseAddresses.optimismPortal,
+  portal: baseAddresses.portal,
   withdrawalHash:
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
@@ -40,7 +40,7 @@ type ProvenWithdrawal = {
 
 ## Parameters
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 

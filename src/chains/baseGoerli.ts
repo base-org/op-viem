@@ -25,7 +25,7 @@ export const baseGoerli: OpStackChain & { opStackConfig: { l1: { chainId: typeof
         l2OutputOracle: {
           address: '0x2A35891ff30313CcFa6CE88dcf3858bb075A2298',
         },
-        optimismPortal: {
+        portal: {
           address: '0xe93c8cD0D409341205A592f8c4Ac1A5fe5585cfA',
         },
       },
@@ -34,7 +34,7 @@ export const baseGoerli: OpStackChain & { opStackConfig: { l1: { chainId: typeof
 } as const satisfies OpStackChain
 
 export const baseGoerliAddresses: Addresses<5> = {
-  optimismPortal: {
+  portal: {
     address: '0xe93c8cD0D409341205A592f8c4Ac1A5fe5585cfA',
     chainId: 5,
   },

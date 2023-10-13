@@ -19,7 +19,7 @@ export type WriteFinalizeWithdrawalTransactionParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { withdrawal: FinalizeWithdrawalTransactionParameters; optimismPortal: RawOrContractAddress<_chainId> }
+  & { withdrawal: FinalizeWithdrawalTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
@@ -41,7 +41,7 @@ export async function writeFinalizeWithdrawalTranasction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     withdrawal,
-    optimismPortal,
+    portal,
     ...rest
   }: WriteFinalizeWithdrawalTransactionParameters<
     TChain,
@@ -50,7 +50,7 @@ export async function writeFinalizeWithdrawalTranasction<
   >,
 ): Promise<WriteContractReturnType> {
   return writeOpStackL1(client, {
-    address: resolveAddress(optimismPortal),
+    address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,

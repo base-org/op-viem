@@ -49,7 +49,7 @@ type FinalizeWithdrawalTransactionParameters = {
 }
 ```
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 

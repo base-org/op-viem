@@ -12,7 +12,7 @@ export type GetSecondsToFinalizableParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > = {
   withdrawalHash: MessagePassedEvent['withdrawalHash']
-  optimismPortal: RawOrContractAddress<_chainId>
+  portal: RawOrContractAddress<_chainId>
   l2OutputOracle: RawOrContractAddress<_chainId>
 }
 
@@ -21,11 +21,11 @@ export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
   {
     withdrawalHash,
     l2OutputOracle,
-    optimismPortal,
+    portal,
   }: GetSecondsToFinalizableParameters,
 ): Promise<bigint> {
   const provenWithdrawal = await readProvenWithdrawals(client, {
-    optimismPortal: resolveAddress(optimismPortal),
+    portal: resolveAddress(portal),
     withdrawalHash,
   })
 

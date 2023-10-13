@@ -54,7 +54,7 @@ test('sends transaction to correct infered address', async () => {
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.to).toEqual(
-    baseAddresses.optimismPortal.address.toLowerCase(),
+    baseAddresses.portal.address.toLowerCase(),
   )
 })
 
@@ -67,7 +67,7 @@ test('sends transaction to correct explicit address', async () => {
       gasLimit: 25000n,
     },
     value: 1n,
-    optimismPortal: portal,
+    portal: portal,
     account: accounts[0].address,
   })
 
@@ -166,7 +166,7 @@ test('uses defaults for data, isCreation, and value', async () => {
   )
 })
 
-test('errors if optimismPortal not passed', async () => {
+test('errors if portal not passed', async () => {
   expect(() =>
     // @ts-expect-error
     writeDepositTransaction(walletClient, {

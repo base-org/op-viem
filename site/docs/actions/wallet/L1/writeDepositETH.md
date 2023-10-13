@@ -49,7 +49,7 @@ The minimum gas limit to use for the deposit transaction.
 
 The amount of ETH to deposit.
 
-### optimismPortal
+### portal
 
 - **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
