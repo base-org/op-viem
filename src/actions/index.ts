@@ -81,6 +81,5 @@ export {
   writeSendMessage,
   type WriteSendMessageParameters,
 } from './wallet/L1/writeSendMessage.js'
-export { writeOpStackL2, type WriteOpStackL2Parameters } from './wallet/L2/writeOpStackL2.js'
 export { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './wallet/L2/writeWithdrawERC20.js'
 export { writeWithdrawETH, type WriteWithdrawETHParameters } from './wallet/L2/writeWithdrawETH.js'
