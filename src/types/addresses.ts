@@ -1,4 +1,6 @@
-export type ContractAddress<chainId = number> = { address: `0x${string}`; chainId: chainId; blockCreated?: number }
+import { type Address } from 'viem'
+
+export type ContractAddress<chainId = number> = { address: Address; chainId: chainId; blockCreated?: number }
 export type Addresses<chainId = number> = {
   portal: ContractAddress<chainId>
   l2OutputOracle: ContractAddress<chainId>
@@ -7,7 +9,7 @@ export type Addresses<chainId = number> = {
   l1Erc721Bridge: ContractAddress<chainId>
 }
 
-export type RawOrContractAddress<chainId> = `0x${string}` | ContractAddress<chainId>
+export type RawOrContractAddress<chainId> = Address | ContractAddress<chainId>
 
 export function resolveAddress(address: RawOrContractAddress<number>): `0x${string}` {
   if (typeof address !== 'string' && !address?.address) throw new Error('Invalid address')
