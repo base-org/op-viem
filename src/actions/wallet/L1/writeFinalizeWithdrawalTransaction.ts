@@ -1,11 +1,11 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import { writeContract } from 'viem/actions'
 import type { _ } from 'vitest/dist/reporters-cb94c88b.js'
 import type { MessagePassedEvent } from '../../../index.js'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 export const ABI = optimismPortalABI
 export const CONTRACT = OpStackL1Contract.OptimismPortal
@@ -49,18 +49,18 @@ export async function writeFinalizeWithdrawalTranasction<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
+  return writeContract(client, {
     address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawal],
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

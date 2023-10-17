@@ -1,8 +1,8 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { ABI, CONTRACT, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 export type WriteDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -38,18 +38,18 @@ export async function writeDepositERC20<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
+  return writeContract(client, {
     address: resolveAddress(l1StandardBridge),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
     args: [l1Token, l2Token, to, amount, minGasLimit, extraData],
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

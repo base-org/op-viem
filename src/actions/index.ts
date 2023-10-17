@@ -72,7 +72,6 @@ export {
   writeFinalizeWithdrawalTranasction,
   type WriteFinalizeWithdrawalTransactionParameters,
 } from './wallet/L1/writeFinalizeWithdrawalTransaction.js'
-export { writeOpStackL1, type WriteOpStackL1Parameters } from './wallet/L1/writeOpStackL1.js'
 export {
   writeProveWithdrawalTransaction,
   type WriteProveWithdrawalTransactionParameters,
