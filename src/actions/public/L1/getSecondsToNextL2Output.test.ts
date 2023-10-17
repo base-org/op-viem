@@ -1,7 +1,7 @@
 import { createPublicClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
+import { base, mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
-import { base, baseAddresses } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { getSecondsToNextL2Output } from './getSecondsToNextL2Output.js'
 
 test('get seconds to next L2 output', async () => {

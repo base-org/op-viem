@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { expect, test } from 'vitest'
 import { ethersProvider } from '../../../_test/bench.js'
 import { publicClient } from '../../../_test/utils.js'
-import { optimism } from '../../../chains/optimism.js'
+import { optimismAddresses } from '../../../chains/optimism.js'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx.js'
 
 test('correctly retrieves L2 hash', async () => {
@@ -40,7 +40,7 @@ test('matches @eth-optimism/core-utils', async () => {
   })
 
   const contract = new ethers.Contract(
-    optimism.opStackConfig.l1.contracts.portal.address,
+    optimismAddresses.portal.address,
     optimismPortalABI,
     ethersProvider,
   )

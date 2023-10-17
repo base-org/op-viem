@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { bench, describe } from 'vitest'
 import { ethersProvider } from '../../../_test/bench.js'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { getL2HashesForDepositTx } from './getL2HashesForDepositTx.js'
 
 describe('Computes L2 hash for L1 event', () => {
@@ -19,7 +19,7 @@ describe('Computes L2 hash for L1 event', () => {
     // I am not sure how to produce an event from a transaction receipt.
     // Happy to update this if there is a better comparison
     const contract = new ethers.Contract(
-      base.opStackConfig.l1.contracts.portal.address,
+      baseAddresses.portal.address,
       optimismPortalABI,
       ethersProvider,
     )

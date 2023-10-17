@@ -10,9 +10,8 @@ import {
   RpcRequestError,
   webSocket,
 } from 'viem'
-import { localhost, mainnet } from 'viem/chains'
+import { base, localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
-import { base } from '../chains/base.js'
 import { accounts, localHttpUrl, localRollupHttpUrl, localWsUrl, locaRolluplWsUrl } from './constants.js'
 
 export class ProviderRpcError extends Error {

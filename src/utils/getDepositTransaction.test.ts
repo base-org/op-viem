@@ -5,7 +5,7 @@ import { getTransactionReceipt } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { ethersProvider } from '../_test/bench.js'
 import { publicClient } from '../_test/utils.js'
-import { optimism } from '../chains/optimism.js'
+import { optimismAddresses } from '../chains/optimism.js'
 import { SourceHashDomain } from '../types/depositTransaction.js'
 import { getDepositTransaction } from './getDepositTransaction.js'
 import { getSourceHash } from './getSourceHash.js'
@@ -16,7 +16,7 @@ import { getTransactionDepositedEvents } from './getTransactionDepositedEvents.j
 // if debugging again in the future.
 test('derives same values as op-ethereum/core-utils', async () => {
   const contract = new ethers.Contract(
-    optimism.opStackConfig.l1.contracts.portal.address,
+    optimismAddresses.portal.address,
     optimismPortalABI,
     ethersProvider,
   )
