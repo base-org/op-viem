@@ -16,10 +16,10 @@ export default defineConfig({
     // maxThreads: 1,
     // minThreads: 1,
     coverage: {
-      lines: 97.47,
-      statements: 97.47,
+      lines: 97.54,
+      statements: 97.54,
       functions: 90.47,
-      branches: 91.46,
+      branches: 93.82,
       thresholdAutoUpdate: true,
       reporter: ['text', 'json-summary', 'json'],
       exclude: [
