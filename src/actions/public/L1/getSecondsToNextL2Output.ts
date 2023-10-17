@@ -1,7 +1,7 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
-import type { Chain, PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, ReadContractParameters, Transport } from 'viem'
+import { readContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
-import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 
 const ABI = l2OutputOracleABI
 
@@ -18,23 +18,23 @@ export async function getSecondsToNextL2Output<TChain extends Chain | undefined>
   }: GetSecondsToNextL2OutputParameters<TChain>,
 ): Promise<bigint> {
   const address = resolveAddress(l2OutputOracle)
-  const latestBlockNumber = await readOpStackL1(client, {
+  const latestBlockNumber = await readContract(client, {
     abi: ABI,
     functionName: 'latestBlockNumber',
     address,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'latestBlockNumber'>)
+  } as ReadContractParameters<typeof ABI, 'latestBlockNumber'>)
 
-  const interval = await readOpStackL1(client, {
+  const interval = await readContract(client, {
     abi: ABI,
     functionName: 'SUBMISSION_INTERVAL',
     address,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'SUBMISSION_INTERVAL'>)
+  } as ReadContractParameters<typeof ABI, 'SUBMISSION_INTERVAL'>)
 
-  const blockTime = await readOpStackL1(client, {
+  const blockTime = await readContract(client, {
     abi: ABI,
     functionName: 'L2_BLOCK_TIME',
     address,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'L2_BLOCK_TIME'>)
+  } as ReadContractParameters<typeof ABI, 'L2_BLOCK_TIME'>)
 
   const blocksTillUpdate = interval - (latestL2BlockNumber - latestBlockNumber)
   // NOTE(Wilson): incase there is some problem

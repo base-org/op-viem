@@ -1,9 +1,9 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import type { Chain, PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, ReadContractParameters, Transport } from 'viem'
+import { readContract } from 'viem/actions'
 import type { MessagePassedEvent } from '../../../index.js'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 
 const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal
@@ -21,14 +21,14 @@ export async function readFinalizedWithdrawals<TChain extends Chain | undefined>
     portal,
   }: ReadFinalizedWithdrawalsParameters<TChain>,
 ): Promise<boolean> {
-  const finalizedWithdrawal = await readOpStackL1(client, {
+  const finalizedWithdrawal = await readContract(client, {
     contract: CONTRACT,
     abi: ABI,
     functionName: FUNCTION_NAME,
     address: resolveAddress(portal),
     args: [withdrawalHash],
     chain: client.chain,
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, typeof FUNCTION_NAME>)
+  } as ReadContractParameters<typeof ABI, typeof FUNCTION_NAME>)
 
   return finalizedWithdrawal
 }

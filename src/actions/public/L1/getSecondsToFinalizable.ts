@@ -1,8 +1,8 @@
 import { l2OutputOracleABI } from '@eth-optimism/contracts-ts'
-import type { Chain, PublicClient, Transport } from 'viem'
+import type { Chain, PublicClient, ReadContractParameters, Transport } from 'viem'
+import { readContract } from 'viem/actions'
 import type { MessagePassedEvent } from '../../../index.js'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
-import { readOpStackL1, type ReadOpStackL1Parameters } from './readOpStackL1.js'
 import { readProvenWithdrawals } from './readProvenWithdrawals.js'
 
 const ABI = l2OutputOracleABI
@@ -29,11 +29,11 @@ export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
     withdrawalHash,
   })
 
-  const finalizationPeriod = await readOpStackL1(client, {
+  const finalizationPeriod = await readContract(client, {
     abi: l2OutputOracleABI,
     functionName: 'FINALIZATION_PERIOD_SECONDS',
     address: resolveAddress(l2OutputOracle),
-  } as ReadOpStackL1Parameters<TChain, typeof ABI, 'FINALIZATION_PERIOD_SECONDS'>)
+  } as ReadContractParameters<typeof ABI, 'FINALIZATION_PERIOD_SECONDS'>)
 
   const timeSinceProven = BigInt(Date.now()) / 1000n - provenWithdrawal.timestamp
 
