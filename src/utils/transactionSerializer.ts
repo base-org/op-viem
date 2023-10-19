@@ -10,14 +10,14 @@ import {
 /**
  * Serializes a transaction with EIP-1559
  */
-export const serializeEip1559Transaction = <
+export function serializeEip1559Transaction<
   TAbi extends Abi | readonly unknown[],
   TFunctionName extends string | undefined = undefined,
 >(
   options:
     & EncodeFunctionDataParameters<TAbi, TFunctionName>
     & Omit<TransactionSerializableEIP1559, 'data'>,
-): TransactionSerializedEIP1559 => {
+): TransactionSerializedEIP1559 {
   const encodedFunctionData = encodeFunctionData(options)
   const serializedTransaction = serializeTransaction({
     ...options,
