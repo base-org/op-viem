@@ -12,6 +12,7 @@ jobs:
   release-snapshot:
     name: Publish snapshot release to npm
     runs-on: ubuntu-latest
+    environment: release
     if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Checkout
