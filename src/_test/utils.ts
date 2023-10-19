@@ -10,10 +10,8 @@ import {
   RpcRequestError,
   webSocket,
 } from 'viem'
-import { localhost, mainnet } from 'viem/chains'
+import { base, localhost, mainnet } from 'viem/chains'
 import { rpc } from 'viem/utils'
-import { base } from '../chains/base.js'
-import type { OpStackChain } from '../types/opStackChain.js'
 import { accounts, localHttpUrl, localRollupHttpUrl, localWsUrl, locaRolluplWsUrl } from './constants.js'
 
 export class ProviderRpcError extends Error {
@@ -65,7 +63,7 @@ export const rollupAnvilChain = {
       webSocket: [locaRolluplWsUrl],
     },
   },
-} as const satisfies OpStackChain
+} as const satisfies Chain
 
 const provider: EIP1193Provider = {
   on: (message, listener) => {

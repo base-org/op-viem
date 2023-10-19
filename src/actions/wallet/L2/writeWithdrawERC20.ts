@@ -1,8 +1,8 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import { writeContract } from 'viem/actions'
 import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
-import { OpStackL2Contract } from '../../../types/opStackContracts.js'
+import { opStackL2ChainContracts, OpStackL2Contract } from '../../../types/opStackContracts.js'
 import { ABI, FUNCTION, type WithdrawToParameters } from '../../../types/withdrawTo.js'
-import { writeOpStackL2, type WriteOpStackL2Parameters } from './writeOpStackL2.js'
 
 export type WriteWithdrawERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -24,13 +24,13 @@ export async function writeWithdrawERC20<
   TAccount,
   TChainOverride
 >): Promise<WriteContractReturnType> {
-  return writeOpStackL2(client, {
+  return writeContract(client, {
     abi: ABI,
     functionName: FUNCTION,
     args: [l2Token, to, amount, minGasLimit, extraData],
-    contract: OpStackL2Contract.L2StandardBridge,
+    address: opStackL2ChainContracts[OpStackL2Contract.L2StandardBridge].address,
     ...rest,
-  } as unknown as WriteOpStackL2Parameters<
+  } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
     TChain,

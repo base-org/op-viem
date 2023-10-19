@@ -5,7 +5,7 @@ export enum OpStackL1Contract {
   L1Erc721Bridge = 'l1Erc721Bridge',
   L1StandardBridge = 'l1StandardBridge',
   L2OutputOracle = 'l2OutputOracle',
-  OptimismPortal = 'optimismPortal',
+  OptimismPortal = 'portal',
 }
 
 export enum OpStackL2Contract {

@@ -1,14 +1,16 @@
 import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
-import { ABI, CONTRACT, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
+import { ABI, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
 import type { L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositETHParameters }
-  & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof CONTRACT, typeof FUNCTION>
+  & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
+  & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof FUNCTION>
 
 export type SimulateDepositETHReturnType<
   TChain extends Chain | undefined,
@@ -27,15 +29,14 @@ export async function simulateDepositETH<
   client: PublicClient<Transport, TChain>,
   {
     args: { to, gasLimit, data = '0x' },
-    optimismPortalAddress,
+    portal,
     value,
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
 ): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: optimismPortalAddress,
+    address: resolveAddress(portal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [to, value, gasLimit, false, data],
     value,

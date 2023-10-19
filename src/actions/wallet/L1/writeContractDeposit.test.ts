@@ -5,7 +5,7 @@ import { expect, test } from 'vitest'
 import { erc721ABI } from 'wagmi'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { parseOpaqueData } from '../../../utils/getArgsFromTransactionDepositedOpaqueData.js'
 import { writeContractDeposit } from './writeContractDeposit.js'
 
@@ -20,7 +20,7 @@ test('default', async () => {
     args,
     account: accounts[0].address,
     l2GasLimit,
-    l2Chain: base,
+    ...baseAddresses,
   })
   await mine(testClient, { blocks: 1 })
 
@@ -66,7 +66,7 @@ test('throws error if strict = true and account is smart contract wallet', async
       args,
       account: scw_address,
       l2GasLimit,
-      l2Chain: base,
+      ...baseAddresses,
     })
   ).rejects.toThrowError(
     'Calling depositTransaction from a smart contract can have unexpected results, see https://github.com/ethereum-optimism/optimism/blob/develop/specs/deposits.md#address-aliasing. Set `strict` to false to disable this check.',
@@ -93,8 +93,8 @@ test('allows smart contract wallet if strict = false', async () => {
       args,
       account: scw_address,
       l2GasLimit,
-      l2Chain: base,
       strict: false,
+      ...baseAddresses,
     }),
   ).toBeDefined()
 })
@@ -111,7 +111,7 @@ test('throws error if no account passed', async () => {
       functionName,
       args,
       l2GasLimit,
-      l2Chain: base,
+      ...baseAddresses,
     })
   ).rejects.toThrowError(
     'No account found',

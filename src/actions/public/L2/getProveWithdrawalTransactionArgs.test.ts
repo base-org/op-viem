@@ -1,9 +1,9 @@
 import { createPublicClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
+import { base, mainnet } from 'viem/chains'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/index.js'
 import { writeProveWithdrawalTransaction } from '../../index.js'
 import { getOutputForL2Block } from '../L1/getOutputForL2Block.js'
 import { getProveWithdrawalTransactionArgs } from './getProveWithdrawalTransactionArgs.js'
@@ -46,7 +46,7 @@ test('correctly generates args', async () => {
 
   const output = await getOutputForL2Block(l1Client, {
     l2BlockNumber: withdrawalMessages.blockNumber,
-    l2Chain: base,
+    ...baseAddresses,
   })
 
   // TODO(wilson): We should simplify these test to not require so much setup ^
@@ -64,7 +64,7 @@ test('correctly generates args', async () => {
 
   const hash = await writeProveWithdrawalTransaction(walletClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
   expect(hash).toBeDefined()

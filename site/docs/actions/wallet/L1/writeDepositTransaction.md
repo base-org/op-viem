@@ -20,7 +20,7 @@ In this case, you can use [simulateSendMessage](/docs/actions/wallet/L1/simulate
 
 ```ts [example.ts]
 import { DepositTransactionParameters } from 'op-viem'
-import { base } from 'op-viem/chains'
+import { baseAddresses } from 'op-viem/chains'
 import { account, l2PublicClient, opStackL1WalletClient } from './config'
 
 const args: DepositTransactionParameters = {
@@ -42,7 +42,7 @@ args.gasLimit = gas
 
 const hash = await opStackL1WalletClient.writeDepositTransaction({
   args,
-  l2Chain: base,
+  ...baseAddresses,
   value: 1n,
 })
 ```
@@ -120,29 +120,16 @@ await walletClient.writeDepositTransaction({
 })
 ```
 
-### l2Chain (optional)
+### portal
 
-- **Type:** `OpStackChain`
-
-The destination L2 chain of the deposit transaction. `l2Chain.opStackConfig.l1.chainId` must match `chain.id` (from `client.chain` or `chain` passed explicitly as an arg). The address at `l2Chain.opStackConfig.l1.contracts.optimismPortal.address` will be used for the contract call. If this is argument not passed or if no such contract definition exists, [optimismPortalAddress](#optimismPortalAddress) must be passed explicitly.
-
-```ts
-await walletClient.writeDepositTransaction({
-  args,
-  l2Chain: base, // [!code focus:1]
-})
-```
-
-### optimismPortalAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
 The `OptimismPortal` contract where the depositTransaction call should be made.
 
 ```ts
 await walletClient.writeDepositTransaction({
   args,
-  optimismPortalAddress: portal, // [!code focus:1]
+  portalAddress: portal, // [!code focus:1]
 })
 ```
 
@@ -155,7 +142,7 @@ Value in wei sent with this transaction. This value will be credited to the bala
 ```ts
 await walletClient.writeDepositTransaction({
   args,
-  optimismPortalAddress: portal,
+  portalAddress: portal,
   value: parseEther(1), // [!code focus:1]
 })
 ```

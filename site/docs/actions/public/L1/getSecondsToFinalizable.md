@@ -4,6 +4,7 @@ Returns the number of seconds until a withdrawal is finalized for a given withdr
 
 ```ts [example.ts]
 import { publicL1Actions } from 'op-viem'
+import { baseAddresses } from 'op-viem/chains'
 import { createPublicClient } from 'viem'
 
 const publicClient = createPublicClient({
@@ -13,7 +14,15 @@ const publicClient = createPublicClient({
 }).extend(publicL1Actions)
 
 const seconds = await getSecondsToFinalizable(publicClient, {
-  l2Chain: base,
+  portal: baseAddresses.portal,
+  l2OutputOracle: baseAddresses.l2OutputOracle,
+  withdrawalHash:
+    '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
+})
+
+// or more simply
+const seconds = await getSecondsToFinalizable(publicClient, {
+  ...baseAddresses,
   withdrawalHash:
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
@@ -25,23 +34,17 @@ Returns a `number` representative of the seconds until withdrawal finalization.
 
 ## Parameters
 
-### l2chain (optional)
+### portal
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The L2 chain to deposit to.
+The address of the `OptimismPortal` contract where the `readProvenWithdrawals` call will be made.
 
-### optimismPortalAddress (optional)
+### l2OutputOracle
 
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The address of the `OptimismPortal` contract where the `readProvenWithdrawals` call will be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
-
-### l2OutputOracleAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The address of the L2OutputOracle contract where the `FINALIZATION_PERIOD_SECONDS` call will be made. MUST be provied if [l2Chain](l2chain-optional) is not.
+The address of the L2OutputOracle contract where the `FINALIZATION_PERIOD_SECONDS` call will be made.
 
 ### withdrawalHash
 

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { type ProveWithdrawalTransactionParameters } from '../../wallet/L1/writeProveWithdrawalTransaction.js'
 import { simulateProveWithdrawalTransaction } from './simulateProveWithdrawalTransaction.js'
 
@@ -35,7 +35,7 @@ const args: ProveWithdrawalTransactionParameters = {
 test('productes correct tx', async () => {
   const { request } = await simulateProveWithdrawalTransaction(publicClient, {
     args,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
   expect(request.args).toEqual([
@@ -44,5 +44,5 @@ test('productes correct tx', async () => {
     args.outputRootProof,
     args.withdrawalProof,
   ])
-  expect(request.address).toEqual(base.opStackConfig.l1.contracts.optimismPortal.address)
+  expect(request.address).toEqual(baseAddresses.portal.address)
 })

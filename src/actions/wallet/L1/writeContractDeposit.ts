@@ -12,8 +12,7 @@ import {
 } from 'viem'
 import { getBytecode } from 'viem/actions'
 import { parseAccount } from 'viem/utils'
-import { OpStackL1Contract } from '../../../index.js'
-import type { GetL2Chain, L1ActionBaseType, ResolveChain } from '../../../types/l1Actions.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
 
 export type WriteContractDepositParameters<
@@ -22,9 +21,15 @@ export type WriteContractDepositParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { account: TAccount | Address; l2GasLimit: bigint; l2MsgValue?: bigint; strict?: boolean }
-  & L1ActionBaseType<GetL2Chain<ResolveChain<TChain, TChainOverride>>, typeof OpStackL1Contract.OptimismPortal>
+  & {
+    account: TAccount | Address
+    l2GasLimit: bigint
+    l2MsgValue?: bigint
+    strict?: boolean
+    portal: RawOrContractAddress<_chainId>
+  }
   & Omit<
     WriteContractParameters<
       TAbi,
@@ -63,8 +68,7 @@ export async function writeContractDeposit<
     functionName,
     l2GasLimit,
     l2MsgValue = 0n,
-    l2Chain,
-    optimismPortalAddress,
+    portal,
     strict = true,
     ...request
   }: WriteContractDepositParameters<
@@ -94,8 +98,7 @@ export async function writeContractDeposit<
     }
   }
   return writeDepositTransaction(client, {
-    optimismPortalAddress,
-    l2Chain,
+    portal: resolveAddress(portal),
     args: { gasLimit: l2GasLimit, to: address, data: calldata, value: l2MsgValue },
     account,
     ...request,

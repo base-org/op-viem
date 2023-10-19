@@ -1,8 +1,18 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import type { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type {
+  Account,
+  Address,
+  Chain,
+  Hex,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
+import { writeContract } from 'viem/actions'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 const ABI = optimismPortalABI
 const CONTRACT = OpStackL1Contract.OptimismPortal
@@ -20,15 +30,13 @@ export type WriteDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositTransactionParameters }
+  & { args: DepositTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof CONTRACT,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**
@@ -54,7 +62,7 @@ export async function writeDepositTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
-    optimismPortalAddress,
+    portal,
     ...rest
   }: WriteDepositTransactionParameters<
     TChain,
@@ -62,18 +70,18 @@ export async function writeDepositTransaction<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
-    address: optimismPortalAddress,
+  return writeContract(client, {
+    address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
     args: [to, value, gasLimit, isCreation, data],
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

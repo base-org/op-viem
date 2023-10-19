@@ -14,7 +14,6 @@ export type {
   GasPriceOracleParameters,
   OracleTransactionParameters,
 } from './types/gasPriceOracle.js'
-export type { OpStackChain, OpStackConfig } from './types/opStackChain.js'
 export {
   OpStackL1Contract,
   type OpStackL2ChainContracts,

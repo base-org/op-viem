@@ -1,9 +1,10 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import { writeContract } from 'viem/actions'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import type { GetProveWithdrawalTransactionArgsReturnType } from '../../index.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 export const ABI = optimismPortalABI
 export const CONTRACT = OpStackL1Contract.OptimismPortal
@@ -15,15 +16,13 @@ export type WriteProveWithdrawalTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: ProveWithdrawalTransactionParameters }
+  & { args: ProveWithdrawalTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof CONTRACT,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**
@@ -41,7 +40,7 @@ export async function writeProveWithdrawalTransaction<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { withdrawalTransaction, outputRootProof, withdrawalProof, L2OutputIndex },
-    optimismPortalAddress,
+    portal,
     ...rest
   }: WriteProveWithdrawalTransactionParameters<
     TChain,
@@ -49,18 +48,18 @@ export async function writeProveWithdrawalTransaction<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
-    address: optimismPortalAddress,
+  return writeContract(client, {
+    address: resolveAddress(portal),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawalTransaction, L2OutputIndex, outputRootProof, withdrawalProof],
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

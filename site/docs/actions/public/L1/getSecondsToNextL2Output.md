@@ -16,7 +16,12 @@ const l1Client = createPublicClient({
 
 const time = await l1Client.getSecondsToNextL2Output(, {
   latestL2BlockNumber,
-  l2Chain: base,
+  l2OutputOracle: baseAddresses.l2OutputOracle,
+})
+// Or
+const time = await l1Client.getSecondsToNextL2Output(, {
+  latestL2BlockNumber,
+  ...baseAddresses,
 })
 ```
 
@@ -28,14 +33,14 @@ Seconds until the next L2 output should be posted.
 
 ## Parameters
 
-### l2Chain (optional)
+### latestL2BlockNumber
 
-- **Type:** `OpStackChain`
+- **Type:** `bigint`
 
-The L2 chain that we are waiting on the output of.
+The latest L2 block number.
 
-### l2OutputOracleAddress (optional)
+### l2OutputOracle
 
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The address of the L2OutputOracle contract. MUST be provied if [l2Chain](l2chain-optional) is not.
+The address of the L2OutputOracle contract.

@@ -1,4 +1,4 @@
-import type { Abi, Chain, PublicClient, ReadContractReturnType, Transport } from 'viem'
+import type { Chain, PublicClient, Transport } from 'viem'
 import {
   getL2HashesForDepositTx,
   type GetL2HashesForDepositTxParamters,
@@ -21,7 +21,6 @@ import {
   readFinalizedWithdrawals,
   type ReadFinalizedWithdrawalsParameters,
 } from '../actions/public/L1/readFinalizedWithdrawals.js'
-import { readOpStackL1, type ReadOpStackL1Parameters } from '../actions/public/L1/readOpStackL1.js'
 import {
   readProvenWithdrawals,
   type ReadProvenWithdrawalsParameters,
@@ -73,10 +72,6 @@ export type PublicL1OpStackActions<
   getSecondsToFinalizable: (args: GetSecondsToFinalizableParameters<TChain>) => Promise<bigint>
   readProvenWithdrawals: (args: ReadProvenWithdrawalsParameters<TChain>) => Promise<ReadProvenWithdrawalsReturnType>
   readFinalizedWithdrawals: (args: ReadFinalizedWithdrawalsParameters<TChain>) => Promise<boolean>
-  readOpStackL1: <
-    const TAbi extends Abi | readonly unknown[],
-    TFunctionName extends string,
-  >(args: ReadOpStackL1Parameters<TChain, TAbi, TFunctionName>) => Promise<ReadContractReturnType<TAbi, TFunctionName>>
 }
 
 export function publicL1OpStackActions<
@@ -95,6 +90,5 @@ export function publicL1OpStackActions<
     getSecondsToFinalizable: (args) => getSecondsToFinalizable(client, args),
     readProvenWithdrawals: (args) => readProvenWithdrawals(client, args),
     readFinalizedWithdrawals: (args) => readFinalizedWithdrawals(client, args),
-    readOpStackL1: (args) => readOpStackL1(client, args),
   }
 }

@@ -37,3 +37,18 @@ An [event](https://github.com/ethereum-optimism/optimism/blob/f368843d5b5a730a6b
 ## WithdrawalProof
 
 A dynamic-length array of bytes used in proving transactions in the [OptimismPortal](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L212). The proving transaction [must verify](https://github.com/ethereum-optimism/optimism/blob/adf55b3a60279e4750ab0682cb92d19921bbd92a/packages/contracts-bedrock/src/L1/OptimismPortal.sol#L263) that this hash is contained in the L2ToL1MessagePasser's storage.
+
+## RawOrContractAddress
+
+```ts [example.ts]
+export type ContractAddress<chainId = number> = {
+  address: `0x${string}`
+  chainId: chainId
+  blockCreated: number
+}
+export type RawOrContractAddress<chainId> =
+  | `0x${string}`
+  | ContractAddress<chainId>
+```
+
+Either a raw address string or an annotated ContractAddress such as found in the chain addresses object.

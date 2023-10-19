@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { readProvenWithdrawals } from './readProvenWithdrawals.js'
 
 test('read proven withdrawals', async () => {
@@ -11,7 +11,7 @@ test('read proven withdrawals', async () => {
   }
 
   const provenWithdrawal = await readProvenWithdrawals(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
   })
 
@@ -21,7 +21,7 @@ test('read proven withdrawals', async () => {
 test('raises error if not proven', async () => {
   expect(() =>
     readProvenWithdrawals(publicClient, {
-      l2Chain: base,
+      ...baseAddresses,
       withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0C18D4889A23E74692101BA4C6DC9B5709',
     })
   ).rejects.toThrowError(

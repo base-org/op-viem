@@ -1,8 +1,18 @@
 import { l1CrossDomainMessengerABI } from '@eth-optimism/contracts-ts'
-import type { Account, Address, Chain, Hex, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type {
+  Account,
+  Address,
+  Chain,
+  Hex,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
+import { writeContract } from 'viem/actions'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { OpStackL1Contract } from '../../../types/opStackContracts.js'
-import { writeOpStackL1, type WriteOpStackL1Parameters } from './writeOpStackL1.js'
 
 const ABI = l1CrossDomainMessengerABI
 const CONTRACT = OpStackL1Contract.L1CrossDomainMessenger
@@ -18,15 +28,13 @@ export type WriteSendMessageParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: SendMessageParameters }
+  & { args: SendMessageParameters; l1CrossDomainMessenger: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof CONTRACT,
-    typeof FUNCTION
+    TChainOverride
   >
 
 /**
@@ -44,7 +52,7 @@ export async function writeSendMessage<
   client: WalletClient<Transport, TChain, TAccount>,
   {
     args: { target, minGasLimit, message = '0x' },
-    l1CrossDomainMessengerAddress,
+    l1CrossDomainMessenger,
     ...rest
   }: WriteSendMessageParameters<
     TChain,
@@ -52,18 +60,18 @@ export async function writeSendMessage<
     TChainOverride
   >,
 ): Promise<WriteContractReturnType> {
-  return writeOpStackL1(client, {
-    address: l1CrossDomainMessengerAddress,
+  return writeContract(client, {
+    address: resolveAddress(l1CrossDomainMessenger),
     abi: ABI,
     contract: CONTRACT,
     functionName: FUNCTION,
     args: [target, message, minGasLimit],
     ...rest,
-  } as unknown as WriteOpStackL1Parameters<
+  } as unknown as WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
     TChain,
     TAccount,
-    TChainOverride,
-    typeof ABI,
-    typeof FUNCTION
+    TChainOverride
   >)
 }

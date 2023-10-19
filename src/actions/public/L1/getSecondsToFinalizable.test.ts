@@ -1,11 +1,11 @@
 import { expect, test, vi } from 'vitest'
 import { publicClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/base.js'
+import { baseAddresses } from '../../../chains/base.js'
 import { getSecondsToFinalizable } from './getSecondsToFinalizable.js'
 
 test('returns 0 if seconds would be negative', async () => {
   const seconds = await getSecondsToFinalizable(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
   })
 
@@ -21,7 +21,7 @@ test('returns correctly seconds', async () => {
   const date = new Date(parseInt(block.timestamp.toString()) * 1000)
   vi.setSystemTime(date)
   const seconds = await getSecondsToFinalizable(publicClient, {
-    l2Chain: base,
+    ...baseAddresses,
     withdrawalHash: '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
   })
 
@@ -32,7 +32,7 @@ test('returns correctly seconds', async () => {
 test('raises error if cannot find', async () => {
   expect(() =>
     getSecondsToFinalizable(publicClient, {
-      l2Chain: base,
+      ...baseAddresses,
       withdrawalHash: '0xEC0AD491512F5EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
     })
   ).rejects.toThrowError(

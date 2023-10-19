@@ -1,8 +1,8 @@
 import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { type L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import {
   ABI,
-  CONTRACT,
   type FinalizeWithdrawalTransactionParameters,
   FUNCTION,
 } from '../../wallet/L1/writeFinalizeWithdrawalTransaction.js'
@@ -11,13 +11,13 @@ import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateO
 export type SimulateFinalizeWithdrawalTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { withdrawal: FinalizeWithdrawalTransactionParameters }
+  & { withdrawal: FinalizeWithdrawalTransactionParameters; portal: RawOrContractAddress<_chainId> }
   & L1SimulateActionBaseType<
     TChain,
     TChainOverride,
     typeof ABI,
-    typeof CONTRACT,
     typeof FUNCTION
   >
 
@@ -44,7 +44,7 @@ export async function simulateFinalizeWithdrawalTransaction<
   client: PublicClient<Transport, TChain>,
   {
     withdrawal,
-    optimismPortalAddress,
+    portal,
     ...rest
   }: SimulateFinalizeWithdrawalTransactionParameters<
     TChain,
@@ -52,9 +52,8 @@ export async function simulateFinalizeWithdrawalTransaction<
   >,
 ): Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: optimismPortalAddress,
+    address: resolveAddress(portal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawal],
     ...rest,

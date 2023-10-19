@@ -1,14 +1,16 @@
 import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
-import { ABI, CONTRACT, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
+import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
+import { ABI, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
 import type { L1SimulateActionBaseType } from '../../../types/l1Actions.js'
 import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositERC20Parameters }
-  & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof CONTRACT, typeof FUNCTION>
+  & { args: DepositERC20Parameters; l1StandardBridge: RawOrContractAddress<_chainId> }
+  & L1SimulateActionBaseType<TChain, TChainOverride, typeof ABI, typeof FUNCTION>
 
 export type SimulateDepositERC20ReturnType<
   TChain extends Chain | undefined,
@@ -27,14 +29,13 @@ export async function simulateDepositERC20<
   client: PublicClient<Transport, TChain>,
   {
     args: { l1Token, l2Token, to, amount, minGasLimit, extraData = '0x' },
-    l1StandardBridgeAddress,
+    l1StandardBridge,
     ...rest
   }: SimulateDepositERC20Parameters<TChain, TChainOverride>,
 ): Promise<SimulateContractReturnType<typeof ABI, typeof FUNCTION, TChain, TChainOverride>> {
   return simulateOpStackL1(client, {
-    address: l1StandardBridgeAddress,
+    address: resolveAddress(l1StandardBridge),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [l1Token, l2Token, to, amount, minGasLimit, extraData],
     ...rest,

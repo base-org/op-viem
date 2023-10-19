@@ -2,7 +2,7 @@ import { readContract, writeContract } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { erc20ABI } from 'wagmi'
 import { publicClient, testClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/index.js'
 import { simulateDepositERC20 } from './simulateDepositERC20.js'
 
 const USDCL1 = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
@@ -22,7 +22,7 @@ test('default', async () => {
     address: USDCL1,
     abi: erc20ABI,
     functionName: 'approve',
-    args: [base.opStackConfig.l1.contracts.l1StandardBridge.address, 10000n],
+    args: [baseAddresses.l1StandardBridge.address, 10000n],
     account: zenaddress,
   })
   const balanceBefore = await readContract(testClient, {
@@ -40,7 +40,7 @@ test('default', async () => {
       amount: 1n,
       minGasLimit: 100000,
     },
-    l2Chain: base,
+    ...baseAddresses,
     account: zenaddress,
   })
 

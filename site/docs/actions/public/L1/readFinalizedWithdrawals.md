@@ -13,7 +13,13 @@ const publicClient = createPublicClient({
 }).extend(publicL1Actions)
 
 const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
-  l2Chain: base,
+  portal: baseAddresses.portal,
+  withdrawalHash:
+    '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
+})
+// Or
+const finalizedWithdrawal = await readFinalizedWithdrawals(publicClient, {
+  ...baseAddresses,
   withdrawalHash:
     '0xEC0AD491512F4EDC603C2DD7B9371A0B18D4889A23E74692101BA4C6DC9B5709',
 })
@@ -25,17 +31,11 @@ Returns a `boolean` for whether the withdrawal has been finalized.
 
 ## Parameters
 
-### l2chain (optional)
+### portalAddress
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The L2 chain to deposit to.
-
-### optimismPortalAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
+The `OptimismPortal` contract where the sendMessage call should be made.
 
 ### withdrawalHash
 

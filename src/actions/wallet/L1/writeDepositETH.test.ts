@@ -4,7 +4,7 @@ import { mine } from 'viem/actions'
 import { expect, test } from 'vitest'
 import { accounts } from '../../../_test/constants.js'
 import { publicClient, testClient, walletClient } from '../../../_test/utils.js'
-import { base } from '../../../chains/index.js'
+import { baseAddresses } from '../../../chains/index.js'
 import type { DepositETHParameters, TransactionDepositedEvent } from '../../../index.js'
 import { writeDepositETH } from './writeDepositETH.js'
 
@@ -17,7 +17,7 @@ test('default', async () => {
         data: '0x',
       },
       value: 1n,
-      l2Chain: base,
+      ...baseAddresses,
       account: accounts[0].address,
     }),
   ).toBeDefined()
@@ -33,7 +33,7 @@ test('correctly deposits ETH', async () => {
   const hash = await writeDepositETH(walletClient, {
     args,
     value,
-    l2Chain: base,
+    ...baseAddresses,
     account: accounts[0].address,
   })
 
