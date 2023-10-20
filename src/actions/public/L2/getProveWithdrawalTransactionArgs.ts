@@ -1,4 +1,4 @@
-import { type Chain, type Hex, type PublicClient, type Transport } from 'viem'
+import { type Chain, type Hex, type PublicClient, toHex, type Transport } from 'viem'
 import { getBlock } from 'viem/actions'
 import { opStackL2ChainContracts } from '../../../index.js'
 import type { MessagePassedEvent } from '../../../types/withdrawal.js'
@@ -52,7 +52,7 @@ export async function getProveWithdrawalTransactionArgs<
   const proof = await getProof(client, {
     address: opStackL2ChainContracts.l2ToL1MessagePasser.address,
     storageKeys: [slot],
-    block: block.hash,
+    block: toHex(block.number),
   })
   // rome-ignore lint: ok unused variable
   const { withdrawalHash, ...withdrawalTransaction } = message
