@@ -1,4 +1,4 @@
-import { encodeAbiParameters, type Hex, keccak256, parseAbiParameters } from 'viem'
+import { encodeAbiParameters, type Hex, keccak256, parseAbiParameters, pad } from 'viem'
 
 // from https://github.com/ethereum-optimism/optimism/blob/develop/packages/sdk/src/utils/message-utils.ts#L42
 // adapted to viem
@@ -12,9 +12,9 @@ import { encodeAbiParameters, type Hex, keccak256, parseAbiParameters } from 'vi
  * @returns The storage slot in L2ToL1MessagePasser of the sent message
  */
 export const getWithdrawalMessageStorageSlot = (messageHash: Hex): Hex => {
-  const data = encodeAbiParameters(parseAbiParameters(['bytes32, uint256']), [
+  const data = encodeAbiParameters(parseAbiParameters('bytes32, uint256'), [
     messageHash,
-    0n,
+    BigInt(pad('0x0')),
   ])
   return keccak256(data)
 }
