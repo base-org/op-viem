@@ -1,8 +1,8 @@
-import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
+import type { Chain, PublicClient, SimulateContractParameters, SimulateContractReturnType, Transport } from 'viem'
+import { simulateContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { ABI, type DepositETHParameters, FUNCTION } from '../../../types/depositETH.js'
 import type { L1SimulateActionBaseType } from '../../../types/l1Actions.js'
-import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -34,12 +34,12 @@ export async function simulateDepositETH<
     ...rest
   }: SimulateDepositETHParameters<TChain, TChainOverride>,
 ): Promise<SimulateDepositETHReturnType<TChain, TChainOverride>> {
-  return simulateOpStackL1(client, {
+  return simulateContract(client, {
     address: resolveAddress(portal),
     abi: ABI,
     functionName: FUNCTION,
     args: [to, value, gasLimit, false, data],
     value,
     ...rest,
-  } as unknown as SimulateOpStackL1Parameters<TChain, TChainOverride, typeof ABI, typeof FUNCTION>)
+  } as unknown as SimulateContractParameters<typeof ABI, typeof FUNCTION, TChain, TChainOverride>)
 }

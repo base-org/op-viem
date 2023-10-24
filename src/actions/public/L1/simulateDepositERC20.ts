@@ -1,8 +1,8 @@
-import type { Chain, PublicClient, SimulateContractReturnType, Transport } from 'viem'
+import type { Chain, PublicClient, SimulateContractParameters, SimulateContractReturnType, Transport } from 'viem'
+import { simulateContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { ABI, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
 import type { L1SimulateActionBaseType } from '../../../types/l1Actions.js'
-import { simulateOpStackL1, type SimulateOpStackL1Parameters } from './simulateOpStackL1.js'
 
 export type SimulateDepositERC20Parameters<
   TChain extends Chain | undefined = Chain,
@@ -33,11 +33,11 @@ export async function simulateDepositERC20<
     ...rest
   }: SimulateDepositERC20Parameters<TChain, TChainOverride>,
 ): Promise<SimulateContractReturnType<typeof ABI, typeof FUNCTION, TChain, TChainOverride>> {
-  return simulateOpStackL1(client, {
+  return simulateContract(client, {
     address: resolveAddress(l1StandardBridge),
     abi: ABI,
     functionName: FUNCTION,
     args: [l1Token, l2Token, to, amount, minGasLimit, extraData],
     ...rest,
-  } as unknown as SimulateOpStackL1Parameters<TChain, TChainOverride, typeof ABI, typeof FUNCTION>)
+  } as unknown as SimulateContractParameters<typeof ABI, typeof FUNCTION, TChain, TChainOverride>)
 }

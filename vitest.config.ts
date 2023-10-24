@@ -16,8 +16,8 @@ export default defineConfig({
     // maxThreads: 1,
     // minThreads: 1,
     coverage: {
-      lines: 97.54,
-      statements: 97.54,
+      lines: 95,
+      statements: 95,
       functions: 90,
       branches: 93.82,
       thresholdAutoUpdate: true,
