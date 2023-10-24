@@ -6,7 +6,7 @@ Simulates [writeProveWithdrawalTransactoin](/docs/actions/wallet/L1/writeProveWi
 
 ```ts [example.ts]
 import { ProveWithdrawalTransactionArgs } from 'op-viem'
-import { base } from 'op-viem/chains'
+import { baseAddresses } from 'op-viem/chains'
 import { opStackL1PublicClient, opStackL2PublicClient } from './config'
 
 // with static args
@@ -48,7 +48,7 @@ const withdrawalMessages = await opStackL2PublicClient.getWithdrawalMessages({
 
 const output = await opStackL1PublicClient.getOutputForL2Block({
   l2BlockNumber: withdrawalMessages.blockNumber,
-  l2Chain: base,
+  baseAddresses,
 })
 
 const args = await opStackL2PublicClient.getProveWithdrawalTransactionArgs({
@@ -58,7 +58,7 @@ const args = await opStackL2PublicClient.getProveWithdrawalTransactionArgs({
 
 const hash = await opStackL1PublicClient.simulateProveWithdrawalTransaction({
   args,
-  l2Chain: base,
+  baseAddresses,
 })
 ```
 
@@ -135,34 +135,21 @@ await walletClient.simulateProveWithdrawalTransaction({
       '0xf851808080a0416fd1169258cec24c52324935014bf4f68f3536180a4602708b5cd521a2659e8080a0b01b31a59349372e45452b61e689ecbfe33939eb609207f4b650c173c05722bf80808080808080808080',
       '0xe09e3244a3f2d3e778ea2b2c739f085da3cf4453befda1c8c31c84e17e18a39301',
     ],
-  }
-  l2Chain: base,
+  },
+  ...baseAddresses,
 })
 ```
 
-### l2Chain (optional)
+### portal(optional)
 
-- **Type:** `OpStackChain`
+- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
 
-The chain on which the withdrawal was initiated, used to determine which `OptimismPortal` to call.
+The `OptimismPortal` contract where the sendMessage call should be made.
 
 ```ts
 await walletClient.simulateProveWithdrawalTransaction({
   args,
-  l2Chain: base, // [!code focus:1]
-})
-```
-
-### portalAddress (optional)
-
-- **Type:** [`Address`](https://viem.sh/docs/glossary/types#address)
-
-The `OptimismPortal` contract where the sendMessage call should be made. MUST be specified if [l2Chain](#l2chain-optional) not passed.
-
-```ts
-await walletClient.simulateProveWithdrawalTransaction({
-  args,
-  portalAddress: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
+  portal: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e', // [!code focus:1]
 })
 ```
 
