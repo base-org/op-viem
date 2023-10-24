@@ -14,12 +14,7 @@ export type {
   GasPriceOracleParameters,
   OracleTransactionParameters,
 } from './types/gasPriceOracle.js'
-export {
-  OpStackL1Contract,
-  type OpStackL2ChainContracts,
-  opStackL2ChainContracts,
-  OpStackL2Contract,
-} from './types/opStackContracts.js'
+export { type OpStackL2ChainContracts, opStackL2ChainContracts, OpStackL2Contract } from './types/opStackContracts.js'
 export type { MessagePassedEvent } from './types/withdrawal.js'
 export type { WithdrawETHParameters, WithdrawToParameters } from './types/withdrawTo.js'
 export type { GetDepositTransactionParams } from './utils/getDepositTransaction.js'
