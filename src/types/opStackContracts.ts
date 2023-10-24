@@ -1,13 +1,5 @@
 import type { ChainContract } from 'viem'
 
-export enum OpStackL1Contract {
-  L1CrossDomainMessenger = 'l1CrossDomainMessenger',
-  L1Erc721Bridge = 'l1Erc721Bridge',
-  L1StandardBridge = 'l1StandardBridge',
-  L2OutputOracle = 'l2OutputOracle',
-  OptimismPortal = 'portal',
-}
-
 export enum OpStackL2Contract {
   L2CrossDomainMessenger = 'l2CrossDomainMessenger',
   L2StandardBridge = 'l2StandardBridge',
