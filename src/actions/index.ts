@@ -30,7 +30,6 @@ export {
   type SimulateDepositETHParameters,
   type SimulateDepositETHReturnType,
 } from './public/L1/simulateDepositETH.js'
-export { simulateOpStackL1, type SimulateOpStackL1Parameters } from './public/L1/simulateOpStackL1.js'
 export {
   simulateProveWithdrawalTransaction,
   type SimulateProveWithdrawalTransactionParameters,
