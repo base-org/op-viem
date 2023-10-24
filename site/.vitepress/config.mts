@@ -63,6 +63,10 @@ export default defineConfig({
                 link: '/docs/actions/public/L1/simulateDepositETH',
               },
               {
+                text: 'simulateDepositTransaction',
+                link: '/docs/actions/public/L1/simulateDepositTransaction',
+              },
+              {
                 text: 'simulateFinalizeWithdrawalTransaction',
                 link: '/docs/actions/public/L1/simulateFinalizeWithdrawalTransaction',
               },
