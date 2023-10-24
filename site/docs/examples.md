@@ -3,7 +3,7 @@
 ::: code-group
 
 ```ts [index.ts]
-import { baseGoerli } from 'op-viem/chains'
+import { baseGoerliAddresses } from 'op-viem/chains'
 import {
   account,
   l1PublicClient,
@@ -18,7 +18,7 @@ const depositTxHash = await l1WalletClient.writeDepositETH({
     minGasLimit: 21000,
   },
   value: 1n,
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
 })
 
 const txReceipt = await l1PublicClient.waitForTransactionReceipt({
@@ -72,7 +72,7 @@ export const l2PublicClient = createPublicClient({
 ::: code-group
 
 ```ts [index.ts]
-import { baseGoerli } from 'op-viem/chains'
+import { baseGoerliAddresses } from 'op-viem/chains'
 import {
   account,
   l1PublicClient,
@@ -99,12 +99,12 @@ const withdrawalMessages = await l2PublicClient.getWithdrawalMessages({
 })
 const output = await l1PublicClient.getOutputForL2Block({
   l2BlockNumber: withdrawalMessages.blockNumber,
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
 })
 
 const l2BlockNumber = await l2PublicClient.getBlockNumber()
 const secondsToProve = await l1PublicClient.getSecondsToNextL2Output({
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
   latestL2BlockNumber: l2BlockNumber,
 })
 
@@ -119,19 +119,19 @@ const proveWithdrawalArgs = await l2PublicClient
 const proveWithdrawalTxHash = await l1WalletClient
   .writeProveWithdrawalTransaction({
     args: proveWithdrawalArgs,
-    l2Chain: baseGoerli,
+    ...baseGoerliAddresses,
   })
 
 await l1PublicClient.waitForTransactionReceipt({ hash: proveWithdrawalTxHash })
 
 const provenWithdrawal = await l1PublicClient.readProvenWithdrawals({
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
   withdrawalHash: withdrawalMessages.messages[0].withdrawalHash,
 })
 console.log('provenWithdrawal', provenWithdrawal)
 
 const secondsToFinalize = await l1PublicClient.getSecondsToFinalizable({
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
   withdrawalHash: withdrawalMessages.messages[0].withdrawalHash,
 })
 
@@ -140,7 +140,7 @@ const secondsToFinalize = await l1PublicClient.getSecondsToFinalizable({
 const { withdrawalHash, ...withdrawal } = withdrawalMessages.messages[0]
 const finalizeTxHash = await l1WalletClient.writeFinalizeWithdrawalTransaction({
   withdrawal,
-  l2Chain: baseGoerli,
+  ...baseGoerliAddresses,
 })
 console.log('finalizeTxHash', finalizeTxHash)
 ```

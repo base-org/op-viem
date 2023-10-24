@@ -116,7 +116,7 @@ await walletClient.writeDepositTransaction({
     gasLimit: 21000n,
     isCreation: false,
   },
-  l2Chain: base,
+  ...baseAddresses,
 })
 ```
 

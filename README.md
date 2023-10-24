@@ -26,6 +26,7 @@
 import { createWalletClient, createPublicClient, custom, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { mainnet, base } from 'viem/chains'
+import { baseAddresses } from 'op-viem/chains'
 import { walletL1OpStackActions, publicL1OpStackActions, publicL2OpStackActions } from 'op-viem'
 
 // create clients
@@ -45,7 +46,7 @@ export const opStackL2PublicClient = createPublicClient({
 }).extend(publicL2OpStackActions)
 
 // perform an action
-opStackL1PublicClient.getOutputForL2Block(blockNumber: 2725977n, l2Chain: base)
+opStackL1PublicClient.getOutputForL2Block(blockNumber: 2725977n, ...baseAddresses)
 ```
 
 ## Community
