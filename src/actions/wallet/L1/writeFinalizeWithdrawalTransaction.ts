@@ -5,10 +5,8 @@ import type { _ } from 'vitest/dist/reporters-cb94c88b.js'
 import type { MessagePassedEvent } from '../../../index.js'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 export const ABI = optimismPortalABI
-export const CONTRACT = OpStackL1Contract.OptimismPortal
 export const FUNCTION = 'finalizeWithdrawalTransaction'
 
 export type FinalizeWithdrawalTransactionParameters = Omit<MessagePassedEvent, 'withdrawalHash'>
@@ -52,7 +50,6 @@ export async function writeFinalizeWithdrawalTranasction<
   return writeContract(client, {
     address: resolveAddress(portal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawal],
     ...rest,

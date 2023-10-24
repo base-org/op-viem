@@ -3,11 +3,9 @@ import type { Account, Chain, Transport, WalletClient, WriteContractParameters, 
 import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 import type { GetProveWithdrawalTransactionArgsReturnType } from '../../index.js'
 
 export const ABI = optimismPortalABI
-export const CONTRACT = OpStackL1Contract.OptimismPortal
 export const FUNCTION = 'proveWithdrawalTransaction'
 
 export type ProveWithdrawalTransactionParameters = GetProveWithdrawalTransactionArgsReturnType
@@ -51,7 +49,6 @@ export async function writeProveWithdrawalTransaction<
   return writeContract(client, {
     address: resolveAddress(portal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [withdrawalTransaction, L2OutputIndex, outputRootProof, withdrawalProof],
     ...rest,

@@ -12,11 +12,9 @@ import type {
 import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
-const ABI = optimismPortalABI
-const CONTRACT = OpStackL1Contract.OptimismPortal
-const FUNCTION = 'depositTransaction'
+export const ABI = optimismPortalABI
+export const FUNCTION = 'depositTransaction'
 
 export type DepositTransactionParameters = {
   to: Address
@@ -73,7 +71,6 @@ export async function writeDepositTransaction<
   return writeContract(client, {
     address: resolveAddress(portal),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [to, value, gasLimit, isCreation, data],
     ...rest,

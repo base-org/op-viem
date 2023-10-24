@@ -1,7 +1,7 @@
 import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
-import { ABI, CONTRACT, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
+import { ABI, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 
 export type WriteDepositERC20Parameters<
@@ -41,7 +41,6 @@ export async function writeDepositERC20<
   return writeContract(client, {
     address: resolveAddress(l1StandardBridge),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [l1Token, l2Token, to, amount, minGasLimit, extraData],
     ...rest,

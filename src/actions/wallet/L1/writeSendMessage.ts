@@ -12,10 +12,8 @@ import type {
 import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
-import { OpStackL1Contract } from '../../../types/opStackContracts.js'
 
 const ABI = l1CrossDomainMessengerABI
-const CONTRACT = OpStackL1Contract.L1CrossDomainMessenger
 const FUNCTION = 'sendMessage'
 
 export type SendMessageParameters = {
@@ -63,7 +61,6 @@ export async function writeSendMessage<
   return writeContract(client, {
     address: resolveAddress(l1CrossDomainMessenger),
     abi: ABI,
-    contract: CONTRACT,
     functionName: FUNCTION,
     args: [target, message, minGasLimit],
     ...rest,
