@@ -1,6 +1,7 @@
 import type {
   Abi,
   BlockTag,
+  ContractFunctionName,
   EncodeFunctionDataParameters,
   PublicClient,
   TransactionSerializableEIP1559,
@@ -32,7 +33,9 @@ export type GasPriceOracleParameters = BlockOptions
  */
 export type OracleTransactionParameters<
   TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 > =
   & EncodeFunctionDataParameters<TAbi, TFunctionName>
   & Omit<TransactionSerializableEIP1559, 'data' | 'type'>
@@ -43,7 +46,9 @@ export type OracleTransactionParameters<
 export type GasPriceOracleEstimator = <
   TChain extends Chain | undefined,
   TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 >(
   client: PublicClient<Transport, TChain>,
   options: OracleTransactionParameters<TAbi, TFunctionName>,

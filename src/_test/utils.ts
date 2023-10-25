@@ -47,7 +47,6 @@ export const rollupAnvilChain = {
   ...base,
   id: 8453,
   name: 'Rollup Localhost',
-  network: 'localhost',
   nativeCurrency: {
     decimals: 18,
     name: 'Ether',
