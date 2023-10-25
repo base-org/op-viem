@@ -55,7 +55,7 @@ export async function writeDepositERC20<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride
