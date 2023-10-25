@@ -1,8 +1,12 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import { optimismPortalABI } from '@eth-optimism/contracts-ts'
+import type { Account, Chain, ContractFunctionArgs, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { type DepositETHParameters } from '../../../types/depositETH.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
 import { writeDepositTransaction, type WriteDepositTransactionParameters } from './writeDepositTransaction.js'
+
+export const ABI = optimismPortalABI
+export const FUNCTION = 'depositTransaction'
 
 export type WriteDepositETHParameters<
   TChain extends Chain | undefined = Chain,
@@ -11,13 +15,13 @@ export type WriteDepositETHParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
   & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
-  & Omit<
-    L1WriteActionBaseType<
-      TChain,
-      TAccount,
-      TChainOverride
-    >,
-    'value'
+  & L1WriteActionBaseType<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+    TChain,
+    TAccount,
+    TChainOverride
   >
 
 /**

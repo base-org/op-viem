@@ -31,6 +31,9 @@ export type WriteSendMessageParameters<
 > =
   & { args: SendMessageParameters; l1CrossDomainMessenger: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride
