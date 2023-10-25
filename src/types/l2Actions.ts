@@ -1,6 +1,7 @@
 import type {
   Abi,
   Account,
+  Address,
   Chain,
   ContractFunctionArgs,
   ContractFunctionName,
@@ -10,37 +11,38 @@ import type {
 
 export type L2WriteContractParameters<
   TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctioName extends ContractFunctionName<
+  TFunctionName extends ContractFunctionName<
     TAbi,
     'nonpayable' | 'payable'
   > = ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
   TArgs extends ContractFunctionArgs<
     TAbi,
     'nonpayable' | 'payable',
-    TFunctioName
-  > = ContractFunctionArgs<TAbi, 'nonpayable' | 'payable', TFunctioName>,
+    TFunctionName
+  > = ContractFunctionArgs<TAbi, 'nonpayable' | 'payable', TFunctionName>,
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<TAbi, TFunctioName, TArgs, TChain, TAccount, TChainOverride>,
+  WriteContractParameters<TAbi, TFunctionName, TArgs, TChain, TAccount, TChainOverride>,
   'abi' | 'functionName' | 'args' | 'address'
 >
 
 export type L2SimulateContractParameters<
   TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctioName extends ContractFunctionName<
+  TFunctionName extends ContractFunctionName<
     TAbi,
     'nonpayable' | 'payable'
   > = ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
   TArgs extends ContractFunctionArgs<
     TAbi,
     'nonpayable' | 'payable',
-    TFunctioName
-  > = ContractFunctionArgs<TAbi, 'nonpayable' | 'payable', TFunctioName>,
+    TFunctionName
+  > = ContractFunctionArgs<TAbi, 'nonpayable' | 'payable', TFunctionName>,
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,
+  TAccountOverride extends Account | Address | undefined = undefined,
 > = Omit<
-  SimulateContractParameters<TAbi, TFunctioName, TArgs, TChain, TChainOverride>,
+  SimulateContractParameters<TAbi, TFunctionName, TArgs, TChain, TChainOverride, TAccountOverride>,
   'abi' | 'functionName' | 'args' | 'address'
 >
