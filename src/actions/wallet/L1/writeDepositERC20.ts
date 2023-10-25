@@ -1,4 +1,12 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import type {
+  Account,
+  Chain,
+  ContractFunctionArgs,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
 import { writeContract } from 'viem/actions'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import { ABI, type DepositERC20Parameters, FUNCTION } from '../../../types/depositERC20.js'
@@ -47,6 +55,7 @@ export async function writeDepositERC20<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
     TChain,
     TAccount,
     TChainOverride
