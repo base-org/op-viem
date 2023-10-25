@@ -34,6 +34,9 @@ export type WriteDepositTransactionParameters<
  =
   & { args: DepositTransactionParameters; portal: RawOrContractAddress<number> }
   & L1WriteActionBaseType<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride

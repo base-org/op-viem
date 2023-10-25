@@ -27,6 +27,9 @@ export type WriteFinalizeWithdrawalTransactionParameters<
 > =
   & { args: { withdrawal: FinalizeWithdrawalTransactionParameters }; portal: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride
