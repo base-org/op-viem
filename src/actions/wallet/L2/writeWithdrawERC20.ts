@@ -21,7 +21,7 @@ export type WriteWithdrawERC20Parameters<
   & L2WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'payable', 'withdrawTo'>,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride

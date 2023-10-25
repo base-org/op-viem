@@ -23,7 +23,7 @@ export type SimulateDepositERC20Parameters<
   & L1SimulateActionBaseType<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TChainOverride,
     TAccountOverride
@@ -40,7 +40,7 @@ export type SimulateDepositERC20ReturnType<
 > = SimulateContractReturnType<
   typeof ABI,
   typeof FUNCTION,
-  ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+  ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
   TChain,
   TAccount,
   TChainOverride,
@@ -68,7 +68,7 @@ export async function simulateDepositERC20<
   SimulateContractReturnType<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride,
@@ -84,14 +84,14 @@ export async function simulateDepositERC20<
   } as unknown as SimulateContractParameters<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TChainOverride,
     TAccountOverride
   >) as unknown as SimulateContractReturnType<
     typeof ABI,
     typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'nonpayable', 'depositERC20To'>,
+    ContractFunctionArgs<typeof ABI, 'nonpayable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride,
