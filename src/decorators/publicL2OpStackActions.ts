@@ -1,4 +1,4 @@
-import type { Abi, Chain, PublicClient, Transport } from 'viem'
+import type { Abi, Account, Address, Chain, ContractFunctionName, PublicClient, Transport } from 'viem'
 import { estimateFees, type EstimateFeesParameters } from '../actions/public/L2/estimateFees.js'
 import { estimateL1Fee } from '../actions/public/L2/estimateL1Fee.js'
 import { estimateL1GasUsed } from '../actions/public/L2/estimateL1GasUsed.js'
@@ -25,7 +25,10 @@ import {
 
 import { type OracleTransactionParameters } from '../types/gasPriceOracle.js'
 
-export type PublicL2OpStackActions<TChain extends Chain | undefined = Chain | undefined> = {
+export type PublicL2OpStackActions<
+  TChain extends Chain | undefined = Chain | undefined,
+  TAccount extends Account | undefined = Account | undefined,
+> = {
   /**
    * Estimate the l1 gas price portion for a transaction
    * @example
@@ -34,13 +37,20 @@ export type PublicL2OpStackActions<TChain extends Chain | undefined = Chain | un
    *   blockTag,
    * });
    */
-  estimateFees: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
-    args: EstimateFeesParameters<TAbi, TFunctionName>,
-  ) => Promise<bigint>
-  estimateL1Fee: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
+  estimateL1Fee: <
+    TAbi extends Abi | readonly unknown[],
+    TFunctionName extends
+      | ContractFunctionName<TAbi>
+      | undefined = ContractFunctionName<TAbi>,
+  >(
     args: OracleTransactionParameters<TAbi, TFunctionName>,
   ) => Promise<bigint>
-  estimateL1GasUsed: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
+  estimateL1GasUsed: <
+    TAbi extends Abi | readonly unknown[],
+    TFunctionName extends
+      | ContractFunctionName<TAbi>
+      | undefined = ContractFunctionName<TAbi>,
+  >(
     args: OracleTransactionParameters<TAbi, TFunctionName>,
   ) => Promise<bigint>
 
@@ -53,23 +63,37 @@ export type PublicL2OpStackActions<TChain extends Chain | undefined = Chain | un
 
   simulateWithdrawERC20: <
     TChainOverride extends Chain | undefined = undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
   >(
-    args: SimulateWithdrawERC20Parameters<TChain, TChainOverride>,
+    args: SimulateWithdrawERC20Parameters<TChain, TChainOverride, TAccountOverride>,
   ) => Promise<
     SimulateWithdrawERC20ReturnType<
       TChain,
-      TChainOverride
+      TAccount,
+      TChainOverride,
+      TAccountOverride
     >
   >
+  estimateFees: <
+    TAbi extends Abi | readonly unknown[],
+    TFunctionName extends
+      | ContractFunctionName<TAbi>
+      | undefined = ContractFunctionName<TAbi>,
+  >(
+    args: EstimateFeesParameters<TAbi, TFunctionName>,
+  ) => Promise<bigint>
 
   simulateWithdrawETH: <
     TChainOverride extends Chain | undefined = undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
   >(
-    args: SimulateWithdrawETHParameters<TChain, TChainOverride>,
+    args: SimulateWithdrawETHParameters<TChain, TChainOverride, TAccountOverride>,
   ) => Promise<
     SimulateWithdrawETHReturnType<
       TChain,
-      TChainOverride
+      TAccount,
+      TChainOverride,
+      TAccountOverride
     >
   >
 }

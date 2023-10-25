@@ -1,4 +1,12 @@
-import type { Abi, Account, Chain, Transport, WriteContractReturnType } from 'viem'
+import type {
+  Abi,
+  Account,
+  Chain,
+  ContractFunctionArgs,
+  ContractFunctionName,
+  Transport,
+  WriteContractReturnType,
+} from 'viem'
 import type { WalletClient } from 'viem'
 import { writeContractDeposit, type WriteContractDepositParameters } from '../actions/wallet/L1/writeContractDeposit.js'
 import { writeDepositERC20, type WriteDepositERC20Parameters } from '../actions/wallet/L1/writeDepositERC20.js'
@@ -21,21 +29,8 @@ export type WalletL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
   TAccount extends Account | undefined = Account | undefined,
 > = {
-  writeContractDeposit: <
-    TAbi extends Abi | readonly unknown[] = Abi,
-    TFunctionName extends string = string,
-    TChainOverride extends Chain | undefined = Chain | undefined,
-  >(
-    args: WriteContractDepositParameters<
-      TAbi,
-      TFunctionName,
-      TChain,
-      TAccount,
-      TChainOverride
-    >,
-  ) => Promise<WriteContractReturnType>
   writeDepositERC20: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined = undefined,
   >(
     args: WriteDepositERC20Parameters<TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
@@ -45,7 +40,7 @@ export type WalletL1OpStackActions<
     args: WriteDepositETHParameters<TChain, TAccount, TChainOverride>,
   ) => Promise<WriteContractReturnType>
   writeDepositTransaction: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined = undefined,
   >(
     args: WriteDepositTransactionParameters<
       TChain,
@@ -53,8 +48,17 @@ export type WalletL1OpStackActions<
       TChainOverride
     >,
   ) => Promise<WriteContractReturnType>
+  writeProveWithdrawalTransaction: <
+    TChainOverride extends Chain | undefined = undefined,
+  >(
+    args: WriteProveWithdrawalTransactionParameters<
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+  ) => Promise<WriteContractReturnType>
   writeFinalizeWithdrawalTransaction: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined = undefined,
   >(
     args: WriteFinalizeWithdrawalTransactionParameters<
       TChain,
@@ -62,10 +66,23 @@ export type WalletL1OpStackActions<
       TChainOverride
     >,
   ) => Promise<WriteContractReturnType>
-  writeProveWithdrawalTransaction: <
+  writeContractDeposit: <
+    TFunctionName extends ContractFunctionName<
+      TAbi,
+      'nonpayable' | 'payable'
+    >,
+    TArgs extends ContractFunctionArgs<
+      TAbi,
+      'nonpayable' | 'payable',
+      TFunctionName
+    >,
     TChainOverride extends Chain | undefined = Chain | undefined,
+    TAbi extends Abi | readonly unknown[] = Abi,
   >(
-    args: WriteProveWithdrawalTransactionParameters<
+    args: WriteContractDepositParameters<
+      TAbi,
+      TFunctionName,
+      TArgs,
       TChain,
       TAccount,
       TChainOverride

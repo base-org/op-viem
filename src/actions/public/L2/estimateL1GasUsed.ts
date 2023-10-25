@@ -1,5 +1,12 @@
 import { gasPriceOracleABI } from '@eth-optimism/contracts-ts'
-import { type Abi, type PublicClient, type Transport } from 'viem'
+import {
+  type Abi,
+  type ContractFunctionName,
+  type EncodeFunctionDataParameters,
+  type PublicClient,
+  type TransactionSerializableEIP1559,
+  type Transport,
+} from 'viem'
 import { readContract } from 'viem/actions'
 import { type Chain } from 'viem/chains'
 import { opStackL2ChainContracts } from '../../../index.js'
@@ -8,7 +15,9 @@ import { serializeEip1559Transaction } from '../../../utils/transactionSerialize
 
 export type EstimateL1GasUsedParameters<
   TAbi extends Abi,
-  TFunctionName extends string | undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 > = OracleTransactionParameters<TAbi, TFunctionName>
 
 /**
@@ -17,7 +26,9 @@ export type EstimateL1GasUsedParameters<
 export type GasPriceOracleEstimator = <
   TChain extends Chain | undefined,
   TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 >(
   client: PublicClient<Transport, TChain>,
   options: OracleTransactionParameters<TAbi, TFunctionName>,
@@ -36,7 +47,11 @@ export const estimateL1GasUsed: GasPriceOracleEstimator = async (
   client,
   options,
 ) => {
-  const data = serializeEip1559Transaction(options)
+  const data = serializeEip1559Transaction(
+    options as unknown as
+      & EncodeFunctionDataParameters<Abi, ContractFunctionName<Abi>>
+      & Omit<TransactionSerializableEIP1559, 'data'>,
+  )
   return readContract(client, {
     address: opStackL2ChainContracts.gasPriceOracle.address,
     abi: gasPriceOracleABI,

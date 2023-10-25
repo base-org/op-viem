@@ -1,4 +1,4 @@
-import type { Chain, PublicClient, Transport } from 'viem'
+import type { Account, Address, Chain, PublicClient, Transport } from 'viem'
 import {
   getL2HashesForDepositTx,
   type GetL2HashesForDepositTxParamters,
@@ -59,6 +59,7 @@ import {
 
 export type PublicL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
+  TAccount extends Account | undefined = Account | undefined,
 > = {
   getL2HashesForDepositTx: (
     args: GetL2HashesForDepositTxParamters,
@@ -77,40 +78,45 @@ export type PublicL1OpStackActions<
   readFinalizedWithdrawals: (args: ReadFinalizedWithdrawalsParameters<TChain>) => Promise<boolean>
   readProvenWithdrawals: (args: ReadProvenWithdrawalsParameters<TChain>) => Promise<ReadProvenWithdrawalsReturnType>
 
-  simulateDepositERC20: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
-  >(
-    args: SimulateDepositERC20Parameters<TChain, TChainOverride>,
-  ) => Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>>
   simulateDepositETH: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
   >(
-    args: SimulateDepositETHParameters<TChain, TChainOverride>,
-  ) => Promise<SimulateDepositETHReturnType<TChain, TChainOverride>>
+    args: SimulateDepositETHParameters<TChain, TChainOverride, TAccountOverride>,
+  ) => Promise<SimulateDepositETHReturnType<TChain, TAccount, TChainOverride, TAccountOverride>>
+  simulateDepositERC20: <
+    TChainOverride extends Chain | undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
+  >(
+    args: SimulateDepositERC20Parameters<TChain, TChainOverride, TAccountOverride>,
+  ) => Promise<SimulateDepositERC20ReturnType<TChain, TAccount, TChainOverride, TAccountOverride>>
   simulateDepositTransaction: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
   >(
-    args: SimulateDepositTransactionParameters<TChain, TChainOverride>,
-  ) => Promise<SimulateDepositTransactionReturnType<TChain, TChainOverride>>
-
-  simulateFinalizeWithdrawalTransaction: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
-  >(
-    args: SimulateFinalizeWithdrawalTransactionParameters<TChain, TChainOverride>,
-  ) => Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TChainOverride>>
+    args: SimulateDepositTransactionParameters<TChain, TChainOverride, TAccountOverride>,
+  ) => Promise<SimulateDepositTransactionReturnType<TChain, TAccount, TChainOverride, TAccountOverride>>
   simulateProveWithdrawTransaction: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
+    TChainOverride extends Chain | undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
   >(
-    args: SimulateProveWithdrawalTransactionParameters<TChain, TChainOverride>,
-  ) => Promise<SimulateProveWithdrawalTransactionReturnType<TChain, TChainOverride>>
+    args: SimulateProveWithdrawalTransactionParameters<TChain, TChainOverride, TAccountOverride>,
+  ) => Promise<SimulateProveWithdrawalTransactionReturnType<TChain, TAccount, TChainOverride, TAccountOverride>>
+  simulateFinalizeWithdrawalTransaction: <
+    TChainOverride extends Chain | undefined,
+    TAccountOverride extends Account | Address | undefined = undefined,
+  >(
+    args: SimulateFinalizeWithdrawalTransactionParameters<TChain, TChainOverride, TAccountOverride>,
+  ) => Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TAccount, TChainOverride, TAccountOverride>>
 }
 
 export function publicL1OpStackActions<
   TTransport extends Transport = Transport,
   TChain extends Chain | undefined = Chain | undefined,
+  TAccount extends Account | undefined = Account | undefined,
 >(
   client: PublicClient<TTransport, TChain>,
-): PublicL1OpStackActions<TChain> {
+): PublicL1OpStackActions<TChain, TAccount> {
   return {
     getL2HashesForDepositTx: (args) => getL2HashesForDepositTx(client, args),
 
@@ -122,7 +128,6 @@ export function publicL1OpStackActions<
     simulateDepositETH: (args) => simulateDepositETH(client, args),
     simulateDepositERC20: (args) => simulateDepositERC20(client, args),
     simulateDepositTransaction: (args) => simulateDepositTransaction(client, args),
-
     readFinalizedWithdrawals: (args) => readFinalizedWithdrawals(client, args),
     readProvenWithdrawals: (args) => readProvenWithdrawals(client, args),
 
