@@ -1,5 +1,13 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
-import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import type {
+  Account,
+  Chain,
+  ContractFunctionArgs,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
 import { writeContract } from 'viem/actions'
 import type { _ } from 'vitest/dist/reporters-cb94c88b.js'
 import type { MessagePassedEvent } from '../../../index.js'
@@ -56,6 +64,11 @@ export async function writeFinalizeWithdrawalTranasction<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<
+      typeof ABI,
+      'nonpayable',
+      typeof FUNCTION
+    >,
     TChain,
     TAccount,
     TChainOverride

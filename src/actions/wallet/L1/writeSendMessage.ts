@@ -3,6 +3,7 @@ import type {
   Account,
   Address,
   Chain,
+  ContractFunctionArgs,
   Hex,
   Transport,
   WalletClient,
@@ -67,6 +68,11 @@ export async function writeSendMessage<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<
+      typeof ABI,
+      'payable',
+      typeof FUNCTION
+    >,
     TChain,
     TAccount,
     TChainOverride

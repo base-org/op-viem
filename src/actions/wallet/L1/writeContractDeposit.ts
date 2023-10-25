@@ -3,6 +3,8 @@ import {
   type Account,
   type Address,
   type Chain,
+  type ContractFunctionArgs,
+  type ContractFunctionName,
   encodeFunctionData,
   type EncodeFunctionDataParameters,
   type Transport,
@@ -17,7 +19,15 @@ import { writeDepositTransaction, type WriteDepositTransactionParameters } from 
 
 export type WriteContractDepositParameters<
   TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctionName extends string = string,
+  TFunctionName extends ContractFunctionName<
+    TAbi,
+    'nonpayable' | 'payable'
+  > = ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
+  TArgs extends ContractFunctionArgs<
+    TAbi,
+    'nonpayable' | 'payable',
+    TFunctionName
+  > = ContractFunctionArgs<TAbi, 'nonpayable' | 'payable', TFunctionName>,
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
@@ -34,6 +44,7 @@ export type WriteContractDepositParameters<
     WriteContractParameters<
       TAbi,
       TFunctionName,
+      TArgs,
       TChain,
       TAccount,
       TChainOverride
@@ -56,7 +67,15 @@ export async function writeContractDeposit<
   TChain extends Chain | undefined,
   TAccount extends Account | undefined,
   const TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string,
+  TFunctionName extends ContractFunctionName<
+    TAbi,
+    'nonpayable' | 'payable'
+  >,
+  TArgs extends ContractFunctionArgs<
+    TAbi,
+    'nonpayable' | 'payable',
+    TFunctionName
+  >,
   TChainOverride extends Chain | undefined,
 >(
   client: WalletClient<Transport, TChain, TAccount>,
@@ -74,6 +93,7 @@ export async function writeContractDeposit<
   }: WriteContractDepositParameters<
     TAbi,
     TFunctionName,
+    TArgs,
     TChain,
     TAccount,
     TChainOverride
@@ -83,7 +103,7 @@ export async function writeContractDeposit<
     abi,
     args,
     functionName,
-  } as unknown as EncodeFunctionDataParameters<TAbi, TFunctionName>)
+  } as unknown as EncodeFunctionDataParameters<Abi, ContractFunctionName<Abi>>)
   if (!account_) {
     throw new Error('No account found')
   }
