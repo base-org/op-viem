@@ -89,7 +89,7 @@ await walletClient.writeSendMessage({
 
 ### l1CrossDomainMessenger
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The `L1CrossDomainMessenger` contract where the sendMessage call should be made.
 

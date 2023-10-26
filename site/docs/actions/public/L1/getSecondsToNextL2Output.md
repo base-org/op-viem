@@ -41,6 +41,6 @@ The latest L2 block number.
 
 ### l2OutputOracle
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The address of the L2OutputOracle contract.

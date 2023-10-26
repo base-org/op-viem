@@ -36,13 +36,13 @@ Returns a `number` representative of the seconds until withdrawal finalization.
 
 ### portal
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The address of the `OptimismPortal` contract where the `readProvenWithdrawals` call will be made.
 
 ### l2OutputOracle
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The address of the L2OutputOracle contract where the `FINALIZATION_PERIOD_SECONDS` call will be made.
 
