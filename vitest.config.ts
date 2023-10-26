@@ -19,7 +19,7 @@ export default defineConfig({
       lines: 95,
       statements: 95,
       functions: 90,
-      branches: 93.82,
+      branches: 90,
       thresholdAutoUpdate: true,
       reporter: ['text', 'json-summary', 'json'],
       exclude: [

@@ -30,7 +30,7 @@ test('correctly retrieves L2 hash', async () => {
 
   const args: DepositTransactionParameters = {
     to: account.address,
-    value: 1n,
+    mint: 1n,
     data: '0x',
     gasLimit: 0n,
     isCreation: false,
@@ -48,7 +48,6 @@ test('correctly retrieves L2 hash', async () => {
   const depositHash = await walletClient.writeDepositTransaction({
     ...baseGoerliAddresses,
     args,
-    value: 1n,
   })
 
   console.log('depositHash', depositHash)
