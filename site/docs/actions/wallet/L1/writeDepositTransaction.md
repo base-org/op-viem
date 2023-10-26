@@ -107,6 +107,11 @@ A [Transaction Hash](https://viem.sh/docs/glossary/terms#hash).
   - **Default:** `0x`
   - The calldata of the L2 transaction
 
+- ### mint (optional)
+  - **Type:** `bigint`
+  - **Default** `0`
+  - Value in wei sent with this transaction. This value will be credited to the balance of the caller address on L2 _before_ the L2 transaction created by this transaction is made.
+
 ```ts
 await walletClient.writeDepositTransaction({
   args: { // [!code focus:7]
@@ -130,20 +135,6 @@ The `OptimismPortal` contract where the depositTransaction call should be made.
 await walletClient.writeDepositTransaction({
   args,
   portalAddress: portal, // [!code focus:1]
-})
-```
-
-### value (optional)
-
-- **Type:** `number`
-
-Value in wei sent with this transaction. This value will be credited to the balance of the caller address on L2 _before_ the L2 transaction created by this transaction is made.
-
-```ts
-await walletClient.writeDepositTransaction({
-  args,
-  portalAddress: portal,
-  value: parseEther(1), // [!code focus:1]
 })
 ```
 
