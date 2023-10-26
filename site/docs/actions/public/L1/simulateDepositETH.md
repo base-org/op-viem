@@ -48,7 +48,7 @@ The amount of ETH to deposit.
 
 ### portal
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The `OptimismPortal` contract.
 

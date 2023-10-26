@@ -63,7 +63,7 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
 
 ### l1StandardBridge
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The `L1StandardBridge` contract.
 

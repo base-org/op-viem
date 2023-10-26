@@ -33,7 +33,7 @@ Returns a `boolean` for whether the withdrawal has been finalized.
 
 ### portalAddress
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The `OptimismPortal` contract where the sendMessage call should be made.
 

@@ -52,6 +52,6 @@ The block number of the L2 block for which to get the output.
 
 ### l2OutputOracle
 
-- **Type:** [`RawOrContractAddress`](https://viem.sh/docs/glossary/types#raworcontractaddress)
+- **Type:** [`RawOrContractAddress`](https://opviem.sh/docs/glossary/types.html#raworcontractaddress)
 
 The address of the L2OutputOracle contract where the `getOutputForL2Block` call will be made.
