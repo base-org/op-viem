@@ -10,6 +10,14 @@ export type GetSecondsToNextL2OutputParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > = { latestL2BlockNumber: bigint; l2OutputOracle: RawOrContractAddress<_chainId> }
 
+/**
+ * Gets the number of seconds until the next L2 output is posted.
+ *
+ * @param {bigint} latestL2BlockNumber the latest L2 block number
+ * @param {RawOrContractAddress} l2OutputOracle the address of the L2 Output Oracle
+ *
+ * @returns {Promise<bigint>} the number of seconds until the next L2 output is posted
+ */
 export async function getSecondsToNextL2Output<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {

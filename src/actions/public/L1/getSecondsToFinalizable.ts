@@ -16,6 +16,15 @@ export type GetSecondsToFinalizableParameters<
   l2OutputOracle: RawOrContractAddress<_chainId>
 }
 
+/**
+ * Gets the number of seconds until a withdrawal is finalizable.
+ *
+ * @param {Hash} withdrawalHash the hash of the withdrawal
+ * @param {RawOrContractAddress} portal the address of the portal
+ * @param {RawOrContractAddress} l2OutputOracle the address of the L2 Output Oracle
+ *
+ * @returns {Promise<bigint>} the number of seconds until the withdrawal is finalizable
+ */
 export async function getSecondsToFinalizable<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {

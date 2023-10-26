@@ -12,6 +12,12 @@ export type GetLatestProposedL2BlockNumberReturnType = {
   l2BlockNumber: bigint
 }
 
+/**
+ * Gets the latest proposed L2 block number from the L2 Output Oracle.
+ *
+ * @param {RawOrContractAddress} l2OutputOracle the address of the L2 Output Oracle
+ * @returns {GetLatestProposedL2BlockNumberReturnType} the latest proposed L2 block number
+ */
 export async function getLatestProposedL2BlockNumber<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {

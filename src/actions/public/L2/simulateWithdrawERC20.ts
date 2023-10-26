@@ -16,6 +16,15 @@ export type SimulateWithdrawERC20ReturnType<
   TChainOverride extends Chain | undefined = undefined,
 > = SimulateContractReturnType<typeof ABI, typeof FUNCTION, TChain, TChainOverride>
 
+/**
+ * Simulates a withdrawal of ERC20 tokens to an L1 address.
+ *
+ * @param {Address} l2Token the address of the ERC20 token on L2
+ * @param {Address} to the address to withdraw to on L1
+ * @param {Bigint} amount the amount of tokens to withdraw
+ * @param {Bigint} minGasLimit the minimum gas limit for the withdrawal
+ * @param {Hex} [extraData] the extra data for the withdrawal
+ */
 export async function simulateWithdrawERC20<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,

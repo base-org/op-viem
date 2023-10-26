@@ -11,6 +11,16 @@ export type WriteWithdrawETHParameters<
   & { args: WithdrawETHParameters }
   & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
 
+/**
+ * Withdraws ETH to an L1 address.
+ *
+ * @param {Address} to the address to withdraw to on L1
+ * @param {Bigint} amount the amount of ETH to withdraw
+ * @param {Bigint} minGasLimit the minimum gas limit for the withdrawal
+ * @param {Hex} [extraData] the extra data for the withdrawal
+ *
+ * @returns {Promise<Hash>} the hash of the transaction
+ */
 export async function writeWithdrawETH<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
