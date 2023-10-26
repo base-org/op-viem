@@ -21,7 +21,7 @@ test('succesfully submits finalizeWithdrawalTransaction', async () => {
 
   const hash = await writeFinalizeWithdrawalTranasction(walletClient, {
     ...baseAddresses,
-    withdrawal,
+    args: { withdrawal },
     account: accounts[0].address,
   })
   await mine(testClient, { blocks: 1 })

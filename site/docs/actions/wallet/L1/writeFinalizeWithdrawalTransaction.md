@@ -12,7 +12,7 @@ const withdrawal: FinalizeWithdrawalTransactionParameters = {
 
 const hash = await opStackL1WalletClient.writeFinalizeWithdrawalTranasction({
   portal: baseAddresses.portal,
-  withdrawal,
+  args: { withdrawal },
   account,
 })
 ```

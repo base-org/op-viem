@@ -8,4 +8,5 @@ export type DepositETHParameters = {
   to: Address
   gasLimit: number
   data?: Hex
+  amount: bigint
 }
