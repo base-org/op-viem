@@ -3,6 +3,7 @@
 Creates an L1 to L2 transaction by depositing into a contract on L2. This function serves as a specialized version of Viem's `writeContract`, adapted for L1 -> L2 transactions.
 
 ```ts [example.ts]
+import { walletL1OpStackActions } from 'op-viem'
 import { baseAddresses } from 'op-viem/chains'
 import { erc721ABI } from 'wagmi'
 
