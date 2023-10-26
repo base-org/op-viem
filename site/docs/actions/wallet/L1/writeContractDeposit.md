@@ -3,17 +3,21 @@
 Creates an L1 to L2 transaction by depositing into a contract on L2. This function serves as a specialized version of Viem's `writeContract`, adapted for L1 -> L2 transactions.
 
 ```ts [example.ts]
+import { baseAddresses } from 'op-viem/chains'
 import { erc721ABI } from 'wagmi'
-import { writeContractDeposit } from 'your-library'
-import { walletClient } from 'your-library-client-setup'
-import { baseAddresses } from 'your-library/chains'
+
+import { createWalletClient } from 'viem'
+
+const walletClient = createWalletClient({
+  chain: mainnet,
+  transport: http(),
+}).extend(walletL1OpStackActions)
 
 const txHash = await writeContractDeposit(walletClient, {
   abi: erc721ABI,
   address: '0x6171f829e107f70b58d67594c6b62a7d3eb7f23b',
   functionName: 'approve',
   args: ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', 2048n],
-  account: '0xYourAccountAddress',
   l2GasLimit: 100000n,
   ...baseAddresses,
 })
@@ -49,7 +53,7 @@ The contract function name to call on L2.
 
 The arguments to pass to the function. Must match the function signature.
 
-### account
+### account (Optional)
 
 - **Type:** `Account | Address`
 
