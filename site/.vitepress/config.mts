@@ -106,6 +106,10 @@ export default defineConfig({
             text: 'L1',
             items: [
               {
+                text: 'writeContractDeposit',
+                link: '/docs/actions/wallet/L1/writeContractDeposit',
+              },
+              {
                 text: 'writeDepositERC20',
                 link: '/docs/actions/wallet/L1/writeDepositERC20',
               },
