@@ -19,6 +19,14 @@ export type SimulateWithdrawETHReturnType<
   TChainOverride extends Chain | undefined = undefined,
 > = SimulateWithdrawERC20ReturnType<TChain, TChainOverride>
 
+/**
+ * Simulates a withdrawal of ETH to an L1 address.
+ *
+ * @param {Address} to the address to withdraw to on L1
+ * @param {Bigint} amount the amount of ETH to withdraw
+ * @param {Bigint} minGasLimit the minimum gas limit for the withdrawal
+ * @param {Hex} [extraData] the extra data for the withdrawal
+ */
 export async function simulateWithdrawETH<
   TChain extends Chain | undefined = Chain,
   TChainOverride extends Chain | undefined = Chain | undefined,

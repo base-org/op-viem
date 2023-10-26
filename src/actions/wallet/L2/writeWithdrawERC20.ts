@@ -12,6 +12,17 @@ export type WriteWithdrawERC20Parameters<
   & { args: WithdrawToParameters }
   & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
 
+/**
+ * Withdraws ERC20 tokens to an L1 address.
+ *
+ * @param {Address} l2Token the address of the ERC20 token on L2
+ * @param {Address} to the address to withdraw to on L1
+ * @param {Bigint} amount the amount of tokens to withdraw
+ * @param {Bigint} minGasLimit the minimum gas limit for the withdrawal
+ * @param {Hex} [extraData] the extra data for the withdrawal
+ *
+ * @returns {Promise<Hash>} the hash of the transaction
+ */
 export async function writeWithdrawERC20<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,

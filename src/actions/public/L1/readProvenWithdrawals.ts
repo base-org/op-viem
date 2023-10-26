@@ -21,6 +21,14 @@ export type ProvenWithdrawal = {
 export type ReadProvenWithdrawalsReturnType = ProvenWithdrawal
 
 // Convention: use `read` if this is just 1:1 with some contract function
+/**
+ * Reads a proven withdrawal from the Optimism Portal.
+ *
+ * @param {Hash} withdrawalHash the hash of the withdrawal
+ * @param {RawOrContractAddress} portal the address of the portal
+ *
+ * @returns {Promise<ProvenWithdrawal>} the proven withdrawal
+ */
 export async function readProvenWithdrawals<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {

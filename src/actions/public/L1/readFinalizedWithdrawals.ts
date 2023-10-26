@@ -12,6 +12,14 @@ export type ReadFinalizedWithdrawalsParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > = { withdrawalHash: MessagePassedEvent['withdrawalHash']; portal: RawOrContractAddress<_chainId> }
 
+/**
+ * Reads whether a withdrawal has been finalized from the Optimism Portal.
+ *
+ * @param {Hash} withdrawalHash the hash of the withdrawal
+ * @param {RawOrContractAddress} portal the address of the portal
+ *
+ * @returns {Promise<boolean>} whether the withdrawal is finalized
+ */
 export async function readFinalizedWithdrawals<TChain extends Chain | undefined>(
   client: PublicClient<Transport, TChain>,
   {
