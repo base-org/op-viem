@@ -15,8 +15,8 @@ test('default', async () => {
         to: accounts[0].address,
         gasLimit: 21000,
         data: '0x',
+        amount: 1n,
       },
-      value: 1n,
       ...baseAddresses,
       account: accounts[0].address,
     }),
@@ -24,15 +24,15 @@ test('default', async () => {
 })
 
 test('correctly deposits ETH', async () => {
+  const amount = 1n
   const args: DepositETHParameters = {
     to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
     gasLimit: 25000,
     data: '0x',
+    amount,
   }
-  const value = 1n
   const hash = await writeDepositETH(walletClient, {
     args,
-    value,
     ...baseAddresses,
     account: accounts[0].address,
   })
@@ -52,7 +52,7 @@ test('correctly deposits ETH', async () => {
   expect(deposit.args.to.toLowerCase()).toEqual(args.to)
   const expectOpaqueData = encodePacked(
     ['uint', 'uint', 'uint64', 'bool', 'bytes'],
-    [value, value, BigInt(args.gasLimit), false, '0x'],
+    [amount, amount, BigInt(args.gasLimit), false, '0x'],
   )
   expect(deposit.args.opaqueData).toEqual(expectOpaqueData)
 })

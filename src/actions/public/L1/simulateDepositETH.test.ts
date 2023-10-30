@@ -10,8 +10,8 @@ test('default', async () => {
     args: {
       to: accounts[0].address,
       gasLimit: 100000,
+      amount: 1n,
     },
-    value: 1n,
     account: accounts[0].address,
     ...baseAddresses,
   })

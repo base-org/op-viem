@@ -44,6 +44,10 @@ export async function getSecondsToNextL2Output<TChain extends Chain | undefined>
     address,
   } as ReadContractParameters<typeof ABI, 'L2_BLOCK_TIME'>)
 
+  if (latestL2BlockNumber < latestBlockNumber) {
+    throw new Error(`latestBlock ${latestBlockNumber} is great than latestL2BlockNumber ${latestL2BlockNumber}!`)
+  }
+
   const blocksTillUpdate = interval - (latestL2BlockNumber - latestBlockNumber)
   // NOTE(Wilson): incase there is some problem
   // e.g. output posting has stalled or the wrong latestL2BlockNumber is passed

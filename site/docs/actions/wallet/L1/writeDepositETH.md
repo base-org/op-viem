@@ -16,9 +16,9 @@ const hash = await walletClient.writeDepositETH({
   args: {
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
     gasLimit: 100000,
+    amount: 1n,
   },
   ...baseAddresses,
-  value: 1n,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
 ```
@@ -31,23 +31,17 @@ Returns a transaction hash of the deposit transaction.
 
 ### args
 
-#### to
+- #### to
+  - **Type:** `Address`
+  - The address to deposit the tokens to.
 
-- **Type:** `Address`
+- #### gasLimit
+  - **Type:** `number`
+  - The minimum gas limit to use for the deposit transaction.
 
-The address to deposit the tokens to.
-
-#### gasLimit
-
-- **Type:** `number`
-
-The minimum gas limit to use for the deposit transaction.
-
-### value
-
-- **Type:** `bigint`
-
-The amount of ETH to deposit.
+- #### amount
+  - **Type:** `bigint`
+  - The amount of ETH to deposit.
 
 ### portal
 

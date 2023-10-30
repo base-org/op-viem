@@ -11,10 +11,13 @@ export type WriteDepositETHParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
   & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
-  & L1WriteActionBaseType<
-    TChain,
-    TAccount,
-    TChainOverride
+  & Omit<
+    L1WriteActionBaseType<
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'value'
   >
 
 /**
@@ -29,9 +32,8 @@ export async function writeDepositETH<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, gasLimit, data },
+    args: { to, gasLimit, data, amount },
     portal,
-    value,
     ...rest
   }: WriteDepositETHParameters<
     TChain,
@@ -40,9 +42,9 @@ export async function writeDepositETH<
   >,
 ): Promise<WriteContractReturnType> {
   return writeDepositTransaction(client, {
-    args: { to, value, gasLimit: BigInt(gasLimit), data },
+    args: { to, value: amount, gasLimit: BigInt(gasLimit), data },
     portal: resolveAddress(portal),
-    value,
+    value: amount,
     ...rest,
   } as unknown as WriteDepositTransactionParameters<
     TChain,

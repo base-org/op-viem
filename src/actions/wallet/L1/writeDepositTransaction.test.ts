@@ -17,8 +17,8 @@ test('default', async () => {
         gasLimit: 25000n,
         data: '0x',
         isCreation: false,
+        mint: 0n,
       },
-      value: 0n,
       ...baseAddresses,
       account: accounts[0].address,
     }),
@@ -32,6 +32,7 @@ test('sends transaction to correct infered address', async () => {
     gasLimit: 0n,
     data: '0x',
     isCreation: false,
+    mint: 1n,
   }
 
   const gas = await estimateGas(rollupPublicClient, {
@@ -45,7 +46,6 @@ test('sends transaction to correct infered address', async () => {
 
   const hash = await writeDepositTransaction(walletClient, {
     args,
-    value: 1n,
     ...baseAddresses,
     account: accounts[0].address,
   })
@@ -65,8 +65,8 @@ test('sends transaction to correct explicit address', async () => {
       to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
       value: 1n,
       gasLimit: 25000n,
+      mint: 1n,
     },
-    value: 1n,
     portal: portal,
     account: accounts[0].address,
   })
@@ -84,10 +84,10 @@ test('creates correct deposit transaction', async () => {
     gasLimit: 25000n,
     data: '0x',
     isCreation: false,
+    mint: 1n,
   }
   const hash = await writeDepositTransaction(walletClient, {
     args,
-    value: args.value!,
     ...baseAddresses,
     account: accounts[0].address,
   })
@@ -119,13 +119,13 @@ test('correctly passes arugments', async () => {
     gasLimit: 25000n,
     data: '0x',
     isCreation: false,
+    mint: 2n,
   }
 
   const hash = await writeDepositTransaction(walletClient, {
     args,
     ...baseAddresses,
     account: accounts[0].address,
-    value: 2n,
   })
 
   await mine(testClient, { blocks: 1 })
@@ -145,13 +145,13 @@ test('uses defaults for data, isCreation, and value', async () => {
   const args: DepositTransactionParameters = {
     to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
     gasLimit: 25000n,
+    mint: 0n,
   }
 
   const hash = await writeDepositTransaction(walletClient, {
     args,
     ...baseAddresses,
     account: accounts[0].address,
-    value: 0n,
   })
 
   await mine(testClient, { blocks: 1 })
@@ -173,8 +173,8 @@ test('errors if portal not passed', async () => {
       args: {
         to: '0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb',
         gasLimit: 25000n,
+        mint: 0n,
       },
-      value: 0n,
       account: accounts[0].address,
     })
   ).rejects.toThrowError('Invalid address')

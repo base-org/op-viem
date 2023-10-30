@@ -22,6 +22,7 @@ export type DepositTransactionParameters = {
   value?: bigint
   isCreation?: boolean
   data?: Hex
+  mint?: bigint
 }
 
 export type WriteDepositTransactionParameters<
@@ -31,10 +32,13 @@ export type WriteDepositTransactionParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
   & { args: DepositTransactionParameters; portal: RawOrContractAddress<_chainId> }
-  & L1WriteActionBaseType<
-    TChain,
-    TAccount,
-    TChainOverride
+  & Omit<
+    L1WriteActionBaseType<
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'value'
   >
 
 /**
@@ -59,7 +63,7 @@ export async function writeDepositTransaction<
 >(
   client: WalletClient<Transport, TChain, TAccount>,
   {
-    args: { to, value = 0n, gasLimit, isCreation = false, data = '0x' },
+    args: { to, value = 0n, gasLimit, isCreation = false, data = '0x', mint = 0n },
     portal,
     ...rest
   }: WriteDepositTransactionParameters<
@@ -73,6 +77,7 @@ export async function writeDepositTransaction<
     abi: ABI,
     functionName: FUNCTION,
     args: [to, value, gasLimit, isCreation, data],
+    value: mint,
     ...rest,
   } as unknown as WriteContractParameters<
     typeof ABI,

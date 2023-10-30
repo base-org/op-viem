@@ -17,8 +17,8 @@ const { request } = await publicClient.simulateDepositETH({
   args: {
     to: '0xFd4F24676eD4588928213F37B126B53c07186F45',
     gasLimit: 100000,
+    amount: 1n,
   },
-  value: 1n,
   portal: baseAddresses.portal,
   account: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
 })
@@ -40,11 +40,9 @@ Returns a `request` that can be passed to Viem's `writeContract` and a `result` 
   - **Type:** `number`
   - The minimum gas limit to use for the deposit transaction.
 
-### value
-
-- **Type:** `bigint`
-
-The amount of ETH to deposit.
+- #### amount
+  - **Type:** `bigint`
+  - The amount of ETH to deposit.
 
 ### portal
 
