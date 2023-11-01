@@ -3,7 +3,7 @@ name: Version 🔖
 on:
   push:
     branches:
-      - v2
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -28,12 +28,6 @@ jobs:
       - name: Build
         shell: bash
         run: pnpm build
-
-      - name: Check for pre.json file existence
-        id: check_files
-        uses: andstor/file-existence-action@v2.0.0
-        with:
-          files: ".changeset/pre.json"
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
