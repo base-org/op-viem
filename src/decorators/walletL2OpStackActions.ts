@@ -28,7 +28,7 @@ export function walletL2OpStackActions<
   client: WalletClient<TTransport, TChain, TAccount>,
 ): WalletL2OpStackActions<TChain, TAccount> {
   return {
-    writeWithdrawETH: (args) => writeWithdrawETH(client, args),
     writeWithdrawERC20: (args) => writeWithdrawERC20(client, args),
+    writeWithdrawETH: (args) => writeWithdrawETH(client, args),
   }
 }

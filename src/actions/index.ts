@@ -1,9 +1,16 @@
 export { type AccountProof, getProof, type GetProofParameters, type StorageProof } from './public/getProof.js'
+
+// Public L1 actions
 export {
   getL2HashesForDepositTx,
   type GetL2HashesForDepositTxParamters,
   type GetL2HashesForDepositTxReturnType,
 } from './public/L1/getL2HashesForDepositTx.js'
+export {
+  getLatestProposedL2BlockNumber,
+  type GetLatestProposedL2BlockNumberParameters,
+  type GetLatestProposedL2BlockNumberReturnType,
+} from './public/L1/getLatestProposedL2BlockNumber.js'
 export {
   getOutputForL2Block,
   type GetOutputForL2BlockParameters,
@@ -36,10 +43,17 @@ export {
   type SimulateDepositTransactionReturnType,
 } from './public/L1/simulateDepositTransaction.js'
 export {
+  simulateFinalizeWithdrawalTransaction,
+  type SimulateFinalizeWithdrawalTransactionParameters,
+  type SimulateFinalizeWithdrawalTransactionReturnType,
+} from './public/L1/simulateFinalizeWithdrawalTransaction.js'
+export {
   simulateProveWithdrawalTransaction,
   type SimulateProveWithdrawalTransactionParameters,
   type SimulateProveWithdrawalTransactionReturnType,
 } from './public/L1/simulateProveWithdrawalTransaction.js'
+
+// Public L2 actions
 export { estimateFees, type EstimateFeesParameters } from './public/L2/estimateFees.js'
 export { estimateL1Fee, type EstimateL1FeeParameters } from './public/L2/estimateL1Fee.js'
 export { estimateL1GasUsed, type EstimateL1GasUsedParameters } from './public/L2/estimateL1GasUsed.js'
@@ -65,6 +79,7 @@ export {
   type SimulateWithdrawETHReturnType,
 } from './public/L2/simulateWithdrawETH.js'
 
+// Wallet L1 actions
 export { writeContractDeposit, type WriteContractDepositParameters } from './wallet/L1/writeContractDeposit.js'
 export { writeDepositERC20, type WriteDepositERC20Parameters } from './wallet/L1/writeDepositERC20.js'
 export { writeDepositETH, type WriteDepositETHParameters } from './wallet/L1/writeDepositETH.js'
@@ -86,5 +101,7 @@ export {
   writeSendMessage,
   type WriteSendMessageParameters,
 } from './wallet/L1/writeSendMessage.js'
+
+// Wallet l2 actions
 export { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './wallet/L2/writeWithdrawERC20.js'
 export { writeWithdrawETH, type WriteWithdrawETHParameters } from './wallet/L2/writeWithdrawETH.js'

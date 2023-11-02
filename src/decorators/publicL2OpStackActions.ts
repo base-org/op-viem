@@ -12,15 +12,20 @@ import {
   type GetWithdrawalMessagesParameters,
   type GetWithdrawalMessagesReturnType,
 } from '../actions/public/L2/getWithdrawalMessages.js'
+import {
+  simulateWithdrawERC20,
+  type SimulateWithdrawERC20Parameters,
+  type SimulateWithdrawERC20ReturnType,
+} from '../actions/public/L2/simulateWithdrawERC20.js'
+import {
+  simulateWithdrawETH,
+  type SimulateWithdrawETHParameters,
+  type SimulateWithdrawETHReturnType,
+} from '../actions/public/L2/simulateWithdrawETH.js'
+
 import { type OracleTransactionParameters } from '../types/gasPriceOracle.js'
 
-export type PublicL2OpStackActions = {
-  getWithdrawalMessages: (
-    args: GetWithdrawalMessagesParameters,
-  ) => Promise<GetWithdrawalMessagesReturnType>
-  getProveWithdrawalTransactionArgs: (
-    args: GetProveWithdrawalTransactionArgsParams,
-  ) => Promise<GetProveWithdrawalTransactionArgsReturnType>
+export type PublicL2OpStackActions<TChain extends Chain | undefined = Chain | undefined> = {
   /**
    * Estimate the l1 gas price portion for a transaction
    * @example
@@ -29,15 +34,44 @@ export type PublicL2OpStackActions = {
    *   blockTag,
    * });
    */
+  estimateFees: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
+    args: EstimateFeesParameters<TAbi, TFunctionName>,
+  ) => Promise<bigint>
   estimateL1Fee: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
     args: OracleTransactionParameters<TAbi, TFunctionName>,
   ) => Promise<bigint>
   estimateL1GasUsed: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
     args: OracleTransactionParameters<TAbi, TFunctionName>,
   ) => Promise<bigint>
-  estimateFees: <TAbi extends Abi | readonly unknown[], TFunctionName extends string | undefined = undefined>(
-    args: EstimateFeesParameters<TAbi, TFunctionName>,
-  ) => Promise<bigint>
+
+  getProveWithdrawalTransactionArgs: (
+    args: GetProveWithdrawalTransactionArgsParams,
+  ) => Promise<GetProveWithdrawalTransactionArgsReturnType>
+  getWithdrawalMessages: (
+    args: GetWithdrawalMessagesParameters,
+  ) => Promise<GetWithdrawalMessagesReturnType>
+
+  simulateWithdrawERC20: <
+    TChainOverride extends Chain | undefined = undefined,
+  >(
+    args: SimulateWithdrawERC20Parameters<TChain, TChainOverride>,
+  ) => Promise<
+    SimulateWithdrawERC20ReturnType<
+      TChain,
+      TChainOverride
+    >
+  >
+
+  simulateWithdrawETH: <
+    TChainOverride extends Chain | undefined = undefined,
+  >(
+    args: SimulateWithdrawETHParameters<TChain, TChainOverride>,
+  ) => Promise<
+    SimulateWithdrawETHReturnType<
+      TChain,
+      TChainOverride
+    >
+  >
 }
 
 export function publicL2OpStackActions<
@@ -45,12 +79,16 @@ export function publicL2OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
 >(
   client: PublicClient<TTransport, TChain>,
-): PublicL2OpStackActions {
+): PublicL2OpStackActions<TChain> {
   return {
-    getWithdrawalMessages: (args) => getWithdrawalMessages(client, args),
-    getProveWithdrawalTransactionArgs: (args) => getProveWithdrawalTransactionArgs(client, args),
+    estimateFees: (args) => estimateFees(client, args),
     estimateL1Fee: (args) => estimateL1Fee(client, args),
     estimateL1GasUsed: (args) => estimateL1GasUsed(client, args),
-    estimateFees: (args) => estimateFees(client, args),
+
+    getProveWithdrawalTransactionArgs: (args) => getProveWithdrawalTransactionArgs(client, args),
+    getWithdrawalMessages: (args) => getWithdrawalMessages(client, args),
+
+    simulateWithdrawERC20: (args) => simulateWithdrawERC20(client, args),
+    simulateWithdrawETH: (args) => simulateWithdrawETH(client, args),
   }
 }

@@ -1,3 +1,4 @@
+export { parseOpaqueData } from './getArgsFromTransactionDepositedOpaqueData.js'
 export type { GetDepositTransactionParams } from './getDepositTransaction.js'
 export { getDepositTransaction } from './getDepositTransaction.js'
 export { getL2HashFromL1DepositInfo } from './getL2HashFromL1DepositInfo.js'
