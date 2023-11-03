@@ -70,7 +70,7 @@ export let forkUrl: string
 if (process.env.VITE_ANVIL_FORK_URL) {
   forkUrl = process.env.VITE_ANVIL_FORK_URL
 } else {
-  forkUrl = 'https://cloudflare-eth.com'
+  forkUrl = 'https://ethereum.publicnode.com'
   warn(`\`VITE_ANVIL_FORK_URL\` not found. Falling back to \`${forkUrl}\`.`)
 }
 
