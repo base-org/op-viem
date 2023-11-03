@@ -5,6 +5,11 @@ import {
   type GetL2HashesForDepositTxReturnType,
 } from '../actions/public/L1/getL2HashesForDepositTx.js'
 import {
+  getLatestProposedL2BlockNumber,
+  type GetLatestProposedL2BlockNumberParameters,
+  type GetLatestProposedL2BlockNumberReturnType,
+} from '../actions/public/L1/getLatestProposedL2BlockNumber.js'
+import {
   getOutputForL2Block,
   type GetOutputForL2BlockParameters,
   type GetOutputForL2BlockReturnType,
@@ -42,6 +47,11 @@ import {
   type SimulateDepositTransactionReturnType,
 } from '../actions/public/L1/simulateDepositTransaction.js'
 import {
+  simulateFinalizeWithdrawalTransaction,
+  type SimulateFinalizeWithdrawalTransactionParameters,
+  type SimulateFinalizeWithdrawalTransactionReturnType,
+} from '../actions/public/L1/simulateFinalizeWithdrawalTransaction.js'
+import {
   simulateProveWithdrawalTransaction,
   type SimulateProveWithdrawalTransactionParameters,
   type SimulateProveWithdrawalTransactionReturnType,
@@ -53,35 +63,46 @@ export type PublicL1OpStackActions<
   getL2HashesForDepositTx: (
     args: GetL2HashesForDepositTxParamters,
   ) => Promise<GetL2HashesForDepositTxReturnType>
-  simulateDepositETH: <
-    TChainOverride extends Chain | undefined = Chain | undefined,
-  >(
-    args: SimulateDepositETHParameters<TChain, TChainOverride>,
-  ) => Promise<SimulateDepositETHReturnType<TChain, TChainOverride>>
+  getLatestProposedL2BlockNumber: (
+    args: GetLatestProposedL2BlockNumberParameters<TChain>,
+  ) => Promise<GetLatestProposedL2BlockNumberReturnType>
+  getOutputForL2Block: (
+    args: GetOutputForL2BlockParameters<TChain>,
+  ) => Promise<GetOutputForL2BlockReturnType>
+  getSecondsToFinalizable: (args: GetSecondsToFinalizableParameters<TChain>) => Promise<bigint>
+  getSecondsToNextL2Output: (
+    args: GetSecondsToNextL2OutputParameters<TChain>,
+  ) => Promise<bigint>
+
+  readFinalizedWithdrawals: (args: ReadFinalizedWithdrawalsParameters<TChain>) => Promise<boolean>
+  readProvenWithdrawals: (args: ReadProvenWithdrawalsParameters<TChain>) => Promise<ReadProvenWithdrawalsReturnType>
+
   simulateDepositERC20: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: SimulateDepositERC20Parameters<TChain, TChainOverride>,
   ) => Promise<SimulateDepositERC20ReturnType<TChain, TChainOverride>>
+  simulateDepositETH: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: SimulateDepositETHParameters<TChain, TChainOverride>,
+  ) => Promise<SimulateDepositETHReturnType<TChain, TChainOverride>>
   simulateDepositTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: SimulateDepositTransactionParameters<TChain, TChainOverride>,
   ) => Promise<SimulateDepositTransactionReturnType<TChain, TChainOverride>>
+
+  simulateFinalizeWithdrawalTransaction: <
+    TChainOverride extends Chain | undefined = Chain | undefined,
+  >(
+    args: SimulateFinalizeWithdrawalTransactionParameters<TChain, TChainOverride>,
+  ) => Promise<SimulateFinalizeWithdrawalTransactionReturnType<TChain, TChainOverride>>
   simulateProveWithdrawTransaction: <
     TChainOverride extends Chain | undefined = Chain | undefined,
   >(
     args: SimulateProveWithdrawalTransactionParameters<TChain, TChainOverride>,
   ) => Promise<SimulateProveWithdrawalTransactionReturnType<TChain, TChainOverride>>
-  getOutputForL2Block: (
-    args: GetOutputForL2BlockParameters<TChain>,
-  ) => Promise<GetOutputForL2BlockReturnType>
-  getSecondsToNextL2Output: (
-    args: GetSecondsToNextL2OutputParameters<TChain>,
-  ) => Promise<bigint>
-  getSecondsToFinalizable: (args: GetSecondsToFinalizableParameters<TChain>) => Promise<bigint>
-  readProvenWithdrawals: (args: ReadProvenWithdrawalsParameters<TChain>) => Promise<ReadProvenWithdrawalsReturnType>
-  readFinalizedWithdrawals: (args: ReadFinalizedWithdrawalsParameters<TChain>) => Promise<boolean>
 }
 
 export function publicL1OpStackActions<
@@ -92,14 +113,20 @@ export function publicL1OpStackActions<
 ): PublicL1OpStackActions<TChain> {
   return {
     getL2HashesForDepositTx: (args) => getL2HashesForDepositTx(client, args),
+
+    getLatestProposedL2BlockNumber: (args) => getLatestProposedL2BlockNumber(client, args),
+    getOutputForL2Block: (args) => getOutputForL2Block(client, args),
+    getSecondsToFinalizable: (args) => getSecondsToFinalizable(client, args),
+    getSecondsToNextL2Output: (args) => getSecondsToNextL2Output(client, args),
+
     simulateDepositETH: (args) => simulateDepositETH(client, args),
     simulateDepositERC20: (args) => simulateDepositERC20(client, args),
     simulateDepositTransaction: (args) => simulateDepositTransaction(client, args),
-    getOutputForL2Block: (args) => getOutputForL2Block(client, args),
-    simulateProveWithdrawTransaction: (args) => simulateProveWithdrawalTransaction(client, args),
-    getSecondsToNextL2Output: (args) => getSecondsToNextL2Output(client, args),
-    getSecondsToFinalizable: (args) => getSecondsToFinalizable(client, args),
-    readProvenWithdrawals: (args) => readProvenWithdrawals(client, args),
+
     readFinalizedWithdrawals: (args) => readFinalizedWithdrawals(client, args),
+    readProvenWithdrawals: (args) => readProvenWithdrawals(client, args),
+
+    simulateFinalizeWithdrawalTransaction: (args) => simulateFinalizeWithdrawalTransaction(client, args),
+    simulateProveWithdrawTransaction: (args) => simulateProveWithdrawalTransaction(client, args),
   }
 }

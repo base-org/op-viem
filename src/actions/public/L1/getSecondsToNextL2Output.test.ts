@@ -1,6 +1,7 @@
 import { createPublicClient, http } from 'viem'
-import { base, mainnet } from 'viem/chains'
+import { base } from 'viem/chains'
 import { expect, test } from 'vitest'
+import { publicClient } from '../../../_test/utils.js'
 import { baseAddresses } from '../../../chains/base.js'
 import { getSecondsToNextL2Output } from './getSecondsToNextL2Output.js'
 
@@ -11,12 +12,7 @@ test('get seconds to next L2 output', async () => {
   })
   const latestL2BlockNumber = await l2Client.getBlockNumber()
 
-  const l1Client = createPublicClient({
-    chain: mainnet,
-    transport: http(),
-  })
-
-  const time = await getSecondsToNextL2Output(l1Client, { latestL2BlockNumber, ...baseAddresses })
+  const time = await getSecondsToNextL2Output(publicClient, { latestL2BlockNumber, ...baseAddresses })
   expect(time).toBeDefined()
   // this is too noisy to node issues,
   // but I do think we should revert if latestL2BlockNumber
