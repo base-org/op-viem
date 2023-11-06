@@ -20,13 +20,16 @@ export type SimulateDepositETHParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
   & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
-  & L1SimulateActionBaseType<
-    typeof ABI,
-    typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
-    TChain,
-    TChainOverride,
-    TAccountOverride
+  & Omit<
+    L1SimulateActionBaseType<
+      typeof ABI,
+      typeof FUNCTION,
+      ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+      TChain,
+      TChainOverride,
+      TAccountOverride
+    >,
+    'value'
   >
 
 export type SimulateDepositETHReturnType<

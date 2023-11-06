@@ -30,16 +30,18 @@ export type WriteDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
-> // _chainId = TChain extends Chain ? TChain['id'] : number,
- =
+> =
   & { args: DepositTransactionParameters; portal: RawOrContractAddress<number> }
-  & L1WriteActionBaseType<
-    typeof ABI,
-    typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
-    TChain,
-    TAccount,
-    TChainOverride
+  & Omit<
+    L1WriteActionBaseType<
+      typeof ABI,
+      typeof FUNCTION,
+      ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'value'
   >
 
 /**
