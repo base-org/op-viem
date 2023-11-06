@@ -1,4 +1,4 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractReturnType } from 'viem'
+import type { Account, Chain, ContractFunctionArgs, Transport, WalletClient, WriteContractReturnType } from 'viem'
 import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
 import { type ABI, type FUNCTION, OVM_ETH, type WithdrawETHParameters } from '../../../types/withdrawTo.js'
 import { writeWithdrawERC20, type WriteWithdrawERC20Parameters } from './writeWithdrawERC20.js'
@@ -9,7 +9,14 @@ export type WriteWithdrawETHParameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
   & { args: WithdrawETHParameters }
-  & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
+  & L2WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+    TChain,
+    TAccount,
+    TChainOverride
+  >
 
 /**
  * Withdraws ETH to an L1 address.

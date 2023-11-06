@@ -3,6 +3,7 @@ import type {
   Account,
   Address,
   Chain,
+  ContractFunctionArgs,
   Hex,
   Transport,
   WalletClient,
@@ -29,11 +30,13 @@ export type WriteDepositTransactionParameters<
   TChain extends Chain | undefined = Chain,
   TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
-  _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
-  & { args: DepositTransactionParameters; portal: RawOrContractAddress<_chainId> }
+  & { args: DepositTransactionParameters; portal: RawOrContractAddress<number> }
   & Omit<
     L1WriteActionBaseType<
+      typeof ABI,
+      typeof FUNCTION,
+      ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
       TChain,
       TAccount,
       TChainOverride
@@ -82,6 +85,11 @@ export async function writeDepositTransaction<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<
+      typeof ABI,
+      'payable',
+      typeof FUNCTION
+    >,
     TChain,
     TAccount,
     TChainOverride

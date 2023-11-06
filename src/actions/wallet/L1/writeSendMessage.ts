@@ -3,6 +3,7 @@ import type {
   Account,
   Address,
   Chain,
+  ContractFunctionArgs,
   Hex,
   Transport,
   WalletClient,
@@ -30,6 +31,9 @@ export type WriteSendMessageParameters<
 > =
   & { args: SendMessageParameters; l1CrossDomainMessenger: RawOrContractAddress<_chainId> }
   & L1WriteActionBaseType<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
     TChain,
     TAccount,
     TChainOverride
@@ -67,6 +71,11 @@ export async function writeSendMessage<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<
+      typeof ABI,
+      'payable',
+      typeof FUNCTION
+    >,
     TChain,
     TAccount,
     TChainOverride

@@ -1,4 +1,12 @@
-import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
+import type {
+  Account,
+  Chain,
+  ContractFunctionArgs,
+  Transport,
+  WalletClient,
+  WriteContractParameters,
+  WriteContractReturnType,
+} from 'viem'
 import { writeContract } from 'viem/actions'
 import type { L2WriteContractParameters } from '../../../types/l2Actions.js'
 import { opStackL2ChainContracts, OpStackL2Contract } from '../../../types/opStackContracts.js'
@@ -10,7 +18,14 @@ export type WriteWithdrawERC20Parameters<
   TChainOverride extends Chain | undefined = Chain | undefined,
 > =
   & { args: WithdrawToParameters }
-  & L2WriteContractParameters<typeof ABI, typeof FUNCTION, TChain, TAccount, TChainOverride>
+  & L2WriteContractParameters<
+    typeof ABI,
+    typeof FUNCTION,
+    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+    TChain,
+    TAccount,
+    TChainOverride
+  >
 
 /**
  * Withdraws ERC20 tokens to an L1 address.
@@ -44,6 +59,11 @@ export async function writeWithdrawERC20<
   } as unknown as WriteContractParameters<
     typeof ABI,
     typeof FUNCTION,
+    ContractFunctionArgs<
+      typeof ABI,
+      'payable',
+      typeof FUNCTION
+    >,
     TChain,
     TAccount,
     TChainOverride

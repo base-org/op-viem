@@ -1,9 +1,11 @@
 import {
   type Abi,
+  type ContractFunctionName,
   encodeFunctionData,
   type EncodeFunctionDataParameters,
   type EstimateGasParameters,
   type PublicClient,
+  type TransactionSerializableEIP1559,
   type Transport,
 } from 'viem'
 import { type Chain } from 'viem/chains'
@@ -12,7 +14,9 @@ import { estimateL1Fee } from './estimateL1Fee.js'
 
 export type EstimateFeesParameters<
   TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 > =
   & OracleTransactionParameters<TAbi, TFunctionName>
   & GasPriceOracleParameters
@@ -21,7 +25,9 @@ export type EstimateFeesParameters<
 export type EstimateFees = <
   TChain extends Chain | undefined,
   TAbi extends Abi | readonly unknown[],
-  TFunctionName extends string | undefined = undefined,
+  TFunctionName extends
+    | ContractFunctionName<TAbi>
+    | undefined = ContractFunctionName<TAbi>,
 >(
   client: PublicClient<Transport, TChain>,
   options: EstimateFeesParameters<TAbi, TFunctionName>,
@@ -45,11 +51,16 @@ export const estimateFees: EstimateFees = async (client, options) => {
     functionName: options.functionName,
   } as EncodeFunctionDataParameters)
   const [l1Fee, l2Gas, l2GasPrice] = await Promise.all([
-    estimateL1Fee(client, {
-      ...options,
-      // account must be undefined or else viem will return undefined
-      account: undefined as any,
-    }),
+    estimateL1Fee(
+      client,
+      {
+        ...options,
+        // account must be undefined or else viem will return undefined
+        account: undefined as any,
+      } as unknown as
+        & EncodeFunctionDataParameters<Abi, ContractFunctionName<Abi>>
+        & Omit<TransactionSerializableEIP1559, 'data'>,
+    ),
     client.estimateGas({
       to: options.to,
       account: options.account,
