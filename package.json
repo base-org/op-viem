@@ -107,7 +107,7 @@
   },
   "peerDependencies": {
     "typescript": ">=5.0.4",
-    "viem": "2.0.0-alpha.17"
+    "viem": "2.0.0-beta.0"
   },
   "peerDependenciesMeta": {
     "typescript": {
