@@ -30,7 +30,7 @@ jobs:
         run: pnpm build
 
       - name: Set deployment token
-        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
       # https://github.com/changesets/action#with-publishing
       - name: Handle Release Pull Request or Publish to npm
