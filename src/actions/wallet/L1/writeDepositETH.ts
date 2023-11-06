@@ -15,13 +15,16 @@ export type WriteDepositETHParameters<
   _chainId = TChain extends Chain ? TChain['id'] : number,
 > =
   & { args: DepositETHParameters; portal: RawOrContractAddress<_chainId> }
-  & L1WriteActionBaseType<
-    typeof ABI,
-    typeof FUNCTION,
-    ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
-    TChain,
-    TAccount,
-    TChainOverride
+  & Omit<
+    L1WriteActionBaseType<
+      typeof ABI,
+      typeof FUNCTION,
+      ContractFunctionArgs<typeof ABI, 'payable', typeof FUNCTION>,
+      TChain,
+      TAccount,
+      TChainOverride
+    >,
+    'value'
   >
 
 /**
