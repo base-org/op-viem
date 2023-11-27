@@ -139,8 +139,9 @@ const secondsToFinalize = await l1PublicClient.getSecondsToFinalizable({
 
 const { withdrawalHash, ...withdrawal } = withdrawalMessages.messages[0]
 const finalizeTxHash = await l1WalletClient.writeFinalizeWithdrawalTransaction({
-  withdrawal,
-  ...baseGoerliAddresses,
+  portal: baseGoerliAddresses.portal,
+  args: { withdrawal },
+  account,
 })
 console.log('finalizeTxHash', finalizeTxHash)
 ```
