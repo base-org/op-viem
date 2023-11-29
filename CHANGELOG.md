@@ -1,5 +1,11 @@
 # op-viem
 
+## 1.1.1
+
+### Patch Changes
+
+- f7ad5ce: update OP goerli addresses
+
 ## 1.1.0
 
 ### Minor Changes
