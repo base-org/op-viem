@@ -2,7 +2,7 @@ import type { Addresses } from '../types/addresses.js'
 
 export const optimismGoerliAddresses: Addresses<5> = {
   portal: {
-    address: '0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80',
+    address: '0x5b47E1A08Ea6d985D6649300584e6722Ec4B1383',
     chainId: 5,
   },
   l2OutputOracle: {
@@ -14,11 +14,11 @@ export const optimismGoerliAddresses: Addresses<5> = {
     chainId: 5,
   },
   l1CrossDomainMessenger: {
-    address: '0x9D1dACf9d9299D17EFFE1aAd559c06bb3Fbf9BC4',
+    address: '0x5086d1eEF304eb5284A0f6720f79403b4e9bE294',
     chainId: 5,
   },
   l1Erc721Bridge: {
-    address: '0x8DD330DdE8D9898d43b4dc840Da27A07dF91b3c9',
+    address: '0x0F9C590b958002E8B10a7431979c1aF882772E88',
     chainId: 5,
   },
 } as const
