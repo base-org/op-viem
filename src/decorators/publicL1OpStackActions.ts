@@ -1,7 +1,7 @@
 import type { Chain, PublicClient, Transport } from 'viem'
 import {
   getL2HashesForDepositTx,
-  type GetL2HashesForDepositTxParamters,
+  type GetL2HashesForDepositTxParameters,
   type GetL2HashesForDepositTxReturnType,
 } from '../actions/public/L1/getL2HashesForDepositTx.js'
 import {
@@ -61,7 +61,7 @@ export type PublicL1OpStackActions<
   TChain extends Chain | undefined = Chain | undefined,
 > = {
   getL2HashesForDepositTx: (
-    args: GetL2HashesForDepositTxParamters,
+    args: GetL2HashesForDepositTxParameters,
   ) => Promise<GetL2HashesForDepositTxReturnType>
   getLatestProposedL2BlockNumber: (
     args: GetLatestProposedL2BlockNumberParameters<TChain>,
