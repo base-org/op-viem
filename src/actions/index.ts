@@ -3,7 +3,7 @@ export { type AccountProof, getProof, type GetProofParameters, type StorageProof
 // Public L1 actions
 export {
   getL2HashesForDepositTx,
-  type GetL2HashesForDepositTxParamters,
+  type GetL2HashesForDepositTxParameters,
   type GetL2HashesForDepositTxReturnType,
 } from './public/L1/getL2HashesForDepositTx.js'
 export {
