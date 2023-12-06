@@ -4,10 +4,6 @@
 
 op-viem is a TypeScript extension for [Viem](https://viem.sh) that provides actions for working with [OP Stack](https://stack.optimism.io/) L2 chains such as [Optimism](https://community.optimism.io/docs/useful-tools/networks/) and [Base](https://docs.base.org/).
 
-::: warning
-op-viem is currently in alpha. The docs are not complete. The code is tested but is not yet recommended for production use.
-:::
-
 ## Features
 
 - Simplifies cross L1 & L2 interactions
