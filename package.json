@@ -75,7 +75,7 @@
     "simple-git-hooks": "^2.9.0",
     "typescript": "5.0.4",
     "vitest": "^0.34.1",
-    "wagmi": "^1.3.11"
+    "wagmi": "^1.4.12"
   },
   "scripts": {
     "build": "pnpm run clean && pnpm run build:cjs && pnpm run build:esm && pnpm run build:types",
