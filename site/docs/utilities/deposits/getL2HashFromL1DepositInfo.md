@@ -1,3 +1,13 @@
+---
+head:
+  - - meta
+    - property: og:title
+      content: getL2HashFromL1DepositInfo
+  - - meta
+    - name: description
+      content: Get the L2 transaction hash for a given L1 deposit transaction.
+---
+
 # getL2HashFromL1DepositInfo
 
 Get the L2 transaction hash for a given L1 deposit transaction.
