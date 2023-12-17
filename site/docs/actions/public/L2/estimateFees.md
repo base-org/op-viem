@@ -72,4 +72,3 @@ The block tag to perform the gas estimate against.
 ## JSON-RPC Methods
 
 [`eth_estimateGas`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_estimategas)
-
