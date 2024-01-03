@@ -80,6 +80,18 @@ export default defineConfig({
             text: 'L2',
             items: [
               {
+                text: 'estimateFees',
+                link: '/docs/actions/public/L2/estimateFees',
+              },
+              {
+                text: 'estimateL1Fee',
+                link: '/docs/actions/public/L2/estimateL1Fee',
+              },
+              {
+                text: 'estimateL1GasUsed',
+                link: '/docs/actions/public/L2/estimateL1GasUsed',
+              },
+              {
                 text: 'getProveWithdrawalTransactionArgs',
                 link: '/docs/actions/public/L2/getProveWithdrawalTransactionArgs',
               },
