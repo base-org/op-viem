@@ -37,7 +37,7 @@ test('correctly deposits ETH', async () => {
     account: accounts[0].address,
   })
 
-  await mine(testClient, { blocks: 1 })
+  await mine(testClient, { blocks: 5 })
 
   const r = await publicClient.getTransactionReceipt({ hash })
   expect(r.logs.length).toEqual(1)

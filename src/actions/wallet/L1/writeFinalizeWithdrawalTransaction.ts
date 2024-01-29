@@ -1,7 +1,6 @@
 import { optimismPortalABI } from '@eth-optimism/contracts-ts'
 import type { Account, Chain, Transport, WalletClient, WriteContractParameters, WriteContractReturnType } from 'viem'
 import { writeContract } from 'viem/actions'
-import type { _ } from 'vitest/dist/reporters-cb94c88b.js'
 import type { MessagePassedEvent } from '../../../index.js'
 import { type RawOrContractAddress, resolveAddress } from '../../../types/addresses.js'
 import type { L1WriteActionBaseType } from '../../../types/l1Actions.js'
