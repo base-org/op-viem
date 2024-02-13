@@ -12,6 +12,10 @@
 
 <br>
 
+## 🚨 DEPRECATION WARNING 🚨
+
+With the upstreaming of most op-viem features into [Viem](https://viem.sh/op-stack) consider this library deprecated. We recommend using [Viem's native OP Stack support](https://viem.sh/op-stack) instead.
+
 ## Features
 
 - Simplifies cross L1 & L2 interactions
