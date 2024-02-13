@@ -8,7 +8,7 @@ head:
       content: Add here.
 ---
 
-# transactionSerializer 
+# transactionSerializer
 
 Serializes a transaction compliant with Ethereum Improvement Proposal (EIP) 1559.
 
@@ -17,19 +17,19 @@ This utility function takes transaction parameters and serializes them into a fo
 ## Import
 
 ```ts
-import { serializeEip1559Transaction } from './utils/transactionSerializer.js';
+import { serializeEip1559Transaction } from './utils/transactionSerializer.js'
 ```
 
 ## Usage
 
 ```ts
 // Example usage in an Ethereum transaction
-import { serializeEip1559Transaction } from './utils/transactionSerializer.js';
+import { serializeEip1559Transaction } from './utils/transactionSerializer.js'
 // Additional imports...
 
 const serializedTx = serializeEip1559Transaction({
   // Transaction parameters...
-});
+})
 // Use serializedTx for further processing...
 ```
 
