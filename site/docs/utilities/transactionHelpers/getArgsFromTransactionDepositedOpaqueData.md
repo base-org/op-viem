@@ -17,16 +17,16 @@ This function is a key component in the `getDepositTransaction` process, where i
 ## Import
 
 ```ts
-import { parseOpaqueData } from './utils/getArgsFromTransactionDepositedOpaqueData.js';
+import { parseOpaqueData } from './utils/getArgsFromTransactionDepositedOpaqueData.js'
 ```
 
 ## Usage
 
 ```ts
-import { parseOpaqueData } from './utils/getArgsFromTransactionDepositedOpaqueData.js';
+import { parseOpaqueData } from './utils/getArgsFromTransactionDepositedOpaqueData.js'
 
 // ... within getDepositTransaction function
-const parsedOpaqueData = parseOpaqueData(event.args.opaqueData);
+const parsedOpaqueData = parseOpaqueData(event.args.opaqueData)
 // Use parsedOpaqueData to construct DepositTransaction
 ```
 
